@@ -45,7 +45,7 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <Select onValueChange={handleLanguageChange} value={found.code}>
+    <Select onValueChange={handleLanguageChange} value={found?.code}>
       <SelectTrigger className="w-[120px] bg-transparent border-gray-500 ">
         <SelectValue placeholder="Language" />
       </SelectTrigger>
