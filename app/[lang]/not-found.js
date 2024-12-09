@@ -25,8 +25,8 @@ const NotFound = () => {
             Page not found
           </h1>
           <p className="mt-4 text-gray-500 dark:text-gray-400">
-            The page you are looking for doesn't exist. Here are some helpful
-            links:
+            The page you are looking for doesn&apos;t exist. Here are some
+            helpful links:
           </p>
           <div className="flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto">
             <Button className="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700">

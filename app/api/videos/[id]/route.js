@@ -9,7 +9,7 @@ export async function GET(_request, res) {
     return Response.json(video);
   } catch (err) {
     return NextResponse.json(
-      { error: `Video with "${videoId}" is not found` },
+      { error: `Video with ${videoId} is not found` },
       { status: 400 }
     );
   }
@@ -23,7 +23,7 @@ export async function PATCH(request, res) {
 
   if (title === undefined || description === undefined) {
     return NextResponse.json(
-      { error: " 'title' and 'description' must be provided" },
+      { error: " title and description must be provided" },
       { status: 400 }
     );
   }
@@ -34,7 +34,7 @@ export async function PATCH(request, res) {
 
     if (videoIndex === -1) {
       return NextResponse.json(
-        { error: `Video with id "${videoId}" not found` },
+        { error: `Video with id ${videoId} not found` },
         { status: 404 }
       );
     }
@@ -68,7 +68,7 @@ export async function DELETE(_request, res) {
 
     if (videoIndex === -1) {
       return NextResponse.json(
-        { error: `Video with id "${videoId}" not found` },
+        { error: `Video with id ${videoId} not found` },
         { status: 404 }
       );
     }

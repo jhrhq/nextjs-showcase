@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import { cn } from "@/lib/utils";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -22,7 +23,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-color-bg text-white font-exo`}
+        className={cn(
+          "antialiased bg-color-bg text-white font-exo",
+          geistSans.variable,
+          geistMono.variable
+        )}
       >
         <div className="container mx-auto px-4 py-4">
           <Navbar />
