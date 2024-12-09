@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { CirclePlay } from "lucide-react";
 import Image from "next/image";
 
@@ -11,9 +12,10 @@ const VideoFrame = ({
   channelTitle,
   publishTime,
   videoId,
+  className,
 }) => {
   return (
-    <div className="lg:w-3/4">
+    <div className={cn("lg:w-3/4", className)}>
       <div className="relative">
         <iframe
           src={`https://www.youtube.com/embed/${videoId}`}
