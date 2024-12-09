@@ -1,3 +1,4 @@
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -59,6 +60,7 @@ const Navbar = () => {
           </AvatarImage>
           <AvatarFallback>Jo</AvatarFallback>
         </Avatar>
+        <LanguageSwitcher />
       </div>
     </header>
   );

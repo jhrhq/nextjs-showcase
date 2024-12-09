@@ -12,6 +12,7 @@ const VideoFrame = ({
   channelTitle,
   publishTime,
   videoId,
+  dictionary,
   className,
 }) => {
   return (
@@ -32,7 +33,7 @@ const VideoFrame = ({
             </Button>
 
             <Badge className="bg-color-purple font-normal  text-white px-2 py-1 rounded text-sm hover:bg-color-purple">
-              LIVE
+              {dictionary?.live}
             </Badge>
             <span className="text-sm">
               {new Date(publishTime).toLocaleTimeString([], {
@@ -41,7 +42,7 @@ const VideoFrame = ({
               })}
             </span>
             <Button className=" h-auto bg-color-purple hover:bg-opacity-80 text-white px-4 py-1 rounded-full text-sm">
-              Donate
+              {dictionary?.donate}
             </Button>
           </div>
         </div>
@@ -65,7 +66,7 @@ const VideoFrame = ({
         </div>
 
         <Button className="h-auto bg-color-purple hover:bg-opacity-80 text-white px-4 py-1 rounded-full text-sm ml-auto">
-          Subscribe
+          {dictionary?.subscribe}
         </Button>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const HeroArea = () => {
+const HeroArea = ({ dictionary }) => {
   return (
     <>
       <Card className="lg:col-span-2 border-0 bg-transparent shadow-none text-card-background">
@@ -12,7 +12,6 @@ const HeroArea = () => {
             <br />
             STREAMERS
           </CardTitle>
-          {/* <CardDescription>Card Description</CardDescription> */}
         </CardHeader>
         <CardContent className="p-0">
           <p className="text-gray-400 mb-8">
@@ -35,12 +34,12 @@ const HeroArea = () => {
           <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-between p-4">
             <div className="text-right">
               <span className="bg-color-purple text-white px-2 py-1 rounded text-sm">
-                COMING SOON
+                {dictionary.comingSoon}
               </span>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">04:03</div>
-              <p className="text-sm">Broadcast starts in</p>
+              <p className="text-sm"> {dictionary.broadcastStartIn}</p>
             </div>
           </div>
         </div>
