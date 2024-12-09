@@ -1,22 +1,31 @@
 import Image from "next/image";
+import Link from "next/link";
 
-const FeaturedContentCard = () => {
+const FeaturedContentCard = ({
+  title,
+  description,
+  thumbnail,
+  channelTitle,
+  publishTime,
+  videoId,
+}) => {
   return (
-    <div className="rounded-lg overflow-hidden bg-color-gray">
+    <Link
+      href={`videos/${videoId}`}
+      className="rounded-lg overflow-hidden bg-color-gray"
+    >
       <Image
         height={160}
         width={500}
-        src="https://i.ytimg.com/vi/9kjwMTj8ZD0/hqdefault.jpg"
-        alt="Stream 1"
+        src={thumbnail}
+        alt={title}
         className="w-full h-40 object-cover"
       />
       <div className="p-2">
-        <p className="font-semibold">
-          Fallout Shelter PC - Ep. 1 - Fallout Shelter Vault #314
-        </p>
-        <p className="text-sm text-gray-400">Blitz</p>
+        <p className="font-semibold">{title}</p>
+        <p className="text-sm text-gray-400">{channelTitle}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 

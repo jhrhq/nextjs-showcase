@@ -4,14 +4,20 @@ import { Button } from "@/components/ui/button";
 import { CirclePlay } from "lucide-react";
 import Image from "next/image";
 
-const VideoFrame = () => {
+const VideoFrame = ({
+  title,
+  description,
+  thumbnail,
+  channelTitle,
+  publishTime,
+  videoId,
+}) => {
   return (
     <div className="lg:w-3/4">
       <div className="relative">
         <iframe
-          src="https://www.youtube.com/embed/hecODa5ZgZM"
+          src={`https://www.youtube.com/embed/${videoId}`}
           title="YouTube video player"
-          frameBorder={0}
           className="w-full aspect-video h-[500px]"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
@@ -26,17 +32,19 @@ const VideoFrame = () => {
             <Badge className="bg-color-purple font-normal  text-white px-2 py-1 rounded text-sm hover:bg-color-purple">
               LIVE
             </Badge>
-            <span className="text-sm">46:02</span>
+            <span className="text-sm">
+              {new Date(publishTime).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
             <Button className=" h-auto bg-color-purple hover:bg-opacity-80 text-white px-4 py-1 rounded-full text-sm">
               Donate
             </Button>
           </div>
         </div>
       </div>
-      <h1 className="text-2xl font-bold mt-4">
-        GTA V : BATMAN WAS KIDNAPPED || GTA V Bangla GAMEPLAY || Professor Of Pc
-        Gaming
-      </h1>
+      <h1 className="text-2xl font-bold mt-4">{title}</h1>
       <div className="flex items-center space-x-4 mt-2">
         <Avatar className="size-10 rounded-full">
           <AvatarImage asChild src="/avatar.png">
@@ -51,7 +59,7 @@ const VideoFrame = () => {
         </Avatar>
 
         <div>
-          <p className="font-semibold">Professor Of Pc Gaming</p>
+          <p className="font-semibold">{channelTitle}</p>
         </div>
 
         <Button className="h-auto bg-color-purple hover:bg-opacity-80 text-white px-4 py-1 rounded-full text-sm ml-auto">

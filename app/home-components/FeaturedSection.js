@@ -1,11 +1,11 @@
 import FeatureContents from "@/app/home-components/FeatureContents";
 import FeaturedHeading from "@/app/home-components/FeaturedHeading";
 
-const FeaturedSection = () => {
+const FeaturedSection = ({ data }) => {
   return (
     <section className="mt-12">
       <FeaturedHeading />
-      <FeatureContents />
+      <FeatureContents videos={data} />
     </section>
   );
 };
