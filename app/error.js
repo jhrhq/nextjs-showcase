@@ -12,7 +12,7 @@ export default function Error({ error, reset }) {
               {error?.message ?? "Something went wrong."}
             </h1>
             <Button
-              className="bg-color-purple"
+              className="bg-primary text-foreground"
               onClick={
                 // Attempt to recover by trying to re-render the segment
                 () => reset()

@@ -1,9 +1,11 @@
 import Hero from "@/components/landing/Hero";
-import MovieCard from "@/components/landing/MovieCard";
 import HomeSections from "@/components/landing/HomeSections";
+import MovieCard from "@/components/landing/MovieCard";
 import Navbar from "@/components/Navbar";
+import { getAllWatchLists } from "@/db/queries";
 
-export default function Home() {
+export default async function Home() {
+  const watchListMovies = await getAllWatchLists();
   return (
     <>
       <Navbar />

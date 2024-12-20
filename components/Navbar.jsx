@@ -1,3 +1,4 @@
+import SingInOut from "@/components/auth/SingInOut";
 import Link from "next/link";
 import { Input } from "./ui/input";
 
@@ -39,6 +40,7 @@ const Navbar = () => {
             className="absolute w-full mt-2 bg-black bg-opacity-90 rounded-lg hidden"
           />
         </div>
+        <SingInOut />
       </div>
     </nav>
   );

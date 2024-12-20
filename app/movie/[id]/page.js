@@ -2,7 +2,7 @@ import HomeSections from "@/components/landing/HomeSections";
 import MovieCard from "@/components/landing/MovieCard";
 import Navbar from "@/components/Navbar";
 
-const Details = () => {
+const Details = async ({ params: { id } }) => {
   return (
     <>
       <Navbar />

@@ -1,4 +1,5 @@
-import Navbar from "@/components/Navbar";
+import AuthProvider from "@/app/providers/AuthProvider";
+import { dbConnect } from "@/services/mongo";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -18,13 +19,16 @@ export const metadata = {
   description: "A movie app",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  // db connect
+  await dbConnect();
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
