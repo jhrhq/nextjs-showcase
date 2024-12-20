@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Input } from "./ui/input";
 
 const navLinks = [
   { title: "Home", id: 1, link: "/" },
@@ -11,9 +12,9 @@ const Navbar = () => {
     <nav className="fixed w-full z-50 bg-gradient-to-b from-black to-transparent">
       <div className="container mx-auto px-4 py-6 flex justify-between items-center">
         <div className="flex items-center">
-          <a href="./index.html" className="text-red-600 text-4xl font-bold">
+          <Link href="/" className="text-red-600 text-4xl font-bold">
             MOVIE DB
-          </a>
+          </Link>
           <div className="ml-8 space-x-4">
             {navLinks.map((nav) => (
               <Link
@@ -21,14 +22,13 @@ const Navbar = () => {
                 href={nav.link}
                 className="text-white hover:text-gray-300"
               >
-                {" "}
-                {nav.title}{" "}
+                {nav.title}
               </Link>
             ))}
           </div>
         </div>
         <div className="relative">
-          <input
+          <Input
             type="text"
             id="searchInput"
             placeholder="Search movies..."
