@@ -1,6 +1,8 @@
 "use client";
+import { registerFormSchema } from "@/app/_validationSchema/registerSchema";
 import { performRegister } from "@/app/actions";
 import ErrorAlert from "@/components/auth/ErrorAlert";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -15,53 +17,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-const RegisterFormSchema = z
-  .object({
-    firstName: z
-      .string()
-      .min(2, {
-        message: "First name must be at least 2 characters.",
-      })
-      .max(50, {
-        message: "First name must not be longer than 255 characters.",
-      }),
-    lastName: z
-      .string()
-      .min(2, {
-        message: "Last name must be at least 2 characters.",
-      })
-      .max(50, {
-        message: "Last name must not be longer than 255 characters.",
-      }),
-
-    email: z.string().email("Please enter a valid email address."),
-    password: z
-      .string()
-      .min(6, "Please choose a longer password")
-      .max(64, "Consider using a short password"),
-    confirmPassword: z.string().min(1, "Please confirm your password"),
-    policyAgreement: z.boolean().default(false),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Password did not match",
-  })
-  .superRefine(({ policyAgreement }, ctx) => {
-    if (!policyAgreement) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["policyAgreement"],
-        message: "You must  agree to the Terms of Service and Privacy Policy.",
-      });
-    }
-  });
+import toast from "react-hot-toast";
 
 const RegisterForm = () => {
   const router = useRouter();
   const form = useForm({
-    resolver: zodResolver(RegisterFormSchema),
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -73,12 +34,14 @@ const RegisterForm = () => {
   });
 
   async function onSubmit(data) {
-    const { confirmPassword, ...rest } = data;
-
     try {
-      const response = await performRegister(rest);
-      if (response) {
-        console.log(response);
+      const response = await performRegister(data);
+      if (response.errors) {
+        Object.entries(response.errors).forEach(([key, value]) =>
+          form.setError(key, { type: "manual", message: value })
+        );
+      } else {
+        toast.success(response.message);
         router.push("/login");
       }
     } catch (err) {
@@ -205,12 +168,13 @@ const RegisterForm = () => {
           )}
         />
 
-        <button
+        <Button
           type="submit"
+          disabled={form.formState.isSubmitting}
           className="w-full bg-moviedb-red text-white py-3 rounded hover:bg-red-700 transition duration-300"
         >
           Sign Up
-        </button>
+        </Button>
       </form>
     </Form>
   );
