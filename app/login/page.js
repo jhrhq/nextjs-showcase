@@ -13,9 +13,9 @@ const Login = () => {
               <input type="checkbox" className="mr-2" />
               Remember me
             </label>
-            <a href="#" className="hover:underline">
+            <Link href="#" className="hover:underline">
               Need help?
-            </a>
+            </Link>
           </div>
           <div className="mt-6 text-moviedb-gray">
             New to moviedb?
