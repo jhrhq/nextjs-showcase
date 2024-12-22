@@ -14,7 +14,7 @@ const MovieDetails = async ({ params: { id } }) => {
     <>
       <Navbar />
       {/* Movie Details Section */}
-      <div id="movieDetails" className="min-h-screen pt-20 mb-8">
+      <div id="movieDetails" className="min-h-screen pt-20 mb-20">
         <div className="relative h-screen">
           <div className="absolute inset-0">
             <Image
