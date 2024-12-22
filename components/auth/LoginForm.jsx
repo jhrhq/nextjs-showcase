@@ -1,4 +1,5 @@
 "use client";
+
 import { loginSchema } from "@/app/_validationSchema/login-schema";
 import { performLogin } from "@/app/actions";
 import useAuth from "@/app/hooks/useAuth";
@@ -31,10 +32,15 @@ const LoginForm = () => {
   async function onSubmit(data) {
     try {
       const response = await performLogin(data);
-      if (response.errors) {
+      if (response && response.errors) {
         Object.entries(response.errors).forEach(([key, value]) =>
           form.setError(key, { type: "manual", message: value })
         );
+      } else if (response == null) {
+        form.setError("root.random", {
+          type: "random",
+          message: "Email or password is not correct!",
+        });
       } else {
         setAuth(response);
         router.push("/");

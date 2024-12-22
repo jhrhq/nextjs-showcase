@@ -1,15 +1,17 @@
 import { HeroMovieSkeletonCard } from "@/components/skeletons/HeroMovieSkeleton";
+import { getPopularMovies } from "@/lib/movie-info";
 import { Suspense } from "react";
 
-const Hero = () => {
+const HeroComponent = async () => {
+  const data = await getPopularMovies();
+  const heroImage = `process.env.TMDB_MOVIE_POSTER_PATH}${data.results?.[0].backdrop_path}`;
   return (
     <Suspense fallback={<HeroMovieSkeletonCard />}>
       <div
         id="hero"
         className="relative h-screen"
         style={{
-          backgroundImage:
-            'url("https://image.tmdb.org/t/p/original/3V4kLQg0kSqPLctI5ziYWabAZYF.jpg")',
+          backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
         }}
       >
@@ -33,4 +35,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default HeroComponent;

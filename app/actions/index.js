@@ -42,7 +42,7 @@ async function performLogin(data) {
       return found;
     }
   } catch (error) {
-    throw error;
+    return error;
   }
 }
 
