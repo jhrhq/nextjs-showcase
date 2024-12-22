@@ -1,7 +1,7 @@
 import MoreLikeThis from "@/app/_components/_movie-details/MoreLikeThis";
 import CastLists from "@/components/movie-details/CastLists";
 import Genres from "@/components/movie-details/Genres";
-import SocialMedia from "@/components/movie-details/SocilaMedia";
+import SocialMedia from "@/components/movie-details/SocialMedia";
 import WatchlistAction from "@/components/movie-details/WatchlistAction";
 import Navbar from "@/components/Navbar";
 import { getSelectedMovieDetails } from "@/lib/movie-info";

@@ -5,7 +5,7 @@ import { Suspense } from "react";
 
 const MoreLikeThis = ({ movieId }) => {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 pb-8 pt-12 mt-4">
       <HomeSections sectionTitle={"More Like This"}>
         <Suspense fallback={<MovieSkeletonCardList />}>
           <MoreLikeThisList movieId={movieId} />
