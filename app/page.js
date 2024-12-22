@@ -1,6 +1,6 @@
 import PopularMovie from "@/app/_components/_landingpage/PopularMovie";
 import TopRatedMovies from "@/app/_components/_landingpage/TopRated";
-import Trending from "@/app/_components/_landingpage/trending";
+import Trending from "@/app/_components/_landingpage/Trending";
 import Hero from "@/components/landing/Hero";
 import HomeSections from "@/components/landing/HomeSections";
 import Navbar from "@/components/Navbar";
