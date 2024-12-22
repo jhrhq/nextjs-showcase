@@ -5,7 +5,7 @@ const Cast = ({ name, profile_path }) => {
     <div className="text-center">
       <Image
         src={`${process.env.TMDB_MOVIE_POSTER_ORIGINAL_PATH}${profile_path}`}
-        alt="Naomi Scott"
+        alt={name}
         className="w-24 h-24 rounded-full object-cover mb-2"
         width={200}
         height={200}

@@ -1,6 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const SearchMovieCard = async ({
+  id,
   title,
   poster_path,
   release_date,
@@ -10,8 +12,8 @@ const SearchMovieCard = async ({
   //   `${process.env.TMDB_MOVIE_POSTER_PATH}${poster_path}`
   // );
   return (
-    <a
-      href="details.html"
+    <Link
+      href={`/movie/${id}`}
       className="bg-zinc-900 rounded-lg overflow-hidden hover:scale-105 transition-transform"
     >
       <Image
@@ -33,7 +35,7 @@ const SearchMovieCard = async ({
           <span>⭐ {vote_average ?? 0}</span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };
 

@@ -31,7 +31,7 @@ const MovieDetails = async ({ params: { id } }) => {
               <div className="md:w-1/3">
                 <Image
                   src={`${process.env.TMDB_MOVIE_POSTER_ORIGINAL_PATH}${data?.poster_path}`}
-                  alt="Smile 2"
+                  alt={data?.title}
                   height={500}
                   width={500}
                   className="w-full rounded-lg shadow-lg"
