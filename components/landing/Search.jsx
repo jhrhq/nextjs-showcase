@@ -17,7 +17,7 @@ const Search = () => {
       params.delete("query");
     }
 
-    push(`${pathname + "searchResult"}?${params.toString()}`);
+    push(`/searchResult?${params.toString()}`);
   }, 500);
 
   function handleSearch(term) {

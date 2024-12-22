@@ -5,7 +5,7 @@ import Link from "next/link";
 const navLinks = [
   { title: "Home", id: 1, link: "/" },
   { title: " Compare Movies ", id: 2, link: "/compare" },
-  { title: "Watch Later", id: 3, link: "/watch-list" },
+  { title: "Watch Later", id: 3, link: "/watchlist" },
 ];
 
 const Navbar = () => {
