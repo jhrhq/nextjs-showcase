@@ -4,6 +4,9 @@ import Trending from "@/app/_components/_landingpage/Trending";
 import Hero from "@/components/landing/Hero";
 import HomeSections from "@/components/landing/HomeSections";
 import Navbar from "@/components/Navbar";
+import { HeroMovieSkeletonCard } from "@/components/skeletons/HeroMovieSkeleton";
+import { MovieSkeletonCardList } from "@/components/skeletons/MovieSkeleton";
+import { Suspense } from "react";
 
 export default async function Home() {
   // const watchListMovies = await getAllWatchLists();
@@ -12,17 +15,26 @@ export default async function Home() {
     <>
       <Navbar />
       {/* Hero Section */}
-      <Hero />
+      <Suspense fallback={<HeroMovieSkeletonCard />}>
+        <Hero />
+      </Suspense>
+
       {/* Movie Sections */}
       <div className="container mx-auto px-4 py-8">
         <HomeSections sectionTitle={"Trending Now"}>
-          <Trending />
+          <Suspense fallback={<MovieSkeletonCardList />}>
+            <Trending />
+          </Suspense>
         </HomeSections>
         <HomeSections sectionTitle={"Popular on MOVIE DB"}>
-          <PopularMovie />
+          <Suspense fallback={<MovieSkeletonCardList />}>
+            <PopularMovie />
+          </Suspense>
         </HomeSections>
         <HomeSections sectionTitle={"Top Rated"}>
-          <TopRatedMovies />
+          <Suspense fallback={<MovieSkeletonCardList />}>
+            <TopRatedMovies />
+          </Suspense>
         </HomeSections>
       </div>
     </>
