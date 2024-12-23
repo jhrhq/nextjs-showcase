@@ -9,8 +9,6 @@ import { MovieSkeletonCardList } from "@/components/skeletons/MovieSkeleton";
 import { Suspense } from "react";
 
 export default async function Home() {
-  // const watchListMovies = await getAllWatchLists();
-  // console.log(data);
   return (
     <>
       <Navbar />

@@ -10,6 +10,11 @@ export const replaceMongoIdInArray = (array) => {
 
   return mappedArray;
 };
+export const replaceMongoIdInArrayForWatchLater = (array) =>
+  array.map((item) => ({
+    _id: item._id.toString(),
+    ...item,
+  }));
 
 export const replaceMongoIdInObject = (obj) => {
   const { _id, ...updatedObj } = { ...obj, id: obj._id.toString() };

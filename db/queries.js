@@ -1,14 +1,11 @@
 import { watchListModel } from "@/models/movie-watchlist-models";
 import { userModel } from "@/models/user-model";
-import {
-  replaceMongoIdInArray,
-  replaceMongoIdInObject,
-} from "@/utils/data-utils";
+import { replaceMongoIdInObject } from "@/utils/data-utils";
 import mongoose from "mongoose";
 
 async function getAllWatchLists() {
   const allWatchList = await watchListModel.find().lean();
-  return replaceMongoIdInArray(allWatchList);
+  return allWatchList;
 }
 
 async function createUser(user) {

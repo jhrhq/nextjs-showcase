@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { TbArchive } from "react-icons/tb";
 
 const EmptyWatchList = () => {
@@ -11,12 +12,12 @@ const EmptyWatchList = () => {
       <p className="text-light/70 mb-6">
         Explore movies and add them to your list to watch later
       </p>
-      <a
-        href="#"
+      <Link
+        href="/"
         className="bg-primary text-dark px-6 py-2 rounded-full hover:bg-primary/80 transition"
       >
         Explore Movies
-      </a>
+      </Link>
     </div>
   );
 };
