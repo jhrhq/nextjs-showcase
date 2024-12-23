@@ -8,6 +8,32 @@ import { getSelectedMovieDetails } from "@/lib/movie-info";
 import { formatDate } from "@/utils/date-utils";
 import Image from "next/image";
 
+export async function generateMetadata({ params }, parent) {
+  // read route params
+  const movieId = await params.id;
+
+  // fetch data
+  const movie = await getSelectedMovieDetails(movieId);
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: `MovieDB - ${movie.title}`,
+    description: movie?.overview.slice(0, 100),
+    openGraph: {
+      images: [
+        {
+          url: `${process.env.TMDB_MOVIE_POSTER_ORIGINAL_PATH}${movie.poster_path}`,
+          // url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?id=${movieId}`,
+          width: 1200,
+          height: 600,
+        },
+      ],
+    },
+  };
+}
+
 const MovieDetails = async ({ params: { id } }) => {
   const data = await getSelectedMovieDetails(id);
 

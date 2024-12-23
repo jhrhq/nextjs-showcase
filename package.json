@@ -28,6 +28,7 @@
     "mongoose": "^8.9.2",
     "negotiator": "^1.0.0",
     "next": "14.2.18",
+    "next-share": "^0.27.0",
     "plaiceholder": "^3.0.0",
     "react": "^18",
     "react-dom": "^18",
