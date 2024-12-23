@@ -2,44 +2,44 @@
 import { getSelectedMovieDetails } from "@/lib/movie-info";
 import { ImageResponse } from "next/og";
 
+export const contentType = "image/jpg";
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
+
   const movieId = searchParams.get("id");
 
+  // if (!movieId) {
+  //   return new ImageResponse(<>Visit with &quot;MovieDB&quot;</>, {
+  //     width: 1200,
+  //     height: 630,
+  //   });
+  // }
+
   const movie = await getSelectedMovieDetails(movieId);
-  console.log(movie);
 
   const title = movie?.title;
-  const description = movie?.overview.slice(0, 100);
+  const description = movie?.overview?.slice(0, 100);
   const posterPath = movie?.poster_path
-    ? `https://image.tmdb.org/t/p/w500${movie?.poster_path}`
+    ? `https://image.tmdb.org/t/p/w300${movie?.poster_path}`
     : "";
 
   return new ImageResponse(
     (
-      <div
-        style={{
-          backgroundColor: "#1a1a1a",
-          color: "white",
-          width: "1200px",
-          height: "630px",
-          padding: "20px",
-        }}
-      >
-        <img
-          src={posterPath}
-          alt={title}
-          style={{ width: "200px", marginRight: "20px", objectFit: "cover" }}
-        />
-        <div>
-          <h1 style={{ fontSize: "40px", margin: "0" }}>{title}</h1>
-          <p style={{ fontSize: "20px", marginTop: "10px" }}>{description}</p>
+      <div tw="flex flex-row p-[48px] w-full h-full bg-white">
+        <div tw="flex">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img tw="w-96 h-full" src={posterPath} alt={title ?? "movie title"} />
+        </div>
+        <div tw="flex flex-col w-[50%] h-full">
+          <p tw="text-[72px]">{title}</p>
+          <p tw="text-[32px] text-neutral-700">{description}...</p>
         </div>
       </div>
     ),
     {
       width: 1200,
-      height: 600,
+      height: 630,
     }
   );
 }
