@@ -1,8 +1,8 @@
 import MoreLikeThis from "@/app/_components/_movie-details/MoreLikeThis";
+import WatchListActionData from "@/app/_components/_watch-list/WatchListActionData";
 import CastLists from "@/components/movie-details/CastLists";
 import Genres from "@/components/movie-details/Genres";
 import SocialMedia from "@/components/movie-details/SocialMedia";
-import WatchlistAction from "@/components/movie-details/WatchlistAction";
 import Navbar from "@/components/Navbar";
 import { getSelectedMovieDetails } from "@/lib/movie-info";
 import { formatDate } from "@/utils/date-utils";
@@ -10,6 +10,7 @@ import Image from "next/image";
 
 const MovieDetails = async ({ params: { id } }) => {
   const data = await getSelectedMovieDetails(id);
+
   return (
     <>
       <Navbar />
@@ -51,7 +52,7 @@ const MovieDetails = async ({ params: { id } }) => {
                 <p className="text-lg mb-6">{data?.overview}</p>
                 <Genres genres={data?.genres} />
                 <CastLists movieId={id} />
-                <WatchlistAction />
+                <WatchListActionData movieId={id} movie={data} />
                 <SocialMedia />
               </div>
             </div>

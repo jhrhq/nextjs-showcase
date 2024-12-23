@@ -2,7 +2,12 @@
 
 import { loginSchema } from "@/app/_validationSchema/login-schema";
 import { registerFormSchema } from "@/app/_validationSchema/registerSchema";
-import { createUser, findUserByCredentials } from "@/db/queries";
+import {
+  createUser,
+  findUserByCredentials,
+  updateWatchList,
+} from "@/db/queries";
+import { revalidatePath } from "next/cache";
 
 async function performRegister(data) {
   const validated = registerFormSchema.safeParse(data);
@@ -22,7 +27,7 @@ async function performRegister(data) {
       return { message: "Registration successful!" };
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -42,8 +47,18 @@ async function performLogin(data) {
       return found;
     }
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
-export { performLogin, performRegister };
+async function addToWatchList(movieId, authId, movie) {
+  try {
+    await updateWatchList(movieId, authId, movie);
+  } catch (error) {
+    throw error;
+  }
+  // Todo revalidate to movie details
+  revalidatePath("/");
+}
+
+export { addToWatchList, performLogin, performRegister };
