@@ -1,9 +1,10 @@
+import { TMDB_MOVIE_POSTER_ORIGINAL_PATH } from "@/constant/constant";
 import { getPopularMovies } from "@/lib/movie-info";
 
 const Hero = async () => {
   const data = await getPopularMovies();
   const popularMovie = data?.results?.[0];
-  const fullMoviePath = `${process.env.TMDB_MOVIE_POSTER_ORIGINAL_PATH}${popularMovie.poster_path}`;
+  const fullMoviePath = `${TMDB_MOVIE_POSTER_ORIGINAL_PATH}${popularMovie.poster_path}`;
 
   return (
     <div

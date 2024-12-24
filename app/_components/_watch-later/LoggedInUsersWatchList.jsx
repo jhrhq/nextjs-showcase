@@ -7,7 +7,11 @@ import useSWR from "swr";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const LoggedInUsersWatchList = ({ userId }) => {
-  const { data, error } = useSWR("/api/watchlist", fetcher);
+  const { data, error } = useSWR(
+    () => (userId ? "/api/watchlist" : null),
+    fetcher
+  );
+
   const foundWatLaterMovies = data?.filter((movie) =>
     movie?.watchList_ids?.includes(userId)
   );

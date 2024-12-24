@@ -4,6 +4,7 @@ import CastLists from "@/components/movie-details/CastLists";
 import Genres from "@/components/movie-details/Genres";
 import SocialMedia from "@/components/movie-details/SocialMedia";
 import Navbar from "@/components/Navbar";
+import { TMDB_MOVIE_POSTER_ORIGINAL_PATH } from "@/constant/constant";
 import { getSelectedMovieDetails } from "@/lib/movie-info";
 import { formatDate } from "@/utils/date-utils";
 import Image from "next/image";
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }, parent) {
     openGraph: {
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/og?id=${movieId}`,
+          url: `/api/og?id=${movieId}`,
           width: 1200,
           height: 600,
         },
@@ -41,7 +42,7 @@ const MovieDetails = async ({ params: { id } }) => {
         <div className="relative h-screen">
           <div className="absolute inset-0">
             <Image
-              src={`${process.env.TMDB_MOVIE_POSTER_ORIGINAL_PATH}${data?.poster_path}`}
+              src={`${TMDB_MOVIE_POSTER_ORIGINAL_PATH}${data?.poster_path}`}
               alt="Smile 2"
               height={500}
               width={500}
@@ -53,7 +54,7 @@ const MovieDetails = async ({ params: { id } }) => {
             <div className="flex flex-col md:flex-row gap-8">
               <div className="md:w-1/3">
                 <Image
-                  src={`${process.env.TMDB_MOVIE_POSTER_ORIGINAL_PATH}${data?.poster_path}`}
+                  src={`${TMDB_MOVIE_POSTER_ORIGINAL_PATH}${data?.poster_path}`}
                   alt={data?.title}
                   height={500}
                   width={500}
