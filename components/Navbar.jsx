@@ -1,12 +1,7 @@
 import SingInOut from "@/components/auth/SingInOut";
 import Search from "@/components/landing/Search";
+import NavLinks from "@/components/NavLinks";
 import Link from "next/link";
-
-const navLinks = [
-  { title: "Home", id: 1, link: "/" },
-  { title: " Compare Movies ", id: 2, link: "/compare" },
-  { title: "Watch Later", id: 3, link: "/watchlater" },
-];
 
 const Navbar = () => {
   return (
@@ -16,17 +11,7 @@ const Navbar = () => {
           <Link href="/" className="text-red-600 text-4xl font-bold">
             MOVIE DB
           </Link>
-          <div className="ml-8 space-x-4">
-            {navLinks.map((nav) => (
-              <Link
-                key={nav.id}
-                href={nav.link}
-                className="text-white hover:text-gray-300"
-              >
-                {nav.title}
-              </Link>
-            ))}
-          </div>
+          <NavLinks />
         </div>
         <div className="flex items-center gap-2">
           <Search />

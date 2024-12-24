@@ -6,7 +6,7 @@ const WatchList = () => {
     <>
       <Navbar />
       <div className="container mx-auto pt-24 pb-8">
-        <WatchLaterUsersLogInCheck></WatchLaterUsersLogInCheck>
+        <WatchLaterUsersLogInCheck />
       </div>
     </>
   );
