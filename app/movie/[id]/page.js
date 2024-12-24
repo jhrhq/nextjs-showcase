@@ -75,7 +75,10 @@ const MovieDetails = async ({ params: { id } }) => {
                 <Genres genres={data?.genres} />
                 <CastLists movieId={id} />
                 <WatchListActionData movieId={id} movie={data} />
-                <SocialMedia />
+                <SocialMedia
+                  title={data?.title}
+                  description={data?.description}
+                />
               </div>
             </div>
           </div>
