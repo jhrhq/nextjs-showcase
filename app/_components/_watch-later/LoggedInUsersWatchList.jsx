@@ -1,5 +1,5 @@
 "use client";
-import WatchLaterHeader from "@/app/_components/_watch-later/WatchLaterheader";
+import WatchLaterHeader from "@/app/_components/_watch-later/WatchLaterHeader";
 import WatchListCard from "@/components/watchlist/WatchListCard";
 import EmptyWatchList from "@/components/watchlist/WatchlistEmpty";
 import useSWR from "swr";
