@@ -1,6 +1,7 @@
 "use client";
 
 import useAuth from "@/app/hooks/useAuth";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -14,14 +15,17 @@ const SingInOut = () => {
   };
 
   return (
-    <div>
+    <div className="ml-2">
       {auth ? (
         <>
           <span>Hello, {auth?.name}</span>
-          <span>|</span>
-          <a className="cursor-pointer" onClick={logout}>
+          <span className="mx-1">|</span>
+          <Button
+            className="cursor-pointer border border-zinc-700 rounded-md px-2 py-1"
+            onClick={logout}
+          >
             Logout
-          </a>
+          </Button>
         </>
       ) : (
         <Link href={"/login"}>Login</Link>
