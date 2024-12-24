@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const useDebounce = (callback, delay) => {
   const timeoutIdRef = useRef(null);
@@ -24,3 +24,17 @@ const useDebounce = (callback, delay) => {
 };
 
 export default useDebounce;
+
+export function useDebouncedValue(value, delay = 500) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(handler);
+  }, [delay, value]);
+
+  return debouncedValue;
+}
