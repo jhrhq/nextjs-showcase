@@ -17,11 +17,13 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
+import useCompare from "@/app/hooks/useCompare";
 import useSWR from "swr";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-const SearchResults = ({ query }) => {
+const SearchResults = ({ query, compareId }) => {
+  const { setCompareMovie } = useCompare();
   const debouncedSearchQuery = useDebouncedValue(query, 500);
   const enabled = !!debouncedSearchQuery;
 
@@ -29,6 +31,12 @@ const SearchResults = ({ query }) => {
     () => (enabled ? "/api/search?movieName=" + debouncedSearchQuery : null),
     fetcher
   );
+
+  const handleAddToCompare = (movie) => {
+    setCompareMovie((prev) =>
+      prev.map((item) => (item.id == compareId ? { ...item, ...movie } : item))
+    );
+  };
 
   if (isLoading) {
     return (
@@ -39,11 +47,26 @@ const SearchResults = ({ query }) => {
       </CommandList>
     );
   }
-  if (error || !data) {
+
+  if (error) {
     return (
       <CommandList>
         <CommandEmpty>
-          {<div className="p-4 text-sm">Something went wrong</div>}
+          {
+            <div className="p-4 text-sm text-background">
+              Something went wrong
+            </div>
+          }
+        </CommandEmpty>
+      </CommandList>
+    );
+  }
+
+  if (!data) {
+    return (
+      <CommandList>
+        <CommandEmpty>
+          <div className="p-4 text-sm text-background">Search for movies</div>
         </CommandEmpty>
       </CommandList>
     );
@@ -53,7 +76,7 @@ const SearchResults = ({ query }) => {
     return (
       <CommandList>
         <CommandEmpty>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <span className="text-background">No results found.</span>
         </CommandEmpty>
       </CommandList>
     );
@@ -65,6 +88,7 @@ const SearchResults = ({ query }) => {
         {data?.map((movie) => (
           <CommandItem
             key={movie.id}
+            onSelect={() => handleAddToCompare({ movie })}
             className="flex items-center gap-4 p-2 cursor-pointer rounded"
           >
             <CompareSearchResultCard {...movie} />
@@ -75,7 +99,7 @@ const SearchResults = ({ query }) => {
   );
 };
 
-const CompareAddMovieAction = () => {
+const CompareAddMovieAction = ({ compareId }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -83,9 +107,9 @@ const CompareAddMovieAction = () => {
     <>
       <Button
         onClick={() => setOpen(!open)}
-        className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition-colors"
+        className="bg-zinc-800 text-white px-6 py-3 rounded hover:bg-zinc-700 transition-colors cursor-pointer"
       >
-        Add Movie +
+        Select Movie
       </Button>
 
       <CommandDialog
@@ -107,7 +131,7 @@ const CompareAddMovieAction = () => {
               placeholder="Type movie name..."
               className="w-full bg-zinc-800 h-auto text-white px-4 py-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-red-600"
             />
-            <SearchResults query={value} />
+            <SearchResults query={value} compareId={compareId} />
           </div>
         </Command>
       </CommandDialog>

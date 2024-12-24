@@ -4,7 +4,7 @@ import { Suspense } from "react";
 
 const HeroComponent = async () => {
   const data = await getPopularMovies();
-  const heroImage = `process.env.TMDB_MOVIE_POSTER_PATH}${data.results?.[0].backdrop_path}`;
+  const heroImage = `https://image.tmdb.org/t/p/w500${data.results?.[0].backdrop_path}`;
   return (
     <Suspense fallback={<HeroMovieSkeletonCard />}>
       <div

@@ -9,7 +9,7 @@ const SearchMovieCard = async ({
   vote_average,
 }) => {
   // const { base64 } = await getBlurData(
-  //   `${process.env.TMDB_MOVIE_POSTER_PATH}${poster_path}`
+  //   `https://image.tmdb.org/t/p/w500${poster_path}`
   // );
   return (
     <Link
@@ -21,7 +21,7 @@ const SearchMovieCard = async ({
         height={500}
         // placeholder="blur"
         // blurDataURL={base64}
-        src={`${process.env.TMDB_MOVIE_POSTER_PATH}${poster_path}`}
+        src={`https://image.tmdb.org/t/p/w500${poster_path}`}
         alt={title}
         className="w-full aspect-[2/3] object-cover"
       />

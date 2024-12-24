@@ -2,19 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 const MovieCard = async ({ id, title, poster_path, release_date }) => {
-  // const { base64 } = await getBlurData(
-  //   `${process.env.TMDB_MOVIE_POSTER_PATH}${poster_path}`
-  // );
-
   return (
     <div className="flex-shrink-0 w-48 cursor-pointer hover:scale-105 transition-transform">
       <Link href={`/movie/${id}`}>
         <Image
           width={500}
           height={500}
-          // placeholder="blur"
-          // blurDataURL={base64}
-          src={`${process.env.TMDB_MOVIE_POSTER_PATH}${poster_path}`}
+          src={`https://image.tmdb.org/t/p/w500${poster_path}`}
           alt={title}
           className="w-full rounded-lg"
         />
