@@ -1,101 +1,293 @@
-import Image from "next/image";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+    <>
+      {/* Navbar */}
+      <Navbar />
+      {/* Hotel Listing Section */}
+      <section className="px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <a href="details.html" className="block group">
+            <div>
+              <div className="relative">
+                <img
+                  src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Maldives Paradise"
+                  className="w-full h-64 object-cover rounded-xl group-hover:scale-105 transition-transform"
+                />
+                <div className="absolute top-3 right-3 bg-white/80 px-3 py-1 rounded-full text-xs font-semibold">
+                  <i className="ph-bed inline-block mr-1" />3 Rooms Left
+                </div>
+              </div>
+              <div className="mt-3">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-bold text-lg">Maldives Paradise</h3>
+                  <div className="flex items-center">
+                    <svg
+                      className="w-4 h-4 text-yellow-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+                    </svg>
+                    <span className="ml-1 text-zinc-600">4.9</span>
+                  </div>
+                </div>
+                <p className="text-zinc-500 text-sm mt-1">
+                  Himmafushi, Maldives
+                </p>
+                <div className="mt-2 flex justify-between items-center">
+                  <div>
+                    <span className="font-bold">$450</span>
+                    <span className="text-zinc-500 text-sm">per night</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+          <a href="details.html" className="block group">
+            <div>
+              <div className="relative">
+                <img
+                  src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Maldives Paradise"
+                  className="w-full h-64 object-cover rounded-xl group-hover:scale-105 transition-transform"
+                />
+                <div className="absolute top-3 right-3 bg-white/80 px-3 py-1 rounded-full text-xs font-semibold">
+                  <i className="ph-bed inline-block mr-1" />3 Rooms Left
+                </div>
+              </div>
+              <div className="mt-3">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-bold text-lg">Maldives Paradise</h3>
+                  <div className="flex items-center">
+                    <svg
+                      className="w-4 h-4 text-yellow-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+                    </svg>
+                    <span className="ml-1 text-zinc-600">4.9</span>
+                  </div>
+                </div>
+                <p className="text-zinc-500 text-sm mt-1">
+                  Himmafushi, Maldives
+                </p>
+                <div className="mt-2 flex justify-between items-center">
+                  <div>
+                    <span className="font-bold">$450</span>
+                    <span className="text-zinc-500 text-sm">per night</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <a href="details.html" className="block group">
+            <div>
+              <div className="relative">
+                <img
+                  src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Maldives Paradise"
+                  className="w-full h-64 object-cover rounded-xl group-hover:scale-105 transition-transform"
+                />
+                <div className="absolute top-3 right-3 bg-white/80 px-3 py-1 rounded-full text-xs font-semibold">
+                  <i className="ph-bed inline-block mr-1" />3 Rooms Left
+                </div>
+              </div>
+              <div className="mt-3">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-bold text-lg">Maldives Paradise</h3>
+                  <div className="flex items-center">
+                    <svg
+                      className="w-4 h-4 text-yellow-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+                    </svg>
+                    <span className="ml-1 text-zinc-600">4.9</span>
+                  </div>
+                </div>
+                <p className="text-zinc-500 text-sm mt-1">
+                  Himmafushi, Maldives
+                </p>
+                <div className="mt-2 flex justify-between items-center">
+                  <div>
+                    <span className="font-bold">$450</span>
+                    <span className="text-zinc-500 text-sm">per night</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <a href="details.html" className="block group">
+            <div>
+              <div className="relative">
+                <img
+                  src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Maldives Paradise"
+                  className="w-full h-64 object-cover rounded-xl group-hover:scale-105 transition-transform"
+                />
+                <div className="absolute top-3 right-3 bg-white/80 px-3 py-1 rounded-full text-xs font-semibold">
+                  <i className="ph-bed inline-block mr-1" />3 Rooms Left
+                </div>
+              </div>
+              <div className="mt-3">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-bold text-lg">Maldives Paradise</h3>
+                  <div className="flex items-center">
+                    <svg
+                      className="w-4 h-4 text-yellow-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+                    </svg>
+                    <span className="ml-1 text-zinc-600">4.9</span>
+                  </div>
+                </div>
+                <p className="text-zinc-500 text-sm mt-1">
+                  Himmafushi, Maldives
+                </p>
+                <div className="mt-2 flex justify-between items-center">
+                  <div>
+                    <span className="font-bold">$450</span>
+                    <span className="text-zinc-500 text-sm">per night</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <a href="details.html" className="block group">
+            <div>
+              <div className="relative">
+                <img
+                  src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Maldives Paradise"
+                  className="w-full h-64 object-cover rounded-xl group-hover:scale-105 transition-transform"
+                />
+                <div className="absolute top-3 right-3 bg-white/80 px-3 py-1 rounded-full text-xs font-semibold">
+                  <i className="ph-bed inline-block mr-1" />3 Rooms Left
+                </div>
+              </div>
+              <div className="mt-3">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-bold text-lg">Maldives Paradise</h3>
+                  <div className="flex items-center">
+                    <svg
+                      className="w-4 h-4 text-yellow-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+                    </svg>
+                    <span className="ml-1 text-zinc-600">4.9</span>
+                  </div>
+                </div>
+                <p className="text-zinc-500 text-sm mt-1">
+                  Himmafushi, Maldives
+                </p>
+                <div className="mt-2 flex justify-between items-center">
+                  <div>
+                    <span className="font-bold">$450</span>
+                    <span className="text-zinc-500 text-sm">per night</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <a href="details.html" className="block group">
+            <div>
+              <div className="relative">
+                <img
+                  src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Maldives Paradise"
+                  className="w-full h-64 object-cover rounded-xl group-hover:scale-105 transition-transform"
+                />
+                <div className="absolute top-3 right-3 bg-white/80 px-3 py-1 rounded-full text-xs font-semibold">
+                  <i className="ph-bed inline-block mr-1" />3 Rooms Left
+                </div>
+              </div>
+              <div className="mt-3">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-bold text-lg">Maldives Paradise</h3>
+                  <div className="flex items-center">
+                    <svg
+                      className="w-4 h-4 text-yellow-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+                    </svg>
+                    <span className="ml-1 text-zinc-600">4.9</span>
+                  </div>
+                </div>
+                <p className="text-zinc-500 text-sm mt-1">
+                  Himmafushi, Maldives
+                </p>
+                <div className="mt-2 flex justify-between items-center">
+                  <div>
+                    <span className="font-bold">$450</span>
+                    <span className="text-zinc-500 text-sm">per night</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+      <div className="mt-8 flex justify-center">
+        <nav aria-label="Page navigation">
+          <ul className="inline-flex items-center -space-x-px">
+            <li>
+              <a
+                href="#"
+                className="block py-2 px-3 ml-0 leading-tight text-zinc-500 bg-white rounded-l-lg border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700"
+              >
+                <span className="sr-only">Previous</span>
+                <i className="fas fa-chevron-left" />
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="py-2 px-3 leading-tight text-zinc-500 bg-white border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700"
+              >
+                1
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="py-2 px-3 leading-tight text-zinc-500 bg-white border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700"
+              >
+                2
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="py-2 px-3 leading-tight text-zinc-500 bg-white border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700"
+              >
+                3
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="block py-2 px-3 leading-tight text-zinc-500 bg-white rounded-r-lg border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700"
+              >
+                <span className="sr-only">Next</span>
+                <i className="fas fa-chevron-right" />
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <Footer />
+    </>
   );
 }
