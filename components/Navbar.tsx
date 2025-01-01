@@ -1,10 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
+
+import { FaBars, FaLanguage, FaMagnifyingGlass, FaUser } from "react-icons/fa6";
 
 const Navbar = () => {
   return (
     <nav className="grid grid-cols-2 md:flex justify-between items-center py-3 bg-white border-b mb-6 md:gap-8 px-4 md:px-8 lg:px-20">
-      <div className="flex items-center">
-        <a href="./index.html">
+      <div className="flex items-center shrink-0">
+        <Link href="/">
           <Image
             src="/logo.svg"
             alt="Hotel Logo"
@@ -12,28 +15,30 @@ const Navbar = () => {
             width={100}
             className="h-8 w-auto"
           />
-        </a>
+        </Link>
       </div>
-      <div className="row-start-2 col-span-2 border-0 md:border flex shadow-sm hover:shadow-md transition-all md:rounded-full items-center px-2">
-        <div className="grid md:grid-cols-3 lg:grid-cols-7 gap-4 divide-x py-2 md:px-2 flex-grow">
+
+      <div className="row-start-2 col-span-2 border-0 md:w-full md:border flex shadow-sm hover:shadow-md transition-all md:rounded-full items-center px-2">
+        <div className="grid md:grid-cols-3 lg:grid-cols-7 gap-4 divide-x py-2 md:px-2 flex-grow w-full">
           <input
             type="text"
             placeholder="Where to?"
-            className="px-3 bg-transparent focus:outline-none lg:col-span-3 placeholder:text-sm"
+            className=" form-input col-span-full px-3 bg-transparent  lg:col-span-full placeholder:text-sm border-none "
           />
         </div>
         <button className="bg-primary w-9 h-9 rounded-full grid place-items-center text-sm text-center transition-all hover:brightness-90 shrink-0">
-          <i className="fas fa-search text-white" />
+          <FaMagnifyingGlass className="fas fa-search text-white" />
         </button>
       </div>
+
       <div className="flex items-center space-x-4 relative justify-end">
         <button>
-          <i className="fas fa-language text-zinc-700 text-xl" />
+          <FaLanguage className="fas fa-language text-zinc-700 text-xl" />
         </button>
         <button className="bg-white border border-zinc-300 text-zinc-800 px-4 py-2 rounded-full hover:shadow-md flex gap-3 items-center justify-center">
-          <i className="fas fa-bars" />
+          <FaBars className="fas fa-bars" />
           <span className="bg-zinc-600 w-6 h-6 rounded-full flex items-center justify-center text-xs text-white">
-            <i className="fas fa-user text-white" />
+            <FaUser className="fas fa-user text-white" />
           </span>
         </button>
         {/* Popup */}
