@@ -23,7 +23,7 @@ const Navbar = () => {
           <input
             type="text"
             placeholder="Where to?"
-            className=" form-input col-span-full px-3 bg-transparent  lg:col-span-full placeholder:text-sm border-none "
+            className=" form-input col-span-full px-3 bg-transparent  lg:col-span-full placeholder:text-sm border-none focus:ring-0 "
           />
         </div>
         <button className="bg-primary w-9 h-9 rounded-full grid place-items-center text-sm text-center transition-all hover:brightness-90 shrink-0">
