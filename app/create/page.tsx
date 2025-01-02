@@ -1,5 +1,15 @@
 import Navbar from "@/components/Navbar";
 import { Metadata } from "next";
+import { FaPencilAlt, FaSave, FaUmbrellaBeach, FaWifi } from "react-icons/fa";
+import { FaBed, FaDoorOpen, FaDumbbell, FaSink } from "react-icons/fa";
+
+import {
+  FaPen,
+  FaPencil,
+  FaPerson,
+  FaPersonSwimming,
+  FaSquareParking,
+} from "react-icons/fa6";
 
 export const metadata: Metadata = {
   title: "Create Hotel",
@@ -15,19 +25,30 @@ const Create = () => {
       {/* Property Details Container */}
       <div className="max-w-7xl mx-auto px-6 py-8 relative">
         <button className="px-4 py-2 bg-primary text-white rounded-lg hover:brightness-90 absolute top-4 right-4">
-          <i className="fas fa-save mr-2" />
+          <FaSave className="fas fa-save mr-2" />
           Publish
         </button>
         {/* Property Title and Rating */}
         <div className="mb-6">
+          <input
+            className="text-zinc-800 font-bold text-3xl outline-primary"
+            defaultValue={"Property Name"}
+          />
+          <button className="px-4 py-2 bg-primary text-white rounded-lg text-sm ml-4 hover:brightness-90">
+            <FaSave className="fas fa-save mr-2" /> Save
+          </button>
           <h1
             className="text-3xl font-bold mb-2 text-zinc-400 edit"
             id="propertyName"
           >
             Property Name
+            <FaPencilAlt className="fas fa-pencil-alt text-gray-400 ml-2 cursor-pointer text-sm hover:scale-110 transition-all" />
           </h1>
           <div className="flex items-center text-gray-600">
-            <span className="edit text-gray-600">Property location</span>
+            <span className="edit text-gray-600">
+              Property location{" "}
+              <FaPencilAlt className="fas fa-pencil-alt text-gray-400 ml-2 cursor-pointer text-sm hover:scale-110 transition-all" />
+            </span>
           </div>
         </div>
         {/* Image Gallery */}
@@ -108,15 +129,15 @@ const Create = () => {
             <div className="border-b pb-6 mb-6">
               <div className="grid grid-cols-1 gap-4 text-gray-600">
                 <div className="flex items-center gap-2">
-                  <i className="fas fa-person" />
+                  <FaPerson className="fas fa-person" />
                   <span className="edit">How many Guest can Stay?</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <i className="fas fa-door-open" />
+                  <FaDoorOpen className="fas fa-door-open" />
                   <span className="edit">How many Bedrooms ? </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <i className="fas fa-bed" />
+                  <FaBed className="fas fa-bed" />
                   <span className="edit">How many beds available ?</span>
                 </div>
               </div>
@@ -127,6 +148,7 @@ const Create = () => {
               <p className="text-gray-700 leading-relaxed edit">
                 Write a short description about this place
               </p>
+              <FaPen />
             </div>
             {/* Amenities */}
             <div>
@@ -135,27 +157,27 @@ const Create = () => {
               </h3>
               <div className="grid grid-cols-2 gap-4" id="amenities">
                 <div className="flex items-center gap-2 cursor-pointer">
-                  <i className="fa-solid fa-umbrella-beach" />
+                  <FaUmbrellaBeach className="fa-solid fa-umbrella-beach" />
                   <span>Beach access</span>
                 </div>
                 <div className="flex items-center gap-2 cursor-pointer">
-                  <i className="fa-solid fa-person-swimming" />
+                  <FaPersonSwimming className="fa-solid fa-person-swimming" />
                   <span>Private pool</span>
                 </div>
                 <div className="flex items-center gap-2 cursor-pointer">
-                  <i className="fa-solid fa-wifi" />
+                  <FaWifi className="fa-solid fa-wifi" />
                   <span>Free Wi-Fi</span>
                 </div>
                 <div className="flex items-center gap-2 cursor-pointer">
-                  <i className="fa-solid fa-sink" />
+                  <FaSink className="fa-solid fa-sink" />
                   <span>Kitchen</span>
                 </div>
                 <div className="flex items-center gap-2 cursor-pointer">
-                  <i className="fa-solid fa-square-parking" />
+                  <FaSquareParking className="fa-solid fa-square-parking" />
                   <span>Free Parking</span>
                 </div>
                 <div className="flex items-center gap-2 cursor-pointer">
-                  <i className="fa-solid fa-dumbbell" />
+                  <FaDumbbell className="fa-solid fa-dumbbell" />
                   <span>Fitness Center</span>
                 </div>
               </div>

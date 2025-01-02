@@ -9,6 +9,16 @@
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import {
+  FaBed,
+  FaDoorOpen,
+  FaPerson,
+  FaPersonSwimming,
+  FaSink,
+  FaStar,
+  FaUmbrellaBeach,
+  FaWifi,
+} from "react-icons/fa6";
 
 const Details = () => {
   return (
@@ -21,7 +31,7 @@ const Details = () => {
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">Maldives Paradise</h1>
           <div className="flex items-center text-gray-600">
-            <i className="fas fa-star text-yellow-500 mr-1" />
+            <FaStar className="fas fa-star text-yellow-500 mr-1" />
             <span>5 · </span>
             <span className="ml-2">2 reviews</span>
             <span className="mx-2">·</span>
@@ -76,15 +86,15 @@ const Details = () => {
               </h2>
               <div className="grid grid-cols-3 gap-4 text-gray-600">
                 <div className="flex items-center gap-2">
-                  <i className="fas fa-person" />
+                  <FaPerson className="fas fa-person" />
                   <span>6 guests</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <i className="fas fa-door-open" />
+                  <FaDoorOpen className="fas fa-door-open" />
                   <span>3 bedrooms</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <i className="fas fa-bed" />
+                  <FaBed className="fas fa-bed" />
                   <span>4 beds</span>
                 </div>
               </div>
@@ -107,19 +117,19 @@ const Details = () => {
               </h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center gap-2">
-                  <i className="fa-solid fa-umbrella-beach" />
+                  <FaUmbrellaBeach className="fa-solid fa-umbrella-beach" />
                   <span>Beach access</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <i className="fa-solid fa-person-swimming" />
+                  <FaPersonSwimming className="fa-solid fa-person-swimming" />
                   <span>Private pool</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <i className="fa-solid fa-wifi" />
+                  <FaWifi className="fa-solid fa-wifi" />
                   <span>Free Wi-Fi</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <i className="fa-solid fa-sink" />
+                  <FaSink className="fa-solid fa-sink" />
                   <span>Kitchen</span>
                 </div>
               </div>
@@ -173,7 +183,7 @@ const Details = () => {
           <div className="flex items-center gap-4">
             <h2 className="text-2xl font-semibold">Reviews</h2>
             <div className="flex items-center">
-              <i className="fas fa-star text-yellow-500 mr-2" />
+              <FaStar className="fas fa-star text-yellow-500 mr-2" />
               <span className="text-xl font-semibold">4.9</span>
               <span className="mx-2">·</span>
               <span className="text-gray-600">2 reviews</span>
@@ -204,11 +214,11 @@ const Details = () => {
               </div>
             </div>
             <div className="flex items-center">
-              <i className="fas fa-star text-yellow-500" />
-              <i className="fas fa-star text-yellow-500" />
-              <i className="fas fa-star text-yellow-500" />
-              <i className="fas fa-star text-yellow-500" />
-              <i className="fas fa-star text-yellow-500" />
+              <FaStar className="fas fa-star text-yellow-500" />
+              <FaStar className="fas fa-star text-yellow-500" />
+              <FaStar className="fas fa-star text-yellow-500" />
+              <FaStar className="fas fa-star text-yellow-500" />
+              <FaStar className="fas fa-star text-yellow-500" />
             </div>
             <p className="text-gray-600 leading-relaxed">
               Amazing stay! The villa exceeded our expectations. The private
@@ -217,33 +227,6 @@ const Details = () => {
             </p>
           </div>
           {/* Review Card 2 */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
-                <img
-                  src="/api/placeholder/48/48"
-                  alt="User avatar"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div>
-                <h4 className="font-medium">Emma Wilson</h4>
-                <p className="text-gray-500 text-sm">November 2024</p>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <i className="fas fa-star text-yellow-500" />
-              <i className="fas fa-star text-yellow-500" />
-              <i className="fas fa-star text-yellow-500" />
-              <i className="fas fa-star text-yellow-500" />
-              <i className="fas fa-star text-yellow-500" />
-            </div>
-            <p className="text-gray-600 leading-relaxed">
-              Perfect location for a family vacation. The villa was spotlessly
-              clean and well-maintained. The kitchen was fully equipped, and we
-              loved cooking meals while enjoying the ocean view.
-            </p>
-          </div>
         </div>
         {/* Show More Button */}
       </div>
