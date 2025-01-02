@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Metadata } from "next";
+import { FaChevronLeft, FaStar } from "react-icons/fa6";
 
 export const metadata: Metadata = {
   title: "Payment Process",
@@ -17,7 +18,7 @@ const PaymentProcess = () => {
         {/* Back Button */}
         <div className="mb-8">
           <a href="./details.html" className="text-zinc-800 hover:underline">
-            <i className="fas fa-chevron-left mr-2" />
+            <FaChevronLeft className="fas fa-chevron-left mr-2" />
             Request to book
           </a>
         </div>
@@ -130,7 +131,7 @@ const PaymentProcess = () => {
                     queen...
                   </p>
                   <div className="flex items-center">
-                    <i className="fas fa-star text-sm mr-1" />
+                    <FaStar className="fas fa-star text-sm mr-1" />
                     <span className="text-xs mt-1 text-zinc-500">
                       5.00 (3 Reviews)
                     </span>
