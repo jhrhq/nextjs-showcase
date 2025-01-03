@@ -1,13 +1,21 @@
 import Footer from "@/components/Footer";
+import PropertyPagination from "@/components/hompage/Pagination";
 import PropertyCard from "@/components/hompage/PropertyCard";
 import Navbar from "@/components/Navbar";
 import connectDB from "@/config/database";
 import { getAllProperties } from "@/db/queries";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
-export default async function Home() {
+export default async function Home({
+  searchParams: { page = 1, pageSize = 8 },
+}) {
   await connectDB();
-  const properties = await getAllProperties();
+
+  const { allProperties: properties, total } = await getAllProperties(
+    page,
+    pageSize,
+  );
+  console.log(properties);
 
   return (
     <>
@@ -27,6 +35,11 @@ export default async function Home() {
       </section>
 
       {/*pagination footer */}
+      <PropertyPagination
+        page={parseInt(page)}
+        pageSize={parseInt(pageSize)}
+        totalItems={total}
+      />
       <div className="mt-8 flex justify-center">
         <nav aria-label="Page navigation">
           <ul className="inline-flex items-center -space-x-px">
