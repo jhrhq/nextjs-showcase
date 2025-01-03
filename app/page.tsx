@@ -1,10 +1,14 @@
 import Footer from "@/components/Footer";
+import PropertyCard from "@/components/hompage/PropertyCard";
 import Navbar from "@/components/Navbar";
-import { StarSvg } from "@/components/svg-component/StartSvg";
-import Link from "next/link";
-import { FaBed, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import connectDB from "@/config/database";
+import { getAllProperties } from "@/db/queries";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
-export default function Home() {
+export default async function Home() {
+  await connectDB();
+  const properties = await getAllProperties();
+
   return (
     <>
       {/* Navbar */}
@@ -12,42 +16,17 @@ export default function Home() {
       {/* Hotel Listing Section */}
       <section className="px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <Link href="/details" className="block group">
-            <div>
-              <div className="relative">
-                <img
-                  src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Maldives Paradise"
-                  className="w-full h-64 object-cover rounded-xl group-hover:scale-105 transition-transform"
-                />
-                <div className="absolute top-3 right-3 bg-white/80 px-3 py-1 rounded-full text-xs font-semibold">
-                  <FaBed className="fa-bed inline-block mr-1" />3 Rooms Left
-                </div>
-              </div>
-              <div className="mt-3">
-                <div className="flex justify-between items-center">
-                  <h3 className="font-bold text-lg">Maldives Paradise</h3>
-                  <div className="flex items-center">
-                    <StarSvg />
-                    <span className="ml-1 text-zinc-600">4.9</span>
-                  </div>
-                </div>
-                <p className="text-zinc-500 text-sm mt-1">
-                  Himmafushi, Maldives
-                </p>
-                <div className="mt-2 flex justify-between items-center">
-                  <div>
-                    <span className="font-bold">$450</span>
-                    <span className="text-zinc-500 text-sm ml-1">
-                      per night
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Link>
+          {properties.length == 0 ? (
+            <p className="text-xl text-center">No properties found</p>
+          ) : (
+            properties.map((property) => (
+              <PropertyCard key={property._id} property={property} />
+            ))
+          )}
         </div>
       </section>
+
+      {/*pagination footer */}
       <div className="mt-8 flex justify-center">
         <nav aria-label="Page navigation">
           <ul className="inline-flex items-center -space-x-px">
