@@ -24,6 +24,7 @@ export default async function Home({
       {/* Navbar */}
       <Navbar />
       {/* Hotel Listing Section */}
+      {/* <Todo /> */}
       <section className="px-6">
         {properties.length == 0 ? (
           <NoResultsFound searchTerm={search} />

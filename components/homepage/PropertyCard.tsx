@@ -4,7 +4,7 @@ import { FaBed } from "react-icons/fa6";
 
 const PropertyCard = ({ property }) => {
   return (
-    <Link href="/details" className="block group">
+    <Link href={`/property/${property._id}`} className="block group">
       <div>
         <div className="relative">
           <img

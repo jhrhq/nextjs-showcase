@@ -20,7 +20,31 @@ import {
   FaWifi,
 } from "react-icons/fa6";
 
-const Details = () => {
+// export async function generateMetadata({ params }, parent) {
+//   // read route params
+//   const movieId = await params.id;
+
+//   // fetch data
+//   const movie = await getSelectedMovieDetails(movieId);
+
+//   return {
+//     title: `MovieDB - ${movie.title}`,
+//     description: movie?.overview.slice(0, 100),
+//     openGraph: {
+//       images: [
+//         {
+//           url: `/api/og?id=${movieId}`,
+//           width: 1200,
+//           height: 600,
+//         },
+//       ],
+//     },
+//   };
+// }
+
+const PropertyDetails = ({ params: { id } }) => {
+  // const data = await getSelectedMovieDetails(id);
+
   return (
     <>
       {/* Navbar */}
@@ -236,4 +260,4 @@ const Details = () => {
   );
 };
 
-export default Details;
+export default PropertyDetails;
