@@ -16,6 +16,8 @@ export default async function Home({
     pageSize
   );
 
+  const showPagination = total > pageSize;
+
   return (
     <>
       {/* Navbar */}
@@ -34,11 +36,15 @@ export default async function Home({
       </section>
 
       {/*pagination footer */}
-      <PropertyPagination
-        page={parseInt(page)}
-        pageSize={parseInt(pageSize)}
-        totalItems={total}
-      />
+
+      {showPagination && (
+        <PropertyPagination
+          page={parseInt(page)}
+          pageSize={parseInt(pageSize)}
+          totalItems={total}
+        />
+      )}
+
       <div className="mt-8 flex justify-center">
         <nav aria-label="Page navigation">
           <ul className="inline-flex items-center -space-x-px">
