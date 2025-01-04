@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer";
-import PropertyPagination from "@/components/hompage/Pagination";
-import PropertyCard from "@/components/hompage/PropertyCard";
+import PropertyPagination from "@/components/homepage/Pagination";
+import PropertyCard from "@/components/homepage/PropertyCard";
 import Navbar from "@/components/Navbar";
 import connectDB from "@/config/database";
 import { getAllProperties } from "@/db/queries";
@@ -13,9 +13,8 @@ export default async function Home({
 
   const { allProperties: properties, total } = await getAllProperties(
     page,
-    pageSize,
+    pageSize
   );
-  console.log(properties);
 
   return (
     <>
