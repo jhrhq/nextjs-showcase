@@ -4,6 +4,7 @@
   },
 
   "LocaleSwitcher": {
-    "switchLocale": "Switch to {locale, select, bn {Bangla} en {English} other {Unknown}}"
+    "label": "Change language",
+    "locale": "{locale, select, bn {বাংলা} en {🇺🇸 English} other {Unknown}}"
   }
 }
