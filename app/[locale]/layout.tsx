@@ -25,9 +25,11 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
+  auth,
   children,
   params: { locale },
 }: Readonly<{
+  auth: React.ReactNode;
   children: React.ReactNode;
   params: { locale: string };
 }>) {
@@ -44,6 +46,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
+          <div>{auth}</div>
           {children}
         </NextIntlClientProvider>
       </body>
