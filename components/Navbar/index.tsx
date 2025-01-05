@@ -20,7 +20,6 @@ const Navbar = () => {
           />
         </Link>
       </div>
-      <div className="text-5xl">{t("appTitle")}</div>
 
       <Search />
 

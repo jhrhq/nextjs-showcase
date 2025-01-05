@@ -1,5 +1,9 @@
 {
   "Header": {
     "appTitle": "নেক্সটজস বাংলা "
+  },
+  "LocaleSwitcher": {
+    "label": "ভাষা পরিবর্তন",
+    "locale": "{locale, select, bn { বাংলা} en { English} other {Unknown}}"
   }
 }
