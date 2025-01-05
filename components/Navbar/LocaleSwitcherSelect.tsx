@@ -2,7 +2,7 @@
 
 import { Toggle } from "@/components/ui/toggle";
 import { usePathname, useRouter } from "@/i18n/routing";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { ReactNode, useTransition } from "react";
 import { FaLanguage } from "react-icons/fa6";
 
@@ -17,6 +17,9 @@ export default function LocaleSwitcherSelect({ defaultValue }: Props) {
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
   const params = useParams();
+  const searchParams = useSearchParams();
+
+  const query = Object.fromEntries(searchParams.entries());
 
   function onSelectChange() {
     const nextLocale = defaultValue === "en" ? "bn" : "en";
@@ -25,7 +28,7 @@ export default function LocaleSwitcherSelect({ defaultValue }: Props) {
         // @ts-expect-error -- TypeScript will validate that only known `params`
         // are used in combination with a given `pathname`. Since the two will
         // always match for the current route, we can skip runtime checks.
-        { pathname, params },
+        { pathname, params, query },
         { locale: nextLocale }
       );
     });
