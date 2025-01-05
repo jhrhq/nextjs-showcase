@@ -1,0 +1,9 @@
+{
+  "Header": {
+    "appTitle": "Next.js Weather"
+  },
+
+  "LocaleSwitcher": {
+    "switchLocale": "Switch to {locale, select, bn {Bangla} en {English} other {Unknown}}"
+  }
+}

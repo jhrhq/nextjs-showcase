@@ -1,12 +1,12 @@
+import LocalSwitcher from "@/components/Navbar/LocalSwitcher";
 import NavAuthDropdown from "@/components/Navbar/NavAuthDropdown";
 import Search from "@/components/Navbar/Search";
-import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
-import { FaLanguage } from "react-icons/fa6";
-
 const Navbar = () => {
+  const t = useTranslations("Header");
   return (
     <nav className="grid grid-cols-2 md:flex justify-between items-center py-3 bg-white border-b mb-6 md:gap-8 px-4 md:px-8 lg:px-20">
       <div className="flex items-center shrink-0">
@@ -20,13 +20,12 @@ const Navbar = () => {
           />
         </Link>
       </div>
+      <div className="text-5xl">{t("appTitle")}</div>
 
       <Search />
 
       <div className="flex items-center space-x-4 relative justify-end">
-        <Button className=" rounded-full px-3" variant="outline">
-          <FaLanguage className="fas fa-language text-zinc-700 text-xl" />
-        </Button>
+        <LocalSwitcher />
 
         <NavAuthDropdown />
       </div>
