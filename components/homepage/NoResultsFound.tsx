@@ -7,8 +7,10 @@ const NoResultsFound = ({ searchTerm }: { searchTerm?: string }) => {
       <div className="max-w-lg mx-auto">
         <h1 className="text-3xl font-semibold text-gray-800 dark:text-white lg:text-4xl">
           No Results found for{" "}
-          <span className="text-base">&quot;{searchTerm}&quot;</span>
         </h1>
+        {searchTerm && (
+          <p className="text-base mt-2">&quot;{searchTerm}&quot;</p>
+        )}
         <p className="mt-6 text-gray-500 dark:text-gray-300 mb-5">
           Please search with a better title of properties.
         </p>

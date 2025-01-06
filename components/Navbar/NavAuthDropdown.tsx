@@ -18,13 +18,13 @@ const NavAuthDropdown = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="max-w-48 w-48 bg-white shadow-sm border rounded-md absolute right-0 top-full max-h-fit mt-2 z-50 hidden lg:block"
+        className="max-w-48 w-48 bg-white shadow-sm border rounded-md absolute right-0 top-full max-h-fit mt-2 z-50  block"
       >
         <ul>
           <DropdownMenuItem asChild>
             <li className="w-full px-3 py-2 ">
               <Link
-                href="login"
+                href="/login"
                 className="flex-grow text-sm text-zinc-700 transition-all  hover:pl-1 w-fll"
               >
                 Login
@@ -45,7 +45,7 @@ const NavAuthDropdown = () => {
             <li className="w-full px-3 py-2 ">
               <Link
                 href="/help"
-                className="flex-grow text-sm text-zinc-700 transition-all  hover:pl-1 w-fll"
+                className="flex-grow text-sm text-zinc-700 transition-all  hover:pl-1 w-full"
               >
                 Help
               </Link>
