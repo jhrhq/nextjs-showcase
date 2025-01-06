@@ -1,12 +1,12 @@
 import LocalSwitcher from "@/components/Navbar/LocalSwitcher";
 import NavAuthDropdown from "@/components/Navbar/NavAuthDropdown";
 import Search from "@/components/Navbar/Search";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
 const Navbar = () => {
-  const t = useTranslations("Header");
+  // const t = useTranslations("Header");
+
   return (
     <nav className="grid grid-cols-2 md:flex justify-between items-center py-3 bg-white border-b mb-6 md:gap-8 px-4 md:px-8 lg:px-20">
       <div className="flex items-center shrink-0">
