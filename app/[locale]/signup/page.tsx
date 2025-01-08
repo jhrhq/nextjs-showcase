@@ -1,5 +1,5 @@
 import GoogleLoginAction from "@/components/auth/GoogleLoginAction";
-import LoginForm from "@/components/auth/LoginForm";
+import SignupForm from "@/components/auth/SignupForm";
 import Link from "next/link";
 
 const Signup = () => {
@@ -29,13 +29,13 @@ const Signup = () => {
               <div className="flex-grow border-t border-gray-300" />
             </div>
             {/* Email Login Form */}
-            <LoginForm />
+            <SignupForm />
           </div>
           {/* Footer */}
           <div className="text-center text-sm text-gray-600">
             <p>
               Don&apos;t have an account?
-              <Link href="/login" className="text-primary hover:underline">
+              <Link href="/login" className="text-primary hover:underline ml-1">
                 Login
               </Link>
             </p>

@@ -40,12 +40,12 @@ export const loginFormAction = async (formData: Login) => {
       switch (error.type) {
         case "CredentialsSignin":
           return {
-            status: "error",
+            success: false,
             message: "Invalid credentials",
           };
         default:
           return {
-            status: "error",
+            success: false,
             message: "Something went wrong.",
           };
       }
