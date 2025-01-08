@@ -1,40 +1,66 @@
 "use server";
 
-import {
-  FormState,
-  fromErrorToFormState,
-  toFormState,
-} from "@/utils/form-error-state";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
+import { signIn } from "@/auth";
+import { Login } from "@/FormValidationSchema/login-schema";
+import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
 
-const loginFormSchema = z.object({
-  email: z
-    .string({ message: "Email is required" })
-    .email({ message: "Please Enter a valid email" }),
-  password: z
-    .string({ message: "Password is required" })
-    .min(4, "Please enter your password")
-    .max(100),
-});
+// export const loginFormAction = async (
+//   formState: FormState,
+//   formData: FormData
+// ) => {
+//   try {
+//     const data = loginFormSchema.parse({
+//       email: formData.get("email"),
+//       password: formData.get("password"),
+//     });
+//     const response = await signIn("credentials", { ...data, redirect: false });
+//     if (response) {
+//       console.log(response);
+//     }
+//     return response;
+//   } catch (error) {
+//     return fromErrorToFormState(error);
+//   }
 
-export const loginFormAction = async (
-  formState: FormState,
-  formData: FormData
-) => {
-  await new Promise((resolve) => setTimeout(resolve, 250));
+//   revalidatePath("/");
 
+//   return toFormState("SUCCESS", "Login Successful");
+// };
+export const loginFormAction = async (formData: Login) => {
   try {
-    const data = loginFormSchema.parse({
-      email: formData.get("email"),
-      password: formData.get("password"),
+    await signIn("credentials", {
+      ...formData,
+      redirectTo: "/",
+      redirect: true,
     });
-    console.log("Success!", data);
   } catch (error) {
-    return fromErrorToFormState(error);
+    // fromErrorToFormState(error);
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return {
+            status: "error",
+            message: "Invalid credentials",
+          };
+        default:
+          return {
+            status: "error",
+            message: "Something went wrong.",
+          };
+      }
+    } else if (error instanceof Error && error.message == "NEXT_REDIRECT") {
+      // user is signed in
+      // just handling the error
+      // errorMsg = error.message;
+      redirect("/");
+    }
+    throw error;
   }
 
-  revalidatePath("/");
+  // return {success: true}
 
-  return toFormState("SUCCESS", "Login Successful");
+  // revalidatePath("/");
+
+  // return toFormState("SUCCESS", "Login Successful");
 };

@@ -1,42 +1,98 @@
 "use client";
 
-import { loginFormAction } from "@/app/actions";
-// import loginHandlerAction from "@/app/actions/loginAction";
-import { FieldError } from "@/components/field-error";
 import SubmitButton from "@/components/SubmitButton";
 import { Input } from "@/components/ui/input";
-import { useFormReset } from "@/hooks/use-form-reset";
-import { EMPTY_FORM_STATE } from "@/utils/form-error-state";
-import { useFormState, useFormStatus } from "react-dom";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import { loginFormAction } from "@/app/actions";
+import { FieldCustomError } from "@/components/field-error";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { Login, loginSchema } from "@/FormValidationSchema/login-schema";
+import { clientFormErrorState } from "@/utils/client-form-error";
 
 const LoginForm = () => {
-  const [formState, action] = useFormState(loginFormAction, EMPTY_FORM_STATE);
-  const { pending } = useFormStatus();
+  const form = useForm<Login>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  // const [formState, action] = useFormState(loginFormAction, EMPTY_FORM_STATE);
+  // const formRef = useFormReset(formState);
 
-  const formRef = useFormReset(formState);
+  async function onSubmit(values: Login) {
+    try {
+      const result = await loginFormAction(values);
+      if (result?.status == "error") {
+        form.setError("root.serverError", {
+          type: "manual",
+          message: result.message,
+        });
+      }
+    } catch (error) {
+      clientFormErrorState(error, form.setError);
+    }
+  }
 
   return (
-    <form noValidate action={action} ref={formRef} className="space-y-4">
-      <div>
-        <Input
+    <Form {...form}>
+      <form
+        noValidate
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4"
+      >
+        <FieldCustomError
+          errorMessage={form.formState?.errors?.root?.serverError?.message}
+        />
+
+        <FormField
+          control={form.control}
           name="email"
-          type="email"
-          placeholder="Email"
-          className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FieldError formState={formState} name="email" className="ml-4" />
-      </div>
-      <div>
-        <Input
+        <FormField
+          control={form.control}
           name="password"
-          type="password"
-          placeholder="Password"
-          className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FieldError formState={formState} name="password" className="ml-4" />
-      </div>
-      <SubmitButton>Continue</SubmitButton>
-    </form>
+
+        <SubmitButton>Continue</SubmitButton>
+      </form>
+    </Form>
   );
 };
 
