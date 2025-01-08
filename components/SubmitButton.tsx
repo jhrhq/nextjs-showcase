@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 import { useFormStatus } from "react-dom";
+import { useFormContext } from "react-hook-form";
 
 const SubmitButton = ({
   className,
@@ -12,6 +13,7 @@ const SubmitButton = ({
   children: ReactNode;
 }) => {
   const { pending } = useFormStatus();
+  const form = useFormContext();
   return (
     <Button
       type="submit"
@@ -21,7 +23,11 @@ const SubmitButton = ({
         className
       )}
     >
-      {pending ? <span className="submitLoader"></span> : children}
+      {pending || form.formState.isSubmitting ? (
+        <span className="submitLoader"></span>
+      ) : (
+        children
+      )}
     </Button>
   );
 };

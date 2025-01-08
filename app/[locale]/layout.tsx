@@ -46,8 +46,10 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
-          <div>{auth}</div>
-          {children}
+          <main>
+            <>{auth}</>
+            {children}
+          </main>
         </NextIntlClientProvider>
       </body>
     </html>

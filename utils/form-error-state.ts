@@ -1,3 +1,5 @@
+import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
 import { ZodError } from "zod";
 
 export type FormState = {
@@ -22,6 +24,17 @@ export const fromErrorToFormState = (error: unknown) => {
       fieldErrors: error.flatten().fieldErrors,
       timestamp: Date.now(),
     };
+  } else if (error instanceof Error && error.message == "NEXT_REDIRECT") {
+    // user is signed in
+    redirect("/");
+    // just handling the error
+    return {
+      status: "ERROR" as const,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      message: (error as any).message,
+      fieldErrors: {},
+      timestamp: Date.now(),
+    };
   } else if (error instanceof Error) {
     return {
       status: "ERROR" as const,
@@ -29,6 +42,24 @@ export const fromErrorToFormState = (error: unknown) => {
       fieldErrors: {},
       timestamp: Date.now(),
     };
+  } else if (error instanceof AuthError) {
+    switch (error.type) {
+      case "CredentialsSignin":
+        return {
+          status: "ERROR" as const,
+          message: "Email is not found!",
+          fieldErrors: {},
+          timestamp: Date.now(),
+        };
+
+      default:
+        return {
+          status: "ERROR" as const,
+          message: "Something went wrong!",
+          fieldErrors: {},
+          timestamp: Date.now(),
+        };
+    }
   } else {
     return {
       status: "ERROR" as const,
