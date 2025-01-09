@@ -1,6 +1,5 @@
 import GoogleLoginAction from "@/components/auth/GoogleLoginAction";
 import SignupForm from "@/components/auth/SignupForm";
-import Link from "next/link";
 
 const Signup = () => {
   return (
@@ -35,9 +34,13 @@ const Signup = () => {
           <div className="text-center text-sm text-gray-600">
             <p>
               Don&apos;t have an account?
-              <Link href="/login" className="text-primary hover:underline ml-1">
+              {/**
+               * I used a instead of Link so that browser take full reload and not intercepted
+               * Link uses soft navigation and intercepted by the login page
+               */}
+              <a href="/login" className="text-primary hover:underline ml-1">
                 Login
-              </Link>
+              </a>
             </p>
           </div>
         </div>
