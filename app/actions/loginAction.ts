@@ -1,7 +1,7 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { Login } from "@/FormValidationSchema/login-schema";
+import { Login } from "@/formValidationSchema/login-schema";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 
