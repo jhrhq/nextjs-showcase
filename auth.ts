@@ -1,7 +1,7 @@
 import { authConfig } from "@/auth.config";
 import connectDB from "@/config/database";
 import client from "@/db/mongoClientPromise";
-import { loginSchema } from "@/FormValidationSchema/login-schema";
+import { loginSchema } from "@/formValidationSchema/login-schema";
 import User from "@/models/user-model";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth, { CredentialsSignin } from "next-auth";

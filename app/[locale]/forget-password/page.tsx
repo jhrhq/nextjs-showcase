@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { loginFormAction } from "@/app/actions";
 import { FieldCustomError } from "@/components/field-error";
 import {
   Form,
@@ -15,32 +14,35 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Login, loginSchema } from "@/formValidationSchema/login-schema";
-import { clientFormErrorState } from "@/utils/client-form-error";
+import { Login } from "@/formValidationSchema/login-schema";
+import {
+  forgetPasswordSchema,
+  ForgetPasswordType,
+} from "@/formValidationSchema/update-password-validation-schema";
 
-const LoginForm = () => {
+const ForgetPassword = () => {
   const form = useForm<Login>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(forgetPasswordSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
   // const [formState, action] = useFormState(loginFormAction, EMPTY_FORM_STATE);
   // const formRef = useFormReset(formState);
 
-  async function onSubmit(values: Login) {
-    try {
-      const result = await loginFormAction(values);
-      if (!result?.success) {
-        form.setError("root.serverError", {
-          type: "manual",
-          message: result?.message,
-        });
-      }
-    } catch (error) {
-      clientFormErrorState(error, form.setError);
-    }
+  async function onSubmit(values: ForgetPasswordType) {
+    console.log(values);
+    // try {
+    //   const result = await loginFormAction(values);
+    //   if (!result?.success) {
+    //     form.setError("root.serverError", {
+    //       type: "manual",
+    //       message: result?.message,
+    //     });
+    //   }
+    // } catch (error) {
+    //   clientFormErrorState(error, form.setError);
+    // }
   }
 
   return (
@@ -72,28 +74,11 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
-        <SubmitButton>Continue</SubmitButton>
+        <SubmitButton>Send</SubmitButton>
       </form>
     </Form>
   );
 };
 
-export default LoginForm;
+export default ForgetPassword;

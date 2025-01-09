@@ -1,7 +1,7 @@
 "use server";
 
 import connectDB from "@/config/database";
-import { signupSchema } from "@/FormValidationSchema/signu-schema";
+import { signupSchema } from "@/formValidationSchema/signu-schema";
 import User from "@/models/user-model";
 import bcryptjs from "bcryptjs";
 import { redirect } from "next/navigation";

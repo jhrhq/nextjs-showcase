@@ -15,7 +15,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { SignUp, signupSchema } from "@/FormValidationSchema/signu-schema";
+import { SignUp, signupSchema } from "@/formValidationSchema/signu-schema";
 import { clientFormErrorState } from "@/utils/client-form-error";
 
 const SignupForm = () => {
