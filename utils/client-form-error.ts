@@ -1,4 +1,5 @@
 import { AuthError } from "next-auth";
+import { ZodError } from "zod";
 
 export type FormState = {
   status: "UNSET" | "SUCCESS" | "ERROR";
@@ -15,7 +16,14 @@ export const EMPTY_FORM_STATE: FormState = {
 };
 
 export const clientFormErrorState = (error: unknown, setError) => {
-  if (error instanceof Error && error.message == "NEXT_REDIRECT") {
+  if (error instanceof ZodError) {
+    return {
+      status: "ERROR" as const,
+      message: "",
+      fieldErrors: error.flatten().fieldErrors,
+      timestamp: Date.now(),
+    };
+  } else if (error instanceof Error && error.message == "NEXT_REDIRECT") {
     // user is signed in
     // just handling the error
     return setError("root.serverError", {
@@ -48,6 +56,22 @@ export const clientFormErrorState = (error: unknown, setError) => {
     });
   }
 };
+
+export function clientSuccessErrorState(error: unknown, setError) {
+  if (typeof error == "object") {
+    Object.entries(error).forEach(([key, value]) =>
+      setError(key, {
+        type: "manual",
+        message: value[0] as string,
+      })
+    );
+  } else {
+    return setError("root.serverError", {
+      type: "manual",
+      message: error,
+    });
+  }
+}
 
 export const toFormState = (
   status: FormState["status"],

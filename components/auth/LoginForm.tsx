@@ -16,7 +16,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Login, loginSchema } from "@/formValidationSchema/login-schema";
-import { clientFormErrorState } from "@/utils/client-form-error";
+import {
+  clientFormErrorState,
+  clientSuccessErrorState,
+} from "@/utils/client-form-error";
 
 const LoginForm = () => {
   const form = useForm<Login>({
@@ -33,10 +36,7 @@ const LoginForm = () => {
     try {
       const result = await loginFormAction(values);
       if (!result?.success) {
-        form.setError("root.serverError", {
-          type: "manual",
-          message: result?.message,
-        });
+        clientSuccessErrorState(result?.message, form.setError);
       }
     } catch (error) {
       clientFormErrorState(error, form.setError);

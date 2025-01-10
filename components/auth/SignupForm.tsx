@@ -3,7 +3,6 @@
 import SubmitButton from "@/components/SubmitButton";
 import { Input } from "@/components/ui/input";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { handleSignUp } from "@/app/actions/signupAction";
@@ -15,12 +14,15 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { SignUp, signupSchema } from "@/formValidationSchema/signu-schema";
-import { clientFormErrorState } from "@/utils/client-form-error";
+import { SignUp } from "@/formValidationSchema/signu-schema";
+import {
+  clientFormErrorState,
+  clientSuccessErrorState,
+} from "@/utils/client-form-error";
 
 const SignupForm = () => {
   const form = useForm<SignUp>({
-    resolver: zodResolver(signupSchema),
+    // resolver: zodResolver(signupSchema),
     defaultValues: {
       username: "",
       email: "",
@@ -33,12 +35,8 @@ const SignupForm = () => {
     try {
       const result = await handleSignUp(values);
       if (!result?.success) {
-        form.setError("root.serverError", {
-          type: "manual",
-          message: result.message,
-        });
+        clientSuccessErrorState(result.message, form.setError);
       }
-      console.log(result);
     } catch (error) {
       clientFormErrorState(error, form.setError);
     }
