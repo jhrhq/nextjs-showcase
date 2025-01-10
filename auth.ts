@@ -26,39 +26,25 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: {},
       },
 
-      authorize: async (credentials) => {
-        const parsedCredentials = loginSchema.safeParse(credentials);
-        if (!parsedCredentials.success) {
-          console.error("Invalid credentials:", parsedCredentials.error.errors);
-          return null;
-        }
+      async authorize(credentials) {
+        const result = loginSchema.safeParse(credentials);
+        if (!result.success)
+          throw new CustomError("Please provide a valid email & password!");
 
-        let user = null;
-
+        const { email, password } = result.data;
         await connectDB();
-        // logic to verify if the user exists
-        user = await User.findOne({
-          email: credentials.email,
-        });
+        const user = await User.findOne({ email });
 
-        // if (!user) {
-        //   throw new CustomError("Invalid credentials.");
-        // }
+        if (!user?.compare(password))
+          throw new CustomError("Email/Password mismatched!");
 
-        if (!user) {
-          console.log("Invalid credentials");
-          return null;
-        }
-
-        if (!user.password) {
-          console.log(
-            "User has no password. They probably signed up with an oauth provider. or password mismatched "
-          );
-          return null;
-        }
-
-        // return JSON object with the user data
-        return user;
+        return {
+          id: user._id.toString(),
+          email: user.email,
+          name: user.name,
+          // verified: user.verified,
+          // avatar: user.avatar?.url,
+        };
       },
     }),
     GoogleProvider({

@@ -1,7 +1,7 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { Login } from "@/formValidationSchema/login-schema";
+import { Login, loginSchema } from "@/formValidationSchema/login-schema";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -29,38 +29,36 @@ import { redirect } from "next/navigation";
 // };
 export const loginFormAction = async (formData: Login) => {
   try {
+    const result = loginSchema.safeParse(formData);
+    if (!result.success)
+      return { success: false, errors: result.error.formErrors.fieldErrors };
+
+    const { email, password } = result.data;
+
     await signIn("credentials", {
-      ...formData,
+      email,
+      password,
       redirectTo: "/",
-      redirect: true,
     });
+    return { success: true };
   } catch (error) {
-    // fromErrorToFormState(error);
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return {
-            success: false,
-            message: "Invalid credentials",
-          };
-        default:
-          return {
-            success: false,
-            message: "Something went wrong.",
-          };
-      }
-    } else if (error instanceof Error && error.message == "NEXT_REDIRECT") {
-      // user is signed in
-      // just handling the error
-      // errorMsg = error.message;
+    console.log(error);
+    let errorMsg = "";
+    if (error instanceof Error && error.message === "NEXT_REDIRECT") {
       redirect("/");
+    } else if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CallbackRouteError":
+          errorMsg = "Something went wrong";
+          break;
+
+        default:
+          errorMsg = error.message;
+          break;
+      }
+    } else {
+      errorMsg = (error as any).message;
     }
-    throw error;
+    return { message: errorMsg, success: false };
   }
-
-  // return {success: true}
-
-  // revalidatePath("/");
-
-  // return toFormState("SUCCESS", "Login Successful");
 };

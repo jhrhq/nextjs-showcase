@@ -1,24 +1,79 @@
-import mongoose, { Schema } from "mongoose";
+import { compareSync, genSaltSync, hashSync } from "bcryptjs";
+import { Model, model, models, ObjectId, Schema } from "mongoose";
 
-const userSchema = new Schema({
-  name: {
-    required: true,
-    type: String,
+interface BaseUserDoc {
+  _id?: ObjectId;
+  name: string;
+  email: string;
+  provider: "credentials" | "google";
+  password?: string;
+  avatar?: {
+    id?: string;
+    url: string;
+  };
+  verified: boolean;
+}
+
+export interface CredentialsUserDoc extends BaseUserDoc {
+  provider: "credentials";
+  password: string;
+}
+
+export interface GoogleUserDoc extends BaseUserDoc {
+  provider: "google";
+  password?: never;
+}
+
+export type UserDoc = CredentialsUserDoc | GoogleUserDoc;
+
+interface Methods {
+  compare(password: string): boolean;
+}
+
+const schema = new Schema<BaseUserDoc, {}, Methods>(
+  {
+    email: { type: String, required: true, unique: true, trim: true },
+    name: { type: String, required: true, trim: true },
+    password: String,
+    avatar: {
+      type: Object,
+      url: String,
+      id: String,
+    },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
+    provider: {
+      type: String,
+      enum: ["google", "credentials"],
+      required: true,
+    },
   },
-  email: {
-    required: true,
-    type: String,
-  },
-  password: {
-    required: true,
-    type: String,
-  },
-  image: {
-    required: false,
-    type: String,
-  },
+  {
+    timestamps: true,
+  }
+);
+
+schema.pre("save", function () {
+  if (
+    this.isModified("password") &&
+    this.password &&
+    this.provider === "credentials"
+  ) {
+    const salt = genSaltSync(10);
+    this.password = hashSync(this.password, salt);
+  }
 });
 
-const User = mongoose.models.users ?? mongoose.model("users", userSchema);
+schema.methods.compare = function (password) {
+  if (this.password) return compareSync(password, this.password);
+  return false;
+};
 
-export default User;
+export const createNewUser = async (userInfo: UserDoc) => {
+  return await User.create(userInfo);
+};
+
+const User = models.User || model("User", schema);
+export default User as Model<BaseUserDoc, {}, Methods>;
