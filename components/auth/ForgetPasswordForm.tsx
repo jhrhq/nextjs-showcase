@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { loginFormAction } from "@/app/actions";
+import { generatePassResetLinkAction } from "@/app/actions/password-reset";
 import { FieldCustomError } from "@/components/field-error";
 import {
   Form,
@@ -19,24 +19,26 @@ import {
   clientFormErrorState,
   clientSuccessErrorState,
 } from "@/utils/client-form-error";
-import { Login, loginSchema } from "@/validationSchema/login-schema";
+import {
+  forgetPasswordSchema,
+  ForgetPasswordType,
+} from "@/validationSchema/update-password-validation-schema";
 
-const LoginForm = () => {
-  const form = useForm<Login>({
-    resolver: zodResolver(loginSchema),
+const ForgetPasswordForm = () => {
+  const form = useForm<ForgetPasswordType>({
+    resolver: zodResolver(forgetPasswordSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
   // const [formState, action] = useFormState(loginFormAction, EMPTY_FORM_STATE);
   // const formRef = useFormReset(formState);
 
-  async function onSubmit(values: Login) {
+  async function onSubmit(values: ForgetPasswordType) {
     try {
-      const result = await loginFormAction(values);
-      if (!result?.success) {
-        clientSuccessErrorState(result?.message, form.setError);
+      const result = await generatePassResetLinkAction(values);
+      if (!result?.status) {
+        clientSuccessErrorState(result.message, form.setError);
       }
     } catch (error) {
       clientFormErrorState(error, form.setError);
@@ -45,11 +47,7 @@ const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form
-        noValidate
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FieldCustomError
           errorMessage={form.formState?.errors?.root?.serverError?.message}
         />
@@ -72,28 +70,11 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
-        <SubmitButton>Continue</SubmitButton>
+        <SubmitButton>Send</SubmitButton>
       </form>
     </Form>
   );
 };
 
-export default LoginForm;
+export default ForgetPasswordForm;

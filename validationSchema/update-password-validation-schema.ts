@@ -2,6 +2,17 @@ import { z } from "zod";
 
 export const updatePasswordSchema = z
   .object({
+    userId: z
+      .string({ message: "Password is required" })
+      .min(1, "Password is required")
+      .min(4, "Password must be more than 4 characters")
+      .optional(),
+    token: z
+      .string({ message: "Password is required" })
+      .min(1, "Password is required")
+      .min(4, "Password must be more than 4 characters")
+      .optional(),
+
     oldPassword: z
       .string({ message: "Password is required" })
       .min(1, "Password is required")

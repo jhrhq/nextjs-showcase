@@ -3,9 +3,9 @@
 import SubmitButton from "@/components/SubmitButton";
 import { Input } from "@/components/ui/input";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { handleSignUp } from "@/app/actions/signupAction";
 import { FieldCustomError } from "@/components/field-error";
 import {
   Form,
@@ -15,32 +15,43 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  clientFormErrorState,
-  clientSuccessErrorState,
-} from "@/utils/client-form-error";
-import { SignUp, signupSchema } from "@/validationSchema/signup-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
+  UpdatePasswordType,
+  updatePasswordSchema,
+} from "@/validationSchema/update-password-validation-schema";
+import { FC } from "react";
 
-const SignupForm = () => {
-  const form = useForm<SignUp>({
-    resolver: zodResolver(signupSchema),
+interface Props {
+  token: string;
+  userId: string;
+}
+
+const UpdatePasswordForm: FC<Props> = ({ userId, token }) => {
+  const form = useForm<UpdatePasswordType>({
+    resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      oldPassword: "",
+      newPassword: "",
+      userId: "",
+      token: "",
     },
+    values: { userId, token },
   });
+  // const [formState, action] = useFormState(loginFormAction, EMPTY_FORM_STATE);
+  // const formRef = useFormReset(formState);
 
-  async function onSubmit(values: SignUp) {
-    try {
-      const result = await handleSignUp(values);
-      if (!result?.status) {
-        clientSuccessErrorState(result.message, form.setError);
-      }
-    } catch (error) {
-      clientFormErrorState(error, form.setError);
-    }
+  async function onSubmit(values: UpdatePasswordType) {
+    console.log(values);
+    // try {
+    //   const result = await loginFormAction(values);
+    //   if (!result?.success) {
+    //     form.setError("root.serverError", {
+    //       type: "manual",
+    //       message: result?.message,
+    //     });
+    //   }
+    // } catch (error) {
+    //   clientFormErrorState(error, form.setError);
+    // }
   }
 
   return (
@@ -56,14 +67,33 @@ const SignupForm = () => {
 
         <FormField
           control={form.control}
-          name="username"
+          name="userId"
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Input
                   type="text"
-                  placeholder="user name"
-                  className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
+                  placeholder="text"
+                  className="w-full  hidden h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="token"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="text"
+                  className="w-full hidden  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
                   {...field}
                 />
               </FormControl>
@@ -74,60 +104,46 @@ const SignupForm = () => {
         />
         <FormField
           control={form.control}
-          name="email"
+          name="oldPassword"
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Input
-                  type="email"
+                  type="password"
                   placeholder="Email"
                   className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-                  {...field}
-                />
-              </FormControl>
+
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <SubmitButton>Continue</SubmitButton>
+        <FormField
+          control={form.control}
+          name="newPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Email"
+                  className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <SubmitButton>Update</SubmitButton>
       </form>
     </Form>
   );
 };
 
-export default SignupForm;
+export default UpdatePasswordForm;
