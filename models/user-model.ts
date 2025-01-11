@@ -30,7 +30,7 @@ interface Methods {
   compare(password: string): boolean;
 }
 
-const schema = new Schema<BaseUserDoc, {}, Methods>(
+const schema = new Schema<BaseUserDoc, object, Methods>(
   {
     email: { type: String, required: true, unique: true, trim: true },
     name: { type: String, required: true, trim: true },
@@ -52,7 +52,7 @@ const schema = new Schema<BaseUserDoc, {}, Methods>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 schema.pre("save", function () {
@@ -75,5 +75,5 @@ export const createNewUser = async (userInfo: UserDoc) => {
   return await UserModel.create(userInfo);
 };
 
-const UserModel = models.User || model("users", schema);
-export default UserModel as Model<BaseUserDoc, {}, Methods>;
+const UserModel = models.User || model("User", schema);
+export default UserModel as Model<BaseUserDoc, object, Methods>;

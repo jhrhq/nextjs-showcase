@@ -4,7 +4,7 @@ import connectDB from "@/config/database";
 import UserModel, { createNewUser } from "@/models/user-model";
 import VerificationTokenModel from "@/models/verification-token-model";
 import mail from "@/utils/mail";
-import { signupSchema } from "@/validationSchema/signup-schema";
+import { SignUp, signupSchema } from "@/validationSchema/signup-schema";
 import crypto from "crypto";
 
 const handleVerificationToken = async (user: {
@@ -32,32 +32,17 @@ interface AuthResponse {
 }
 
 export const handleSignUp = async (
-  state: AuthResponse,
-  {
-    username,
-    email,
-    password,
-    confirmPassword,
-  }: {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-  }
+  // state: AuthResponse,
+  data: SignUp,
 ): Promise<AuthResponse> => {
-  const result = signupSchema.safeParse({
-    username,
-    email,
-    password,
-    confirmPassword,
-  });
+  const result = signupSchema.safeParse(data);
   if (!result.success) {
     // Show error to the users
     return { status: false, errors: result.error.formErrors.fieldErrors };
   }
 
   await connectDB();
-  const existingUser = await UserModel.findOne({ email });
+  const existingUser = await UserModel.findOne({ email: data.email });
   if (existingUser)
     return {
       status: false,
@@ -65,33 +50,42 @@ export const handleSignUp = async (
     };
 
   const user = await createNewUser({
-    name: username,
-    email,
-    password,
+    name: data.username,
+    email: data.email,
+    password: data.password,
     provider: "credentials",
     verified: false,
   });
 
   // send verification email
-  await handleVerificationToken({ email, id: user._id, name: username });
-  await signIn("credentials", { email, password, redirectTo: "/" });
+  await handleVerificationToken({
+    email: data.email,
+    id: user._id,
+    name: data.username,
+  });
+  await signIn("credentials", {
+    email: data.email,
+    password: data.password,
+    redirectTo: "/",
+  });
 
   return { status: true };
 };
 
 interface VerificationResponse {
-  success?: boolean;
+  status?: boolean;
+  message?: string;
 }
-export const generateVerificationLink = async (
-  state: VerificationResponse
-): Promise<VerificationResponse> => {
+export const generateVerificationLink = async () // state: VerificationResponse,
+: Promise<VerificationResponse> => {
   const session = await auth();
-  if (!session) return { status: false };
+  if (!session) return { status: false, message: "Something went wrong" };
 
   const user = await UserModel.findById(session?.user?.id);
+  if (!user) return { status: false, message: "User does not exixt" };
   if (user?.verified) {
     // user is already verified
-    return { status: false };
+    return { status: false, message: "User is already verified" };
   }
 
   const { email, id, name } = session?.user;
