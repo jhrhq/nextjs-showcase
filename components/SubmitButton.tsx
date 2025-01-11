@@ -17,13 +17,13 @@ const SubmitButton = ({
   return (
     <Button
       type="submit"
-      disabled={pending || form.formState.isSubmitting}
+      disabled={pending || form?.formState?.isSubmitting}
       className={cn(
         "w-full text-base h-12 bg-primary text-white rounded-full py-3 hover:bg-primary transition",
-        className
+        className,
       )}
     >
-      {pending || form.formState.isSubmitting ? (
+      {pending || form?.formState?.isSubmitting ? (
         <span className="submitLoader"></span>
       ) : (
         children

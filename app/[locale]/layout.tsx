@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { auth as nextAuth } from "@/auth";
 
 import { Locale } from "@/i18n/i18n.config";
 import { routing } from "@/i18n/routing";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { SessionProvider } from "next-auth/react";
+import VerificationStatus from "@/components/VerificationStatus";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,6 +40,8 @@ export default async function RootLayout({
   if (!routing.locales.includes(locale as Locale)) {
     notFound();
   }
+  const session = await nextAuth();
+  console.log(session);
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages();
@@ -45,12 +50,17 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NextIntlClientProvider messages={messages}>
-          <main>
-            <>{auth}</>
-            {children}
-          </main>
-        </NextIntlClientProvider>
+        <main>
+          <NextIntlClientProvider messages={messages}>
+            <SessionProvider session={session}>
+              <VerificationStatus
+                visible={session && !session?.user?.verified ? true : false}
+              />
+              <>{auth}</>
+              {children}
+            </SessionProvider>
+          </NextIntlClientProvider>
+        </main>
       </body>
     </html>
   );

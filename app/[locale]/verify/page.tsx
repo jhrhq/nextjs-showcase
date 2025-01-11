@@ -3,6 +3,7 @@ import UserModel from "@/models/user-model";
 import VerificationTokenModel from "@/models/verification-token-model";
 import { notFound } from "next/navigation";
 import { FC } from "react";
+
 interface Props {
   searchParams: {
     token: string;
