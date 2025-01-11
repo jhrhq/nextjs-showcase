@@ -1,7 +1,7 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { Login, loginSchema } from "@/formValidationSchema/login-schema";
+import { Login, loginSchema } from "@/validationSchema/login-schema";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -31,7 +31,7 @@ export const loginFormAction = async (formData: Login) => {
   try {
     const result = loginSchema.safeParse(formData);
     if (!result.success)
-      return { success: false, errors: result.error.formErrors.fieldErrors };
+      return { status: false, errors: result.error.formErrors.fieldErrors };
 
     const { email, password } = result.data;
 
@@ -40,7 +40,7 @@ export const loginFormAction = async (formData: Login) => {
       password,
       redirectTo: "/",
     });
-    return { success: true };
+    return { status: true };
   } catch (error) {
     console.log(error);
     let errorMsg = "";
@@ -59,6 +59,6 @@ export const loginFormAction = async (formData: Login) => {
     } else {
       errorMsg = (error as any).message;
     }
-    return { message: errorMsg, success: false };
+    return { message: errorMsg, status: false };
   }
 };

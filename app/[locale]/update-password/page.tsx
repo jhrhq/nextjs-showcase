@@ -1,103 +1,30 @@
-"use client";
+import UpdatePasswordForm from "@/components/auth/UpdatePasswordForm";
+import connectDB from "@/config/database";
+import PassResetTokenModel from "@/models/password-reset-token-model";
+import { notFound } from "next/navigation";
+import { FC } from "react";
 
-import SubmitButton from "@/components/SubmitButton";
-import { Input } from "@/components/ui/input";
+interface Props {
+  searchParams: {
+    token: string;
+    userId: string;
+  };
+}
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+const UpdatePassword: FC<Props> = async ({ searchParams }) => {
+  const { token, userId } = searchParams;
 
-import { FieldCustomError } from "@/components/field-error";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  UpdatePasswordType,
-  updatePasswordSchema,
-} from "@/formValidationSchema/update-password-validation-schema";
-
-const UpdatePassword = () => {
-  const form = useForm<UpdatePasswordType>({
-    resolver: zodResolver(updatePasswordSchema),
-    defaultValues: {
-      oldPassword: "",
-      newPassword: "",
-    },
-  });
-  // const [formState, action] = useFormState(loginFormAction, EMPTY_FORM_STATE);
-  // const formRef = useFormReset(formState);
-
-  async function onSubmit(values: UpdatePasswordType) {
-    console.log(values);
-    // try {
-    //   const result = await loginFormAction(values);
-    //   if (!result?.success) {
-    //     form.setError("root.serverError", {
-    //       type: "manual",
-    //       message: result?.message,
-    //     });
-    //   }
-    // } catch (error) {
-    //   clientFormErrorState(error, form.setError);
-    // }
+  try {
+    await connectDB();
+    const resetToken = await PassResetTokenModel.findOne({ userId });
+    if (!resetToken?.compare(token)) {
+      throw new Error();
+    }
+  } catch (error) {
+    return notFound();
   }
 
-  return (
-    <Form {...form}>
-      <form
-        noValidate
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4"
-      >
-        <FieldCustomError
-          errorMessage={form.formState?.errors?.root?.serverError?.message}
-        />
-
-        <FormField
-          control={form.control}
-          name="oldPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Email"
-                  className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-                  {...field}
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="newPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Email"
-                  className="w-full  h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-                  {...field}
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <SubmitButton>Update</SubmitButton>
-      </form>
-    </Form>
-  );
+  return <UpdatePasswordForm token={token} userId={userId} />;
 };
 
 export default UpdatePassword;

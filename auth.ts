@@ -1,8 +1,8 @@
 import { authConfig } from "@/auth.config";
 import connectDB from "@/config/database";
 import client from "@/db/mongoClientPromise";
-import { loginSchema } from "@/formValidationSchema/login-schema";
-import User from "@/models/user-model";
+import UserModel from "@/models/user-model";
+import { loginSchema } from "@/validationSchema/login-schema";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
@@ -33,7 +33,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         const { email, password } = result.data;
         await connectDB();
-        const user = await User.findOne({ email });
+        const user = await UserModel.findOne({ email });
 
         if (!user?.compare(password))
           throw new CustomError("Email/Password mismatched!");

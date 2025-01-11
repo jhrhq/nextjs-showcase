@@ -72,8 +72,8 @@ schema.methods.compare = function (password) {
 };
 
 export const createNewUser = async (userInfo: UserDoc) => {
-  return await User.create(userInfo);
+  return await UserModel.create(userInfo);
 };
 
-const User = models.User || model("User", schema);
-export default User as Model<BaseUserDoc, {}, Methods>;
+const UserModel = models.User || model("users", schema);
+export default UserModel as Model<BaseUserDoc, {}, Methods>;
