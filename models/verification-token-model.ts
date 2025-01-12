@@ -11,7 +11,7 @@ interface Methods {
   compare(token: string): boolean;
 }
 
-const schema = new Schema<VerificationTokenDoc, {}, Methods>({
+const schema = new Schema<VerificationTokenDoc, object, Methods>({
   token: {
     type: String,
     required: true,
@@ -42,6 +42,6 @@ const VerificationTokenModel =
   models.VerificationToken || model("VerificationToken", schema);
 export default VerificationTokenModel as Model<
   VerificationTokenDoc,
-  {},
+  object,
   Methods
 >;

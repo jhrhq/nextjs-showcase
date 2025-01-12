@@ -1,15 +1,15 @@
+import { auth as nextAuth } from "@/auth";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { auth as nextAuth } from "@/auth";
 
+import VerificationStatus from "@/components/VerificationStatus";
 import { Locale } from "@/i18n/i18n.config";
 import { routing } from "@/i18n/routing";
+import { SessionProvider } from "next-auth/react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { SessionProvider } from "next-auth/react";
-import VerificationStatus from "@/components/VerificationStatus";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,7 +41,6 @@ export default async function RootLayout({
     notFound();
   }
   const session = await nextAuth();
-  console.log(session);
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages();

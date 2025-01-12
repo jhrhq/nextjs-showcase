@@ -1,12 +1,27 @@
 import { authConfig } from "@/auth.config";
 import connectDB from "@/config/database";
 import client from "@/db/mongoClientPromise";
-import UserModel from "@/models/user-model";
+import UserModel, { createNewUser } from "@/models/user-model";
 import { loginSchema } from "@/validationSchema/login-schema";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import { isValidObjectId } from "mongoose";
 import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+
+export interface SessionUserProfile {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+  verified: boolean;
+}
+
+declare module "next-auth" {
+  interface Session {
+    user: SessionUserProfile;
+  }
+}
 
 class CustomError extends CredentialsSignin {
   constructor(message: string) {
@@ -42,8 +57,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           id: user._id.toString(),
           email: user.email,
           name: user.name,
-          // verified: user.verified,
-          // avatar: user.avatar?.url,
+          verified: user.verified,
+          avatar: user?.avatar?.url || null,
         };
       },
     }),
@@ -52,44 +67,111 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  //   callbacks: {
-  //     authorized({ request: { nextUrl }, auth }) {
-  //         const isLoggedIn = !!auth?.user;
-  //         const { pathname } = nextUrl;
+  callbacks: {
+    async signIn({ account, profile }) {
+      // storing new user if the user is coming from google
+      if (account?.provider === "google") {
+        if (!profile?.email || !profile.name) return false;
 
-  //         // Allow access to public routes for all users
-  //         if (publicRoutes.includes(pathname)) {
-  //             return true;
-  //         }
+        await connectDB();
+        const oldUser = await UserModel.findOne({ email: profile.email });
+        if (!oldUser) {
+          await createNewUser({
+            name: profile.name,
+            email: profile.email,
+            provider: "google",
+            verified: profile.email_verified || false,
+            avatar: { url: profile.picture },
+          });
+        }
+      }
 
-  //         // Redirect logged-in users away from auth routes
-  //         if (authRoutes.includes(pathname)) {
-  //             if (isLoggedIn) {
-  //                 return Response.redirect(new URL('/', nextUrl));
-  //             }
-  //             return true; // Allow access to auth pages if not logged in
-  //         }
+      return true;
+    },
+    async jwt({ token, user, trigger, session }) {
+      if (user) {
+        if (!isValidObjectId(user.id)) {
+          const dbUser = await UserModel.findOne({ email: user.email });
+          if (dbUser) {
+            token = {
+              ...token,
+              id: dbUser.id,
+              email: dbUser.email,
+              name: dbUser.name,
+              verified: dbUser.verified,
+              avatar: dbUser.avatar?.url || null,
+            };
+          }
+        } else {
+          token = { ...token, ...user };
+        }
+      }
 
-  //         // Allow access if the user is authenticated
-  //         return isLoggedIn;
-  //     },
-  //     jwt({ token, user, trigger, session }) {
-  //         if (user) {
-  //             token.id = user.id as string;
-  //             token.role = user.role as string;
-  //         }
-  //         if (trigger === "update" && session) {
-  //             token = { ...token, ...session };
-  //         }
-  //         return token;
-  //     },
-  //     session({ session, token }) {
-  //         session.user.id = token.id;
-  //         session.user.role = token.role;
-  //         return session;
-  //     }
-  // },
-  // pages: {
-  //     signIn: "/auth/signin"
-  // }
+      if (trigger === "update") {
+        token = { ...token, ...session };
+      }
+
+      return token;
+    },
+    session({ token, session }) {
+      let user = token as typeof token & SessionUserProfile;
+
+      if (token.user) {
+        user = token.user as any;
+      }
+
+      if (user) {
+        session.user = {
+          ...session.user,
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          verified: user.verified,
+          avatar: user.avatar,
+        };
+      }
+
+      return session;
+    },
+  },
+  /*   callbacks: {
+      authorized({ request: { nextUrl }, auth }) {
+          const isLoggedIn = !!auth?.user;
+          const { pathname } = nextUrl;
+
+          // Allow access to public routes for all users
+          if (publicRoutes.includes(pathname)) {
+              return true;
+          }
+
+          // Redirect logged-in users away from auth routes
+          if (authRoutes.includes(pathname)) {
+              if (isLoggedIn) {
+                  return Response.redirect(new URL('/', nextUrl));
+              }
+              return true; // Allow access to auth pages if not logged in
+          }
+
+          // Allow access if the user is authenticated
+          return isLoggedIn;
+      },
+      jwt({ token, user, trigger, session }) {
+          if (user) {
+              token.id = user.id as string;
+              token.role = user.role as string;
+          }
+          if (trigger === "update" && session) {
+              token = { ...token, ...session };
+          }
+          return token;
+      },
+      session({ session, token }) {
+          session.user.id = token.id;
+          session.user.role = token.role;
+          return session;
+      }
+  }, */
+  pages: {
+    signIn: "/auth/signin",
+  },
 });
