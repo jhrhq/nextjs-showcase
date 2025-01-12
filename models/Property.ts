@@ -6,7 +6,7 @@ const PropertySchema = new Schema({
     ref: "User",
     required: false, // make it true
   },
-  title: {
+  name: {
     type: String,
     required: true,
   },
@@ -24,6 +24,10 @@ const PropertySchema = new Schema({
     type: Number,
     required: true,
   },
+  rooms: {
+    type: Number,
+    required: true,
+  },
   baths: {
     type: Number,
     required: true,
@@ -37,16 +41,16 @@ const PropertySchema = new Schema({
       type: String,
     },
   ],
-  rates: {
-    nightly: String,
-    weekly: String,
-    monthly: String,
+  pricePerNight: {
+    type: Number,
+    required: true,
   },
   seller_info: {
     type: String,
     email: String,
     phone: String,
   },
+  thumbNailUrl: String,
   images: [
     {
       type: String,
