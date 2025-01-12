@@ -1,6 +1,4 @@
-import Navbar from "@/components/Navbar";
-import connectDB from "@/config/database";
-import Properties from "@/models/Property";
+import Navbar from "@/components/navbar";
 import { Metadata } from "next";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { FaStar } from "react-icons/fa6";

@@ -1,11 +1,18 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 import { Metadata } from "next";
-import { FaPencilAlt, FaSave, FaUmbrellaBeach, FaWifi } from "react-icons/fa";
-import { FaBed, FaDoorOpen, FaDumbbell, FaSink } from "react-icons/fa";
+import {
+  FaBed,
+  FaDoorOpen,
+  FaDumbbell,
+  FaPencilAlt,
+  FaSave,
+  FaSink,
+  FaUmbrellaBeach,
+  FaWifi,
+} from "react-icons/fa";
 
 import {
   FaPen,
-  FaPencil,
   FaPerson,
   FaPersonSwimming,
   FaSquareParking,

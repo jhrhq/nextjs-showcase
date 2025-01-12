@@ -1,5 +1,5 @@
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 import { Metadata } from "next";
 import { FaChevronLeft, FaStar } from "react-icons/fa6";
 

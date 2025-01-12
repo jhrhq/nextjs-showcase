@@ -2,7 +2,7 @@ import Footer from "@/components/Footer";
 import NoResultsFound from "@/components/homepage/NoResultsFound";
 import PropertyPagination from "@/components/homepage/Pagination";
 import PropertyCard from "@/components/homepage/PropertyCard";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 import connectDB from "@/config/database";
 import { getAllProperties } from "@/db/queries";
 

@@ -1,7 +1,6 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 import { Metadata } from "next";
-import { FaCloudDownloadAlt, FaFileDownload } from "react-icons/fa";
-import { FaDownload, FaDownLong } from "react-icons/fa6";
+import { FaDownload } from "react-icons/fa6";
 
 export const metadata: Metadata = {
   title: "My Bookings",
