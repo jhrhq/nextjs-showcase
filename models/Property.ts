@@ -1,6 +1,36 @@
-import { model, models, Schema } from "mongoose";
+import { Model, model, models, ObjectId, Schema } from "mongoose";
 
-const PropertySchema = new Schema({
+interface Location {
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+}
+export interface PropertyModelDoc {
+  _id?: ObjectId;
+  name: string;
+  owner: ObjectId;
+  description: string;
+  location: Location;
+  beds: number;
+  rooms: number;
+  baths: number;
+  square_feet: number;
+  amenities: string[];
+  seller_info: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  avgRating: number;
+  numReviews: number;
+  reviews: string[];
+  images: string[];
+  is_Featured: boolean;
+  pricePerNight: number;
+}
+
+const PropertySchema = new Schema<PropertyModelDoc>({
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -46,11 +76,28 @@ const PropertySchema = new Schema({
     required: true,
   },
   seller_info: {
-    type: String,
+    name: String,
     email: String,
     phone: String,
   },
   thumbNailUrl: String,
+  avgRating: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  numReviews: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+      default: [],
+    },
+  ],
   images: [
     {
       type: String,
@@ -64,4 +111,4 @@ const PropertySchema = new Schema({
 
 const Property = models.properties || model("properties", PropertySchema);
 
-export default Property;
+export default Property as Model<PropertyModelDoc>;

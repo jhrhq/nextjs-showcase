@@ -1,3 +1,4 @@
+import connectDB from "@/config/database";
 import Property from "@/models/Property";
 
 async function getAllProperties(
@@ -24,5 +25,10 @@ async function getAllProperties(
   }
   // const searchResult = convertToSerializableObject(searches)
 }
+async function getSelectedPropertyDetails(propertyId: string) {
+  await connectDB();
+  const selectedProperty = await Property.findById(propertyId).lean();
+  return selectedProperty;
+}
 
-export { getAllProperties };
+export { getAllProperties, getSelectedPropertyDetails };

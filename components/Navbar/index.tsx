@@ -1,6 +1,6 @@
-import LocalSwitcher from "@/components/Navbar/LocalSwitcher";
-import NavAuthDropdown from "@/components/Navbar/NavAuthDropdown";
-import Search from "@/components/Navbar/Search";
+import LocalSwitcher from "@/components/navbar/LocalSwitcher";
+import NavAuthDropdown from "@/components/navbar/NavAuthDropdown";
+import Search from "@/components/navbar/Search";
 import Image from "next/image";
 import Link from "next/link";
 
