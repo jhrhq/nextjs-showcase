@@ -1,4 +1,5 @@
 "use client";
+import { createReviewAction, getReviews } from "@/app/actions/reviewAction";
 import { Rating } from "@/components/Rating";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,49 +25,72 @@ import {
   ReviewInputSchema,
 } from "@/validationSchema/review-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaX } from "react-icons/fa6";
+import {
+  clientFormErrorState,
+  clientSuccessErrorState,
+} from "@/utils/client-form-error";
+import { FieldCustomError } from "./field-error";
+import { toast } from "sonner";
+import { ReviewType } from "./property-details/ReviewContainer";
+
+interface Props {
+  propertyId: string;
+  userId: string;
+  updateReviews: (reviews: ReviewType[]) => void;
+}
 
 const reviewFormDefaultValues = {
   comment: "",
   rating: 0,
+  property: "",
+  user: "",
+  isBooked: false,
 };
 
-const ReviewModal = () => {
+const ReviewModal: FC<Props> = ({ propertyId, userId, updateReviews }) => {
+  const [open, setOpen] = useState(false);
+
   const form = useForm<PropertyReview>({
     resolver: zodResolver(ReviewInputSchema),
     defaultValues: reviewFormDefaultValues,
+    values: { ...reviewFormDefaultValues, property: propertyId, user: userId },
   });
+  const reload = async () => {
+    try {
+      const data = await getReviews({ propertyId });
+      if (data) {
+        updateReviews(data.reviews);
+      }
+    } catch (err) {
+      console.log(err);
+      // toast({
+      //   variant: 'destructive',
+      //   description: t('Error in fetching reviews'),
+      // })
+    }
+  };
 
   async function onSubmit(values: PropertyReview) {
-    console.log(values);
+    try {
+      const result = await createReviewAction({ data: values });
+      if (result?.status) {
+        setOpen(false);
+        form.reset();
+        await reload();
+      }
+      if (!result?.status) {
+        clientSuccessErrorState(result?.message, form.setError);
+      }
+    } catch (error) {
+      clientFormErrorState(error, form.setError);
+    }
   }
 
-  // const handleOpenForm = async () => {
-  //   form.setValue('product', product._id)
-  //   form.setValue('user', userId!)
-  //   form.setValue('isBooked', true)
-
-  //   // setOpen(true)
-  // }
-  //   <FormField
-  //   control={form.control}
-  //   name='title'
-  //   render={({ field }) => (
-  //     <FormItem className='w-full'>
-  //       <FormLabel>{t('Title')}</FormLabel>
-  //       <FormControl>
-  //         <Input
-  //           placeholder={t('Enter title')}
-  //           {...field}
-  //         />
-  //       </FormControl>
-  //       <FormMessage />
-  //     </FormItem>
-  //   )}
-  // />
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           className="px-4 py-2 border border-primary rounded-lg hover:bg-gray-100"
@@ -94,6 +118,11 @@ const ReviewModal = () => {
           </DialogDescription>
           <Form {...form}>
             <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+              <FieldCustomError
+                errorMessage={
+                  form.formState?.errors?.root?.serverError?.message
+                }
+              />
               <div>
                 <FormField
                   control={form.control}

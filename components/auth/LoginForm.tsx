@@ -35,7 +35,7 @@ const LoginForm = () => {
   async function onSubmit(values: Login) {
     try {
       const result = await loginFormAction(values);
-      if (!result?.success) {
+      if (!result?.status) {
         clientSuccessErrorState(result?.message, form.setError);
       }
     } catch (error) {
