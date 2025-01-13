@@ -15,7 +15,7 @@ import PropertyAmenities from "@/components/property-details/PropertyAmenities";
 import PropertyFeatures from "@/components/property-details/PropertyFeatures";
 import PropertyHeader from "@/components/property-details/PropertyHeader";
 import PropertyImages from "@/components/property-details/PropertyImages";
-import ReviewCard from "@/components/property-details/ReviewCard";
+import ReviewContainer from "@/components/property-details/ReviewContainer";
 import ReviewHeader from "@/components/property-details/ReviewHeader";
 import { getSelectedPropertyDetails } from "@/db/queries";
 import { PropertyModelDoc } from "@/models/Property";
@@ -97,9 +97,9 @@ const PropertyDetails: FC<Props> = async ({ params: { id } }) => {
           rating={data?.avgRating}
           reviews={data?.reviews?.length}
         />
-        <div className="grid grid-cols-2 gap-8">
-          <ReviewCard />
-        </div>
+
+        <ReviewContainer propertyId={data._id} />
+
         {/* Show More Button */}
       </div>
 
