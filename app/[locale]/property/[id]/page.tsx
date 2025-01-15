@@ -11,14 +11,13 @@ import { auth } from "@/auth";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/navbar";
 import BookingCard from "@/components/property-details/BookingCard";
-import BookingCardForm from "@/components/property-details/BookingCardForm";
+import { BookingCardForm } from "@/components/property-details/BookingCardForm";
 import PropertyAmenities from "@/components/property-details/PropertyAmenities";
 import PropertyFeatures from "@/components/property-details/PropertyFeatures";
 import PropertyHeader from "@/components/property-details/PropertyHeader";
 import PropertyImages from "@/components/property-details/PropertyImages";
 import ReviewContainer from "@/components/property-details/ReviewContainer";
 import ReviewHeader from "@/components/property-details/ReviewHeader";
-import ReviewModal from "@/components/ReviewModal";
 import { getSelectedPropertyDetails } from "@/db/queries";
 import { PropertyModelDoc } from "@/models/Property";
 import { FC } from "react";
@@ -88,7 +87,10 @@ const PropertyDetails: FC<Props> = async ({ params: { id } }) => {
           </div>
           {/* Right Column: Booking Card */}
           <div>
-            <BookingCard pricePerNight={data?.pricePerNight}>
+            <BookingCard
+              pricePerNight={data?.pricePerNight}
+              rating={data?.avgRating}
+            >
               <BookingCardForm />
             </BookingCard>
           </div>

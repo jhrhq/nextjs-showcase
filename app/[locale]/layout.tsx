@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
+import { Toaster } from "@/components/ui/sonner";
 import VerificationStatus from "@/components/VerificationStatus";
 import { Locale } from "@/i18n/i18n.config";
 import { routing } from "@/i18n/routing";
@@ -58,6 +59,7 @@ export default async function RootLayout({
               />
               <>{auth}</>
               {children}
+              <Toaster />
             </SessionProvider>
           </NextIntlClientProvider>
         </main>
