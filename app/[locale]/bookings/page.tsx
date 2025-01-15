@@ -1,4 +1,4 @@
-import navbar from "@/components/navbar";
+import Navbar from "@/components/navbar";
 import { Metadata } from "next";
 import { FaDownload } from "react-icons/fa6";
 
