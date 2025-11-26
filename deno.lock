@@ -3,6 +3,7 @@
   "specifiers": {
     "npm:bright@1": "1.0.0_react@19.2.0",
     "npm:date-fns@^4.1.0": "4.1.0",
+    "npm:immer@11": "11.0.0",
     "npm:lucide-react@0.555": "0.555.0_react@19.2.0",
     "npm:next@^15.0.4": "15.5.6_react@19.2.0_react-dom@19.2.0__react@19.2.0",
     "npm:react-dom@19": "19.2.0_react@19.2.0",
@@ -286,6 +287,9 @@
     "howler@2.2.4": {
       "integrity": "sha512-iARIBPgcQrwtEr+tALF+rapJ8qSc+Set2GJQl7xT1MQzWaVkFebdJhR3alVlSiUf5U7nAANKuj3aWpwerocD5w=="
     },
+    "immer@11.0.0": {
+      "integrity": "sha512-XtRG4SINt4dpqlnJvs70O2j6hH7H0X8fUzFsjMn1rwnETaxwp83HLNimXBjZ78MrKl3/d3/pkzDH0o0Lkxm37Q=="
+    },
     "lucide-react@0.555.0_react@19.2.0": {
       "integrity": "sha512-D8FvHUGbxWBRQM90NZeIyhAvkFfsh3u9ekrMvJ30Z6gnpBHS6HC6ldLg7tL45hwiIz/u66eKDtdA23gwwGsAHA==",
       "dependencies": [
@@ -451,6 +455,7 @@
       "dependencies": [
         "npm:bright@1",
         "npm:date-fns@^4.1.0",
+        "npm:immer@11",
         "npm:lucide-react@0.555",
         "npm:next@^15.0.4",
         "npm:react-dom@19",
