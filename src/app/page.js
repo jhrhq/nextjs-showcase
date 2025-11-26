@@ -1,5 +1,6 @@
 
 import CodeSnippet from "../components/code-snippet";
+import Counter from "../components/counter";
 import DrumHeader from "../components/drum-header";
 import DrumMachine from "../components/drum-machines";
 import MainWrapper from "../components/main-wrapper";
@@ -10,6 +11,7 @@ import HitCounter from "./hit-counter";
 function Home() {
   return (
     <MainWrapper>
+      <Counter />
       <SoundEnabledProvider>
         <DrumHeader />
         <DrumMachine />
