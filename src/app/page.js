@@ -1,20 +1,20 @@
+
+import MainWrapper from "../components/main-wrapper";
 import HitCounter from "./hit-counter";
 
 
-
 function Home() {
-
   return (
-    <main>
-      <h1>Welcome!</h1>
-      <h2>Hello Next!</h2>
-      <p>You are visitor number <HitCounter />.</p>
-      <footer>
-        Page rendered on{' '}{
-          new Date().toLocaleString()
-        }
-      </footer>
-    </main>
+    <MainWrapper>
+      <h1>
+        Exploring the trade-offs with half-gauge vs.
+        full-gauge wire in laminated woodworking
+      </h1>
+      <h2>By Saanvi Agarwal and Vera Chauhan</h2>
+      <hr />
+      {/* ✂️ lots of <p> and <figure> tags here */}
+      <p>Page hit count <HitCounter /> </p>
+    </MainWrapper>
   );
 }
 
