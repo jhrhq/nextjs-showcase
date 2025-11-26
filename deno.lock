@@ -2,10 +2,12 @@
   "version": "5",
   "specifiers": {
     "npm:bright@1": "1.0.0_react@19.2.0",
+    "npm:lucide-react@0.555": "0.555.0_react@19.2.0",
     "npm:next@^15.0.4": "15.5.6_react@19.2.0_react-dom@19.2.0__react@19.2.0",
     "npm:react-dom@19": "19.2.0_react@19.2.0",
     "npm:react@19": "19.2.0",
-    "npm:styled-components@^6.1.19": "6.1.19_react@19.2.0_react-dom@19.2.0__react@19.2.0"
+    "npm:styled-components@^6.1.19": "6.1.19_react@19.2.0_react-dom@19.2.0__react@19.2.0",
+    "npm:use-sound@5": "5.0.0_react@19.2.0"
   },
   "npm": {
     "@code-hike/lighter@1.0.3": {
@@ -277,6 +279,15 @@
     "detect-libc@2.1.2": {
       "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ=="
     },
+    "howler@2.2.4": {
+      "integrity": "sha512-iARIBPgcQrwtEr+tALF+rapJ8qSc+Set2GJQl7xT1MQzWaVkFebdJhR3alVlSiUf5U7nAANKuj3aWpwerocD5w=="
+    },
+    "lucide-react@0.555.0_react@19.2.0": {
+      "integrity": "sha512-D8FvHUGbxWBRQM90NZeIyhAvkFfsh3u9ekrMvJ30Z6gnpBHS6HC6ldLg7tL45hwiIz/u66eKDtdA23gwwGsAHA==",
+      "dependencies": [
+        "react"
+      ]
+    },
     "nanoid@3.3.11": {
       "integrity": "sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==",
       "bin": true
@@ -422,16 +433,25 @@
     },
     "tslib@2.8.1": {
       "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="
+    },
+    "use-sound@5.0.0_react@19.2.0": {
+      "integrity": "sha512-MNHT3FFC5HxNCrgZtrnpIMJI2cw/0D2xismcrtyht8BTuF5FhFhb57xO/jlQr2xJaFrc/0btzRQvGyHQwB7PVA==",
+      "dependencies": [
+        "howler",
+        "react"
+      ]
     }
   },
   "workspace": {
     "packageJson": {
       "dependencies": [
         "npm:bright@1",
+        "npm:lucide-react@0.555",
         "npm:next@^15.0.4",
         "npm:react-dom@19",
         "npm:react@19",
-        "npm:styled-components@^6.1.19"
+        "npm:styled-components@^6.1.19",
+        "npm:use-sound@5"
       ]
     }
   }

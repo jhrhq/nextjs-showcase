@@ -1,0 +1,34 @@
+"use client";
+import { Volume2, VolumeX } from "lucide-react";
+import React from "react";
+
+import MaxWidthWrapper from "../max-width-wrapper";
+import { useSoundEnabled } from "../sound-enabled-provider/sound-enabled-provider";
+import VisuallyHidden from "../visually-hidden";
+import styles from "./DrumHeader.module.css";
+
+function DrumHeader() {
+  const id = React.useId();
+
+  const { soundEnabled, setSoundEnabled } = useSoundEnabled();
+  return (
+    <header className={styles.wrapper}>
+      <MaxWidthWrapper className={styles.innerWrapper}>
+        <a href="/">Kool Website</a>
+
+        <button
+          onClick={() => {
+            setSoundEnabled(!soundEnabled);
+          }}
+        >
+          {soundEnabled ? <Volume2 /> : <VolumeX />}
+          <VisuallyHidden>
+            {soundEnabled ? "Disable sound effects" : "Enable sound effects"}
+          </VisuallyHidden>
+        </button>
+      </MaxWidthWrapper>
+    </header>
+  );
+}
+
+export default DrumHeader;
