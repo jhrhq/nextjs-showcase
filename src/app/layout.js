@@ -1,4 +1,6 @@
-import React from 'react';
+
+import ToastProvider from '../components/next-routing/ToastProvider';
+import ToastShelf from '../components/next-routing/ToastShelf/ToastShelf';
 
 import './styles.css';
 
@@ -6,8 +8,10 @@ function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {children}
-
+        <ToastProvider>
+          {children}
+          <ToastShelf />
+        </ToastProvider>
       </body>
     </html>
   );
