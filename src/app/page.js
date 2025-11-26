@@ -1,4 +1,5 @@
 
+import CodeSnippet from "../components/code-snippet";
 import MainWrapper from "../components/main-wrapper";
 import HitCounter from "./hit-counter";
 
@@ -6,6 +7,7 @@ import HitCounter from "./hit-counter";
 function Home() {
   return (
     <MainWrapper>
+      <CodeSnippet />
       <h1>
         Exploring the trade-offs with half-gauge vs.
         full-gauge wire in laminated woodworking

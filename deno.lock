@@ -1,12 +1,20 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:bright@1": "1.0.0_react@19.2.0",
     "npm:next@^15.0.4": "15.5.6_react@19.2.0_react-dom@19.2.0__react@19.2.0",
     "npm:react-dom@19": "19.2.0_react@19.2.0",
     "npm:react@19": "19.2.0",
     "npm:styled-components@^6.1.19": "6.1.19_react@19.2.0_react-dom@19.2.0__react@19.2.0"
   },
   "npm": {
+    "@code-hike/lighter@1.0.3": {
+      "integrity": "sha512-LU0TbZfu3L3fQZ7y9tZHttnxyFm7ewU96arGMFnjLbvFj+onYfVkznhQOmU1ZsQtv9rpQzZ313GRz6hCGDrlJQ==",
+      "dependencies": [
+        "ansi-sequence-parser",
+        "tm-grammars"
+      ]
+    },
     "@emnapi/runtime@1.7.1": {
       "integrity": "sha512-PVtJr5CmLwYAU9PZDMITZoR5iAOShYREoR45EyyLrbntV50mdePTgUn4AmOw90Ifcj+x2kRjdzr1HP3RrNiHGA==",
       "dependencies": [
@@ -232,6 +240,17 @@
     "@types/stylis@4.2.5": {
       "integrity": "sha512-1Xve+NMN7FWjY14vLoY5tL3BVEQ/n42YLwaqJIPYhotZ9uBHt87VceMwWQpzmdEt2TNXIorIFG+YeCUUW7RInw=="
     },
+    "ansi-sequence-parser@1.1.1": {
+      "integrity": "sha512-vJXt3yiaUL4UU546s3rPXlsry/RnM730G1+HkpKE012AN0sx1eOrxSu95oKDIonskeLTijMgqWZ3uDEe3NFvyg=="
+    },
+    "bright@1.0.0_react@19.2.0": {
+      "integrity": "sha512-AX93OXFCdQQrnCmyZ85gazHhKBfKcTLnj7Hx3DM3vJwuU7VONDlB58vh3hJZ9rKWLTULbScAmuapgNgzK4u4fQ==",
+      "dependencies": [
+        "@code-hike/lighter",
+        "react",
+        "server-only"
+      ]
+    },
     "camelize@1.0.1": {
       "integrity": "sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ=="
     },
@@ -325,6 +344,9 @@
       "integrity": "sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==",
       "bin": true
     },
+    "server-only@0.0.1": {
+      "integrity": "sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA=="
+    },
     "shallowequal@1.1.0": {
       "integrity": "sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ=="
     },
@@ -392,6 +414,9 @@
     "stylis@4.3.2": {
       "integrity": "sha512-bhtUjWd/z6ltJiQwg0dUfxEJ+W+jdqQd8TbWLWyeIJHlnsqmGLRFFd8e5mA0AZi/zx90smXRlN66YMTcaSFifg=="
     },
+    "tm-grammars@1.25.3": {
+      "integrity": "sha512-3o/WgiU7JfzK04KnzilL7m4FUMttlR/+dN0oYtta2J7DWdO/dwFNg/RkcqcpArYkNXKzCRe/74FP/fG5sT3m5w=="
+    },
     "tslib@2.6.2": {
       "integrity": "sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q=="
     },
@@ -402,6 +427,7 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:bright@1",
         "npm:next@^15.0.4",
         "npm:react-dom@19",
         "npm:react@19",
