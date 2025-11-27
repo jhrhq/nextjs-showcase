@@ -4,6 +4,7 @@
     "npm:bright@1": "1.0.0_react@19.2.0",
     "npm:date-fns@^4.1.0": "4.1.0",
     "npm:immer@11": "11.0.0",
+    "npm:lorem-ipsum@^2.0.8": "2.0.8",
     "npm:lucide-react@0.555": "0.555.0_react@19.2.0",
     "npm:next@^15.0.4": "15.5.6_react@19.2.0_react-dom@19.2.0__react@19.2.0",
     "npm:react-dom@19": "19.2.0_react@19.2.0",
@@ -264,6 +265,9 @@
     "client-only@0.0.1": {
       "integrity": "sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA=="
     },
+    "commander@9.5.0": {
+      "integrity": "sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ=="
+    },
     "css-color-keywords@1.0.0": {
       "integrity": "sha512-FyyrDHZKEjXDpNJYvVsV960FiqQyXc/LlYmsxl2BcdMb2WPx0OGRVgTg55rPSyLSNMqP52R9r8geSp7apN3Ofg=="
     },
@@ -289,6 +293,13 @@
     },
     "immer@11.0.0": {
       "integrity": "sha512-XtRG4SINt4dpqlnJvs70O2j6hH7H0X8fUzFsjMn1rwnETaxwp83HLNimXBjZ78MrKl3/d3/pkzDH0o0Lkxm37Q=="
+    },
+    "lorem-ipsum@2.0.8": {
+      "integrity": "sha512-5RIwHuCb979RASgCJH0VKERn9cQo/+NcAi2BMe9ddj+gp7hujl6BI+qdOG4nVsLDpwWEJwTVYXNKP6BGgbcoGA==",
+      "dependencies": [
+        "commander"
+      ],
+      "bin": true
     },
     "lucide-react@0.555.0_react@19.2.0": {
       "integrity": "sha512-D8FvHUGbxWBRQM90NZeIyhAvkFfsh3u9ekrMvJ30Z6gnpBHS6HC6ldLg7tL45hwiIz/u66eKDtdA23gwwGsAHA==",
@@ -456,6 +467,7 @@
         "npm:bright@1",
         "npm:date-fns@^4.1.0",
         "npm:immer@11",
+        "npm:lorem-ipsum@^2.0.8",
         "npm:lucide-react@0.555",
         "npm:next@^15.0.4",
         "npm:react-dom@19",
