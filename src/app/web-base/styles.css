@@ -1,0 +1,146 @@
+html {
+  background-position: bottom center;
+  background: radial-gradient(
+    circle at 50% 100%,
+    hsl(260deg 100% 90%),
+    hsl(260deg 100% 100%)
+  );
+}
+
+.web-base {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+  max-width: 1000px;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0 auto;
+  font-weight: 300;
+  font-family: var(--font-family-primary),
+    sans-serif;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid
+    hsl(260deg 50% 50% / 0.1);
+}
+.site-header .logo {
+  font-size: 1.5rem;
+  font-weight: 500;
+  background: hsl(260deg 100% 50%);
+  color: white;
+  padding: 24px;
+  text-decoration: none;
+  margin-bottom: -1px;
+}
+.site-header nav {
+  overflow: auto;
+  padding: 24px;
+}
+.header-nav-links {
+  display: flex;
+  gap: 32px;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+.site-header .header-nav-link {
+  text-decoration: none;
+  color: black;
+}
+.site-header .header-nav-link.primary {
+  color: hsl(260deg 100% 50%);
+}
+
+main {
+  flex: 1;
+  padding: 24px;
+  font-size: 1rem;
+}
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  background: hsl(260deg 50% 50% / 0.1);
+  padding: 24px;
+}
+.site-footer .logo-wrapper {
+  flex-shrink: 10000;
+}
+.site-footer .logo {
+  display: block;
+  width: max-content;
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  background: hsl(260deg 100% 50%);
+  color: white;
+  padding: 16px 24px;
+  text-decoration: none;
+}
+.site-footer .disclaimer {
+  font-size: 0.875rem;
+}
+.site-footer .link-wrapper {
+  display: flex;
+  gap: 48px;
+}
+.site-footer h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5em;
+}
+.site-footer ol {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 1rem;
+}
+.site-footer ol a {
+  color: inherit;
+  text-decoration: none;
+}
+.site-footer ol a:hover {
+  text-decoration: underline;
+}
+
+/* One-off styles for fake hero */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3.25rem;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.25;
+}
+.hero .subheading {
+  max-width: 600px;
+  font-size: 1.5rem;
+  margin-bottom: 2em;
+}
+.hero button {
+  background: hsl(250deg 100% 60%);
+  color: white;
+  border-radius: 2px;
+  border: none;
+  font-size: 1.5rem;
+  padding: 16px 48px;
+  font-weight: 500;
+  border-bottom: 6px solid hsl(260deg 100% 30%);
+}
+
+.hero button:active {
+  border-bottom-width: 2px;
+  transform: translateY(4px);
+}
