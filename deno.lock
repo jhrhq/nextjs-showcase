@@ -6,6 +6,7 @@
     "npm:immer@11": "11.0.0",
     "npm:lorem-ipsum@^2.0.8": "2.0.8",
     "npm:lucide-react@0.555": "0.555.0_react@19.2.0",
+    "npm:motion@^12.23.24": "12.23.24_react@19.2.0_react-dom@19.2.0__react@19.2.0",
     "npm:next@^15.0.4": "15.5.6_react@19.2.0_react-dom@19.2.0__react@19.2.0",
     "npm:react-dom@19": "19.2.0_react@19.2.0",
     "npm:react@19": "19.2.0",
@@ -288,6 +289,20 @@
     "detect-libc@2.1.2": {
       "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ=="
     },
+    "framer-motion@12.23.24_react@19.2.0_react-dom@19.2.0__react@19.2.0": {
+      "integrity": "sha512-HMi5HRoRCTou+3fb3h9oTLyJGBxHfW+HnNE25tAXOvVx/IvwMHK0cx7IR4a2ZU6sh3IX1Z+4ts32PcYBOqka8w==",
+      "dependencies": [
+        "motion-dom",
+        "motion-utils",
+        "react",
+        "react-dom",
+        "tslib@2.8.1"
+      ],
+      "optionalPeers": [
+        "react",
+        "react-dom"
+      ]
+    },
     "howler@2.2.4": {
       "integrity": "sha512-iARIBPgcQrwtEr+tALF+rapJ8qSc+Set2GJQl7xT1MQzWaVkFebdJhR3alVlSiUf5U7nAANKuj3aWpwerocD5w=="
     },
@@ -305,6 +320,28 @@
       "integrity": "sha512-D8FvHUGbxWBRQM90NZeIyhAvkFfsh3u9ekrMvJ30Z6gnpBHS6HC6ldLg7tL45hwiIz/u66eKDtdA23gwwGsAHA==",
       "dependencies": [
         "react"
+      ]
+    },
+    "motion-dom@12.23.23": {
+      "integrity": "sha512-n5yolOs0TQQBRUFImrRfs/+6X4p3Q4n1dUEqt/H58Vx7OW6RF+foWEgmTVDhIWJIMXOuNNL0apKH2S16en9eiA==",
+      "dependencies": [
+        "motion-utils"
+      ]
+    },
+    "motion-utils@12.23.6": {
+      "integrity": "sha512-eAWoPgr4eFEOFfg2WjIsMoqJTW6Z8MTUCgn/GZ3VRpClWBdnbjryiA3ZSNLyxCTmCQx4RmYX6jX1iWHbenUPNQ=="
+    },
+    "motion@12.23.24_react@19.2.0_react-dom@19.2.0__react@19.2.0": {
+      "integrity": "sha512-Rc5E7oe2YZ72N//S3QXGzbnXgqNrTESv8KKxABR20q2FLch9gHLo0JLyYo2hZ238bZ9Gx6cWhj9VO0IgwbMjCw==",
+      "dependencies": [
+        "framer-motion",
+        "react",
+        "react-dom",
+        "tslib@2.8.1"
+      ],
+      "optionalPeers": [
+        "react",
+        "react-dom"
       ]
     },
     "nanoid@3.3.11": {
@@ -469,6 +506,7 @@
         "npm:immer@11",
         "npm:lorem-ipsum@^2.0.8",
         "npm:lucide-react@0.555",
+        "npm:motion@^12.23.24",
         "npm:next@^15.0.4",
         "npm:react-dom@19",
         "npm:react@19",
