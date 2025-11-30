@@ -13,22 +13,20 @@ function Toggle({
       role="switch"
       aria-checked={value}
       className={styles.wrapper}
+      style={{
+        justifyContent: value ? "flex-end" : 'flex-start'
+      }}
       onClick={() => onChange(!value)}
       {...delegated}
     >
 
       <motion.span
         className={styles.ball}
-        initial={false}
-
+        layout={true}
         transition={{
           type: 'spring',
           stifness: 500,
           damping: 40
-        }}
-
-        animate={{
-          x: value ? '100%' : '0%'
         }}
       />
     </button>
