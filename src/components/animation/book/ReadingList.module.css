@@ -1,0 +1,54 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.wrapper {
+  width: 200px;
+  padding: 16px;
+  background: hsl(210deg 15% 6%);
+  color: white;
+}
+.wrapper h2 {
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  text-align: center;
+  border-bottom: 4px dotted hsl(0deg 0% 30%);
+  animation: fadeIn 500ms both;
+  animation-delay: 200ms;
+}
+.books li {
+  position: relative;
+  height: 50px;
+}
+.bookCover {
+  display: block;
+  aspect-ratio: 7.25 / 11;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0px -22px 16px -16px hsl(0deg 0% 0% / 0.4);
+  will-change: transform;
+}
+.deleteBtn {
+  --size: 40px;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: hsl(0deg 0% 0% / 0.4);
+  color: white;
+  border: none;
+  width: var(--size);
+  height: var(--size);
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  backdrop-filter: blur(2px);
+  cursor: pointer;
+  animation: fadeIn 500ms 200ms both;
+}

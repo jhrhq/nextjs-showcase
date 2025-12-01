@@ -1,4 +1,5 @@
 import AnimationMarginWrapper from "@/components/animation/animation-margin-wrapper"
+import BookPage from "@/components/animation/book"
 import CoinSorter from "@/components/animation/coinSorter"
 import FlexDemo from "@/components/animation/flex-demo"
 import ToggleRender from "@/components/animation/toggleRender"
@@ -33,6 +34,10 @@ export default function EnterAnimation() {
           numOfCoins={6}
         />
       </AnimationMarginWrapper>
+      <AnimationMarginWrapper title={'Book'} >
+        <BookPage />
+      </AnimationMarginWrapper>
+
       <div style={{ paddingBottom: 200 }}></div>
     </>
   )
