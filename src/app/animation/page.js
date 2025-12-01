@@ -1,4 +1,5 @@
 import AnimationMarginWrapper from "@/components/animation/animation-margin-wrapper"
+import CoinSorter from "@/components/animation/coinSorter"
 import FlexDemo from "@/components/animation/flex-demo"
 import ToggleRender from "@/components/animation/toggleRender"
 import WidgetProcessorRender from "@/components/animation/windget-processor-render"
@@ -27,7 +28,11 @@ export default function EnterAnimation() {
       <AnimationMarginWrapper title={'Widget Process'} >
         <WidgetProcessorRender />
       </AnimationMarginWrapper>
-
+      <AnimationMarginWrapper title={'Coin Sorter'} >
+        <CoinSorter
+          numOfCoins={6}
+        />
+      </AnimationMarginWrapper>
       <div style={{ paddingBottom: 200 }}></div>
     </>
   )
