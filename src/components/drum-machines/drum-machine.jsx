@@ -1,7 +1,7 @@
 "use client";
 import useSound from "use-sound";
 
-import { useSoundEnabled } from "../sound-enabled-provider/sound-enabled-provider";
+import { useSoundEnabled } from "@/components/sound-enabled-provider/sound-enabled-provider";
 import styles from "./DrumMachine.module.css";
 const SOUND_SRC = "/909-drums.mp3";
 

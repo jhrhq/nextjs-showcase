@@ -1,38 +1,23 @@
 
-import CodeSnippet from "../components/code-snippet";
-import Counter from "../components/counter";
-import DrumHeader from "../components/drum-header";
-import DrumMachine from "../components/drum-machines";
-import MainWrapper from "../components/main-wrapper";
-import SoundEnabledProvider from "../components/sound-enabled-provider/sound-enabled-provider";
-import HitCounter from "./hit-counter";
 
+import BlogSummaryCard from '@/components/blog/BlogSummaryCard';
+import styles from './homepage.module.css';
 
 function Home() {
   return (
-    <MainWrapper>
-      <Counter />
-      <SoundEnabledProvider>
-        <DrumHeader />
-        <DrumMachine />
-      </SoundEnabledProvider>
-      <footer>
-        <img
-          src="/ie-badge.gif"
-          width={100}
-        />
-        <span>Thanks for visiting!</span>
-      </footer>
-      <CodeSnippet />
-      <h1>
-        Exploring the trade-offs with half-gauge vs.
-        full-gauge wire in laminated woodworking
+    <div className={styles.wrapper}>
+      <h1 className={styles.mainHeading}>
+        Latest Content:
       </h1>
-      <h2>By Saanvi Agarwal and Vera Chauhan</h2>
-      <hr />
-      {/* ✂️ lots of <p> and <figure> tags here */}
-      <p>Page hit count <HitCounter /> </p>
-    </MainWrapper>
+
+      {/* TODO: Iterate over the data read from the file system! */}
+      <BlogSummaryCard
+        slug="example"
+        title="Hello world!"
+        abstract="This is a placeholder, an example which shows how the “BlogSummaryCard” component should be used. You'll want to swap this out based on the data from the various MDX files!"
+        publishedOn={new Date()}
+      />
+    </div>
   );
 }
 

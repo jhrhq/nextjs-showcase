@@ -2,9 +2,9 @@
 import { Volume2, VolumeX } from "lucide-react";
 import React from "react";
 
-import MaxWidthWrapper from "../max-width-wrapper";
-import { useSoundEnabled } from "../sound-enabled-provider/sound-enabled-provider";
-import VisuallyHidden from "../visually-hidden";
+import MaxWidthWrapper from "@/components/max-width-wrapper";
+import { useSoundEnabled } from "@/components/sound-enabled-provider/sound-enabled-provider";
+import VisuallyHidden from "@/components/visually-hidden";
 import styles from "./DrumHeader.module.css";
 
 function DrumHeader() {

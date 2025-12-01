@@ -1,5 +1,5 @@
 /*
-  Josh's Custom CSS Reset
+  CSS RESET
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
 *,
@@ -10,9 +10,8 @@
 * {
   margin: 0;
 }
-html,
-body {
-  height: 100%;
+html {
+  scrollbar-gutter: stable;
 }
 body {
   line-height: 1.5;
@@ -41,35 +40,137 @@ h5,
 h6 {
   overflow-wrap: break-word;
 }
-#root,
-#__next {
-  isolation: isolate;
+
+/* THEME VARIABLES */
+html {
+  --content-width: 55rem;
+  --outer-content-width: 80rem;
+  --viewport-padding: 16px;
+  --header-height: 5rem;
+  --trimmed-content-width: calc(
+    var(--content-width) - var(--viewport-padding) * 2
+  );
 }
 
-/* Minimal styles */
+@media (min-width: 35rem) {
+  html {
+    --viewport-padding: 24px;
+  }
+}
+
+/* GLOBAL STYLES */
+::selection {
+  background-color: var(
+    --color-selection-background
+  ) !important;
+  color: var(--color-selection-text) !important;
+  background-image: none !important;
+  -webkit-text-fill-color: var(
+    --color-selection-text
+  ) !important;
+  -moz-text-fill-color: var(
+    --color-selection-text
+  ) !important;
+  background-image: none !important;
+  background-clip: revert !important;
+  -webkit-background-clip: revert !important;
+  text-shadow: none !important;
+}
+
+html {
+  color: var(--color-text);
+  font-family: var(--font-family), sans-serif;
+  letter-spacing: -0.03125em;
+  background: var(--color-backdrop-highlight);
+}
+
 body {
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  padding: 16px;
-  min-height: 100%;
-  font-family: sans-serif;
-  background: hsl(0deg 0% 95%);
-  color: hsl(0deg 0% 10%);
+  background: var(--color-backdrop);
+  border-bottom: 3px solid var(--color-decorative-600);
 }
-main {
-  width: 100%;
-  max-width: 800px;
-  padding: 16px 24px;
-  margin: 0px auto;
-  border: 1px solid hsl(0deg 0% 50% / 0.3);
-  border-radius: 2px;
-  background: white;
+
+body::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50vh;
+  background: linear-gradient(
+    to top,
+    var(--color-backdrop),
+    var(--color-backdrop-highlight)
+  );
 }
-footer {
-  width: 100%;
-  font-size: 0.875rem;
-  color: hsl(0deg 0% 30%);
-  text-align: center;
-  padding: 32px 0px;
+
+body > main {
+  flex: 1;
+  position: relative;
+}
+
+em {
+  font-style: italic;
+}
+code {
+  font-family: var(--font-family-mono);
+}
+h1 {
+  font-size: 1.75rem;
+  font-weight: 650;
+}
+h2 {
+  font-size: 1.5rem;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+h3 {
+  font-size: 1.25rem;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  font-weight: 500;
+}
+p {
+  font-size: 1.25rem;
+  margin-bottom: 1.5em;
+}
+p code {
+  display: inline-block;
+  font-size: 0.9em;
+  background: var(--color-inline-code-bg);
+  padding: 3px 6px;
+  margin: -0.25em -1px;
+  border-radius: 3px;
+}
+a {
+  color: currentColor;
+  text-decoration-color: var(--color-primary);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.125em;
+  font-weight: 500;
+  transition: all 200ms;
+}
+a:hover {
+  text-underline-offset: 0.175em;
+}
+button {
+  padding: 0;
+}
+
+@media (min-width: 35rem) {
+  h1 {
+    font-size: 2.25rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
 }
