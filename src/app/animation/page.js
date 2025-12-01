@@ -1,6 +1,7 @@
 import AnimationMarginWrapper from "@/components/animation/animation-margin-wrapper"
 import FlexDemo from "@/components/animation/flex-demo"
 import ToggleRender from "@/components/animation/toggleRender"
+import WidgetProcessorRender from "@/components/animation/windget-processor-render"
 import * as motion from "motion/react-client"
 
 export default function EnterAnimation() {
@@ -23,6 +24,10 @@ export default function EnterAnimation() {
       <AnimationMarginWrapper title={'After render On click animation'} >
         <FlexDemo />
       </AnimationMarginWrapper>
+      <AnimationMarginWrapper title={'Widget Process'} >
+        <WidgetProcessorRender />
+      </AnimationMarginWrapper>
+
       <div style={{ paddingBottom: 200 }}></div>
     </>
   )

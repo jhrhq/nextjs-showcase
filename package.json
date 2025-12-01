@@ -11,6 +11,7 @@
     "bright": "^1.0.0",
     "date-fns": "^4.1.0",
     "immer": "^11.0.0",
+    "lodash.range": "^3.2.0",
     "lorem-ipsum": "^2.0.8",
     "lucide-react": "^0.555.0",
     "motion": "^12.23.24",
