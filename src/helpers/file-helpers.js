@@ -1,31 +1,37 @@
-import fs from 'fs';
 import matter from 'gray-matter';
-import path from 'path';
+import * as path from "node:path";
 
-export function readFile(localPath) {
-  return fs.readFileSync(
-    path.join(process.cwd(), localPath),
-    'utf8'
-  );
+
+export async function readFile(localPath) {
+  const fullPath = path.join(Deno.cwd(), localPath);
+  return Deno.readTextFile(fullPath);
 }
 
-export function writeFile(localPath, content) {
-  return fs.writeFileSync(
-    path.join(process.cwd(), localPath),
-    content,
-    { encoding: 'utf8' }
-  );
+export async function writeFile(localPath, content) {
+  const fullPath = path.join(Deno.cwd(), localPath);
+  await Deno.writeTextFile(fullPath, content);
+}
+
+async function readDirectory(localPath) {
+  const fullPath = path.join(Deno.cwd(), localPath);
+  const fileNames = [];
+
+  for await (const dirEntry of Deno.readDir(fullPath)) {
+    if (dirEntry.isFile) {
+      fileNames.push(dirEntry.name);
+    }
+  }
+  return fileNames;
 }
 
 
 export async function getBlogPostList() {
-  const fileNames = await readDirectory('/content');
-
+  const fileNames = await readDirectory('content');
   const blogPosts = [];
 
-  for (let fileName of fileNames) {
+  for (const fileName of fileNames) {
     const rawContent = await readFile(
-      `/content/${fileName}`
+      path.join('content', fileName)
     );
 
     const { data: frontmatter } = matter(rawContent);
@@ -43,24 +49,11 @@ export async function getBlogPostList() {
 
 export async function loadBlogPost(slug) {
   const rawContent = await readFile(
-    `/content/${slug}.mdx`
+    path.join('content', `${slug}.mdx`)
   );
 
   const { data: frontmatter, content } =
     matter(rawContent);
 
   return { frontmatter, content };
-}
-
-function readFile(localPath) {
-  return fs.readFile(
-    path.join(process.cwd(), localPath),
-    'utf8'
-  );
-}
-
-function readDirectory(localPath) {
-  return fs.readdir(
-    path.join(process.cwd(), localPath)
-  );
 }
