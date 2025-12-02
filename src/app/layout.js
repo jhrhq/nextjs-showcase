@@ -31,6 +31,7 @@ function RootLayout({ children }) {
   const theme = 'light';
 
   return (
+
     <html
       lang="en"
       className={clsx(mainFont.variable, monoFont.variable)}
@@ -39,7 +40,11 @@ function RootLayout({ children }) {
     >
       <body>
         <Header theme={theme} />
-        <main>{children}</main>
+        <main>
+          {/* <RespectMotionPreference> */}
+          {children}
+          {/* </RespectMotionPreference> */}
+        </main>
         <Footer />
       </body>
     </html>

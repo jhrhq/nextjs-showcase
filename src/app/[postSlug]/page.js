@@ -2,8 +2,10 @@
 import BlogHero from '@/components/blog/BlogHero';
 
 import { loadBlogPost } from '@/helpers/file-helpers';
+import MDX_CMPONENTS from '@/helpers/mdx-components';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import styles from './postSlug.module.css';
+
 
 export async function generateMetadata({ params }) {
   const { frontmatter } = await loadBlogPost(params.postSlug)
@@ -20,7 +22,7 @@ async function BlogPost({ params }) {
       <BlogHero
         {...frontmatter} />
       <div className={styles.page}>
-        <MDXRemote source={content} />
+        <MDXRemote source={content} components={MDX_CMPONENTS} />
       </div>
     </article>
   );
