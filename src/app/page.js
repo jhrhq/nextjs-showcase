@@ -1,5 +1,3 @@
-
-
 import BlogSummaryCard from '@/components/blog/BlogSummaryCard';
 import { getBlogPostList } from '@/helpers/file-helpers';
 import styles from './homepage.module.css';
@@ -14,6 +12,7 @@ async function Home() {
 
       {blogPosts.map(
         ({ slug, ...delegated }) => <BlogSummaryCard
+          key={slug}
           slug={slug}
           {...delegated}
         />
