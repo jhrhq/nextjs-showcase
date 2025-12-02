@@ -4,10 +4,10 @@ import {
   Work_Sans,
 } from 'next/font/google';
 
-import { DARK_TOKENS, LIGHT_TOKENS } from '@/constants';
-
 import Footer from '@/components/blog/Footer';
 import Header from '@/components/blog/Header';
+import { COLOR_COOKIE_NAME, DARK_TOKENS, LIGHT_TOKENS } from '@/constants';
+import { cookies } from 'next/headers';
 import './styles.css';
 
 const mainFont = Work_Sans({
@@ -27,8 +27,8 @@ export const metadata = {
   description: 'A wonderful blog about javascript'
 }
 function RootLayout({ children }) {
-  // TODO: Dynamic theme depending on user preference
-  const theme = 'light';
+  const savedTheme = cookies().get(COLOR_COOKIE_NAME)
+  const theme = savedTheme?.value || 'light';
 
   return (
 
@@ -39,7 +39,7 @@ function RootLayout({ children }) {
       style={theme === 'light' ? LIGHT_TOKENS : DARK_TOKENS}
     >
       <body>
-        <Header theme={theme} />
+        <Header initialTheme={theme} />
         <main>
           {/* <RespectMotionPreference> */}
           {children}
