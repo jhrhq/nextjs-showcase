@@ -1,6 +1,6 @@
 import matter from 'gray-matter';
 import * as path from "node:path";
-
+import React from 'react';
 
 export async function readFile(localPath) {
   const fullPath = path.join(Deno.cwd(), localPath);
@@ -47,13 +47,15 @@ export async function getBlogPostList() {
   );
 }
 
-export async function loadBlogPost(slug) {
-  const rawContent = await readFile(
-    path.join('content', `${slug}.mdx`)
-  );
+export const loadBlogPost = React.cache(
+  async function loadBlogPost(slug) {
+    const rawContent = await readFile(
+      path.join('content', `${slug}.mdx`)
+    );
 
-  const { data: frontmatter, content } =
-    matter(rawContent);
+    const { data: frontmatter, content } =
+      matter(rawContent);
 
-  return { frontmatter, content };
-}
+    return { frontmatter, content };
+  }
+)
