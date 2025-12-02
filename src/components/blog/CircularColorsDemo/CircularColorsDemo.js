@@ -1,6 +1,5 @@
 'use client'
 import Card from '@/components/blog/Card';
-import VisuallyHidden from '@/components/VisuallyHidden';
 import clsx from 'clsx';
 import {
   Play,
@@ -9,6 +8,7 @@ import {
 import { motion } from 'motion/react';
 import React from 'react';
 
+import VisuallyHidden from '@/components/visually-hidden';
 import { Pause } from 'lucide-react';
 import styles from './CircularColorsDemo.module.css';
 
@@ -23,7 +23,7 @@ function CircularColorsDemo() {
   // idle / playing
   const [status, setStatus] = React.useState('idle');
 
-  const [timeElapsed, setTimeElapsed] = React.useState();
+  const [timeElapsed, setTimeElapsed] = React.useState(0);
 
   React.useEffect(() => {
     if (status !== 'playing') {
