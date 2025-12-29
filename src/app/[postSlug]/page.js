@@ -8,7 +8,9 @@ import styles from './postSlug.module.css';
 
 
 export async function generateMetadata({ params }) {
-  const { frontmatter } = await loadBlogPost(params.postSlug)
+  const { postSlug } = await params;
+  const { frontmatter } = await loadBlogPost(postSlug)
+
   return {
     title: frontmatter.title,
     description: frontmatter.abstract
@@ -16,7 +18,9 @@ export async function generateMetadata({ params }) {
 }
 
 async function BlogPost({ params }) {
-  const { frontmatter, content } = await loadBlogPost(params.postSlug)
+  const { postSlug } = await params;
+  const { frontmatter, content } = await loadBlogPost(postSlug);
+
   return (
     <article className={styles.wrapper}>
       <BlogHero

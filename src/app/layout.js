@@ -26,9 +26,10 @@ export const metadata = {
   title: 'Bits & Bytes',
   description: 'A wonderful blog about javascript'
 }
-function RootLayout({ children }) {
-  const savedTheme = cookies().get(COLOR_COOKIE_NAME)
-  const theme = savedTheme?.value || 'light';
+async function RootLayout({ children }) {
+  const savedTheme = await cookies();
+  const themValue = savedTheme.get(COLOR_COOKIE_NAME)
+  const theme = themValue?.value || 'light';
 
   return (
 
