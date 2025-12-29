@@ -1,26 +1,39 @@
 import matter from 'gray-matter';
-import * as path from "node:path";
+import { writeFile as fsWriteFile, opendir, readFile } from 'node:fs/promises';
+import path from 'node:path';
 import React from 'react';
 
-export async function readFile(localPath) {
-  const fullPath = path.join(Deno.cwd(), localPath);
-  return Deno.readTextFile(fullPath);
+
+export async function readFileAsText(localPath) {
+  const fullPath = path.join(process.cwd(), localPath);
+
+  // Node's equivalent requires an explicit encoding to return a string
+  return await readFile(fullPath, { encoding: 'utf8' });
 }
+
+
 
 export async function writeFile(localPath, content) {
-  const fullPath = path.join(Deno.cwd(), localPath);
-  await Deno.writeTextFile(fullPath, content);
+  const fullPath = path.join(process.cwd(), localPath);
+
+  // Node's equivalent to Deno.writeTextFile
+  await fsWriteFile(fullPath, content, { encoding: 'utf8' });
 }
 
+
 async function readDirectory(localPath) {
-  const fullPath = path.join(Deno.cwd(), localPath);
+  const fullPath = path.join(process.cwd(), localPath);
   const fileNames = [];
 
-  for await (const dirEntry of Deno.readDir(fullPath)) {
-    if (dirEntry.isFile) {
+  // opendir returns an async iterator similar to Deno.readDir
+  const dir = await opendir(fullPath);
+
+  for await (const dirEntry of dir) {
+    if (dirEntry.isFile()) { // Note: Node uses a method .isFile()
       fileNames.push(dirEntry.name);
     }
   }
+
   return fileNames;
 }
 
