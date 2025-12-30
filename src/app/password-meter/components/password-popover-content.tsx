@@ -1,11 +1,8 @@
 import range from "lodash.range";
-import { LucideDot } from "lucide-react";
-import type { Key, ReactNode } from "react";
+// import { LucideDot } from "lucide-react";
+import type { Key } from "react";
 import { CustomProgress } from "@/app/password-meter/components/custom-progress";
-import {
-  checkPasswordStrength,
-  PasswordStrength,
-} from "@/app/password-meter/utils";
+import { checkPasswordStrength } from "@/app/password-meter/utils";
 import { cn } from "@/lib/utils";
 
 const progressObj = {
@@ -17,8 +14,7 @@ const progressObj = {
 };
 
 const PasswordPopoverContent = (props: { value: string }) => {
-  const { score, strength, hasLowercase, hasUppercase, hasNumber, hasSymbol } =
-    checkPasswordStrength(props.value);
+  const { strength } = checkPasswordStrength(props.value);
   const progressRange = range(1, 5);
   return (
     <div>
@@ -110,7 +106,7 @@ const PasswordPopoverContent = (props: { value: string }) => {
 
 export default PasswordPopoverContent;
 
-const CircleCheckSvg = ({ className }: { className?: string }) => {
+/* const CircleCheckSvg = ({ className }: { className?: string }) => {
   return (
     <span
       className={cn(
@@ -136,8 +132,8 @@ const CircleCheckSvg = ({ className }: { className?: string }) => {
     </span>
   );
 };
-
-const CheckList = ({
+ */
+/* const CheckList = ({
   isChecked,
   children,
 }: {
@@ -160,3 +156,4 @@ const CheckList = ({
     </div>
   );
 };
+ */
