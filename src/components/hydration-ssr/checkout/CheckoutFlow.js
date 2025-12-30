@@ -1,14 +1,9 @@
-'use client';
-import { Loader } from 'lucide-react';
-import CartTable from './CartTable';
+"use client";
+import { Loader } from "lucide-react";
+import CartTable from "./CartTable";
 
-
-function CheckoutFlow({
-  items,
-  taxRate,
-  handleDeleteItem,
-}) {
-  if (!items) return <Loader />
+function CheckoutFlow({ items, taxRate, handleDeleteItem }) {
+  if (!items) return <Loader />;
 
   if (items.length === 0) {
     return (
@@ -18,9 +13,9 @@ function CheckoutFlow({
     );
   }
 
-  const priceFormatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  const priceFormatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
   });
 
   const subtotal = calculateSubtotal(items);
@@ -29,10 +24,7 @@ function CheckoutFlow({
 
   return (
     <div className="checkout-flow">
-      <CartTable
-        items={items}
-        handleDeleteItem={handleDeleteItem}
-      />
+      <CartTable items={items} handleDeleteItem={handleDeleteItem} />
 
       <table className="checkout-totals">
         <tbody>

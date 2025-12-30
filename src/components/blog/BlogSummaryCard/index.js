@@ -1,2 +1,2 @@
-export * from './BlogSummaryCard';
-export { default } from './BlogSummaryCard';
+export * from "./BlogSummaryCard";
+export { default } from "./BlogSummaryCard";

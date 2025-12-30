@@ -1,13 +1,10 @@
-import React from 'react';
+import Image from "next/image";
 
 function LibraryGameCard({ game }) {
   return (
     <article className="library-game-card">
       <div className="hero-img">
-        <img
-          alt=""
-          src={`/game-covers/${game.slug}.jpeg`}
-        />
+        <Image alt={game.slug} src={`/game-covers/${game.slug}.jpeg`} />
       </div>
       <h2>{game.name}</h2>
       <p>{game.description}</p>
@@ -16,8 +13,7 @@ function LibraryGameCard({ game }) {
         <dd>{game.totalPlayed} hours</dd>
         <dt>Achievements</dt>
         <dd>
-          {game.achievements.granted} /{' '}
-          {game.achievements.total}
+          {game.achievements.granted} / {game.achievements.total}
         </dd>
       </dl>
     </article>

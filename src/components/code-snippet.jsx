@@ -1,5 +1,6 @@
 import { Code } from "bright";
 import Revealable from "./revealable";
+
 const FIRST_SNIPPET = `\
 # This is a comment. Python ignores anything after the # symbol
 name = "John Doe"  # This is a string

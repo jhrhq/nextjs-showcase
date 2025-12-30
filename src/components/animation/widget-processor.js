@@ -1,17 +1,17 @@
-'use client'
+"use client";
 
-import VisuallyHidden from '@/components/visually-hidden';
-import { ChevronDown, ChevronUp } from 'lucide-react';
-import { LayoutGroup, motion } from 'motion/react';
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { LayoutGroup, motion } from "motion/react";
+import VisuallyHidden from "@/components/visually-hidden";
 
-import './widgetProcess.css';
+import "./widgetProcess.css";
 
 function WidgetProcessor({ widgets, processWidget }) {
   const unprocessedWidgets = widgets.filter(
-    (widget) => widget.status === 'unprocessed'
+    (widget) => widget.status === "unprocessed",
   );
   const processedWidgets = widgets.filter(
-    (widget) => widget.status === 'processed'
+    (widget) => widget.status === "processed",
   );
 
   return (
@@ -24,9 +24,7 @@ function WidgetProcessor({ widgets, processWidget }) {
                 layoutId={widget.id}
                 key={widget.id}
                 className="widget"
-                onClick={() =>
-                  processWidget(widget.id, 'processed')
-                }
+                onClick={() => processWidget(widget.id, "processed")}
               />
             );
           })}
@@ -34,30 +32,28 @@ function WidgetProcessor({ widgets, processWidget }) {
 
         <div className="actions">
           <button
+            type="button"
             onClick={() => {
               const widget = unprocessedWidgets.at(-1);
               if (widget) {
-                processWidget(widget.id, 'processed');
+                processWidget(widget.id, "processed");
               }
             }}
           >
-            <VisuallyHidden>
-              Process widget
-            </VisuallyHidden>
+            <VisuallyHidden>Process widget</VisuallyHidden>
             <ChevronDown />
           </button>
           <button
+            type="button"
             onClick={() => {
               const widget = processedWidgets.at(0);
               if (widget) {
-                processWidget(widget.id, 'unprocessed');
+                processWidget(widget.id, "unprocessed");
               }
             }}
           >
             <ChevronUp />
-            <VisuallyHidden>
-              Revert widget
-            </VisuallyHidden>
+            <VisuallyHidden>Revert widget</VisuallyHidden>
           </button>
         </div>
 
@@ -68,16 +64,14 @@ function WidgetProcessor({ widgets, processWidget }) {
                 layoutId={widget.id}
                 key={widget.id}
                 className="widget"
-                onClick={() =>
-                  processWidget(widget.id, 'unprocessed')
-                }
+                onClick={() => processWidget(widget.id, "unprocessed")}
               />
             );
           })}
         </div>
       </div>
     </LayoutGroup>
-  )
+  );
 }
 
-export default WidgetProcessor
+export default WidgetProcessor;

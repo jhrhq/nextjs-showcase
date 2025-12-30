@@ -1,10 +1,10 @@
 html {
-  background-position: bottom center;
   background: radial-gradient(
     circle at 50% 100%,
     hsl(260deg 100% 90%),
     hsl(260deg 100% 100%)
   );
+  background-position: bottom center;
 }
 
 .web-base {
@@ -14,19 +14,18 @@ html {
   gap: 16px;
   max-width: 1000px;
   min-height: 100vh;
+  /* biome-ignore lint/suspicious/noDuplicateProperties: fallback for browsers without svh support */
   min-height: 100svh;
   margin: 0 auto;
   font-weight: 300;
-  font-family: var(--font-family-primary),
-    sans-serif;
+  font-family: var(--font-family-primary), sans-serif;
 }
 
 .site-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  border-bottom: 1px solid
-    hsl(260deg 50% 50% / 0.1);
+  border-bottom: 1px solid hsl(260deg 50% 50% / 0.1);
 }
 .site-header .logo {
   font-size: 1.5rem;

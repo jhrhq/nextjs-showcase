@@ -1,9 +1,8 @@
-'use client'
-import range from 'lodash.range';
-import React from 'react';
-
-import { LayoutGroup, motion } from 'motion/react';
-import styles from './CoinSorter.module.css';
+"use client";
+import range from "lodash.range";
+import { LayoutGroup, motion } from "motion/react";
+import React from "react";
+import styles from "./CoinSorter.module.css";
 
 const NUM_OF_BOXES = 4;
 
@@ -16,9 +15,11 @@ function CoinSorter({ numOfCoins }) {
       <div className={styles.wrapper}>
         {range(NUM_OF_BOXES).map((boxIndex) => (
           <button
+            type="button"
             key={boxIndex}
-            className={`${styles.box} ${selectedBox === boxIndex ? styles.selected : ''
-              }`}
+            className={`${styles.box} ${
+              selectedBox === boxIndex ? styles.selected : ""
+            }`}
             onClick={() => setSelectedBox(boxIndex)}
           >
             {selectedBox === boxIndex &&
@@ -31,7 +32,7 @@ function CoinSorter({ numOfCoins }) {
                     key={layoutId}
                     className={styles.coin}
                     transition={{
-                      type: 'spring',
+                      type: "spring",
                       stiffness: 400,
                       damping: 40 + coinIndex * 5,
                     }}

@@ -1,6 +1,7 @@
 .wrapper {
   display: flex;
   min-height: 100vh;
+  /* biome-ignore lint/suspicious/noDuplicateProperties: fallback for browsers without svh support */
   min-height: 100svh;
   overflow: hidden;
 }

@@ -1,18 +1,16 @@
-import { getNavLinks } from '@/helpers/web-base-helpers';
-import Link from 'next/link';
-import React from 'react';
+import Link from "next/link";
+import React from "react";
+import { getNavLinks } from "@/helpers/web-base-helpers";
 
 async function SiteFooter() {
-
   return (
     <footer className="site-footer">
       <div className="logo-wrapper">
-        <Link href="" className="logo">
+        <Link href="/" className="logo">
           Webzip
         </Link>
         <p className="disclaimer">
-          Copyright © 2099 Webzip Inc. All Rights
-          Reserved.
+          Copyright © 2099 Webzip Inc. All Rights Reserved.
         </p>
       </div>
 
@@ -30,8 +28,6 @@ async function SiteFooter() {
   );
 }
 
-
-
 async function PrimaryNavLinks() {
   const navLinks = await getNavLinks();
   return (
@@ -44,8 +40,5 @@ async function PrimaryNavLinks() {
     </ol>
   );
 }
-
-
-
 
 export default SiteFooter;

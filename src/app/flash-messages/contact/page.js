@@ -1,17 +1,16 @@
-'use client';
-import { useRouter } from 'next/navigation';
-import React from 'react';
-import { ToastContext } from '../../../components/next-routing/ToastProvider';
-import '../styles.css';
+"use client";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { ToastContext } from "../../../components/next-routing/ToastProvider";
+import "../styles.css";
 
 function ContactPage() {
-
-  const router = useRouter()
+  const router = useRouter();
   const { createToast } = React.useContext(ToastContext);
   function handleSubmit(e) {
     e.preventDefault();
-    router.push('/flash-messages')
-    createToast('form submitted successfully', 'success')
+    router.push("/flash-messages");
+    createToast("form submitted successfully", "success");
   }
 
   return (
@@ -23,7 +22,7 @@ function ContactPage() {
         <label htmlFor="message">Message:</label>
         <textarea id="message" />
 
-        <button>Submit</button>
+        <button type="submit">Submit</button>
       </form>
     </main>
   );

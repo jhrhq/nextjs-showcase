@@ -61,16 +61,16 @@ html {
   --shadow-color: 250deg 35% 11%;
   /* prettier-ignore */
   --shadow-elevation-low:
-  0px 0.6px 0.6px hsl(var(--shadow-color) / 0.26),
-  0px 0.8px 0.8px -1.6px hsl(var(--shadow-color) / 0.22),
-  0px 1.8px 1.8px -3.2px hsl(var(--shadow-color) / 0.19);
+    0px 0.6px 0.6px hsl(var(--shadow-color) / 0.26),
+    0px 0.8px 0.8px -1.6px hsl(var(--shadow-color) / 0.22),
+    0px 1.8px 1.8px -3.2px hsl(var(--shadow-color) / 0.19);
   /* prettier-ignore */
   --shadow-elevation-medium:
-  0px 0.3px 0.6px hsl(var(--shadow-color) / 0.2),
-  0px 0.7px 1.4px -1.1px hsl(var(--shadow-color) / 0.19),
-  0px 1.5px 3.7px -2.1px hsl(var(--shadow-color) / 0.18),
-  0.1px 4px 9.2px -3.2px hsl(var(--shadow-color) / 0.17),
-  0.2px 6px 15px -2.3px hsl(var(--shadow-color) / 0.16);
+    0px 0.3px 0.6px hsl(var(--shadow-color) / 0.2),
+    0px 0.7px 1.4px -1.1px hsl(var(--shadow-color) / 0.19),
+    0px 1.5px 3.7px -2.1px hsl(var(--shadow-color) / 0.18),
+    0.1px 4px 9.2px -3.2px hsl(var(--shadow-color) / 0.17),
+    0.2px 6px 15px -2.3px hsl(var(--shadow-color) / 0.16);
   /* prettier-ignore */
   --shadow-elevation-high:
     0px 0.6px 0.6px hsl(var(--shadow-color) / 0.26),

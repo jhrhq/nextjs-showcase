@@ -4,7 +4,9 @@
   font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: -0.5px;
-  transition: font-weight 400ms, transform 400ms;
+  transition:
+    font-weight 400ms,
+    transform 400ms;
   will-change: transform;
 }
 
@@ -17,13 +19,15 @@
 @media (pointer: fine) {
   .wrapper:hover {
     font-weight: 900;
-    transition: font-weight 100ms, transform 100ms;
+    transition:
+      font-weight 100ms,
+      transform 100ms;
     transform: translateX(-1px);
   }
 }
 
 @media (pointer: fine) and (max-width: 35rem) {
-  .wrapper[data-mobile-alignment='center']:hover {
+  .wrapper[data-mobile-alignment="center"]:hover {
     transform: translateX(0px);
   }
 }

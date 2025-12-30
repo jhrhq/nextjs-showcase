@@ -1,11 +1,12 @@
-import ScreenSaver from '../../../components/next-routing/ScreenSaver/ScreenSaver'
+import ScreenSaver from "../../../components/next-routing/ScreenSaver/ScreenSaver";
 
 async function ScreenSaverExercise({ params }) {
-  const { color } = await params
+  const { color } = await params;
   return (
     <main className="screen-saver-wrapper">
       <ScreenSaver color={color} />
-    </main>)
+    </main>
+  );
 }
 
-export default ScreenSaverExercise
+export default ScreenSaverExercise;

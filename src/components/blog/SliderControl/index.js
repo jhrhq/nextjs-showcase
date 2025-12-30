@@ -1,2 +1,2 @@
-export * from './SliderControl';
-export { default } from './SliderControl';
+export * from "./SliderControl";
+export { default } from "./SliderControl";

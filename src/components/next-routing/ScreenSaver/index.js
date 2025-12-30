@@ -1,2 +1,2 @@
-export * from './ScreenSaver';
-export { default } from './ScreenSaver';
+export * from "./ScreenSaver";
+export { default } from "./ScreenSaver";

@@ -1,6 +1,6 @@
-import { Loader } from 'lucide-react';
+import { Loader } from "lucide-react";
 
-import styles from './Spinner.module.css';
+import styles from "./Spinner.module.css";
 
 const Spinner = ({ color, size }) => {
   return (

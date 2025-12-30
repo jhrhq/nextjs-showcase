@@ -1,2 +1,2 @@
-export * from './LibraryGameCardSkeleton';
-export { default } from './LibraryGameCardSkeleton';
+export * from "./LibraryGameCardSkeleton";
+export { default } from "./LibraryGameCardSkeleton";

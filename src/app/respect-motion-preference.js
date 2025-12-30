@@ -1,10 +1,8 @@
-'use client'
-import { MotionConfig } from "motion/react"
+"use client";
+import { MotionConfig } from "motion/react";
 
 function RespectMotionPreference({ childrend }) {
-  return (
-    <MotionConfig reducedMotion="user" >{childrend}</MotionConfig>
-  )
+  return <MotionConfig reducedMotion="user">{childrend}</MotionConfig>;
 }
 
-export default RespectMotionPreference
+export default RespectMotionPreference;

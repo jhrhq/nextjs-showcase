@@ -1,0 +1,255 @@
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LucideEye, LucideEyeOff, LucideKeyRound } from "lucide-react";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import * as z from "zod";
+
+import { CustomInput } from "@/app/password-meter/components/custom-input";
+import {
+  CustomInputPopover,
+  CustomInputPopoverArrow,
+  CustomInputPopoverContent,
+  CustomInputPopoverTrigger,
+} from "@/app/password-meter/components/custom-input-popover";
+import PasswordPopoverContent from "@/app/password-meter/components/password-popover-content";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
+
+// const RegisterFormSchema = z
+//   .object({
+//     userName: z
+//       .string()
+//       .min(2, {
+//         message: "Username must be at least 2 characters.",
+//       })
+//       .max(255, {
+//         message: "Username must not be longer than 255 characters.",
+//       }),
+
+//     email: z
+//       .string()
+//       .email("Please enter a valid email address.")
+//       .min(2, {
+//         message: "email must be at least 2 characters.",
+//       })
+//       .max(255, {
+//         message: "email must not be longer than 255 characters.",
+//       }),
+//     // .or(z.string()),
+
+//     password: z
+//       .string()
+//       .min(6, "Please choose a longer password")
+//       .max(64, "Consider using a short password"),
+//     confirm: z.string().min(1, "Please confirm your password"),
+//   })
+//   .refine((data) => data.password === data.confirm, {
+//     path: ["confirm"],
+//     message: "Password did not match",
+//   })
+//   .superRefine(({ password }, checkPassComplexity) => {
+//     const containsUppercase = (ch) => /[A-Z]/.test(ch);
+//     const containsLowercase = (ch) => /[a-z]/.test(ch);
+//     const containsSpecialChar = (ch) =>
+//       /[`!@#$%^&*()_\-+=[\]{};':"\\|,.<>/?~ ]/.test(ch);
+//     let countOfUpperCase = 0,
+//       countOfLowerCase = 0,
+//       countOfNumbers = 0,
+//       countOfSpecialChar = 0;
+
+//     for (let i = 0; i < password.length; i++) {
+//       const ch = password.charAt(i);
+
+//       if (!isNaN(+ch)) countOfNumbers++;
+//       else if (containsUppercase(ch)) countOfUpperCase++;
+//       else if (containsLowercase(ch)) countOfLowerCase++;
+//       else if (containsSpecialChar(ch)) countOfSpecialChar++;
+//     }
+//     let errObj = {
+//       upperCase: { pass: true, message: "add upper case." },
+//       lowerCase: { pass: true, message: "add lower case." },
+//       specialCh: { pass: true, message: "add special ch." },
+//       totalNumber: { pass: true, message: "add number." },
+//     };
+
+//     if (countOfLowerCase < 1) {
+//       errObj = { ...errObj, lowerCase: { ...errObj.lowerCase, pass: false } };
+//     }
+//     if (countOfNumbers < 1) {
+//       errObj = {
+//         ...errObj,
+//         totalNumber: { ...errObj.totalNumber, pass: false },
+//       };
+//     }
+//     if (countOfUpperCase < 1) {
+//       errObj = { ...errObj, upperCase: { ...errObj.upperCase, pass: false } };
+//     }
+//     if (countOfSpecialChar < 1) {
+//       errObj = { ...errObj, specialCh: { ...errObj.specialCh, pass: false } };
+//     }
+
+//     Object.values(errObj).forEach((err) => {
+//       if (countOfLowerCase < 1) {
+//         checkPassComplexity.addIssue({
+//           code: z.ZodIssueCode.custom,
+//           path: ["password"],
+//           // message: errObj,
+//           message: "Add a lowercase",
+//         });
+//       }
+//       if (countOfUpperCase < 1) {
+//         checkPassComplexity.addIssue({
+//           code: z.ZodIssueCode.custom,
+//           path: ["password"],
+//           // message: errObj,
+//           message: "Add a uppercase",
+//         });
+//       }
+//       if (countOfSpecialChar < 1) {
+//         checkPassComplexity.addIssue({
+//           code: z.ZodIssueCode.custom,
+//           path: ["password"],
+//           // message: errObj,
+//           message: "Add a special character",
+//         });
+//       }
+//       if (countOfNumbers < 1) {
+//         checkPassComplexity.addIssue({
+//           code: z.ZodIssueCode.custom,
+//           path: ["password"],
+//           // message: errObj,
+//           message: "Add a add number",
+//         });
+//       }
+//     });
+//   });
+const formSchema = z.object({
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters.")
+    .max(64, "Password must be at least 6 characters."),
+});
+
+type ProfileFormValues = z.infer<typeof formSchema>;
+
+const defaultValues: Partial<ProfileFormValues> = {
+  password: "",
+};
+
+export default function Page() {
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues,
+    mode: "onChange",
+  });
+  const [isPasswordMeter, setIsPasswordMeter] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+  // password toggle handle
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  function handleRegister(data: ProfileFormValues) {
+    console.log(data);
+  }
+
+  return (
+    <div className="mx-auto flex min-h-screen flex-col items-center justify-center space-y-3 bg-[rgb(237,242,248)] p-6 dark:bg-gray-900">
+      <Card className="w-full max-w-md space-y-3 border-0 shadow-sm">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-center text-2xl">Register</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          <form
+            onSubmit={form.handleSubmit(handleRegister)}
+            className="space-y-8"
+            id="form-rhf-demo"
+          >
+            <FieldGroup>
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel>Password</FieldLabel>
+                    <CustomInputPopover
+                      open={isPasswordMeter}
+                      onOpenChange={setIsPasswordMeter}
+                    >
+                      <CustomInputPopoverTrigger asChild>
+                        <InputGroup>
+                          <CustomInput
+                            {...field}
+                            placeholder="password"
+                            type={showPassword ? "text" : "password"}
+                            className="h-full border-none  focus:ring-0"
+                          />
+                          <InputGroupAddon>
+                            <LucideKeyRound />
+                          </InputGroupAddon>
+                          <InputGroupAddon align="inline-end">
+                            <button type="button" onClick={togglePassword}>
+                              {showPassword ? <LucideEye /> : <LucideEyeOff />}
+                            </button>
+                          </InputGroupAddon>
+                        </InputGroup>
+                      </CustomInputPopoverTrigger>
+                      <CustomInputPopoverContent
+                        onOpenAutoFocus={(e) => e.preventDefault()}
+                        onEscapeKeyDown={(e) => e.preventDefault()}
+                        sideOffset={40}
+                        side="right"
+                      >
+                        <PasswordPopoverContent value={field.value} />
+                        <CustomInputPopoverArrow className="fill-white dark:fill-blue-900" />
+                      </CustomInputPopoverContent>
+                    </CustomInputPopover>
+                    {/* <div>
+                      {!isPasswordMeter &&
+                        evaluatePasswordStrength(field.value)}
+                    </div> */}
+                    {/* <PasswordValidationMeter
+                      password={form.watch("password")}
+                    /> */}
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
+
+            <CardFooter>
+              <Button
+                className="w-full"
+                type="submit"
+                // disabled={
+                //   !form.formState.isValid
+                // }
+              >
+                Create account
+                {/* {registerMutation.isPending && (
+                    <Icons.spinner className="mr-2 size-4 animate-spin" />
+                  )} */}
+              </Button>
+            </CardFooter>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

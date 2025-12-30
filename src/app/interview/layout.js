@@ -1,14 +1,11 @@
-import React from 'react';
-
-import './styles.css';
+import "./styles.css";
 
 function InterviewLayout({ children }) {
   return (
     <>
       <main>{children}</main>
       <footer className="site-footer">
-        Copyright Whatever © 2010-present. All
-        rights reserved.
+        Copyright Whatever © 2010-present. All rights reserved.
       </footer>
     </>
   );

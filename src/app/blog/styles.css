@@ -48,7 +48,9 @@ html {
   --viewport-padding: 16px;
   --header-height: 5rem;
   --trimmed-content-width: calc(
-    var(--content-width) - var(--viewport-padding) * 2
+    var(--content-width) -
+    var(--viewport-padding) *
+    2
   );
 }
 
@@ -60,21 +62,14 @@ html {
 
 /* GLOBAL STYLES */
 ::selection {
-  background-color: var(
-    --color-selection-background
-  ) !important;
-  color: var(--color-selection-text) !important;
-  background-image: none !important;
-  -webkit-text-fill-color: var(
-    --color-selection-text
-  ) !important;
-  -moz-text-fill-color: var(
-    --color-selection-text
-  ) !important;
-  background-image: none !important;
-  background-clip: revert !important;
-  -webkit-background-clip: revert !important;
-  text-shadow: none !important;
+  background-color: var(--color-selection-background);
+  color: var(--color-selection-text);
+  background-image: none;
+  -webkit-text-fill-color: var(--color-selection-text);
+  -moz-text-fill-color: var(--color-selection-text);
+  background-clip: revert;
+  -webkit-background-clip: revert;
+  text-shadow: none;
 }
 
 html {
@@ -86,6 +81,7 @@ html {
 
 body {
   min-height: 100vh;
+  /* biome-ignore lint/suspicious/noDuplicateProperties: fallback for browsers without svh support */
   min-height: 100svh;
   display: flex;
   flex-direction: column;
@@ -94,7 +90,7 @@ body {
 }
 
 body::before {
-  content: '';
+  content: "";
   position: absolute;
   z-index: 0;
   top: 0;

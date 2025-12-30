@@ -1,14 +1,8 @@
-import Footer from '@/components/blog/Footer';
-import Header from '@/components/blog/Header';
-import { COLOR_COOKIE_NAME, DARK_TOKENS, LIGHT_TOKENS } from '@/constants';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
-import { cookies } from 'next/headers';
-// import "./globals.css";
-import './styles.css';
+import "./globals.css";
 
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,25 +24,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const savedTheme = await cookies();
-  const themValue = savedTheme.get(COLOR_COOKIE_NAME)
-  const theme = themValue?.value || 'light';
   return (
-    <html
-      lang="en" className={inter.variable}
-      data-color-theme={theme}
-      style={theme === 'light' ? LIGHT_TOKENS : DARK_TOKENS}
-    >
+    <html lang="en" className={inter.variable}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header initialTheme={theme} />
-        <main>
-          {/* <RespectMotionPreference> */}
-          {children}
-          {/* </RespectMotionPreference> */}
-        </main>
-        <Footer />      </body>
+        <main>{children}</main>
+      </body>
     </html>
   );
 }

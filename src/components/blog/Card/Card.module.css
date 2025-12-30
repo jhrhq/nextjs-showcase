@@ -10,6 +10,6 @@
 
 @media (min-width: 56rem) {
   .wrapper {
-    border-radius: 8px !important;
+    border-radius: 8px;
   }
 }

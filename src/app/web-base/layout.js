@@ -1,13 +1,11 @@
-import React from 'react';
-import { Kanit } from 'next/font/google';
-
-import SiteHeader from './SiteHeader';
-import SiteFooter from './SiteFooter';
-import './styles.css';
+import { Kanit } from "next/font/google";
+import SiteFooter from "./SiteFooter";
+import SiteHeader from "./SiteHeader";
+import "./styles.css";
 
 const primaryFont = Kanit({
-  weight: ['300', '500'],
-  subsets: ['latin'],
+  weight: ["300", "500"],
+  subsets: ["latin"],
 });
 
 function WebBaseLayout({ children }) {
@@ -15,8 +13,7 @@ function WebBaseLayout({ children }) {
     <div
       className="web-base"
       style={{
-        '--font-family-primary':
-          primaryFont.style.fontFamily,
+        "--font-family-primary": primaryFont.style.fontFamily,
       }}
     >
       <SiteHeader />

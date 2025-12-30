@@ -1,10 +1,10 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 
 function Counter() {
   const [count, setCount] = React.useState(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     () => {
       const savedValue = window.localStorage.getItem("saved-count");
 
@@ -19,7 +19,11 @@ function Counter() {
   }, [count]);
 
   return (
-    <button className="count-btn" onClick={() => setCount(count + 1)}>
+    <button
+      type="button"
+      className="count-btn"
+      onClick={() => setCount(count + 1)}
+    >
       Count: {count}
     </button>
   );

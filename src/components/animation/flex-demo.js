@@ -1,34 +1,35 @@
-'use client'
-import { motion } from 'motion/react';
-import React from 'react';
-import styles from './FlexDemo.module.css';
+"use client";
+import { motion } from "motion/react";
+import React from "react";
+import styles from "./FlexDemo.module.css";
 
 function FlexDemo() {
-  const [flexDirection, setFlexDirection] = React.useState('row');
-  const [justifyContent, setJustifyContent] =
-    React.useState('flex-start');
-  const [alignItems, setAlignItems] = React.useState('stretch');
+  const [flexDirection, setFlexDirection] = React.useState("row");
+  const [justifyContent, setJustifyContent] = React.useState("flex-start");
+  const [alignItems, setAlignItems] = React.useState("stretch");
 
   return (
     <section className={styles.wrapper}>
-      <div className={styles.demoArea} style={{
-        flexDirection,
-        justifyContent,
-        alignItems
-      }}
+      <div
+        className={styles.demoArea}
+        style={{
+          flexDirection,
+          justifyContent,
+          alignItems,
+        }}
       >
         {ITEMS.map((item) => (
           <motion.div
             layout={true}
             transition={{
-              type: 'spring',
+              type: "spring",
               stifness: 500,
-              damping: 40
+              damping: 40,
             }}
-            key={item.id} className={styles.flexItem}>
-            <motion.div layout="position">
-              {item.label}
-            </motion.div>
+            key={item.id}
+            className={styles.flexItem}
+          >
+            <motion.div layout="position">{item.label}</motion.div>
           </motion.div>
         ))}
       </div>
@@ -45,9 +46,7 @@ function FlexDemo() {
         <SelectControl
           label="justify-content"
           value={justifyContent}
-          onChange={(event) =>
-            setJustifyContent(event.target.value)
-          }
+          onChange={(event) => setJustifyContent(event.target.value)}
         >
           <option value="flex-start">flex-start</option>
           <option value="flex-end">flex-end</option>
@@ -89,20 +88,20 @@ function SelectControl({ label, value, onChange, ...delegated }) {
 
 const ITEMS = [
   {
-    id: '001',
-    label: 'Hello',
+    id: "001",
+    label: "Hello",
   },
   {
-    id: '002',
-    label: 'to',
+    id: "002",
+    label: "to",
   },
   {
-    id: '003',
-    label: 'the',
+    id: "003",
+    label: "the",
   },
   {
-    id: '004',
-    label: 'World!',
+    id: "004",
+    label: "World!",
   },
 ];
 

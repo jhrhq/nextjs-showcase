@@ -1,12 +1,8 @@
-'use client'
+"use client";
 import { motion } from "motion/react";
-import styles from './toggle.module.css';
+import styles from "./toggle.module.css";
 
-function Toggle({
-  value,
-  onChange,
-  ...delegated
-}) {
+function Toggle({ value, onChange, ...delegated }) {
   return (
     <button
       type="button"
@@ -14,19 +10,18 @@ function Toggle({
       aria-checked={value}
       className={styles.wrapper}
       style={{
-        justifyContent: value ? "flex-end" : 'flex-start'
+        justifyContent: value ? "flex-end" : "flex-start",
       }}
       onClick={() => onChange(!value)}
       {...delegated}
     >
-
       <motion.span
         className={styles.ball}
         layout={true}
         transition={{
-          type: 'spring',
+          type: "spring",
           stifness: 500,
-          damping: 40
+          damping: 40,
         }}
       />
     </button>

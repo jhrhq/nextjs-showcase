@@ -8,7 +8,7 @@ function Revealable({ children }) {
     <>
       {isRevealed ? children : null}{" "}
       <div className="reveal">
-        <button onClick={() => setIsRevealed((prev) => !prev)}>
+        <button type="button" onClick={() => setIsRevealed((prev) => !prev)}>
           {isRevealed ? "Hide Content" : "Reveal Content"}
         </button>
       </div>

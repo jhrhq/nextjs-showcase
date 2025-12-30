@@ -1,6 +1,5 @@
-
-import LibraryGameCardSkeleton from '@/components/suspense/LibraryGameCardSkeleton';
-import { range } from '@/utils';
+import LibraryGameCardSkeleton from "@/components/suspense/LibraryGameCardSkeleton";
+import { range } from "@/utils";
 
 async function VaporLoading() {
   return (

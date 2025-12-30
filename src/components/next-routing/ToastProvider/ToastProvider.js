@@ -1,7 +1,6 @@
-'use client';
-import React from 'react';
-import useKeydown from '../../../hooks/use-keydown';
-
+"use client";
+import React from "react";
+import useKeydown from "../../../hooks/use-keydown";
 
 export const ToastContext = React.createContext();
 
@@ -12,7 +11,7 @@ function ToastProvider({ children }) {
     setToasts([]);
   }, []);
 
-  useKeydown('Escape', handleEscape);
+  useKeydown("Escape", handleEscape);
 
   function createToast(message, variant) {
     const nextToasts = [

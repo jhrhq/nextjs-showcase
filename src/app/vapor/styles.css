@@ -7,12 +7,10 @@
   --color-secondary: hsl(45deg 80% 60%);
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   min-height: 100svh;
   color: white;
   background: var(--color-gray-300);
-  font-family: var(--font-family-primary),
-    sans-serif;
+  font-family: var(--font-family-primary), sans-serif;
 }
 .vapor a {
   color: white;
@@ -67,7 +65,7 @@
 .vapor .library-header h1 {
   font-size: 2rem;
 }
-.vapor .library-header p {
+:where(.vapor .library-header) p {
   font-size: 1.25rem;
 }
 .vapor .library-header .num-of-games {
@@ -76,10 +74,7 @@
 }
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(280px, 1fr)
-  );
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 16px;
 }
 .library-game-card {
@@ -100,7 +95,7 @@
   background: hsl(0deg 0% 100% / 0.1);
 }
 .library-game-card .hero-img::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -130,8 +125,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
-    'label1 label2'
-    'value1 value2';
+    "label1 label2"
+    "value1 value2";
 }
 .library-game-card dt:nth-child(1) {
   grid-area: label1;
@@ -156,8 +151,7 @@
 }
 .library-game-card.skeleton .hero-img {
   aspect-ratio: 460 / 215;
-  animation: pulse 1000ms ease-in-out infinite
-    alternate;
+  animation: pulse 1000ms ease-in-out infinite alternate;
 }
 .library-game-card.skeleton .normal-font {
   font-family: var(--font-family-primary);

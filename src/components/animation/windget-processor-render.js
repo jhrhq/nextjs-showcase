@@ -1,16 +1,15 @@
-'use client'
+"use client";
 
-import WidgetProcessor from '@/components/animation/widget-processor';
-import range from 'lodash.range';
-import React from 'react';
-
+import range from "lodash.range";
+import React from "react";
+import WidgetProcessor from "@/components/animation/widget-processor";
 
 function WidgetProcessorRender() {
   const [widgets, setWidgets] = React.useState(() => {
     return range(8).map(() => {
       return {
         id: crypto.randomUUID(),
-        status: 'unprocessed',
+        status: "unprocessed",
       };
     });
   });
@@ -29,14 +28,7 @@ function WidgetProcessorRender() {
     setWidgets(nextWidgets);
   }
 
-  return (
-    <>
-      <WidgetProcessor
-        widgets={widgets}
-        processWidget={processWidget}
-      />
-    </>
-  );
+  return <WidgetProcessor widgets={widgets} processWidget={processWidget} />;
 }
 
 export default WidgetProcessorRender;

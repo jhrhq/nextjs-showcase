@@ -1,13 +1,10 @@
-import React from 'react';
+import Image from "next/image";
 
 function Comment({ comment }) {
   return (
     <article className="comment">
       <header>
-        <img
-          alt=""
-          src={comment.from.avatarSrc}
-        />
+        <Image alt="comment from avatar" src={comment.from.avatarSrc} />
         {comment.from.name}
       </header>
       <p>{comment.body}</p>

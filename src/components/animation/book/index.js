@@ -1,18 +1,16 @@
-'use client'
-import React from 'react';
+"use client";
+import React from "react";
 
-import BookGrid from '@/components/animation/book/book-grid';
-import ReadingList from '@/components/animation/book/reading-list';
-import DATA from './data';
-import styles from './index.module.css';
+import BookGrid from "@/components/animation/book/book-grid";
+import ReadingList from "@/components/animation/book/reading-list";
+import DATA from "./data";
+import styles from "./index.module.css";
 
 function BookPage() {
   const [books, setBooks] = React.useState(DATA);
 
   function toggleBook(toggledBook) {
-    const nextBooks = books.filter(
-      (book) => book.isbn !== toggledBook.isbn
-    );
+    const nextBooks = books.filter((book) => book.isbn !== toggledBook.isbn);
 
     nextBooks.push({
       ...toggledBook,
@@ -22,12 +20,8 @@ function BookPage() {
     setBooks(nextBooks);
   }
 
-  const selectedBooks = books.filter(
-    (book) => book.selected
-  );
-  const unselectedBooks = books.filter(
-    (book) => !book.selected
-  );
+  const selectedBooks = books.filter((book) => book.selected);
+  const unselectedBooks = books.filter((book) => !book.selected);
 
   return (
     <div className={styles.wrapper}>
@@ -37,10 +31,7 @@ function BookPage() {
         handleSelectBook={toggleBook}
       />
       {selectedBooks.length > 0 && (
-        <ReadingList
-          books={selectedBooks}
-          handleRemoveBook={toggleBook}
-        />
+        <ReadingList books={selectedBooks} handleRemoveBook={toggleBook} />
       )}
     </div>
   );

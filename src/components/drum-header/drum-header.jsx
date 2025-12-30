@@ -8,7 +8,7 @@ import VisuallyHidden from "@/components/visually-hidden";
 import styles from "./DrumHeader.module.css";
 
 function DrumHeader() {
-  const id = React.useId();
+  const _id = React.useId();
 
   const { soundEnabled, setSoundEnabled } = useSoundEnabled();
   return (
@@ -17,6 +17,7 @@ function DrumHeader() {
         <a href="/">Kool Website</a>
 
         <button
+          type="button"
           onClick={() => {
             setSoundEnabled(!soundEnabled);
           }}

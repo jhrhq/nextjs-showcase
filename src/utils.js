@@ -1,6 +1,6 @@
 export const range = (start, end, step = 1) => {
-  let output = [];
-  if (typeof end === 'undefined') {
+  const output = [];
+  if (typeof end === "undefined") {
     end = start;
     start = 0;
   }
@@ -10,11 +10,7 @@ export const range = (start, end, step = 1) => {
   return output;
 };
 
-export const random = (
-  min,
-  max,
-  { rounded } = { rounded: true }
-) => {
+export const random = (min, max, { rounded } = { rounded: true }) => {
   const partialVal = Math.random() * (max - min);
 
   if (rounded) {

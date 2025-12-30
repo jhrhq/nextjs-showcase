@@ -18,7 +18,7 @@ export function useSoundEnabled() {
 
   if (!context) {
     throw new Error(
-      "Cannot consume SoundEnabled context without a SoundEnabledProvider"
+      "Cannot consume SoundEnabled context without a SoundEnabledProvider",
     );
   }
 
