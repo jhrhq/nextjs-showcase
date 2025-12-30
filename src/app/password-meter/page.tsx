@@ -190,24 +190,29 @@ export default function Page() {
                       open={isPasswordMeter}
                       onOpenChange={setIsPasswordMeter}
                     >
-                      <CustomInputPopoverTrigger asChild>
-                        <InputGroup>
+                      <InputGroup>
+                        <CustomInputPopoverTrigger asChild>
                           <CustomInput
                             {...field}
                             placeholder="password"
                             type={showPassword ? "text" : "password"}
                             className="h-full border-none  focus:ring-0"
                           />
-                          <InputGroupAddon>
-                            <LucideKeyRound />
-                          </InputGroupAddon>
-                          <InputGroupAddon align="inline-end">
-                            <button type="button" onClick={togglePassword}>
-                              {showPassword ? <LucideEye /> : <LucideEyeOff />}
-                            </button>
-                          </InputGroupAddon>
-                        </InputGroup>
-                      </CustomInputPopoverTrigger>
+                        </CustomInputPopoverTrigger>
+                        <InputGroupAddon>
+                          <LucideKeyRound />
+                        </InputGroupAddon>
+                        <InputGroupAddon align="inline-end">
+                          <Button
+                            className="m-0 p-0 size-auto"
+                            variant="ghost"
+                            type="button"
+                            onClick={togglePassword}
+                          >
+                            {showPassword ? <LucideEye /> : <LucideEyeOff />}
+                          </Button>
+                        </InputGroupAddon>
+                      </InputGroup>
                       <CustomInputPopoverContent
                         onOpenAutoFocus={(e) => e.preventDefault()}
                         onEscapeKeyDown={(e) => e.preventDefault()}
