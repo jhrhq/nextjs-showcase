@@ -164,7 +164,7 @@ export default function Page() {
   };
 
   function handleRegister(data: ProfileFormValues) {
-    console.log(data);
+    alert(JSON.stringify(data));
   }
 
   return (
@@ -200,7 +200,7 @@ export default function Page() {
                           />
                         </CustomInputPopoverTrigger>
                         <InputGroupAddon>
-                          <LucideKeyRound />
+                          <LucideKeyRound strokeWidth="1" />
                         </InputGroupAddon>
                         <InputGroupAddon align="inline-end">
                           <Button
@@ -209,7 +209,14 @@ export default function Page() {
                             type="button"
                             onClick={togglePassword}
                           >
-                            {showPassword ? <LucideEye /> : <LucideEyeOff />}
+                            {showPassword ? (
+                              <LucideEye
+                                strokeWidth="1"
+                                className="text-gray-900"
+                              />
+                            ) : (
+                              <LucideEyeOff strokeWidth="1" />
+                            )}
                           </Button>
                         </InputGroupAddon>
                       </InputGroup>

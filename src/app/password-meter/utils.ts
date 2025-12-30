@@ -1,4 +1,4 @@
-export type PasswordStrength = "" | "weak" | "average" | "good" | "strong";
+export type PasswordStrength = "" | "Weak" | "Average" | "Good" | "Strong";
 
 type PasswordStrengthResult = {
   score: number;
@@ -12,7 +12,7 @@ type PasswordStrengthResult = {
 export function checkPasswordStrength(
   password?: string,
 ): PasswordStrengthResult {
-  if (!password || password.length < 6) {
+  if (!password) {
     return {
       score: 0,
       strength: "",
@@ -41,25 +41,25 @@ export function checkPasswordStrength(
   const hasCore = hasUppercase && hasLowercase && hasSymbol;
   const hasAll = hasCore && hasNumber;
 
-  let strength: PasswordStrength = "weak";
+  let strength: PasswordStrength = "Weak";
   let score = 1;
 
   if (length >= 16) {
-    strength = "strong";
+    strength = "Strong";
     score = 4;
   } else if (length >= 11) {
     if (hasCore) {
-      strength = "strong";
+      strength = "Strong";
       score = 4;
     } else {
-      strength = "average";
+      strength = "Average";
       score = 2;
     }
   } else if (length >= 9 && hasCore) {
-    strength = "good";
+    strength = "Good";
     score = 3;
   } else if (length >= 7 && hasAll) {
-    strength = "average";
+    strength = "Average";
     score = 2;
   }
 
