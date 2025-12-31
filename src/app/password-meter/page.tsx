@@ -29,114 +29,6 @@ import {
 } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
 
-// const RegisterFormSchema = z
-//   .object({
-//     userName: z
-//       .string()
-//       .min(2, {
-//         message: "Username must be at least 2 characters.",
-//       })
-//       .max(255, {
-//         message: "Username must not be longer than 255 characters.",
-//       }),
-
-//     email: z
-//       .string()
-//       .email("Please enter a valid email address.")
-//       .min(2, {
-//         message: "email must be at least 2 characters.",
-//       })
-//       .max(255, {
-//         message: "email must not be longer than 255 characters.",
-//       }),
-//     // .or(z.string()),
-
-//     password: z
-//       .string()
-//       .min(6, "Please choose a longer password")
-//       .max(64, "Consider using a short password"),
-//     confirm: z.string().min(1, "Please confirm your password"),
-//   })
-//   .refine((data) => data.password === data.confirm, {
-//     path: ["confirm"],
-//     message: "Password did not match",
-//   })
-//   .superRefine(({ password }, checkPassComplexity) => {
-//     const containsUppercase = (ch) => /[A-Z]/.test(ch);
-//     const containsLowercase = (ch) => /[a-z]/.test(ch);
-//     const containsSpecialChar = (ch) =>
-//       /[`!@#$%^&*()_\-+=[\]{};':"\\|,.<>/?~ ]/.test(ch);
-//     let countOfUpperCase = 0,
-//       countOfLowerCase = 0,
-//       countOfNumbers = 0,
-//       countOfSpecialChar = 0;
-
-//     for (let i = 0; i < password.length; i++) {
-//       const ch = password.charAt(i);
-
-//       if (!isNaN(+ch)) countOfNumbers++;
-//       else if (containsUppercase(ch)) countOfUpperCase++;
-//       else if (containsLowercase(ch)) countOfLowerCase++;
-//       else if (containsSpecialChar(ch)) countOfSpecialChar++;
-//     }
-//     let errObj = {
-//       upperCase: { pass: true, message: "add upper case." },
-//       lowerCase: { pass: true, message: "add lower case." },
-//       specialCh: { pass: true, message: "add special ch." },
-//       totalNumber: { pass: true, message: "add number." },
-//     };
-
-//     if (countOfLowerCase < 1) {
-//       errObj = { ...errObj, lowerCase: { ...errObj.lowerCase, pass: false } };
-//     }
-//     if (countOfNumbers < 1) {
-//       errObj = {
-//         ...errObj,
-//         totalNumber: { ...errObj.totalNumber, pass: false },
-//       };
-//     }
-//     if (countOfUpperCase < 1) {
-//       errObj = { ...errObj, upperCase: { ...errObj.upperCase, pass: false } };
-//     }
-//     if (countOfSpecialChar < 1) {
-//       errObj = { ...errObj, specialCh: { ...errObj.specialCh, pass: false } };
-//     }
-
-//     Object.values(errObj).forEach((err) => {
-//       if (countOfLowerCase < 1) {
-//         checkPassComplexity.addIssue({
-//           code: z.ZodIssueCode.custom,
-//           path: ["password"],
-//           // message: errObj,
-//           message: "Add a lowercase",
-//         });
-//       }
-//       if (countOfUpperCase < 1) {
-//         checkPassComplexity.addIssue({
-//           code: z.ZodIssueCode.custom,
-//           path: ["password"],
-//           // message: errObj,
-//           message: "Add a uppercase",
-//         });
-//       }
-//       if (countOfSpecialChar < 1) {
-//         checkPassComplexity.addIssue({
-//           code: z.ZodIssueCode.custom,
-//           path: ["password"],
-//           // message: errObj,
-//           message: "Add a special character",
-//         });
-//       }
-//       if (countOfNumbers < 1) {
-//         checkPassComplexity.addIssue({
-//           code: z.ZodIssueCode.custom,
-//           path: ["password"],
-//           // message: errObj,
-//           message: "Add a add number",
-//         });
-//       }
-//     });
-//   });
 const formSchema = z.object({
   password: z
     .string()
@@ -234,9 +126,7 @@ export default function Page() {
                       {!isPasswordMeter &&
                         evaluatePasswordStrength(field.value)}
                     </div> */}
-                    {/* <PasswordValidationMeter
-                      password={form.watch("password")}
-                    /> */}
+
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
                     )}

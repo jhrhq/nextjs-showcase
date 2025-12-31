@@ -8,7 +8,7 @@ const CustomInputPopover = CustomPopoverPrimitive.Root;
 const CustomInputPopoverTrigger = CustomPopoverPrimitive.Trigger;
 
 const CustomInputPopoverContent = React.forwardRef<
-  React.ElementRef<typeof CustomPopoverPrimitive.Content>,
+  React.ComponentRef<typeof CustomPopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof CustomPopoverPrimitive.Content>
 >(({ className, align = "center", sideOffset = 4, ...props }, ref) => (
   <CustomPopoverPrimitive.Portal>
