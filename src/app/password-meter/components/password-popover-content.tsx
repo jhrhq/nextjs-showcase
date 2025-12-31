@@ -18,7 +18,7 @@ const PasswordPopoverContent = (props: { value: string }) => {
     checkPasswordStrength(props.value);
   const progressRange: number[] = range(1, 5);
   return (
-    <div>
+    <>
       <h4 className="text-base font-medium text-gray-950 dark:text-white">
         {strength || "Must have at least 6 characters."}{" "}
         {strength && "Password"}
@@ -51,7 +51,7 @@ const PasswordPopoverContent = (props: { value: string }) => {
           </CheckList>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

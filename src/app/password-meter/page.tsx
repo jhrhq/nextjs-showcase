@@ -27,7 +27,11 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 
 const formSchema = z.object({
   password: z
@@ -84,7 +88,7 @@ export default function Page() {
                     >
                       <InputGroup>
                         <CustomInputPopoverTrigger asChild>
-                          <CustomInput
+                          <InputGroupInput
                             {...field}
                             placeholder="password"
                             type={showPassword ? "text" : "password"}
