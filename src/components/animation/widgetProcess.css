@@ -24,8 +24,7 @@
   align-items: center;
   width: 32px;
   height: 32px;
-  background: hsl(340deg 100% 55%); /* Fallback for very old browsers or email clients */
-  /* biome-ignore lint/suspicious/noDuplicateProperties: fallback background */
+  background: hsl(340deg 100% 55%);
   background: lch(58 95.06 12.6);
   border: none;
   border-radius: 2px;

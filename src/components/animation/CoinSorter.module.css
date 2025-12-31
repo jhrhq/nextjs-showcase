@@ -52,8 +52,7 @@
   --size: clamp(30px, 8vw, 48px);
   width: var(--size);
   height: var(--size);
-  background: hsl(50deg 100% 50%); /* Fallback for very old browsers or email clients */
-  /* biome-ignore lint/suspicious/noDuplicateProperties: fallback background */
+  background: hsl(50deg 100% 50%);
   background: oklch(0.87 0.2 88.72);
   border-radius: 1000px;
 }

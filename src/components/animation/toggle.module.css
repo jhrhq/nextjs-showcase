@@ -15,8 +15,7 @@
   display: block;
   height: 100%;
   aspect-ratio: 1 / 1;
-  background: hsl(50deg 100% 50%); /* Fallback for very old browsers or email clients */
-  /* biome-ignore lint/suspicious/noDuplicateProperties: fallback background */
+  background: hsl(50deg 100% 50%);
   background: oklch(0.92 0.22 101.1);
   border-radius: 1000px;
 }

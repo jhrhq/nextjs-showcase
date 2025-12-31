@@ -14,7 +14,6 @@ html {
   gap: 16px;
   max-width: 1000px;
   min-height: 100vh;
-  /* biome-ignore lint/suspicious/noDuplicateProperties: fallback for browsers without svh support */
   min-height: 100svh;
   margin: 0 auto;
   font-weight: 300;

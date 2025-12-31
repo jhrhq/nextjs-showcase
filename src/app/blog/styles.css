@@ -81,7 +81,6 @@ html {
 
 body {
   min-height: 100vh;
-  /* biome-ignore lint/suspicious/noDuplicateProperties: fallback for browsers without svh support */
   min-height: 100svh;
   display: flex;
   flex-direction: column;
