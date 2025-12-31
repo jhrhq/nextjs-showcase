@@ -5,7 +5,6 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { CustomInput } from "@/app/password-meter/components/custom-input";
 import {
   CustomInputPopover,
   CustomInputPopoverArrow,
