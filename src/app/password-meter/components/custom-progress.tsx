@@ -8,7 +8,7 @@ interface AdditionalProgressProps {
 }
 
 const CustomProgress = React.forwardRef<
-  React.ElementRef<typeof ProgressPrimitive.Root>,
+  React.ComponentRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> &
     AdditionalProgressProps
 >(({ className, indicatorClassName, value, ...props }, ref) => (

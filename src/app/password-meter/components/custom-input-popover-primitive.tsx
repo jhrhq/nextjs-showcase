@@ -111,7 +111,7 @@ Popover.displayName = POPOVER_NAME;
 
 /* const ANCHOR_NAME = "PopoverAnchor";
 
-type PopoverAnchorElement = React.ElementRef<typeof PopperPrimitive.Anchor>;
+type PopoverAnchorElement = React.ComponentRef<typeof PopperPrimitive.Anchor>;
 type PopperAnchorProps = React.ComponentPropsWithoutRef<
   typeof PopperPrimitive.Anchor
 >;
@@ -153,7 +153,7 @@ const TRIGGER_NAME = "PopoverTrigger";
  * Primitive.input instead Primitive.input
  * PrimitiveInputProps instead PrimitiveButtonProps
  */
-type PopoverTriggerElement = React.ElementRef<typeof Primitive.input>;
+type PopoverTriggerElement = React.ComponentRef<typeof Primitive.input>;
 type PrimitiveInputProps = React.ComponentPropsWithoutRef<
   typeof Primitive.input
 >;
@@ -407,7 +407,7 @@ const PopoverContentNonModal = React.forwardRef<
 
 /* -----------------------------------------------------------------------------------------------*/
 
-type PopoverContentImplElement = React.ElementRef<
+type PopoverContentImplElement = React.ComponentRef<
   typeof PopperPrimitive.Content
 >;
 type FocusScopeProps = React.ComponentPropsWithoutRef<typeof FocusScope>;
@@ -514,7 +514,7 @@ const PopoverContentImpl = React.forwardRef<
 
 /* const CLOSE_NAME = "PopoverClose";
 
-type PopoverCloseElement = React.ElementRef<typeof Primitive.button>;
+type PopoverCloseElement = React.ComponentRef<typeof Primitive.button>;
 type PopoverCloseProps = PrimitiveButtonProps;
 
 const PopoverClose = React.forwardRef<PopoverCloseElement, PopoverCloseProps>(
@@ -542,7 +542,7 @@ PopoverClose.displayName = CLOSE_NAME;
 
 const ARROW_NAME = "PopoverArrow";
 
-type PopoverArrowElement = React.ElementRef<typeof PopperPrimitive.Arrow>;
+type PopoverArrowElement = React.ComponentRef<typeof PopperPrimitive.Arrow>;
 type PopperArrowProps = React.ComponentPropsWithoutRef<
   typeof PopperPrimitive.Arrow
 >;
