@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardAction,
@@ -10,21 +12,16 @@ import {
 
 export default function Page() {
   return (
-    <>
-      <h1>Hello, This is the linker page!</h1>
-      <Card>
-        <CardHeader>
-          <CardTitle>Card Title</CardTitle>
-          <CardDescription>Card Description</CardDescription>
-          <CardAction>Card Action</CardAction>
-        </CardHeader>
-        <CardContent>
-          <p>Card Content</p>
-        </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
-      </Card>
-    </>
+    <div className="container mx-auto px-4">
+      <div className="flex items-center justify-center h-dvh">
+        <Card className="w-full max-w-sm">
+          <CardHeader>
+            <CardTitle>Welcome to, Linker </CardTitle>
+            <CardDescription>Link Building App</CardDescription>
+          </CardHeader>
+          <CardContent></CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }
