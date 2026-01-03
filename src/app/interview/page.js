@@ -12,6 +12,8 @@ async function InterviewExercise() {
     <>
       <article className="main-article">
         <Image
+          width={500}
+          height={500}
           className="hero-img"
           src="/art/pikachu.png"
           alt="AI-generated oil painting of Pikachu"
@@ -88,10 +90,14 @@ async function InterviewExercise() {
 
         <div className="row">
           <Image
+            width={500}
+            height={500}
             src="/art/koopa-troopa.png"
             alt="AI-generated oil painting of a Koopa Troopa from Super Mario"
           />
           <Image
+            width={500}
+            height={500}
             src="/art/vader.png"
             alt="AI-generated oil painting of a pixellated Darth Vader"
           />

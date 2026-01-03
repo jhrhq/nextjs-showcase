@@ -4,6 +4,8 @@ function Interview() {
   return (
     <article>
       <Image
+        width={500}
+        height={500}
         className="hero-img"
         src="/pikachu.png"
         alt="AI-generated oil painting of Pikachu"
@@ -80,10 +82,14 @@ function Interview() {
 
       <div className="row">
         <Image
+          width={500}
+          height={500}
           src="/koopa-troopa.png"
           alt="AI-generated oil painting of a Koopa Troopa from Super Mario"
         />
         <Image
+          width={500}
+          height={500}
           src="/vader.png"
           alt="AI-generated oil painting of a pixellated Darth Vader"
         />

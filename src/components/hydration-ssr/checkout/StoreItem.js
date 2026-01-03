@@ -10,7 +10,7 @@ function StoreItem({ item, handleAddToCart }) {
 
   return (
     <article>
-      <Image src={item.imageSrc} alt={item.imageAlt} />
+      <Image width={500} height={500} src={item.imageSrc} alt={item.imageAlt} />
       <h2>{item.title}</h2>
       <p>{price}</p>
       <button type="button" onClick={() => handleAddToCart(item)}>

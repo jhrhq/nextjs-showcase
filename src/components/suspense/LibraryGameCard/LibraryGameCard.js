@@ -4,7 +4,13 @@ function LibraryGameCard({ game }) {
   return (
     <article className="library-game-card">
       <div className="hero-img">
-        <Image alt={game.slug} src={`/game-covers/${game.slug}.jpeg`} />
+        <Image
+          alt={game.slug}
+          width={500}
+          height={500}
+          loading="eager"
+          src={`/game-covers/${game.slug}.jpeg`}
+        />
       </div>
       <h2>{game.name}</h2>
       <p>{game.description}</p>
