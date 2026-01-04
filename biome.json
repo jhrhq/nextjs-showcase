@@ -7,7 +7,17 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
+    "includes": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.js",
+      "**/*.jsx",
+      "**/*.css",
+      "!node_modules",
+      "!.next",
+      "!dist",
+      "!build"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -24,12 +34,8 @@
     },
     "domains": {
       "next": "recommended",
-      "react": "recommended"
-    }
-  },
-  "css": {
-    "parser": {
-      "tailwindDirectives": true
+      "react": "recommended",
+      "tailwind": "recommended"
     }
   },
   "assist": {
@@ -37,6 +43,11 @@
       "source": {
         "organizeImports": "on"
       }
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
     }
   }
 }

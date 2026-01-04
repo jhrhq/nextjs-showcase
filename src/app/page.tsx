@@ -1,7 +1,3 @@
-export default function Page() {
-  return <>{CardDemo()}</>;
-}
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +9,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+export default function Page() {
+  return <CardDemo />;
+}
+
 export function CardDemo() {
   return (
     <div className="container mx-auto px-4">
@@ -22,8 +22,12 @@ export function CardDemo() {
             <CardTitle>Working on Linker App</CardTitle>
             <CardDescription>Link Building App</CardDescription>
             <CardAction>
-              <Button variant="link">
-                <Link href="/linker">Go to Linker App</Link>
+              <Button
+                variant="link"
+                nativeButton={false}
+                render={<Link href="/linker" />}
+              >
+                Go to Linker App
               </Button>
             </CardAction>
           </CardHeader>
