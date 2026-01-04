@@ -1,2 +1,5 @@
-pnpm lint
+#!/bin/sh
+
+pnpm lint-staged --concurrent false
+
 # pnpm exec tsc --noEmit
