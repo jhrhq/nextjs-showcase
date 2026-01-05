@@ -1,7 +1,15 @@
+import { Toaster } from "sonner";
+
 export default async function LinkerLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <>{children}</>;
+  return (
+    <>
+      {" "}
+      <Toaster closeButton={true} />
+      {children}
+    </>
+  );
 }
