@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.10/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -13,6 +13,7 @@
       "**/*.js",
       "**/*.jsx",
       "**/*.css",
+      "**/*.json",
       "!node_modules",
       "!.next",
       "!dist",
@@ -42,6 +43,9 @@
     }
   },
   "json": {
+    "formatter": {
+      "enabled": true
+    },
     "parser": {
       "allowComments": true,
       "allowTrailingCommas": true
