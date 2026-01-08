@@ -1,11 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LucideEye, LucideEyeOff } from "lucide-react";
+import { AlertCircleIcon, LucideEye, LucideEyeOff } from "lucide-react";
 import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import * as z from "zod";
+import { Alert, AlertTitle } from "@/components/ui/alert";
+// import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,33 +24,47 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
+import { signInAction } from "@/lib/linker/actions";
+import {
+  type LoginFormData,
+  loginSchema,
+  type SignInActionState,
+} from "@/lib/linker/types";
 
-const formSchema = z.object({
-  email: z
-    .email("Please add a valid email")
-    .max(32, "Bug title must be at most 32 characters."),
-  password: z
-    .string()
-    .min(6, "Password must be at least 6 characters.")
-    .max(100, "Description must be at most 100 characters."),
-});
+export const signInInitialState: SignInActionState = {
+  success: false,
+  message: "",
+  inputs: {
+    email: null,
+    password: null,
+  },
+  errors: {},
+};
 
 export function LoginForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [actionState, formAction, pending] = React.useActionState(
+    signInAction,
+    signInInitialState,
+  );
+  const [_, startTransition] = React.useTransition();
+
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "user@mail.com",
       password: "123456789",
     },
+    errors: actionState.errors?._errors,
   });
-
   const [showPassword, setShowPassword] = React.useState(false);
 
   function togglePassword() {
     setShowPassword(!showPassword);
   }
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  // console.log(actionState);
+  /* 
+  function onSubmit(data: LoginFormData) {
     toast("You submitted the following values:", {
       description: (
         <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
@@ -66,7 +80,7 @@ export function LoginForm() {
         "--border-radius": "calc(var(--radius)  + 4px)",
       } as React.CSSProperties,
     });
-  }
+  } */
 
   return (
     <Card className="w-full sm:max-w-md">
@@ -75,7 +89,16 @@ export function LoginForm() {
         <CardDescription>Please login to your account.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          action={formAction}
+          id="form-rhf-demo"
+          onSubmit={form.handleSubmit((_, e) => {
+            startTransition(() => {
+              const formData = new FormData(e?.target);
+              formAction(formData);
+            });
+          })}
+        >
           <FieldGroup>
             <Controller
               name="email"
@@ -91,7 +114,12 @@ export function LoginForm() {
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
+                    <FieldError errors={[fieldState.error]}>
+                      <Alert variant="destructive">
+                        <AlertCircleIcon />
+                        <AlertTitle>{fieldState.error?.message}.</AlertTitle>
+                      </Alert>
+                    </FieldError>
                   )}
                 </Field>
               )}
@@ -132,7 +160,12 @@ export function LoginForm() {
                   </InputGroup>
 
                   {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
+                    <FieldError errors={[fieldState.error]}>
+                      <Alert variant="destructive">
+                        <AlertCircleIcon />
+                        <AlertTitle>{fieldState.error?.message}.</AlertTitle>
+                      </Alert>
+                    </FieldError>
                   )}
                 </Field>
               )}
@@ -142,7 +175,7 @@ export function LoginForm() {
       </CardContent>
       <CardFooter>
         <Field orientation="horizontal">
-          <Button type="submit" form="form-rhf-demo">
+          <Button type="submit" form="form-rhf-demo" disabled={pending}>
             Submit
           </Button>
         </Field>
