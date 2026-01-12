@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircleIcon, LucideEye, LucideEyeOff } from "lucide-react";
+import Link from "next/link";
 import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Alert, AlertTitle } from "@/components/ui/alert";
@@ -11,10 +12,10 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
   // FieldDescription,
@@ -24,11 +25,12 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
+import { Label } from "@/components/ui/label";
 import { signInAction } from "@/lib/linker/actions";
 import {
-  type LoginFormData,
-  loginSchema,
+  type SignFormData,
   type SignInActionState,
+  SignSchema,
 } from "@/lib/linker/types";
 
 export const signInInitialState: SignInActionState = {
@@ -48,14 +50,16 @@ export function LoginForm() {
   );
   const [_, startTransition] = React.useTransition();
 
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<SignFormData>({
+    resolver: zodResolver(SignSchema),
     defaultValues: {
       email: "user@mail.com",
       password: "123456789",
     },
     errors: actionState.errors?._errors,
   });
+
+  console.log(actionState);
   const [showPassword, setShowPassword] = React.useState(false);
 
   function togglePassword() {
@@ -92,6 +96,7 @@ export function LoginForm() {
         <form
           action={formAction}
           id="form-rhf-demo"
+          className="flex flex-col gap-2"
           onSubmit={form.handleSubmit((_, e) => {
             startTransition(() => {
               const formData = new FormData(e?.target);
@@ -115,9 +120,12 @@ export function LoginForm() {
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]}>
-                      <Alert variant="destructive">
+                      <Alert
+                        variant="destructive"
+                        className="border-0 px-0 py-1"
+                      >
                         <AlertCircleIcon />
-                        <AlertTitle>{fieldState.error?.message}.</AlertTitle>
+                        <AlertTitle>{fieldState.error?.message}</AlertTitle>
                       </Alert>
                     </FieldError>
                   )}
@@ -161,9 +169,12 @@ export function LoginForm() {
 
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]}>
-                      <Alert variant="destructive">
+                      <Alert
+                        variant="destructive"
+                        className="border-0 px-0 py-1"
+                      >
                         <AlertCircleIcon />
-                        <AlertTitle>{fieldState.error?.message}.</AlertTitle>
+                        <AlertTitle>{fieldState.error?.message}</AlertTitle>
                       </Alert>
                     </FieldError>
                   )}
@@ -171,15 +182,27 @@ export function LoginForm() {
               )}
             />
           </FieldGroup>
+          <div className="flex gap-2 items-center justify-between my-2">
+            <div className="flex items-center gap-3">
+              <Checkbox id="terms" />
+              <Label htmlFor="terms">Remember Me</Label>
+            </div>
+            <Link href="/" className="font-medium text-primary">
+              Forgot Password?
+            </Link>
+          </div>
+          <Field orientation="horizontal">
+            <Button
+              className="w-full"
+              type="submit"
+              form="form-rhf-demo"
+              disabled={pending}
+            >
+              Submit
+            </Button>
+          </Field>
         </form>
       </CardContent>
-      <CardFooter>
-        <Field orientation="horizontal">
-          <Button type="submit" form="form-rhf-demo" disabled={pending}>
-            Submit
-          </Button>
-        </Field>
-      </CardFooter>
     </Card>
   );
 }

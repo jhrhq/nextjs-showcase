@@ -1,6 +1,6 @@
 "use server";
 
-import { loginSchema, type SignInActionState } from "@/lib/linker/types";
+import { type SignInActionState, SignSchema } from "@/lib/linker/types";
 import { zodIssueToActionErrors } from "@/lib/linker/utils";
 
 // import { invalidCredentials } from "@/lib/linker/utils";
@@ -19,7 +19,7 @@ export async function signInAction(
   };
 
   //Zod validation
-  const parsed = loginSchema.safeParse({
+  const parsed = SignSchema.safeParse({
     email: inputs.email,
     password: inputs.password,
   });
@@ -35,7 +35,7 @@ export async function signInAction(
       },
     };
   }
-  /* const user = false;
+  const user = false;
   if (!user) {
     return {
       ...state,
@@ -43,7 +43,7 @@ export async function signInAction(
         _form: ["Wrong email or password. Try again or reset your password."],
       },
     };
-  } */
+  }
   /*   try {
     const user = await db.user.findUnique({ where: { email: parsed.data.email } })
     const passwordValid = user && (await bcrypt.compare(parsed.data.password, user.passwordHash))

@@ -1,16 +1,16 @@
 import * as z from "zod";
 
-export const loginSchema = z.object({
+export const SignSchema = z.object({
   email: z
     .email("Please add a valid email")
-    .max(32, "Email must be at most 32 characters."),
+    .max(32, "Email must be at most 32 characters"),
   password: z
     .string()
-    .min(6, "Password must be at least 6 characters.")
-    .max(100, "Password must be at most 100 characters."),
+    .min(6, "Password must be at least 6 characters")
+    .max(100, "Password must be at most 100 characters"),
 });
 
-export type LoginFormData = z.infer<typeof loginSchema>;
+export type SignFormData = z.infer<typeof SignSchema>;
 // type LoginFormDataErrors = z.ZodFlattenedError<LoginFormData>["fieldErrors"];
 
 export type SimplifiedZodError = {

@@ -8,7 +8,19 @@ const Configuration: UserConfig = {
     "type-enum": [
       2,
       "always",
-      ["feat", "fix", "chore", "docs", "style", "refactor", "perf", "test"],
+      [
+        "feat",
+        "fix",
+        "chore",
+        "docs",
+        "style",
+        "refactor",
+        "perf",
+        "test",
+        "build",
+        "ci",
+        "wip",
+      ],
     ],
     "scope-empty": [2, "never"], // require a scope
     "subject-case": [0], // allow any casing
