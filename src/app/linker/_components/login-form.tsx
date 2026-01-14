@@ -187,7 +187,10 @@ export function LoginForm() {
               <Checkbox id="terms" />
               <Label htmlFor="terms">Remember Me</Label>
             </div>
-            <Link href="/" className="font-medium text-primary">
+            <Link
+              href="/linker/forgot-password"
+              className="font-medium text-primary"
+            >
               Forgot Password?
             </Link>
           </div>
@@ -198,7 +201,7 @@ export function LoginForm() {
               form="form-rhf-demo"
               disabled={pending}
             >
-              Submit
+              Login
             </Button>
           </Field>
         </form>

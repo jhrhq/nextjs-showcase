@@ -10,7 +10,8 @@
       75deg,
       var(--stroke-color) 0px var(--stroke-width),
       transparent var(--stroke-width) 10px
-    ), var(--color-backdrop);
+    ),
+    var(--color-backdrop);
   /*
     Allow the .blocker to spill out, without introducing a
     scrollburglar.
