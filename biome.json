@@ -14,6 +14,7 @@
       "**/*.jsx",
       "**/*.css",
       "**/*.json",
+      "!./src/components/ui/",
       "!node_modules",
       "!.next",
       "!dist",
@@ -37,7 +38,8 @@
         "useArrowFunction": "off"
       },
       "suspicious": {
-        "noUnknownAtRules": "off"
+        "noUnknownAtRules": "off",
+        "noArrayIndexKey": "off"
       }
     },
     "domains": {

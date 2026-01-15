@@ -1,6 +1,5 @@
-// biome-ignore-all lint/a11y/useSemanticElements: custom component requires non-semantic wrapper
-// biome-ignore-all lint/a11y/useSemanticElements: explain why you aren't using a fieldset
-
+/** biome-ignore-all lint/a11y/useSemanticElements: false flag */
+/** biome-ignore-all lint/a11y/useKeyWithClickEvents: false flag */
 "use client";
 
 import { cva, type VariantProps } from "class-variance-authority";
@@ -51,7 +50,6 @@ function InputGroupAddon({
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: wrapper component where onClick is optional/passed from props
     <div
       role="group"
       data-slot="input-group-addon"
@@ -91,10 +89,8 @@ function InputGroupButton({
   variant = "ghost",
   size = "xs",
   ...props
-}: Omit<React.ComponentProps<typeof Button>, "size" | "type"> &
-  VariantProps<typeof inputGroupButtonVariants> & {
-    type?: "button" | "submit" | "reset";
-  }) {
+}: Omit<React.ComponentProps<typeof Button>, "size"> &
+  VariantProps<typeof inputGroupButtonVariants>) {
   return (
     <Button
       type={type}
@@ -154,7 +150,7 @@ export {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
-  InputGroupInput,
   InputGroupText,
+  InputGroupInput,
   InputGroupTextarea,
 };

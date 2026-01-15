@@ -18,12 +18,8 @@ export default function Page() {
             <CardTitle>Reset Password </CardTitle>
             <CardDescription>Reset your password</CardDescription>
             <CardAction>
-              <Button
-                variant="link"
-                nativeButton={false}
-                render={<Link href="/linker" />}
-              >
-                Go to Linker Login
+              <Button variant="link" asChild>
+                <Link href="/linker">Go to Linker Login</Link>
               </Button>
             </CardAction>
           </CardHeader>

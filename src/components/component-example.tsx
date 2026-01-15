@@ -1,117 +1,83 @@
 "use client";
 
-import {
-  BellIcon,
-  BluetoothIcon,
-  CreditCardIcon,
-  DownloadIcon,
-  EyeIcon,
-  FileCodeIcon,
-  FileIcon,
-  FileTextIcon,
-  FolderIcon,
-  FolderOpenIcon,
-  FolderSearchIcon,
-  HelpCircleIcon,
-  KeyboardIcon,
-  LanguagesIcon,
-  LayoutIcon,
-  LogOutIcon,
-  MailIcon,
-  MonitorIcon,
-  MoonIcon,
-  MoreHorizontalIcon,
-  MoreVerticalIcon,
-  PaletteIcon,
-  PlusIcon,
-  SaveIcon,
-  SettingsIcon,
-  ShieldIcon,
-  SunIcon,
-  UserIcon,
-} from "lucide-react";
-import Image from "next/image";
-import * as React from "react";
+import Link from "next/link";
 import { Example, ExampleWrapper } from "@/components/example";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogMedia,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardAction,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Combobox,
-  ComboboxContent,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxList,
-} from "@/components/ui/combobox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 
 export function ComponentExample() {
   return (
     <ExampleWrapper>
-      <CardExample />
-      <FormExample />
+      <GotoLinker />
+      {/* <FormExample /> */}
     </ExampleWrapper>
   );
 }
 
-function CardExample() {
+function GotoLinker() {
+  return (
+    <Example title="Card" className="items-center justify-center">
+      <Card className="relative w-full max-w-sm overflow-hidden ">
+        <CardHeader>
+          <CardTitle>Linker App</CardTitle>
+          <CardDescription>
+            The simplified AI engine for internal linking. Automate your site’s
+            architecture with smart, semantic link suggestions that improve user
+            navigation and SEO without the bloat.
+          </CardDescription>
+        </CardHeader>
+        <CardFooter>
+          <Button className="w-full">
+            <Link href="/linker">Go to Linker</Link>
+          </Button>
+          {/*  <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button>
+                <PlusIcon data-icon="inline-start" />
+                Show Dialog
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent size="sm">
+              <AlertDialogHeader>
+                <AlertDialogMedia>
+                  <BluetoothIcon />
+                </AlertDialogMedia>
+                <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Do you want to allow the USB accessory to connect to this
+                  device?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Don&apos;t allow</AlertDialogCancel>
+                <AlertDialogAction>Allow</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog> */}
+          {/*   <Badge variant="outline" className="ml-auto">
+            SASS
+          </Badge> */}
+        </CardFooter>
+      </Card>
+    </Example>
+  );
+}
+/* 
+/* function CardExample() {
   return (
     <Example title="Card" className="items-center justify-center">
       <Card className="relative w-full max-w-sm overflow-hidden pt-0">
         <div className="bg-primary absolute inset-0 z-30 aspect-video opacity-50 mix-blend-color" />
-        <Image
-          width={500}
-          height={500}
+        <img
           src="https://images.unsplash.com/photo-1604076850742-4c7221f3101b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="mymind on Unsplash"
+          alt="Photo by mymind on Unsplash"
           title="Photo by mymind on Unsplash"
           className="relative z-20 aspect-video w-full object-cover brightness-60 grayscale"
         />
@@ -125,9 +91,11 @@ function CardExample() {
         </CardHeader>
         <CardFooter>
           <AlertDialog>
-            <AlertDialogTrigger render={<Button />}>
-              <PlusIcon data-icon="inline-start" />
-              Show Dialog
+            <AlertDialogTrigger asChild>
+              <Button>
+                <PlusIcon data-icon="inline-start" />
+                Show Dialog
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent size="sm">
               <AlertDialogHeader>
@@ -153,8 +121,8 @@ function CardExample() {
       </Card>
     </Example>
   );
-}
-
+} */
+/* 
 const frameworks = [
   "Next.js",
   "SvelteKit",
@@ -162,13 +130,6 @@ const frameworks = [
   "Remix",
   "Astro",
 ] as const;
-
-const roleItems = [
-  { label: "Developer", value: "developer" },
-  { label: "Designer", value: "designer" },
-  { label: "Manager", value: "manager" },
-  { label: "Other", value: "other" },
-];
 
 function FormExample() {
   const [notifications, setNotifications] = React.useState({
@@ -186,11 +147,11 @@ function FormExample() {
           <CardDescription>Please fill in your details below</CardDescription>
           <CardAction>
             <DropdownMenu>
-              <DropdownMenuTrigger
-                render={<Button variant="ghost" size="icon" />}
-              >
-                <MoreVerticalIcon />
-                <span className="sr-only">More options</span>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <MoreVerticalIcon />
+                  <span className="sr-only">More options</span>
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuGroup>
@@ -438,17 +399,16 @@ function FormExample() {
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="small-form-role">Role</FieldLabel>
-                  <Select items={roleItems} defaultValue={null}>
+                  <Select defaultValue="">
                     <SelectTrigger id="small-form-role">
-                      <SelectValue />
+                      <SelectValue placeholder="Select a role" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        {roleItems.map((item) => (
-                          <SelectItem key={item.value} value={item.value}>
-                            {item.label}
-                          </SelectItem>
-                        ))}
+                        <SelectItem value="developer">Developer</SelectItem>
+                        <SelectItem value="designer">Designer</SelectItem>
+                        <SelectItem value="manager">Manager</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -496,3 +456,4 @@ function FormExample() {
     </Example>
   );
 }
+ */

@@ -1,39 +1,5 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { ComponentExample } from "@/components/component-example";
 
 export default function Page() {
-  return <CardDemo />;
-}
-
-export function CardDemo() {
-  return (
-    <div className="container mx-auto px-4">
-      <div className="flex items-center justify-center h-dvh">
-        <Card className="w-full max-w-sm">
-          <CardHeader>
-            <CardTitle>Working on Linker App</CardTitle>
-            <CardDescription>Link Building App</CardDescription>
-            <CardAction>
-              <Button
-                variant="link"
-                nativeButton={false}
-                render={<Link href="/linker" />}
-              >
-                Go to Linker App
-              </Button>
-            </CardAction>
-          </CardHeader>
-          <CardContent></CardContent>
-        </Card>
-      </div>
-    </div>
-  );
+  return <ComponentExample />;
 }

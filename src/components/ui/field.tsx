@@ -1,7 +1,5 @@
-// biome-ignore-all lint/suspicious/noArrayIndexKey: explanation of why index keys are okay here
-// biome-ignore-all lint/a11y/useSemanticElements: explain why you aren't using a fieldset
-// biome-ignore-all lint/a11y/useKeyWithClickEvents: non-interactive element used for decorative interaction
-
+/** biome-ignore-all lint/a11y/useSemanticElements: false flag */
+/** biome-ignore-all lint/suspicious/noDoubleEquals: false flag */
 "use client";
 
 import { cva, type VariantProps } from "class-variance-authority";
@@ -197,7 +195,7 @@ function FieldError({
       ...new Map(errors.map((error) => [error?.message, error])).values(),
     ];
 
-    if (uniqueErrors?.length === 1) {
+    if (uniqueErrors?.length == 1) {
       return uniqueErrors[0]?.message;
     }
 
@@ -229,13 +227,13 @@ function FieldError({
 
 export {
   Field,
-  FieldContent,
+  FieldLabel,
   FieldDescription,
   FieldError,
   FieldGroup,
-  FieldLabel,
   FieldLegend,
   FieldSeparator,
   FieldSet,
+  FieldContent,
   FieldTitle,
 };
