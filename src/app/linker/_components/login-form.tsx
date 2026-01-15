@@ -43,7 +43,21 @@ export const signInInitialState: SignInActionState = {
   errors: {},
 };
 
-export function LoginForm() {
+export function Login() {
+  return (
+    <Card className="w-full sm:max-w-md">
+      <CardHeader>
+        <CardTitle>Login</CardTitle>
+        <CardDescription>Please login to your account.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <LoginForm />
+      </CardContent>
+    </Card>
+  );
+}
+
+function LoginForm() {
   const [actionState, formAction, pending] = React.useActionState(
     signInAction,
     signInInitialState,
@@ -87,125 +101,108 @@ export function LoginForm() {
   } */
 
   return (
-    <Card className="w-full sm:max-w-md">
-      <CardHeader>
-        <CardTitle>Login</CardTitle>
-        <CardDescription>Please login to your account.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form
-          action={formAction}
-          id="form-rhf-demo"
-          className="flex flex-col gap-2"
-          onSubmit={form.handleSubmit((_, e) => {
-            startTransition(() => {
-              const formData = new FormData(e?.target);
-              formAction(formData);
-            });
-          })}
-        >
-          <FieldGroup>
-            <Controller
-              name="email"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-title">Email</FieldLabel>
-                  <Input
-                    {...field}
-                    id="form-rhf-demo-title"
-                    aria-invalid={fieldState.invalid}
-                    placeholder="email@mail.com"
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]}>
-                      <Alert
-                        variant="destructive"
-                        className="border-0 px-0 py-1"
-                      >
-                        <AlertCircleIcon />
-                        <AlertTitle>{fieldState.error?.message}</AlertTitle>
-                      </Alert>
-                    </FieldError>
-                  )}
-                </Field>
+    <form
+      action={formAction}
+      id="form-rhf-demo"
+      className="flex flex-col gap-2"
+      onSubmit={form.handleSubmit((_, e) => {
+        startTransition(() => {
+          const formData = new FormData(e?.target);
+          formAction(formData);
+        });
+      })}
+    >
+      <FieldGroup>
+        <Controller
+          name="email"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-rhf-demo-title">Email</FieldLabel>
+              <Input
+                {...field}
+                id="form-rhf-demo-title"
+                aria-invalid={fieldState.invalid}
+                placeholder="email@mail.com"
+                autoComplete="off"
+              />
+              {fieldState.invalid && (
+                <FieldError errors={[fieldState.error]}>
+                  <Alert variant="destructive" className="border-0 px-0 py-1">
+                    <AlertCircleIcon />
+                    <AlertTitle>{fieldState.error?.message}</AlertTitle>
+                  </Alert>
+                </FieldError>
               )}
-            />
-            <Controller
-              name="password"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-description">
-                    Password
-                  </FieldLabel>
-                  <InputGroup>
-                    <Input
-                      {...field}
-                      id="form-rhf-demo-description"
-                      placeholder="Please enter you password."
-                      type={showPassword ? "text" : "password"}
-                      aria-invalid={fieldState.invalid}
-                    />
-                    <InputGroupAddon align="inline-end">
-                      <Button
-                        className="m-0 p-0 size-auto"
-                        variant="ghost"
-                        type="button"
-                        onClick={togglePassword}
-                      >
-                        {showPassword ? (
-                          <LucideEye
-                            strokeWidth="1"
-                            className="text-gray-900"
-                          />
-                        ) : (
-                          <LucideEyeOff strokeWidth="1" />
-                        )}
-                      </Button>
-                    </InputGroupAddon>
-                  </InputGroup>
+            </Field>
+          )}
+        />
+        <Controller
+          name="password"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-rhf-demo-description">
+                Password
+              </FieldLabel>
+              <InputGroup>
+                <Input
+                  {...field}
+                  id="form-rhf-demo-description"
+                  placeholder="Please enter you password."
+                  type={showPassword ? "text" : "password"}
+                  aria-invalid={fieldState.invalid}
+                />
+                <InputGroupAddon align="inline-end">
+                  <Button
+                    className="m-0 p-0 size-auto"
+                    variant="ghost"
+                    type="button"
+                    onClick={togglePassword}
+                  >
+                    {showPassword ? (
+                      <LucideEye strokeWidth="1" className="text-gray-900" />
+                    ) : (
+                      <LucideEyeOff strokeWidth="1" />
+                    )}
+                  </Button>
+                </InputGroupAddon>
+              </InputGroup>
 
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]}>
-                      <Alert
-                        variant="destructive"
-                        className="border-0 px-0 py-1"
-                      >
-                        <AlertCircleIcon />
-                        <AlertTitle>{fieldState.error?.message}</AlertTitle>
-                      </Alert>
-                    </FieldError>
-                  )}
-                </Field>
+              {fieldState.invalid && (
+                <FieldError errors={[fieldState.error]}>
+                  <Alert variant="destructive" className="border-0 px-0 py-1">
+                    <AlertCircleIcon />
+                    <AlertTitle>{fieldState.error?.message}</AlertTitle>
+                  </Alert>
+                </FieldError>
               )}
-            />
-          </FieldGroup>
-          <div className="flex gap-2 items-center justify-between my-2">
-            <div className="flex items-center gap-3">
-              <Checkbox id="terms" />
-              <Label htmlFor="terms">Remember Me</Label>
-            </div>
-            <Link
-              href="/linker/forgot-password"
-              className="font-medium text-primary"
-            >
-              Forgot Password?
-            </Link>
-          </div>
-          <Field orientation="horizontal">
-            <Button
-              className="w-full"
-              type="submit"
-              form="form-rhf-demo"
-              disabled={pending}
-            >
-              Login
-            </Button>
-          </Field>
-        </form>
-      </CardContent>
-    </Card>
+            </Field>
+          )}
+        />
+      </FieldGroup>
+      <div className="flex gap-2 items-center justify-between my-2">
+        <div className="flex items-center gap-3">
+          <Checkbox id="terms" />
+          <Label htmlFor="terms">Remember Me</Label>
+        </div>
+        <Link
+          href="/linker/forgot-password"
+          className="font-medium text-primary"
+        >
+          Forgot Password?
+        </Link>
+      </div>
+      <Field orientation="horizontal">
+        <Button
+          className="w-full"
+          type="submit"
+          form="form-rhf-demo"
+          disabled={pending}
+        >
+          Login
+        </Button>
+      </Field>
+    </form>
   );
 }

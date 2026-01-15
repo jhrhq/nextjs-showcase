@@ -34,7 +34,7 @@ function GotoLinker() {
           </CardDescription>
         </CardHeader>
         <CardFooter>
-          <Button className="w-full">
+          <Button className="w-full" asChild>
             <Link href="/linker">Go to Linker</Link>
           </Button>
           {/*  <AlertDialog>
