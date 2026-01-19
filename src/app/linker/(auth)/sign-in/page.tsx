@@ -4,9 +4,10 @@
 // PURPOSE: Sign in page
 // ============================================================================
 
+import type { Metadata } from "next";
 import { SignInCard } from "@/components/linker/features/auth/sign-in-card";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Sign In",
   description: "Sign in to your account",
 };

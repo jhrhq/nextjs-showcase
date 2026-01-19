@@ -6,13 +6,7 @@
 
 "use client";
 
-import {
-  AlertCircleIcon,
-  Lock,
-  LucideEye,
-  LucideEyeOff,
-  Mail,
-} from "lucide-react";
+import { Lock, LucideEye, LucideEyeOff, Mail } from "lucide-react";
 import * as React from "react";
 import {
   type Control,
@@ -20,7 +14,7 @@ import {
   type FieldPath,
   type FieldValues,
 } from "react-hook-form";
-import { Alert, AlertTitle } from "@/components/ui/alert";
+import FormError from "@/components/linker/features/auth/auth-errro-alert";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import {
@@ -81,14 +75,9 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
             </InputGroupAddon>
           </InputGroup>
 
-          {fieldState.invalid && (
-            <FieldError errors={[fieldState.error]}>
-              <Alert variant="destructive" className="border-0 px-0 py-1">
-                <AlertCircleIcon />
-                <AlertTitle>{fieldState.error?.message}</AlertTitle>
-              </Alert>
-            </FieldError>
-          )}
+          <FieldError>
+            <FormError error={fieldState.error?.message} />
+          </FieldError>
         </Field>
       )}
     />
@@ -152,14 +141,9 @@ export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
             </InputGroupAddon>
           </InputGroup>
 
-          {fieldState.invalid && (
-            <FieldError errors={[fieldState.error]}>
-              <Alert variant="destructive" className="border-0 px-0 py-1">
-                <AlertCircleIcon />
-                <AlertTitle>{fieldState.error?.message}</AlertTitle>
-              </Alert>
-            </FieldError>
-          )}
+          <FieldError>
+            <FormError error={fieldState.error?.message} />
+          </FieldError>
         </Field>
       )}
     />

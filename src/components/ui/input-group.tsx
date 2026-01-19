@@ -1,5 +1,5 @@
-/** biome-ignore-all lint/a11y/useSemanticElements: false flag */
-/** biome-ignore-all lint/a11y/useKeyWithClickEvents: false flag */
+/** biome-ignore-all lint/a11y/useSemanticElements: false flag*/
+/** biome-ignore-all lint/a11y/useKeyWithClickEvents: false flag*/
 "use client";
 
 import { cva, type VariantProps } from "class-variance-authority";

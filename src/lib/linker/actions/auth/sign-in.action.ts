@@ -48,7 +48,6 @@ export async function signInAction(
 
     if (!validationResult.success) {
       const validationErrors = z.flattenError(validationResult.error);
-      console.log(validationErrors);
       return {
         success: false,
         error: "Please check your input and try again",

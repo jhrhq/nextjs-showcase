@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/a11y/useSemanticElements: false flag */
-/** biome-ignore-all lint/suspicious/noDoubleEquals: false flag */
+/** biome-ignore-all lint/suspicious/noDoubleEquals: false flag*/
 "use client";
 
 import { cva, type VariantProps } from "class-variance-authority";

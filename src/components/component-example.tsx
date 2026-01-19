@@ -1,76 +1,110 @@
+/** biome-ignore-all lint/a11y/noRedundantAlt: false flag*/
+/** biome-ignore-all lint/performance/noImgElement: false flag*/
 "use client";
 
+import {
+  BellIcon,
+  BluetoothIcon,
+  CreditCardIcon,
+  DownloadIcon,
+  EyeIcon,
+  FileCodeIcon,
+  FileIcon,
+  FileTextIcon,
+  FolderIcon,
+  FolderOpenIcon,
+  FolderSearchIcon,
+  HelpCircleIcon,
+  KeyboardIcon,
+  LanguagesIcon,
+  LayoutIcon,
+  LogOutIcon,
+  MailIcon,
+  MonitorIcon,
+  MoonIcon,
+  MoreHorizontalIcon,
+  MoreVerticalIcon,
+  PaletteIcon,
+  PlusIcon,
+  SaveIcon,
+  SettingsIcon,
+  ShieldIcon,
+  SunIcon,
+  UserIcon,
+} from "lucide-react";
 import Link from "next/link";
+import * as React from "react";
 import { Example, ExampleWrapper } from "@/components/example";
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardAction,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 export function ComponentExample() {
   return (
     <ExampleWrapper>
-      <GotoLinker />
-      {/* <FormExample /> */}
+      <CardExample />
+      <FormExample />
     </ExampleWrapper>
   );
 }
 
-function GotoLinker() {
-  return (
-    <Example title="Card" className="items-center justify-center">
-      <Card className="relative w-full max-w-sm overflow-hidden ">
-        <CardHeader>
-          <CardTitle>Linker App</CardTitle>
-          <CardDescription>
-            The simplified AI engine for internal linking. Automate your site’s
-            architecture with smart, semantic link suggestions that improve user
-            navigation and SEO without the bloat.
-          </CardDescription>
-        </CardHeader>
-        <CardFooter>
-          <Button className="w-full" asChild>
-            <Link href="/linker">Go to Linker</Link>
-          </Button>
-          {/*  <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button>
-                <PlusIcon data-icon="inline-start" />
-                Show Dialog
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent size="sm">
-              <AlertDialogHeader>
-                <AlertDialogMedia>
-                  <BluetoothIcon />
-                </AlertDialogMedia>
-                <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Do you want to allow the USB accessory to connect to this
-                  device?
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Don&apos;t allow</AlertDialogCancel>
-                <AlertDialogAction>Allow</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog> */}
-          {/*   <Badge variant="outline" className="ml-auto">
-            SASS
-          </Badge> */}
-        </CardFooter>
-      </Card>
-    </Example>
-  );
-}
-/* 
-/* function CardExample() {
+function CardExample() {
   return (
     <Example title="Card" className="items-center justify-center">
       <Card className="relative w-full max-w-sm overflow-hidden pt-0">
@@ -90,6 +124,9 @@ function GotoLinker() {
           </CardDescription>
         </CardHeader>
         <CardFooter>
+          <Button asChild>
+            <Link href={"/linker"}>Go to Linker</Link>
+          </Button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button>
@@ -121,8 +158,8 @@ function GotoLinker() {
       </Card>
     </Example>
   );
-} */
-/* 
+}
+
 const frameworks = [
   "Next.js",
   "SvelteKit",
@@ -456,4 +493,3 @@ function FormExample() {
     </Example>
   );
 }
- */

@@ -27,9 +27,9 @@ export const AUTH_CONFIG = {
     MAX_LENGTH: 255,
   },
   ROUTES: {
-    SIGN_IN: "/sign-in",
-    DASHBOARD: "/dashboard",
-    VERIFY_EMAIL: "/verify-email",
+    SIGN_IN: "/linker/sign-in",
+    DASHBOARD: "/linker/dashboard",
+    VERIFY_EMAIL: "/linker/verify-email",
   },
 } as const;
 
