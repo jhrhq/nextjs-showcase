@@ -1,4 +1,4 @@
-import Clock from "../../components/hydration-ssr/clock";
+import Clock from "../../../components/hydration-ssr/clock";
 
 function ClockExercise() {
   return (

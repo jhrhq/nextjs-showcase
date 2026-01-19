@@ -1,9 +1,3 @@
-// ============================================================================
-// FILE: src/app/(auth)/sign-in/page.tsx
-// LOCATION: src/app/(auth)/sign-in/page.tsx
-// PURPOSE: Sign in page
-// ============================================================================
-
 import type { Metadata } from "next";
 import { SignInCard } from "@/components/linker/features/auth/sign-in-card";
 
@@ -14,8 +8,12 @@ export const metadata: Metadata = {
 
 export default function SignInPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
-      <SignInCard />
+    <div className="container mx-auto px-4">
+      <div className="flex items-center justify-center h-dvh">
+        <div className="flex min-h-screen items-center justify-center p-4 w-full">
+          <SignInCard />
+        </div>
+      </div>
     </div>
   );
 }

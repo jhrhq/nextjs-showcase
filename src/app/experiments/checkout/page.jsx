@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import CheckoutFlow from "../../components/hydration-ssr/checkout/CheckoutFlow";
-import DATA from "../../components/hydration-ssr/checkout/data";
-import reducer from "../../components/hydration-ssr/checkout/reducer";
-import StoreItem from "../../components/hydration-ssr/checkout/StoreItem";
+import CheckoutFlow from "../../../components/hydration-ssr/checkout/CheckoutFlow";
+import DATA from "../../../components/hydration-ssr/checkout/data";
+import reducer from "../../../components/hydration-ssr/checkout/reducer";
+import StoreItem from "../../../components/hydration-ssr/checkout/StoreItem";
 
 function CheckoutExercise() {
   const [items, dispatch] = React.useReducer(reducer, null);

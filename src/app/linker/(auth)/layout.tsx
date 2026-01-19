@@ -1,13 +1,7 @@
-// ============================================================================
-// FILE: src/app/(auth)/layout.tsx
-// LOCATION: src/app/(auth)/layout.tsx
-// PURPOSE: Auth pages layout
-// ============================================================================
-
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
-  return <div className="relative min-h-screen bg-background">{children}</div>;
+}>) {
+  return <main>{children}</main>;
 }
