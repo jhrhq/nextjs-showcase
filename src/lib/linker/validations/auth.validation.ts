@@ -34,3 +34,42 @@ export type SignInInput = z.infer<typeof signInSchema>;
  * - resetPasswordSchema
  * - changePasswordSchema
  */
+
+export const signUpSchema = z
+  .object({
+    name: z.string().min(2, "Name must be at least 2 characters"),
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
+// Project schemas
+export const createProjectSchema = z.object({
+  name: z.string().min(2, "Project name must be at least 2 characters"),
+  domain: z.string().url("Must be a valid URL"),
+  description: z.string().optional(),
+});
+
+// Account schemas
+export const updatePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(8, "Password must be at least 8 characters"),
+    newPassword: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  })
+  .refine((data) => data.currentPassword !== data.newPassword, {
+    message: "New password must be different from current password",
+    path: ["newPassword"],
+  });
+
+export type SignUpInput = z.infer<typeof signUpSchema>;
+export type CreateProjectInput = z.infer<typeof createProjectSchema>;
+export type UpdatePasswordInput = z.infer<typeof updatePasswordSchema>;

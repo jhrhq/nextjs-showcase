@@ -5,7 +5,7 @@
 // ============================================================================
 
 import { AuthError } from "@/lib/linker/errors/auth.error";
-import type { User } from "@/lib/linker/types/auth.types";
+import type { AppUser } from "@/lib/linker/types/auth.types";
 
 /**
  * Authentication Service
@@ -23,7 +23,7 @@ class AuthService {
    *
    * @throws {AuthError} If credentials are invalid or account has issues
    */
-  async authenticate(email: string, password: string): Promise<User> {
+  async authenticate(email: string, password: string): Promise<AppUser> {
     // MOCK: Replace with actual database query
     const user = await this.findUserByEmail(email);
 
@@ -48,7 +48,7 @@ class AuthService {
    * Validate account is in good standing
    * @throws {AuthError} If account is locked, disabled, or email not verified
    */
-  private validateAccountStatus(user: User): void {
+  private validateAccountStatus(user: AppUser): void {
     if (user.status === "locked") {
       throw AuthError.accountLocked();
     }
@@ -66,7 +66,7 @@ class AuthService {
    * MOCK: Find user by email
    * PRODUCTION: Replace with database query
    */
-  private async findUserByEmail(email: string): Promise<User | null> {
+  private async findUserByEmail(email: string): Promise<AppUser | null> {
     // Simulate database latency
     await new Promise((resolve) => setTimeout(resolve, 100));
 

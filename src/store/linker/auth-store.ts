@@ -1,10 +1,5 @@
 import { create } from "zustand";
-
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-}
+import type { User } from "@/lib/linker/types/auth.types";
 
 export interface AuthState {
   user: User | null;
@@ -14,12 +9,18 @@ export interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  isAuthenticated: false,
+  user: {
+    email: "mail@mail.com",
+    createdAt: "time",
+    id: "1",
+    name: "jo",
+    plan: "enterprise",
+    avatar: "jo",
+  },
+  isAuthenticated: true,
   setUser: (user: User | null) => set({ user, isAuthenticated: !!user }),
   logout: () => {
     if (typeof window !== "undefined") {
-      // Make sure we're in the browser
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
     }

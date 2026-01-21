@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const apiClient = axios.create({
+export const linkerApi = axios.create({
   baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
@@ -8,7 +8,7 @@ export const apiClient = axios.create({
 });
 
 // Add request interceptor for auth token
-apiClient.interceptors.request.use((config) => {
+linkerApi.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -17,7 +17,7 @@ apiClient.interceptors.request.use((config) => {
 });
 
 // Add response interceptor for token refresh
-apiClient.interceptors.response.use(
+linkerApi.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
@@ -35,11 +35,11 @@ apiClient.interceptors.response.use(
         localStorage.setItem("accessToken", accessToken);
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
 
-        return apiClient(originalRequest);
+        return linkerApi(originalRequest);
       } catch (refreshError) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        window.location.href = "/spa-app/login";
+        window.location.href = "/linker/sign-in";
         return Promise.reject(refreshError);
       }
     }

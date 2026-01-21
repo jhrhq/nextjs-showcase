@@ -8,7 +8,7 @@ import type { AUTH_ERROR_CODES } from "@/lib/linker/constants/auth.constants";
 
 export type AuthErrorCode = (typeof AUTH_ERROR_CODES)[keyof typeof AUTH_ERROR_CODES];
 
-export interface User {
+export interface AppUser {
   id: string;
   email: string;
   name: string | null;
@@ -28,4 +28,31 @@ export interface Session {
 export interface RateLimitEntry {
   count: number;
   resetAt: number;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  avatar?: string;
+  plan: "free" | "pro" | "enterprise";
+  createdAt: string;
+}
+
+export interface SignInRequest {
+  email: string;
+  password: string;
+}
+
+export interface SignUpRequest {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  accessToken: string;
+  refreshToken: string;
 }
