@@ -16,9 +16,7 @@ function Clock() {
     };
   }, []);
 
-  return (
-    <p className="clock">{time ? format(time, "hh:mm:ss.S a") : <Loader />}</p>
-  );
+  return <p className="clock">{time ? format(time, "hh:mm:ss.S a") : <Loader />}</p>;
 }
 
 export default Clock;

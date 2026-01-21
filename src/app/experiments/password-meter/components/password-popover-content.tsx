@@ -14,14 +14,12 @@ const progressObj = {
 };
 
 const PasswordPopoverContent = (props: { value: string }) => {
-  const { score, strength, hasLowercase, hasNumber, hasUppercase, hasSymbol } =
-    checkPasswordStrength(props.value);
+  const { score, strength, hasLowercase, hasNumber, hasUppercase, hasSymbol } = checkPasswordStrength(props.value);
   const progressRange: number[] = range(1, 5);
   return (
     <>
       <h4 className="text-base font-medium text-gray-950 dark:text-white">
-        {strength || "Must have at least 6 characters."}{" "}
-        {strength && "Password"}
+        {strength || "Must have at least 6 characters."} {strength && "Password"}
       </h4>
       <div className="mb-5 mt-4 flex gap-2">
         {progressRange.map((item, index) => {
@@ -41,14 +39,10 @@ const PasswordPopoverContent = (props: { value: string }) => {
         <p>It's better to have:</p>
 
         <div className="flex flex-col gap-y-2">
-          <CheckList isChecked={hasUppercase && hasLowercase}>
-            Upper & lower case letters
-          </CheckList>
+          <CheckList isChecked={hasUppercase && hasLowercase}>Upper & lower case letters</CheckList>
           <CheckList isChecked={hasSymbol}>A symbol (#$&)</CheckList>
           <CheckList isChecked={hasNumber}>A number</CheckList>
-          <CheckList isChecked={props.value.length >= 16}>
-            A longer password
-          </CheckList>
+          <CheckList isChecked={props.value.length >= 16}>A longer password</CheckList>
         </div>
       </div>
     </>
@@ -62,7 +56,7 @@ const CircleCheckSvg = ({ className }: { className?: string }) => {
     <span
       className={cn(
         " mr-2 flex size-4 shrink-0 items-center justify-center rounded-full bg-blue-500 text-blue-600 dark:bg-blue-800/30 dark:text-blue-500",
-        className,
+        className
       )}
     >
       <svg
@@ -84,28 +78,18 @@ const CircleCheckSvg = ({ className }: { className?: string }) => {
   );
 };
 
-const CheckList = ({
-  isChecked,
-  children,
-}: {
-  isChecked: boolean;
-  children: ReactNode;
-}) => {
+const CheckList = ({ isChecked, children }: { isChecked: boolean; children: ReactNode }) => {
   return (
     <div
       className={cn(
         "flex w-full font-normal shrink-0 items-center transition-all",
-        isChecked && "text-gray-300 line-through",
+        isChecked && "text-gray-300 line-through"
       )}
     >
       {isChecked ? (
         <CircleCheckSvg />
       ) : (
-        <span
-          className={cn(
-            "mr-2 flex size-4 shrink-0 items-center justify-center ",
-          )}
-        >
+        <span className={cn("mr-2 flex size-4 shrink-0 items-center justify-center ")}>
           <LucideDot className=" size-6 shrink-0 stroke-[3px] text-blue-600" />
         </span>
       )}

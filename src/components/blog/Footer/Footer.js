@@ -19,10 +19,9 @@ function Footer() {
             for more information.
           */}
           <p className={styles.attribution}>
-            Blog template created by{" "}
-            <a href="https://www.joshwcomeau.com/">Josh W. Comeau</a>. Check out{" "}
-            <a href="https://www.joyofreact.com/">The Joy of React</a> to learn
-            how to build dynamic React apps like this one!
+            Blog template created by <a href="https://www.joshwcomeau.com/">Josh W. Comeau</a>. Check out{" "}
+            <a href="https://www.joyofreact.com/">The Joy of React</a> to learn how to build dynamic React apps like
+            this one!
           </p>
         </div>
         <nav>

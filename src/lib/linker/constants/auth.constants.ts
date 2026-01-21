@@ -43,10 +43,7 @@ export const AUTH_ERROR_CODES = {
   VALIDATION_ERROR: "VALIDATION_ERROR",
 } as const;
 
-export const AUTH_ERROR_MESSAGES: Record<
-  keyof typeof AUTH_ERROR_CODES,
-  string
-> = {
+export const AUTH_ERROR_MESSAGES: Record<keyof typeof AUTH_ERROR_CODES, string> = {
   INVALID_CREDENTIALS: "Invalid email or password",
   ACCOUNT_LOCKED: "Account has been locked due to multiple failed attempts",
   ACCOUNT_DISABLED: "This account has been disabled",

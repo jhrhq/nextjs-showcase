@@ -4,10 +4,7 @@
 // PURPOSE: Custom authentication error class
 // ============================================================================
 
-import {
-  AUTH_ERROR_CODES,
-  AUTH_ERROR_MESSAGES,
-} from "@/lib/linker/constants/auth.constants";
+import { AUTH_ERROR_CODES, AUTH_ERROR_MESSAGES } from "@/lib/linker/constants/auth.constants";
 import type { AuthErrorCode } from "@/lib/linker/types/auth.types";
 
 export class AuthError extends Error {
@@ -47,10 +44,6 @@ export class AuthError extends Error {
   }
 
   static serverError(message?: string): AuthError {
-    return new AuthError(
-      AUTH_ERROR_CODES.SERVER_ERROR,
-      message || AUTH_ERROR_MESSAGES.SERVER_ERROR,
-      500,
-    );
+    return new AuthError(AUTH_ERROR_CODES.SERVER_ERROR, message || AUTH_ERROR_MESSAGES.SERVER_ERROR, 500);
   }
 }

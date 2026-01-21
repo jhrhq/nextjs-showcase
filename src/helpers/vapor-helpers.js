@@ -22,8 +22,7 @@ const GAMES = [
   {
     slug: "bastion",
     name: "Bastion",
-    description:
-      "Discover the secrets of the Calamity, a surreal catastrophe that shattered the world to pieces.",
+    description: "Discover the secrets of the Calamity, a surreal catastrophe that shattered the world to pieces.",
     developer: "Supergiant Games",
     totalPlayed: 37.4,
     achievements: {
@@ -178,8 +177,7 @@ const GAMES = [
   {
     slug: "terraria",
     name: "Terraria",
-    description:
-      "Dig, fight, explore, build! Nothing is impossible in this action-packed adventure game.",
+    description: "Dig, fight, explore, build! Nothing is impossible in this action-packed adventure game.",
     developer: "Re-Logic",
     totalPlayed: 963,
     achievements: {

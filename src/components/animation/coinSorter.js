@@ -17,9 +17,7 @@ function CoinSorter({ numOfCoins }) {
           <button
             type="button"
             key={boxIndex}
-            className={`${styles.box} ${
-              selectedBox === boxIndex ? styles.selected : ""
-            }`}
+            className={`${styles.box} ${selectedBox === boxIndex ? styles.selected : ""}`}
             onClick={() => setSelectedBox(boxIndex)}
           >
             {selectedBox === boxIndex &&

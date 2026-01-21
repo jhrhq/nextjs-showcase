@@ -5,6 +5,7 @@
 // ============================================================================
 
 import { cookies } from "next/headers";
+import type { NextRequest } from "next/server";
 import { AUTH_CONFIG } from "@/lib/linker/constants/auth.constants";
 import type { Session } from "@/lib/linker/types/auth.types";
 
@@ -81,3 +82,16 @@ class SessionService {
 }
 
 export const sessionService = new SessionService();
+
+export async function getSession(req: NextRequest) {
+  const token = req.cookies.get("session-token")?.value;
+  if (!token) return null;
+
+  try {
+    // Local verification (no DB call)
+    const sessionData = await token; // decrypt(token)
+    return sessionData;
+  } catch (_error) {
+    return null;
+  }
+}

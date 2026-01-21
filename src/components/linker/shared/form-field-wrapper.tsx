@@ -8,20 +8,11 @@
 
 import { Lock, LucideEye, LucideEyeOff, Mail } from "lucide-react";
 import * as React from "react";
-import {
-  type Control,
-  Controller,
-  type FieldPath,
-  type FieldValues,
-} from "react-hook-form";
+import { type Control, Controller, type FieldPath, type FieldValues } from "react-hook-form";
 import FormError from "@/components/linker/features/auth/auth-errro-alert";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 
 type FormFieldWrapperProps<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>;
@@ -125,12 +116,7 @@ export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
               autoComplete={autoComplete}
             />
             <InputGroupAddon align="inline-end">
-              <Button
-                className="m-0 p-0 size-auto"
-                variant="ghost"
-                type="button"
-                onClick={togglePassword}
-              >
+              <Button className="m-0 p-0 size-auto" variant="ghost" type="button" onClick={togglePassword}>
                 {showPassword ? (
                   <LucideEye strokeWidth="1" className="text-gray-900" />
                 ) : (

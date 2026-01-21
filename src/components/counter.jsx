@@ -19,11 +19,7 @@ function Counter() {
   }, [count]);
 
   return (
-    <button
-      type="button"
-      className="count-btn"
-      onClick={() => setCount(count + 1)}
-    >
+    <button type="button" className="count-btn" onClick={() => setCount(count + 1)}>
       Count: {count}
     </button>
   );

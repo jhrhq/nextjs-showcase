@@ -6,9 +6,8 @@ async function WebBaseHomepage() {
     <section className="hero">
       <h1>Harness the Power of Databases, Without Coding a Single Line</h1>
       <p className="subheading">
-        Manage SQL, NoSQL, and beyond with an intuitive visual interface. Our
-        service creates efficient, standardized database structures that are
-        ready for immediate deployment or seamless handoff to your team.
+        Manage SQL, NoSQL, and beyond with an intuitive visual interface. Our service creates efficient, standardized
+        database structures that are ready for immediate deployment or seamless handoff to your team.
       </p>
       <button className="cta" type="button">
         Start building

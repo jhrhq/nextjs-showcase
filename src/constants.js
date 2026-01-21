@@ -59,13 +59,10 @@ LIGHT_COLORS["--color-primary"] = LIGHT_COLORS["--color-primary-500"];
 LIGHT_COLORS["--color-secondary"] = LIGHT_COLORS["--color-secondary-500"];
 LIGHT_COLORS["--color-inline-code-bg"] = "hsl(45deg 74% 85%)";
 LIGHT_COLORS["--color-selection-text"] = "black";
-LIGHT_COLORS["--color-selection-background"] =
-  LIGHT_COLORS["--color-decorative-700"];
+LIGHT_COLORS["--color-selection-background"] = LIGHT_COLORS["--color-decorative-700"];
 LIGHT_COLORS["--color-backdrop"] = LIGHT_COLORS["--color-decorative-500"];
-LIGHT_COLORS["--color-backdrop-highlight"] =
-  LIGHT_COLORS["--color-decorative-300"];
-LIGHT_COLORS["--color-page-background"] =
-  LIGHT_COLORS["--color-decorative-100"];
+LIGHT_COLORS["--color-backdrop-highlight"] = LIGHT_COLORS["--color-decorative-300"];
+LIGHT_COLORS["--color-page-background"] = LIGHT_COLORS["--color-decorative-100"];
 LIGHT_COLORS["--color-page-border"] = "transparent";
 LIGHT_COLORS["--color-card-background"] = LIGHT_COLORS["--color-gray-0"];
 LIGHT_COLORS["--color-card-border"] = "transparent";
@@ -76,8 +73,7 @@ DARK_COLORS["--color-inline-code-bg"] = "hsl(256deg 30% 22%)";
 DARK_COLORS["--color-selection-text"] = "white";
 DARK_COLORS["--color-selection-background"] = "hsl(256deg 100% 30%)";
 DARK_COLORS["--color-backdrop"] = DARK_COLORS["--color-decorative-100"];
-DARK_COLORS["--color-backdrop-highlight"] =
-  DARK_COLORS["--color-decorative-500"];
+DARK_COLORS["--color-backdrop-highlight"] = DARK_COLORS["--color-decorative-500"];
 DARK_COLORS["--color-page-background"] = "transparent";
 DARK_COLORS["--color-page-border"] = "hsl(256deg 30% 50% / 0.2)";
 DARK_COLORS["--color-card-background"] = DARK_COLORS["--color-backdrop"];

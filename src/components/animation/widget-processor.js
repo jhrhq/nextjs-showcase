@@ -7,12 +7,8 @@ import VisuallyHidden from "@/components/visually-hidden";
 import "./widgetProcess.css";
 
 function WidgetProcessor({ widgets, processWidget }) {
-  const unprocessedWidgets = widgets.filter(
-    (widget) => widget.status === "unprocessed",
-  );
-  const processedWidgets = widgets.filter(
-    (widget) => widget.status === "processed",
-  );
+  const unprocessedWidgets = widgets.filter((widget) => widget.status === "unprocessed");
+  const processedWidgets = widgets.filter((widget) => widget.status === "processed");
 
   return (
     <LayoutGroup>

@@ -7,8 +7,7 @@ function Equation({ dividend, divisor, remainder }) {
       {typeof remainder === "number" && remainder > 0 && (
         <span className={styles.remainderPhrase}>
           {" "}
-          (and <span className={styles.remainderDigit}>{remainder}</span>{" "}
-          leftover)
+          (and <span className={styles.remainderDigit}>{remainder}</span> leftover)
         </span>
       )}
     </p>

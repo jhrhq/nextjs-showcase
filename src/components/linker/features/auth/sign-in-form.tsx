@@ -11,19 +11,13 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import FormError from "@/components/linker/features/auth/auth-errro-alert";
 import { useSignInAction } from "@/components/linker/features/auth/use-sign-in-action";
-import {
-  FormFieldWrapper,
-  FormFieldWrapperPassword,
-} from "@/components/linker/shared/form-field-wrapper";
+import { FormFieldWrapper, FormFieldWrapperPassword } from "@/components/linker/shared/form-field-wrapper";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
-import {
-  type SignInInput,
-  signInSchema,
-} from "@/lib/linker/validations/auth.validation";
+import { type SignInInput, signInSchema } from "@/lib/linker/validations/auth.validation";
 import { cn } from "@/lib/utils";
 
 export function SignInForm() {
@@ -63,12 +57,7 @@ export function SignInForm() {
   } */
 
   return (
-    <form
-      id="signin"
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4"
-      noValidate
-    >
+    <form id="signin" onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
       <FieldGroup>
         <FormFieldWrapper
           control={control}
@@ -118,12 +107,7 @@ interface SubmitButtonProps {
 
 export function SubmitButton({ isLoading, className }: SubmitButtonProps) {
   return (
-    <Button
-      form="signin"
-      type="submit"
-      className={cn("w-full", className)}
-      disabled={isLoading}
-    >
+    <Button form="signin" type="submit" className={cn("w-full", className)} disabled={isLoading}>
       {isLoading ? (
         <>
           <Spinner />

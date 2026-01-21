@@ -33,10 +33,7 @@ export interface SignInResult {
  * @param formData - Form data containing email and password
  * @returns ActionResult with redirect URL or error
  */
-export async function signInAction(
-  _prevState: unknown,
-  formData: FormData,
-): Promise<ActionResult<SignInResult>> {
+export async function signInAction(_prevState: unknown, formData: FormData): Promise<ActionResult<SignInResult>> {
   try {
     // 1. Parse and validate input
     const rawData = {

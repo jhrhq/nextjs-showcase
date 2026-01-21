@@ -43,16 +43,10 @@ function CircularColorsDemo() {
           return (
             <li className={styles.color} key={index}>
               {isSelected && (
-                <motion.div
-                  layoutId={`${id}-selected-color-outline`}
-                  className={styles.selectedColorOutline}
-                />
+                <motion.div layoutId={`${id}-selected-color-outline`} className={styles.selectedColorOutline} />
               )}
               <div
-                className={clsx(
-                  styles.colorBox,
-                  isSelected && styles.selectedColorBox,
-                )}
+                className={clsx(styles.colorBox, isSelected && styles.selectedColorBox)}
                 style={{
                   backgroundColor: color.value,
                 }}
@@ -82,9 +76,7 @@ function CircularColorsDemo() {
             }}
           >
             {status === "playing" ? <Pause /> : <Play />}
-            <VisuallyHidden>
-              {status === "playing" ? "Pause " : "Play"}
-            </VisuallyHidden>
+            <VisuallyHidden>{status === "playing" ? "Pause " : "Play"}</VisuallyHidden>
           </button>
           <button
             type="button"

@@ -9,9 +9,7 @@ type PasswordStrengthResult = {
   hasSymbol: boolean;
 };
 
-export function checkPasswordStrength(
-  password?: string,
-): PasswordStrengthResult {
+export function checkPasswordStrength(password?: string): PasswordStrengthResult {
   if (!password) {
     return {
       score: 0,

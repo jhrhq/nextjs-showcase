@@ -9,9 +9,7 @@ async function SiteFooter() {
         <Link href="/" className="logo">
           Webzip
         </Link>
-        <p className="disclaimer">
-          Copyright © 2099 Webzip Inc. All Rights Reserved.
-        </p>
+        <p className="disclaimer">Copyright © 2099 Webzip Inc. All Rights Reserved.</p>
       </div>
 
       <div className="link-wrapper">

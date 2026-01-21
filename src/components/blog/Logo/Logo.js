@@ -6,11 +6,7 @@ import styles from "./Logo.module.css";
 
 function Logo({ mobileAlignment = "left" }) {
   return (
-    <Link
-      href="/"
-      className={styles.wrapper}
-      data-mobile-alignment={mobileAlignment}
-    >
+    <Link href="/" className={styles.wrapper} data-mobile-alignment={mobileAlignment}>
       {BLOG_TITLE}
     </Link>
   );

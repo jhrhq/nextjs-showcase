@@ -3,11 +3,7 @@ import { format } from "date-fns";
 import { Home } from "lucide-react";
 import { CSVLink } from "react-csv";
 import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const headers = [
   { label: "First Name", key: "firstname" },
@@ -27,12 +23,7 @@ export default function Test() {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button variant="outline">
-          <CSVLink
-            filename={fname}
-            data={data}
-            headers={headers}
-            style={{ backgroundColor: "deepskyblue" }}
-          >
+          <CSVLink filename={fname} data={data} headers={headers} style={{ backgroundColor: "deepskyblue" }}>
             Download me <Home />
           </CSVLink>
         </Button>

@@ -1,9 +1,5 @@
 html {
-  background: radial-gradient(
-    circle at 50% 100%,
-    hsl(260deg 100% 90%),
-    hsl(260deg 100% 100%)
-  );
+  background: radial-gradient(circle at 50% 100%, hsl(260deg 100% 90%), hsl(260deg 100% 100%));
   background-position: bottom center;
 }
 

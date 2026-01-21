@@ -1,11 +1,5 @@
 "use client";
-import {
-  AlertOctagon,
-  AlertTriangle,
-  CheckCircle,
-  Info,
-  X,
-} from "lucide-react";
+import { AlertOctagon, AlertTriangle, CheckCircle, Info, X } from "lucide-react";
 import React from "react";
 import VisuallyHidden from "../../visually-hidden/visually-hidden";
 import { ToastContext } from "../ToastProvider";

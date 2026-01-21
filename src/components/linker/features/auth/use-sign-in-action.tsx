@@ -6,10 +6,7 @@ import type { SignInInput } from "@/lib/linker/validations/auth.validation";
 
 export function useSignInAction(form: UseFormReturn<SignInInput>) {
   const router = useRouter();
-  const [state, formAction, isPending] = React.useActionState(
-    signInAction,
-    null,
-  );
+  const [state, formAction, isPending] = React.useActionState(signInAction, null);
   const [isTransitioning, startTransition] = React.useTransition();
 
   const {

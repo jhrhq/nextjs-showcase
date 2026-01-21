@@ -11,11 +11,7 @@ function BookGrid({ books, handleSelectBook, ...delegated }) {
       <ul className={styles.wrapper}>
         {books.map((book) => (
           <li key={book.isbn}>
-            <button
-              type="button"
-              className={styles.bookBtn}
-              onClick={() => handleSelectBook(book)}
-            >
+            <button type="button" className={styles.bookBtn} onClick={() => handleSelectBook(book)}>
               <MotionImage
                 layoutId={`book-cover-${book.isbn}`}
                 alt={book.name}

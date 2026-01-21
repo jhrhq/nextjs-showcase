@@ -38,16 +38,7 @@ const theme = {
       "#FFFFFF",
     ],
     brightOther: ["#E9F284", "#8BE9FE"],
-    other: [
-      "#44475A75",
-      "#FFFFFF1A",
-      "#FFFFFF",
-      "#44475A70",
-      "#424450",
-      "#343746",
-      "#21222C",
-      "#191A21",
-    ],
+    other: ["#44475A75", "#FFFFFF1A", "#FFFFFF", "#44475A70", "#424450", "#343746", "#21222C", "#191A21"],
   },
   colors: {
     "terminal.background": "#282A36",
@@ -478,12 +469,7 @@ const theme = {
     },
     {
       name: "Comments",
-      scope: [
-        "comment",
-        "punctuation.definition.comment",
-        "unused.comment",
-        "wildcard.comment",
-      ],
+      scope: ["comment", "punctuation.definition.comment", "unused.comment", "wildcard.comment"],
       settings: {
         foreground: "#6272A4",
       },
@@ -509,9 +495,7 @@ const theme = {
     },
     {
       name: "JSDoc-style type brackets",
-      scope: [
-        "comment.block.documentation entity.name.type punctuation.definition.bracket",
-      ],
+      scope: ["comment.block.documentation entity.name.type punctuation.definition.bracket"],
       settings: {
         foreground: "#8BE9FD",
       },
@@ -533,11 +517,7 @@ const theme = {
     },
     {
       name: "Constant escape sequences",
-      scope: [
-        "constant.character.escape",
-        "constant.character.string.escape",
-        "constant.regexp",
-      ],
+      scope: ["constant.character.escape", "constant.character.string.escape", "constant.regexp"],
       settings: {
         foreground: "#FF79C6",
       },
@@ -597,10 +577,7 @@ const theme = {
     },
     {
       name: "Decorators",
-      scope: [
-        "meta.decorator variable.other.readwrite",
-        "meta.decorator variable.other.property",
-      ],
+      scope: ["meta.decorator variable.other.readwrite", "meta.decorator variable.other.property"],
       settings: {
         foreground: "#50FA7B",
         fontStyle: "italic",
@@ -644,11 +621,7 @@ const theme = {
     },
     {
       name: "Built-in magic functions and constants",
-      scope: [
-        "support.function.magic",
-        "support.variable",
-        "variable.other.predefined",
-      ],
+      scope: ["support.function.magic", "support.variable", "variable.other.predefined"],
       settings: {
         fontStyle: "regular",
         foreground: "#BD93F9",
@@ -843,10 +816,7 @@ const theme = {
     },
     {
       name: "RegExp start and end characters",
-      scope: [
-        "string.regexp punctuation.definition.string.begin",
-        "string.regexp punctuation.definition.string.end",
-      ],
+      scope: ["string.regexp punctuation.definition.string.begin", "string.regexp punctuation.definition.string.end"],
       settings: {
         foreground: "#FF5555",
       },
@@ -867,10 +837,7 @@ const theme = {
     },
     {
       name: "Assertion operators",
-      scope: [
-        "punctuation.definition.group.assertion.regexp",
-        "keyword.operator.negation.regexp",
-      ],
+      scope: ["punctuation.definition.group.assertion.regexp", "keyword.operator.negation.regexp"],
       settings: {
         foreground: "#FF5555",
       },
@@ -891,20 +858,14 @@ const theme = {
     },
     {
       name: "String quotes (temporary vscode fix)",
-      scope: [
-        "punctuation.definition.string.begin",
-        "punctuation.definition.string.end",
-      ],
+      scope: ["punctuation.definition.string.begin", "punctuation.definition.string.end"],
       settings: {
         foreground: "#E9F284",
       },
     },
     {
       name: "Property quotes (temporary vscode fix)",
-      scope: [
-        "punctuation.support.type.property-name.begin",
-        "punctuation.support.type.property-name.end",
-      ],
+      scope: ["punctuation.support.type.property-name.begin", "punctuation.support.type.property-name.end"],
       settings: {
         foreground: "#8BE9FE",
       },
@@ -937,10 +898,7 @@ const theme = {
     },
     {
       name: "Destructuring / aliasing reference name (LHS)",
-      scope: [
-        "meta.import variable.other.readwrite",
-        "meta.variable.assignment.destructured.object.coffee variable",
-      ],
+      scope: ["meta.import variable.other.readwrite", "meta.variable.assignment.destructured.object.coffee variable"],
       settings: {
         fontStyle: "italic",
         foreground: "#FFB86C",

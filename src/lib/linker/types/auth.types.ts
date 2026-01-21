@@ -6,8 +6,7 @@
 
 import type { AUTH_ERROR_CODES } from "@/lib/linker/constants/auth.constants";
 
-export type AuthErrorCode =
-  (typeof AUTH_ERROR_CODES)[keyof typeof AUTH_ERROR_CODES];
+export type AuthErrorCode = (typeof AUTH_ERROR_CODES)[keyof typeof AUTH_ERROR_CODES];
 
 export interface User {
   id: string;

@@ -10,11 +10,7 @@ import { range } from "@/utils";
 import styles from "./DivisionGroupsDemo.module.css";
 import Equation from "./Equation";
 
-function DivisionGroupsDemo({
-  numOfItems = 12,
-  initialNumOfGroups = 1,
-  includeRemainderArea,
-}) {
+function DivisionGroupsDemo({ numOfItems = 12, initialNumOfGroups = 1, includeRemainderArea }) {
   const id = React.useId();
   const [numOfGroups, setNumOfGroups] = React.useState(initialNumOfGroups);
 
@@ -57,13 +53,7 @@ function DivisionGroupsDemo({
                 {range(numOfItemsPerGroup).map((index) => {
                   const totalInPreviousGroups = groupIndex * numOfItemsPerGroup;
                   const layoutId = `${id}-${index + totalInPreviousGroups}`;
-                  return (
-                    <motion.div
-                      layoutId={layoutId}
-                      key={layoutId}
-                      className={styles.item}
-                    />
-                  );
+                  return <motion.div layoutId={layoutId} key={layoutId} className={styles.item} />;
                 })}
               </div>
             ))}
@@ -79,22 +69,12 @@ function DivisionGroupsDemo({
               .map((index) => {
                 const layoutId = `${id}-${index}`;
 
-                return (
-                  <motion.div
-                    layoutId={layoutId}
-                    key={layoutId}
-                    className={styles.item}
-                  />
-                );
+                return <motion.div layoutId={layoutId} key={layoutId} className={styles.item} />;
               })}
           </div>
         )}
 
-        <Equation
-          dividend={numOfItems}
-          divisor={numOfGroups}
-          remainder={remainder}
-        />
+        <Equation dividend={numOfItems} divisor={numOfGroups} remainder={remainder} />
       </Card>
     </LayoutGroup>
   );

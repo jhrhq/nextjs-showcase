@@ -23,9 +23,7 @@ function DrumHeader() {
           }}
         >
           {soundEnabled ? <Volume2 /> : <VolumeX />}
-          <VisuallyHidden>
-            {soundEnabled ? "Disable sound effects" : "Enable sound effects"}
-          </VisuallyHidden>
+          <VisuallyHidden>{soundEnabled ? "Disable sound effects" : "Enable sound effects"}</VisuallyHidden>
         </button>
       </MaxWidthWrapper>
     </header>

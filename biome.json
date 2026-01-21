@@ -18,24 +18,38 @@
       "!node_modules",
       "!.next",
       "!dist",
-      "!build"
+      "!build",
+      ".vercel"
     ]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "formatWithErrors": false,
+    "lineWidth": 120
   },
+
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
+      "complexity": {
+        "useArrowFunction": "off",
+        "noExtraBooleanCast": "error",
+        "noUselessCatch": "error",
+        "noUselessTypeConstraint": "error"
+      },
       "correctness": {
         "noUnusedVariables": "error",
-        "noUnusedFunctionParameters": "error"
+        "noUnusedFunctionParameters": "error",
+        "useHookAtTopLevel": "error",
+        "noUnusedImports": "error"
       },
-      "complexity": {
-        "useArrowFunction": "off"
+      "style": {
+        "noNegationElse": "off",
+        "useImportType": "error",
+        "useNodejsImportProtocol": "error"
       },
       "suspicious": {
         "noUnknownAtRules": "off",
@@ -46,6 +60,19 @@
       "next": "recommended",
       "react": "recommended",
       "tailwind": "recommended"
+    }
+  },
+
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "es5",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "double"
     }
   },
   "json": {

@@ -90,10 +90,7 @@ class AuthService {
    * MOCK: Verify password
    * PRODUCTION: Use bcrypt.compare(password, hashedPassword)
    */
-  private async verifyPassword(
-    password: string,
-    _userId: string,
-  ): Promise<boolean> {
+  private async verifyPassword(password: string, _userId: string): Promise<boolean> {
     // Mock password verification
     // In production: const isValid = await bcrypt.compare(password, user.hashedPassword);
     return password === "password123";

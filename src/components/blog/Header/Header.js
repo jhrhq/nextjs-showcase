@@ -41,11 +41,7 @@ function Header({ initialTheme, className, ...delegated }) {
           />
           <VisuallyHidden>View RSS feed</VisuallyHidden>
         </button>
-        <button
-          type="button"
-          className={styles.action}
-          onClick={handleToggleTheme}
-        >
+        <button type="button" className={styles.action} onClick={handleToggleTheme}>
           {theme === "light" ? <Sun size="1.5rem" /> : <Moon />}
           <VisuallyHidden>Toggle dark / light mode</VisuallyHidden>
         </button>

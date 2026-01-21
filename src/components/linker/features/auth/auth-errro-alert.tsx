@@ -10,10 +10,7 @@ interface FormErrorProps {
 function FormError({ error, className }: FormErrorProps) {
   if (!error) return null;
   return (
-    <Alert
-      variant="destructive"
-      className={cn("border-0 px-0 py-1", className)}
-    >
+    <Alert variant="destructive" className={cn("border-0 px-0 py-1", className)}>
       <AlertCircle className="h-4 w-4" />
       <AlertDescription>{error}</AlertDescription>
     </Alert>

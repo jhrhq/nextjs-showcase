@@ -33,10 +33,7 @@ function ScreenSaver({ color = "white" }) {
       if (nextPosition.x < 0 || nextPosition.x > window.innerWidth - bb.width) {
         nextInertia.horizontal *= -1;
       }
-      if (
-        nextPosition.y < 0 ||
-        nextPosition.y > window.innerHeight - bb.height
-      ) {
+      if (nextPosition.y < 0 || nextPosition.y > window.innerHeight - bb.height) {
         nextInertia.vertical *= -1;
       }
 

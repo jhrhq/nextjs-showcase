@@ -55,11 +55,7 @@ function FlexDemo() {
           <option value="space-around">space-around</option>
           <option value="space-evenly">space-evenly</option>
         </SelectControl>
-        <SelectControl
-          label="align-items"
-          value={alignItems}
-          onChange={(event) => setAlignItems(event.target.value)}
-        >
+        <SelectControl label="align-items" value={alignItems} onChange={(event) => setAlignItems(event.target.value)}>
           <option value="stretch">stretch</option>
           <option value="flex-start">flex-start</option>
           <option value="flex-end">flex-end</option>
@@ -76,12 +72,7 @@ function SelectControl({ label, value, onChange, ...delegated }) {
   return (
     <div className={styles.selectControl}>
       <label htmlFor={id}>{label}</label>
-      <select
-        className={styles.select}
-        value={value}
-        onChange={onChange}
-        {...delegated}
-      />
+      <select className={styles.select} value={value} onChange={onChange} {...delegated} />
     </div>
   );
 }

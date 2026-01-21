@@ -21,14 +21,8 @@ export const signInSchema = z.object({
   password: z
     .string("Password is required")
     .min(1, "Password is required")
-    .min(
-      AUTH_CONFIG.PASSWORD.MIN_LENGTH,
-      `Password must be at least ${AUTH_CONFIG.PASSWORD.MIN_LENGTH} characters`,
-    )
-    .max(
-      AUTH_CONFIG.PASSWORD.MAX_LENGTH,
-      `Password must not exceed ${AUTH_CONFIG.PASSWORD.MAX_LENGTH} characters`,
-    ),
+    .min(AUTH_CONFIG.PASSWORD.MIN_LENGTH, `Password must be at least ${AUTH_CONFIG.PASSWORD.MIN_LENGTH} characters`)
+    .max(AUTH_CONFIG.PASSWORD.MAX_LENGTH, `Password must not exceed ${AUTH_CONFIG.PASSWORD.MAX_LENGTH} characters`),
 });
 
 export type SignInInput = z.infer<typeof signInSchema>;

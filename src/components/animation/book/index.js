@@ -25,14 +25,8 @@ function BookPage() {
 
   return (
     <div className={styles.wrapper}>
-      <BookGrid
-        className={styles.grid}
-        books={unselectedBooks}
-        handleSelectBook={toggleBook}
-      />
-      {selectedBooks.length > 0 && (
-        <ReadingList books={selectedBooks} handleRemoveBook={toggleBook} />
-      )}
+      <BookGrid className={styles.grid} books={unselectedBooks} handleSelectBook={toggleBook} />
+      {selectedBooks.length > 0 && <ReadingList books={selectedBooks} handleRemoveBook={toggleBook} />}
     </div>
   );
 }

@@ -13,24 +13,9 @@ import {
 } from "@/app/password-meter/components/custom-input-popover";
 import PasswordPopoverContent from "@/app/password-meter/components/password-popover-content";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 
 const formSchema = z.object({
   password: z
@@ -69,11 +54,7 @@ export default function Page() {
           <CardTitle className="text-center text-2xl">Register</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <form
-            onSubmit={form.handleSubmit(handleRegister)}
-            className="space-y-8"
-            id="form-rhf-demo"
-          >
+          <form onSubmit={form.handleSubmit(handleRegister)} className="space-y-8" id="form-rhf-demo">
             <FieldGroup>
               <Controller
                 name="password"
@@ -81,10 +62,7 @@ export default function Page() {
                 render={({ field, fieldState }) => (
                   <Field>
                     <FieldLabel>Password</FieldLabel>
-                    <CustomInputPopover
-                      open={isPasswordMeter}
-                      onOpenChange={setIsPasswordMeter}
-                    >
+                    <CustomInputPopover open={isPasswordMeter} onOpenChange={setIsPasswordMeter}>
                       <InputGroup>
                         <CustomInputPopoverTrigger asChild>
                           <InputGroupInput
@@ -98,17 +76,9 @@ export default function Page() {
                           <LucideKeyRound strokeWidth="1" />
                         </InputGroupAddon>
                         <InputGroupAddon align="inline-end">
-                          <Button
-                            className="m-0 p-0 size-auto"
-                            variant="ghost"
-                            type="button"
-                            onClick={togglePassword}
-                          >
+                          <Button className="m-0 p-0 size-auto" variant="ghost" type="button" onClick={togglePassword}>
                             {showPassword ? (
-                              <LucideEye
-                                strokeWidth="1"
-                                className="text-gray-900"
-                              />
+                              <LucideEye strokeWidth="1" className="text-gray-900" />
                             ) : (
                               <LucideEyeOff strokeWidth="1" />
                             )}
@@ -130,9 +100,7 @@ export default function Page() {
                         evaluatePasswordStrength(field.value)}
                     </div> */}
 
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
                 )}
               />
