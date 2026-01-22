@@ -1,1 +1,11 @@
-pnpm exec lint-staged
+
+echo "🔍 Running pre-push checks..."
+
+echo "🧹 Formatting & linting staged files..."
+pnpm exec lint-staged || exit 1
+
+echo "📝 Type checking..."
+pnpm run type-check || exit 1
+
+
+echo "✅ All checks passed!"

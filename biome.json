@@ -14,12 +14,13 @@
       "**/*.jsx",
       "**/*.css",
       "**/*.json",
-      "!./src/components/ui/",
+      "!./src/components/ui",
       "!node_modules",
       "!.next",
       "!dist",
       "!build",
-      ".vercel"
+      "!.vercel",
+      "!pnpm-lock.yaml"
     ]
   },
   "formatter": {
