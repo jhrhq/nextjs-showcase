@@ -3,6 +3,7 @@
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "checkJs": false, // Prevents TypeScript from reporting errors inside .js files
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -31,7 +32,7 @@
     "scripts",
     "**/*.test.ts",
     "src/components/ui/",
-    "src/app/experiments/",
-    "src/app/blog/"
+    "src/app/(nextjs)/blog",
+    "src/app/(nextjs)/experiments"
   ]
 }

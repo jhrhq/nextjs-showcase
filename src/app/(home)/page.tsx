@@ -21,7 +21,7 @@ export default function HomePage() {
             </CardHeader>
             <CardContent>
               <Link href="/linker">
-                <Button className="w-full">Open Linker SPA App</Button>
+                <Button className="w-full">Open Linker</Button>
               </Link>
             </CardContent>
           </Card>

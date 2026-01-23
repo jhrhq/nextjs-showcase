@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { User } from "@/lib/linker/types/auth.types";
+import type { User } from "@/domains/linker/types/auth.types";
 
 export interface AuthState {
   user: User | null;

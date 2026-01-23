@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import React from "react";
-import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,6 +14,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useAuthStore } from "@/store/linker/auth-store";
+import { AppSidebar } from "@/ui/shared/app-sidebar";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter();

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SignInCard } from "@/components/linker/features/auth/sign-in-card";
+import { SignInCard } from "@/domains/linker/ui/auth/sign-in-card";
 
 export const metadata: Metadata = {
   title: "Sign In",
