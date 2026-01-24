@@ -39,24 +39,6 @@ export function SignInForm() {
 
   const { onSubmit, isLoading } = useSignInForm(form);
 
-  /*   function onSubmit(data: LoginFormData) {
-    toast("Login Successful:", {
-      description: (
-        <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-          <code>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-
-      position: "bottom-right",
-      classNames: {
-        content: "flex flex-col gap-2",
-      },
-      style: {
-        "--border-radius": "calc(var(--radius)  + 4px)",
-      } as React.CSSProperties,
-    });
-  } */
-
   return (
     <form id="signin" onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
       <FieldGroup>

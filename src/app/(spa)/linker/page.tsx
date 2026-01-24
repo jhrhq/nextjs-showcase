@@ -7,7 +7,7 @@ import { useAuthStore } from "@/store/linker/auth-store";
 export default function LinkerPage() {
   const router = useRouter();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  console.log(isAuthenticated);
+
   useEffect(() => {
     if (isAuthenticated) {
       router.replace("/linker/dashboard");

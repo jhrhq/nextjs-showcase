@@ -3,7 +3,7 @@ import { linkerApi } from "./axios-instance";
 
 export const authApi = {
   signIn: async (data: SignInRequest): Promise<AuthResponse> => {
-    const response = await linkerApi.post("/auth/sign-in", data);
+    const response = await linkerApi.post("/linker/auth/sign-in", data);
     return response.data;
   },
 

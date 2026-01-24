@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { useAuthStore } from "@/store/linker/auth-store";
 import { AppSidebar } from "@/ui/shared/app-sidebar";
 
@@ -23,7 +24,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   React.useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.replace("/linker/sign-in");
+      router.replace(AUTH_CONFIG.ROUTES.SIGN_IN);
     }
   }, [isAuthenticated, isLoading, router]);
 
