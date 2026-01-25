@@ -1,13 +1,18 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+"use client";
+import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
-import type { GithubIssue } from "@/app/(spa)/linker/_components/github-issue-card";
+import { initialIssues } from "@/app/(spa)/linker/_components/data";
+// import type { GithubIssue } from "@/app/(spa)/linker/_components/github-issue-card";
 import { IssueList } from "@/app/(spa)/linker/_components/issue-list";
 import { GithubPagination } from "@/app/(spa)/linker/_components/pagination";
 
 function GithubIssuePagination() {
-  const [page, setPage] = React.useState(2);
-  const [data] = useGithubIssues({ page });
+  const [page, setPage] = React.useState(1);
+  const { data, isPending } = useGithubIssues({ page });
 
+  if (isPending) {
+    return "Loading...";
+  }
   return (
     <div className="container mx-auto">
       <IssueList issues={data} />
@@ -17,7 +22,7 @@ function GithubIssuePagination() {
 }
 
 function useGithubIssues(props: { page: number }) {
-  const query = useSuspenseQuery({
+  const query = useQuery({
     queryKey: ["paginationTest", props.page],
     queryFn: async () => {
       // const path = `/api/wait?wait=${props.wait}`
@@ -30,9 +35,11 @@ function useGithubIssues(props: { page: number }) {
       ).json();
       return res;
     },
+    initialData: initialIssues,
   });
 
-  return [query.data as GithubIssue[], query] as const;
+  return query;
+  // return [query.data as GithubIssue[], query] as const;
 }
 
 export default function GihubPagination() {

@@ -1,16 +1,3 @@
-export interface Project {
-  id: string;
-  name: string;
-  domain: string;
-  description?: string;
-  status: "active" | "inactive" | "pending";
-  totalLinks: number;
-  totalSilos: number;
-  lastCrawled?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface InboundLink {
   id: string;
   sourceUrl: string;

@@ -1,4 +1,6 @@
+/** biome-ignore-all lint/suspicious/useIterableCallbackReturn: false flag */
 import axios from "axios";
+import { useAuthStore } from "@/store/linker/auth-store";
 
 export const linkerApi = axios.create({
   baseURL: "/api",
@@ -41,6 +43,72 @@ linkerApi.interceptors.response.use(
         localStorage.removeItem("refreshToken");
         window.location.href = "/linker/sign-in";
         return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export const primaryClient = axios.create({
+  baseURL: "/api",
+});
+
+let isRefreshing = false;
+let queue: ((token: string) => void)[] = [];
+
+primaryClient.interceptors.request.use((config) => {
+  const { accessToken } = useAuthStore.getState();
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  return config;
+});
+
+primaryClient.interceptors.response.use(
+  (res) => res,
+  async (error) => {
+    const original = error.config;
+    const store = useAuthStore.getState();
+
+    if (error.response?.status === 401 && !original._retry && store.refreshToken) {
+      if (isRefreshing) {
+        return new Promise((resolve) => {
+          queue.push((token) => {
+            original.headers.Authorization = `Bearer ${token}`;
+            resolve(primaryClient(original));
+          });
+        });
+      }
+
+      original._retry = true;
+      isRefreshing = true;
+
+      try {
+        const refreshRes = await primaryClient.post(
+          "/auth/refresh",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${store.refreshToken}`,
+            },
+          }
+        );
+
+        const { accessToken, refreshToken } = refreshRes.data;
+
+        store.setTokens(accessToken, refreshToken);
+
+        queue.forEach((cb) => cb(accessToken));
+        queue = [];
+
+        original.headers.Authorization = `Bearer ${accessToken}`;
+        return primaryClient(original);
+      } catch {
+        store.logout();
+        return Promise.reject(error);
+      } finally {
+        isRefreshing = false;
       }
     }
 

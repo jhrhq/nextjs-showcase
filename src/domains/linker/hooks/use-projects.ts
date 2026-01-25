@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { projectsApi } from "@/domains/linker/api/projects";
-import type { Project } from "@/domains/linker/types/project.types";
+import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 
 export function useProjects() {
   return useQuery({
@@ -23,7 +23,7 @@ export function useCreateProject() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: Partial<Project>) => projectsApi.create(data),
+    mutationFn: (data: Partial<ProjectDTO>) => projectsApi.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["linker-projects"] });
     },
@@ -34,7 +34,7 @@ export function useUpdateProject(id: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: Partial<Project>) => projectsApi.update(id, data),
+    mutationFn: (data: Partial<ProjectDTO>) => projectsApi.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["linker-projects"] });
       queryClient.invalidateQueries({ queryKey: ["linker-project", id] });

@@ -1,29 +1,24 @@
-import type {
-  InboundLink,
-  LinksReport,
-  Project,
-  SiloStructure,
-  SiteReport,
-} from "@/domains/linker/types/project.types";
+import type { InboundLink, LinksReport, SiloStructure, SiteReport } from "@/domains/linker/types/project.types";
+import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 import { linkerApi } from "./axios-instance";
 
 export const projectsApi = {
-  getAll: async (): Promise<Project[]> => {
+  getAll: async (): Promise<ProjectDTO[]> => {
     const response = await linkerApi.get("/projects");
     return response.data;
   },
 
-  getById: async (id: string): Promise<Project> => {
+  getById: async (id: string): Promise<ProjectDTO> => {
     const response = await linkerApi.get(`/projects/${id}`);
     return response.data;
   },
 
-  create: async (data: Partial<Project>): Promise<Project> => {
+  create: async (data: Partial<ProjectDTO>): Promise<ProjectDTO> => {
     const response = await linkerApi.post("/projects", data);
     return response.data;
   },
 
-  update: async (id: string, data: Partial<Project>): Promise<Project> => {
+  update: async (id: string, data: Partial<ProjectDTO>): Promise<ProjectDTO> => {
     const response = await linkerApi.put(`/projects/${id}`, data);
     return response.data;
   },

@@ -1,19 +1,15 @@
-// lib/db/mock.ts
-import { compare, hash } from "bcryptjs";
+import { hash } from "bcryptjs";
 
-export type User = {
+import { type ProjectDTO, projectSchema } from "@/domains/linker/validations/projects.validations";
+
+export type MockUser = {
   id: string;
   email: string;
   name: string;
   passwordHash: string;
 };
 
-type RefreshTokenRecord = {
-  userId: string;
-  token: string;
-};
-
-const users: User[] = [
+export const mockUsers: MockUser[] = [
   {
     id: "1",
     email: "user@example.com",
@@ -22,25 +18,60 @@ const users: User[] = [
   },
 ];
 
-let refreshTokens: RefreshTokenRecord[] = [];
+const now = () => new Date().toISOString();
 
-export async function findUserByEmail(email: string): Promise<User | null> {
-  return users.find((u) => u.email === email) ?? null;
-}
+export const mockProjects: ProjectDTO[] = [
+  {
+    id: crypto.randomUUID(),
+    name: "TechCorp Website",
+    domain: "https://techcorp.com",
+    description: "Main corporate website",
+    status: "active",
+    totalLinks: 1250,
+    totalSilos: 8,
+    lastCrawled: now(),
+    createdAt: now(),
+    updatedAt: now(),
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "E-commerce Store",
+    domain: "https://mystore.com",
+    description: "Online retail platform",
+    status: "active",
+    totalLinks: 3420,
+    totalSilos: 15,
+    lastCrawled: now(),
+    createdAt: now(),
+    updatedAt: now(),
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Blog Platform",
+    domain: "https://myblog.com",
+    description: "Content publishing site",
+    status: "inactive",
+    totalLinks: 890,
+    totalSilos: 5,
+    lastCrawled: now(),
+    createdAt: now(),
+    updatedAt: now(),
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Portfolio Site",
+    domain: "https://johndesigner.com",
+    description: "Personal portfolio website",
+    status: "pending",
+    totalLinks: 45,
+    totalSilos: 2,
+    lastCrawled: null,
+    createdAt: now(),
+    updatedAt: now(),
+  },
+];
 
-export async function saveRefreshToken(userId: string, token: string) {
-  refreshTokens = refreshTokens.filter((rt) => rt.userId !== userId);
-  refreshTokens.push({ userId, token });
-}
-
-export async function findRefreshToken(token: string) {
-  return refreshTokens.find((rt) => rt.token === token) ?? null;
-}
-
-export async function revokeRefreshToken(token: string) {
-  refreshTokens = refreshTokens.filter((rt) => rt.token !== token);
-}
-
-export async function verifyPassword(plain: string, hash: string): Promise<boolean> {
-  return compare(plain, hash);
+export function getProjects(_useId: string, limit?: number): ProjectDTO[] {
+  const validated = mockProjects.map((p) => projectSchema.parse(p));
+  return limit ? validated.slice(0, limit) : validated;
 }
