@@ -17,7 +17,7 @@ export function useSignInForm(form: UseFormReturn<SignInInput>) {
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = (data: SignInInput) => {
+  function onSubmit(data: SignInInput) {
     mutate(data, {
       onSuccess: (data) => {
         toast.success("Login Successful:", {
@@ -60,7 +60,7 @@ export function useSignInForm(form: UseFormReturn<SignInInput>) {
         }
       },
     });
-  };
+  }
 
   return {
     onSubmit,

@@ -147,7 +147,7 @@ src/
 ├── styles/
 │   └── globals.css
 │
-└── middleware.ts
+└── proxy.ts
 ```
 
 This keeps:
