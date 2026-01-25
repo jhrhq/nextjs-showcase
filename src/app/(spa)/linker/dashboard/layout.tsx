@@ -20,15 +20,16 @@ import { AppSidebar } from "@/ui/shared/app-sidebar";
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const isLoading = useAuthStore((state) => !state.isAuthenticated);
+  const hasHydrated = useAuthStore((state) => state.hasHydrated);
 
   React.useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!hasHydrated) return;
+    if (!isAuthenticated) {
       router.replace(AUTH_CONFIG.ROUTES.SIGN_IN);
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [hasHydrated, isAuthenticated, router]);
 
-  if (isLoading) {
+  if (!hasHydrated) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />

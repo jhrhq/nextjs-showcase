@@ -29,7 +29,7 @@ export default async function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
-        <Toaster closeButton={true} />
+        <Toaster richColors={true} closeButton={true} />
       </body>
     </html>
   );

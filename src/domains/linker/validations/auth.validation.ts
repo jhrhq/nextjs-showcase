@@ -38,7 +38,7 @@ export type SignInInput = z.infer<typeof signInSchema>;
 export const signUpSchema = z
   .object({
     name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().email("Invalid email address"),
+    email: z.email("Invalid email address"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
   })
@@ -50,7 +50,7 @@ export const signUpSchema = z
 // Project schemas
 export const createProjectSchema = z.object({
   name: z.string().min(2, "Project name must be at least 2 characters"),
-  domain: z.string().url("Must be a valid URL"),
+  domain: z.url("Must be a valid URL"),
   description: z.string().optional(),
 });
 

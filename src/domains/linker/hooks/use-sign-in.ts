@@ -20,7 +20,7 @@ export function useSignInForm(form: UseFormReturn<SignInInput>) {
   const onSubmit = (data: SignInInput) => {
     mutate(data, {
       onSuccess: (data) => {
-        toast("Login Successful:", {
+        toast.success("Login Successful:", {
           description: data.user.name,
           position: "bottom-right",
           classNames: {

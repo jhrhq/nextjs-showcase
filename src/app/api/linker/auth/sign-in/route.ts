@@ -1,5 +1,10 @@
+import "server-only";
+
 import { NextResponse } from "next/server";
 import z from "zod";
+import { AUTH_ERROR_MESSAGES } from "@/domains/linker/constants/auth.constants";
+import { authenticateUser } from "@/domains/linker/services/auth/auth.service";
+import { createAccessToken, createRefreshToken } from "@/domains/linker/services/auth/tokens.service";
 import { signInSchema } from "@/domains/linker/validations/auth.validation";
 
 export async function POST(request: Request) {
@@ -18,4 +23,33 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
+
+  const user = await authenticateUser(validationResult.data);
+
+  if (!user) {
+    return NextResponse.json(
+      {
+        error: AUTH_ERROR_MESSAGES.INVALID_CREDENTIALS,
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+
+  const accessToken = createAccessToken(user);
+  const refreshToken = await createRefreshToken(user);
+
+  return NextResponse.json(
+    {
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+      },
+      accessToken,
+      refreshToken,
+    },
+    { status: 200 }
+  );
 }

@@ -1,10 +1,15 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import type { User } from "@/domains/linker/types/auth.types";
 
 export interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
+  hasHydrated: boolean;
+  accessToken: string | null;
+  refreshToken: string | null;
   setUser: (user: User | null) => void;
+  setTokens: (accessToken: string, refreshToken: string) => void;
   logout: () => void;
 }
 
@@ -17,15 +22,32 @@ export interface AuthState {
   avatar: "jo",
 }; */
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  isAuthenticated: false,
-  setUser: (user: User | null) => set({ user, isAuthenticated: !!user }),
-  logout: () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      isAuthenticated: false,
+      accessToken: null,
+      refreshToken: null,
+      hasHydrated: false,
+      setUser: (user: User | null) => set({ user, isAuthenticated: !!user }),
+      setTokens: (accessToken, refreshToken) => set({ accessToken, refreshToken }),
+      logout: () => {
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+        }
+        set({ user: null, isAuthenticated: false });
+      },
+    }),
+    {
+      name: "linker",
+      onRehydrateStorage: () => (state) => {
+        if (state?.user) {
+          state.isAuthenticated = true;
+        }
+        state!.hasHydrated = true;
+      },
     }
-    set({ user: null, isAuthenticated: false });
-  },
-}));
+  )
+);

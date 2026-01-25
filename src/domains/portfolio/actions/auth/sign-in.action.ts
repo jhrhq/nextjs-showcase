@@ -9,11 +9,11 @@
 import z from "zod";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { AuthError } from "@/domains/linker/errors/auth.error";
-import { authService } from "@/domains/linker/services/auth/auth.service";
 import { rateLimitService } from "@/domains/linker/services/auth/rate-limit.service";
 import { sessionService } from "@/domains/linker/services/auth/session.service";
 import type { ActionResult } from "@/domains/linker/types/action.types";
 import { signInSchema } from "@/domains/linker/validations/auth.validation";
+import { authService } from "@/domains/portfolio/services/auth/auth.service";
 
 export interface SignInResult {
   redirectTo: string;

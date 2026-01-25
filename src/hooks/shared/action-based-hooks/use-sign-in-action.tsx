@@ -1,8 +1,8 @@
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import type { UseFormReturn } from "react-hook-form";
-import { signInAction } from "@/domains/linker/actions/auth";
 import type { SignInInput } from "@/domains/linker/validations/auth.validation";
+import { signInAction } from "@/domains/portfolio/actions/auth";
 
 export function useSignInAction(form: UseFormReturn<SignInInput>) {
   const router = useRouter();

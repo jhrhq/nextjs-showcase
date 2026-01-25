@@ -9,6 +9,13 @@ export const AUTH_CONFIG = {
     MAX_ATTEMPTS: 5,
     WINDOW_MS: 15 * 60 * 1000, // 15 minutes
   },
+  TOKENS: {
+    ACCESS_TOKEN_TTL: "15m",
+    REFRESH_TOKEN_TTL: "7d",
+    // ACCESS_SECRET: env.ACCESS_TOKEN_SECRET,
+    // REFRESH_SECRET: env.REFRESH_TOKEN_SECRET,
+  },
+
   SESSION: {
     COOKIE_NAME: "session",
     MAX_AGE: 60 * 60 * 24 * 7, // 7 days

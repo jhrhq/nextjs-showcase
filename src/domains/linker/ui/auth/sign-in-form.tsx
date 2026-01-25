@@ -26,7 +26,7 @@ export function SignInForm() {
     resolver: zodResolver(signInSchema),
     mode: "onTouched",
     defaultValues: {
-      email: "test@example.com",
+      email: "user@example.com",
       password: "password123",
     },
   });
