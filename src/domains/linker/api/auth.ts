@@ -8,16 +8,16 @@ export const authApi = {
   },
 
   signUp: async (data: SignUpRequest): Promise<AuthResponse> => {
-    const response = await linkerApi.post("/auth/sign-up", data);
+    const response = await linkerApi.post("/linker/auth/sign-up", data);
     return response.data;
   },
 
   refresh: async (refreshToken: string): Promise<{ accessToken: string }> => {
-    const response = await linkerApi.post("/auth/refresh", { refreshToken });
+    const response = await linkerApi.post("/linker/auth/refresh", { refreshToken });
     return response.data;
   },
 
   logout: async (): Promise<void> => {
-    await linkerApi.post("/auth/logout");
+    await linkerApi.post("/linker/auth/logout");
   },
 };

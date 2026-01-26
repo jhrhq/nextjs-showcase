@@ -10,16 +10,16 @@ export const linkerApi = axios.create({
 });
 
 // Add request interceptor for auth token
-linkerApi.interceptors.request.use((config) => {
+/* linkerApi.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
-});
+}); */
 
 // Add response interceptor for token refresh
-linkerApi.interceptors.response.use(
+/* linkerApi.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
@@ -29,7 +29,7 @@ linkerApi.interceptors.response.use(
 
       try {
         const refreshToken = localStorage.getItem("refreshToken");
-        const response = await axios.post("/api/auth/refresh", {
+        const response = await axios.post("/linker/auth/refresh", {
           refreshToken,
         });
         const { accessToken } = response.data;
@@ -48,16 +48,16 @@ linkerApi.interceptors.response.use(
 
     return Promise.reject(error);
   }
-);
+); */
 
-export const primaryClient = axios.create({
+/* export const primaryClient = axios.create({
   baseURL: "/api",
-});
+}); */
 
 let isRefreshing = false;
 let queue: ((token: string) => void)[] = [];
 
-primaryClient.interceptors.request.use((config) => {
+linkerApi.interceptors.request.use((config) => {
   const { accessToken } = useAuthStore.getState();
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
@@ -65,7 +65,7 @@ primaryClient.interceptors.request.use((config) => {
   return config;
 });
 
-primaryClient.interceptors.response.use(
+linkerApi.interceptors.response.use(
   (res) => res,
   async (error) => {
     const original = error.config;
@@ -76,7 +76,7 @@ primaryClient.interceptors.response.use(
         return new Promise((resolve) => {
           queue.push((token) => {
             original.headers.Authorization = `Bearer ${token}`;
-            resolve(primaryClient(original));
+            resolve(linkerApi(original));
           });
         });
       }
@@ -85,8 +85,8 @@ primaryClient.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshRes = await primaryClient.post(
-          "/auth/refresh",
+        const refreshRes = await axios.post(
+          "/api/linker/auth/refresh",
           {},
           {
             headers: {
@@ -103,7 +103,7 @@ primaryClient.interceptors.response.use(
         queue = [];
 
         original.headers.Authorization = `Bearer ${accessToken}`;
-        return primaryClient(original);
+        return linkerApi(original);
       } catch {
         store.logout();
         return Promise.reject(error);
