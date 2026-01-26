@@ -3,15 +3,31 @@
 import React from "react";
 import { useProjects } from "@/domains/linker/hooks/use-projects";
 import { DeleteProjectDialog } from "@/domains/linker/ui/dashboard/delete-project-dialog";
-import { Header, ProjectsTabs } from "@/domains/linker/ui/dashboard/other";
+import { ProjectsHeader } from "@/domains/linker/ui/dashboard/other";
 import { ProjectGrid } from "@/domains/linker/ui/dashboard/project-grid";
+import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 
 // import GihubPagination from "@/app/(spa)/linker/_components/github-issue-pagination";
+export type SortOrder = "none" | "asc" | "desc";
 
 export default function DashboardPage() {
   const { data, isPending, isError, error } = useProjects();
 
   const [deleteId, setDeleteId] = React.useState<string | null>(null);
+  const [tab, setTab] = React.useState<"all" | ProjectDTO["status"]>("all");
+  const [sort, setSort] = React.useState<SortOrder>("none");
+
+  const visibleProjects = React.useMemo(() => {
+    let tabData = tab === "all" ? data : data?.filter((p) => p.status === tab);
+
+    if (sort !== "none") {
+      tabData = tabData?.slice().sort((a, b) => {
+        return sort === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+      });
+    }
+
+    return tabData;
+  }, [data, sort, tab]);
 
   function handleDelete(id: string) {
     setDeleteId(id);
@@ -29,11 +45,13 @@ export default function DashboardPage() {
 
   return (
     <div className="container mx-auto p-8">
-      {/* <h1 className="text-3xl font-bold"> Dashboard</h1> */}
       <main className="flex-1 space-y-6">
-        <Header />
-        <ProjectsTabs projects={data}></ProjectsTabs>
-        <ProjectGrid projects={data} onEdit={() => {}} onDelete={handleDelete} />
+        <div>
+          <h1 className="text-2xl font-semibold">Projects List</h1>
+          <p className="text-sm text-muted-foreground">Here is a list of projects that you have created</p>
+        </div>
+        <ProjectsHeader projects={data} tab={tab} sort={sort} onTabChange={setTab} onSortChange={setSort} />
+        {visibleProjects && <ProjectGrid projects={visibleProjects} onEdit={() => {}} onDelete={handleDelete} />}
       </main>
       {/* <GihubPagination /> */}
       <DeleteProjectDialog
