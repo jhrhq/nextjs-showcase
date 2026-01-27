@@ -44,8 +44,8 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="container mx-auto p-8">
-      <main className="flex-1 space-y-6">
+    <div>
+      <main className="flex-1 space-y-6 mt-6">
         <div>
           <h1 className="text-2xl font-semibold">Projects List</h1>
           <p className="text-sm text-muted-foreground">Here is a list of projects that you have created</p>
