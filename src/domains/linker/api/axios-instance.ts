@@ -1,5 +1,6 @@
 /** biome-ignore-all lint/suspicious/useIterableCallbackReturn: false flag */
 import axios from "axios";
+import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { useAuthStore } from "@/store/linker/auth-store";
 
 export const linkerApi = axios.create({
@@ -86,7 +87,7 @@ linkerApi.interceptors.response.use(
 
       try {
         const refreshRes = await axios.post(
-          "/api/linker/auth/refresh",
+          `/api${AUTH_CONFIG.API.REFRESH}`,
           {},
           {
             headers: {

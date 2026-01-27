@@ -31,6 +31,11 @@ export const AUTH_CONFIG = {
     DASHBOARD: "/linker/dashboard",
     VERIFY_EMAIL: "/linker/verify-email",
   },
+  API: {
+    SIGN_IN: "/sign-in",
+    VERIFY_EMAIL: "/verify-email",
+    projects: "/linker/projects",
+  },
 } as const;
 
 export const AUTH_ERROR_CODES = {

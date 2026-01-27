@@ -15,7 +15,6 @@ export const AUTH_CONFIG = {
     // ACCESS_SECRET: env.ACCESS_TOKEN_SECRET,
     // REFRESH_SECRET: env.REFRESH_TOKEN_SECRET,
   },
-
   SESSION: {
     COOKIE_NAME: "session",
     MAX_AGE: 60 * 60 * 24 * 7, // 7 days
@@ -37,6 +36,18 @@ export const AUTH_CONFIG = {
     SIGN_IN: "/linker/sign-in",
     DASHBOARD: "/linker/dashboard",
     VERIFY_EMAIL: "/linker/verify-email",
+  },
+  API: {
+    SIGN_IN: "/auth/sign-in",
+    SIGN_UP: "/auth/sign-up",
+    VERIFY_EMAIL: "/auth/verify-email",
+    REFRESH: "/auth/refresh",
+    LOGOUT: "/auth/logout",
+    PROJECTS: "/linker/projects",
+    INBOUNDS: "/inbounds",
+    SILO: "/inbounds",
+    LINKS_REPORT: "/links-report",
+    SITE_REPORT: "/site-report",
   },
 } as const;
 

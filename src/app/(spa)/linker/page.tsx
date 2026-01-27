@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { useAuthStore } from "@/store/linker/auth-store";
 
 export default function LinkerPage() {
@@ -10,9 +11,9 @@ export default function LinkerPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace("/linker/dashboard");
+      router.replace(AUTH_CONFIG.ROUTES.DASHBOARD);
     } else {
-      router.replace("/linker/sign-in");
+      router.replace(AUTH_CONFIG.ROUTES.SIGN_IN);
     }
   }, [isAuthenticated, router]);
 

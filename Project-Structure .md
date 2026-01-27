@@ -291,7 +291,7 @@ domains/linker/services/auth.service.ts
 infra/http/client.ts
         ↓
 [API]
-app/api/linker/auth/sign-in/route.ts
+app/api/auth/sign-in/route.ts
 ```
 
 ### Responsibilities at each step
