@@ -2,10 +2,10 @@
 
 import React from "react";
 import { useProjects } from "@/domains/linker/hooks/use-projects";
+import type { ProjectStatus } from "@/domains/linker/types/project.types";
 import { DeleteProjectDialog } from "@/domains/linker/ui/dashboard/delete-project-dialog";
-import { ProjectsHeader } from "@/domains/linker/ui/dashboard/other";
 import { ProjectGrid } from "@/domains/linker/ui/dashboard/project-grid";
-import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
+import { ProjectsHeader } from "@/domains/linker/ui/dashboard/project-header";
 
 // import GihubPagination from "@/app/(spa)/linker/_components/github-issue-pagination";
 export type SortOrder = "none" | "asc" | "desc";
@@ -14,7 +14,7 @@ export default function DashboardPage() {
   const { data, isPending, isError, error } = useProjects();
 
   const [deleteId, setDeleteId] = React.useState<string | null>(null);
-  const [tab, setTab] = React.useState<"all" | ProjectDTO["status"]>("all");
+  const [tab, setTab] = React.useState<"all" | ProjectStatus>("all");
   const [sort, setSort] = React.useState<SortOrder>("none");
 
   const visibleProjects = React.useMemo(() => {

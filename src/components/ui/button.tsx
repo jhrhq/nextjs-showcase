@@ -5,32 +5,65 @@ import type * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-none border border-transparent bg-clip-padding text-xs font-medium focus-visible:ring-1 aria-invalid:ring-1 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none cursor-pointer",
+  "focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 border border-transparent bg-clip-padding text-xs font-medium focus-visible:ring-1 aria-invalid:ring-1 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 outline-none group/button select-none cursor-pointer",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
+        /** DEFAULTS */
+        default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         outline:
-          "border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
-        ghost:
-          "hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground",
-        destructive:
-          "bg-destructive/10 hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/20 text-destructive focus-visible:border-destructive/40 dark:hover:bg-destructive/30",
+          "border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+        ghost: "hover:bg-muted hover:text-foreground dark:hover:bg-muted/50",
         link: "text-primary underline-offset-4 hover:underline",
+
+        /** DESTRUCTIVE */
+        destructive:
+          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30",
+        "destructive-lighter": "bg-destructive-lighter text-destructive-light hover:bg-destructive-lighter/80",
+        "destructive-lighter-rounded":
+          "bg-destructive-lighter text-destructive-light rounded-full hover:bg-destructive-lighter/80",
+        inactive:
+          "bg-muted text-muted-foreground border border-border hover:bg-muted cursor-not-allowed disabled:opacity-100",
+
+        pending: "bg-yellow-light text-yellow-dark hover:bg-yellow-light/80 cursor-wait disabled:opacity-100",
+        /** PRIMARY LIGHTER */
+        "default-lighter": "bg-primary-lighter text-primary hover:bg-primary-lighter/80",
+        "default-lighter-rounded": "bg-primary-lightest text-primary rounded-full hover:bg-primary-lightest/80",
+
+        /** TEAL */
+        "teal-lighter": "bg-teal-lighter text-teal-light hover:bg-teal-lighter/80",
+        "teal-lighter-rounded": "bg-teal-lighter text-teal-light rounded-full hover:bg-teal-lighter/80",
+
+        /** PURPLE */
+        "purple-lighter": "bg-purple-lighter text-purple-light hover:bg-purple-lighter/80",
+        "purple-lighter-rounded": "bg-purple-lighter text-purple-light rounded-full hover:bg-purple-lighter/80",
+
+        /** ORANGE */
+        "orange-lighter": "bg-orange-light text-orange-dark hover:bg-orange-light/80",
+        "orange-lighter-rounded": "bg-orange-light text-orange-dark rounded-full hover:bg-orange-light/80",
+
+        /** GREEN */
+        "green-lighter": "bg-green-light text-green-dark hover:bg-green-light/80",
+        "green-lighter-rounded": "bg-green-light text-green-dark rounded-full hover:bg-green-light/80",
+
+        /** YELLOW */
+        "yellow-lighter": "bg-yellow-light text-yellow-dark hover:bg-yellow-light/80",
+        "yellow-lighter-rounded": "bg-yellow-light text-yellow-dark rounded-full hover:bg-yellow-light/80",
       },
+
       size: {
-        default: "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-        xs: "h-6 gap-1 rounded-none px-2 text-xs has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-7 gap-1 rounded-none px-2.5 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-        lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
+        default: "h-8 gap-1.5 px-2.5",
+        xs: "h-6 px-2 text-xs",
+        sm: "h-7 px-2.5",
+        lg: "h-9 px-3",
         icon: "size-8",
-        "icon-xs": "size-6 rounded-none [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm": "size-7 rounded-none",
+        "icon-xs": "size-6",
+        "icon-sm": "size-7",
         "icon-lg": "size-9",
       },
     },
+
     defaultVariants: {
       variant: "default",
       size: "default",

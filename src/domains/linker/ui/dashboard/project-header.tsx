@@ -25,6 +25,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { ProjectStatus } from "@/domains/linker/types/project.types";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 import { cn } from "@/lib/utils";
 
@@ -79,9 +80,9 @@ export function Topbar() {
 /* ================= HEADER ================= */
 type ProjectsHeaderProps = {
   projects: ProjectDTO[];
-  tab: "all" | ProjectDTO["status"];
+  tab: "all" | ProjectStatus;
   sort: SortOrder;
-  onTabChange: (v: "all" | ProjectDTO["status"]) => void;
+  onTabChange: (v: "all" | ProjectStatus) => void;
   onSortChange: (v: SortOrder) => void;
 };
 
@@ -107,16 +108,16 @@ export function ProjectsHeader({ projects, tab, sort, onTabChange, onSortChange 
 }
 
 type ProjectTabProps = {
-  value: ProjectDTO["status"] | "all";
-  counts: Record<ProjectDTO["status"] | "all", number>;
-  onChange: (v: ProjectDTO["status"] | "all") => void;
+  value: ProjectStatus | "all";
+  counts: Record<ProjectStatus | "all", number>;
+  onChange: (v: ProjectStatus | "all") => void;
 };
 
 export function ProjectsTabs({ value, counts, onChange }: ProjectTabProps) {
-  const items: (ProjectDTO["status"] | "all")[] = ["all", "active", "pending", "inactive"];
+  const items: (ProjectStatus | "all")[] = ["all", "active", "pending", "inactive"];
 
   return (
-    <Tabs value={value} onValueChange={(v) => onChange(v as ProjectDTO["status"] | "all")}>
+    <Tabs value={value} onValueChange={(v) => onChange(v as ProjectStatus | "all")}>
       <TabsList className="rounded-none h-auto bg-transparent p-0 gap-6">
         {items.map((k) => (
           <TabsTrigger

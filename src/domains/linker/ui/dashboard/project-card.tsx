@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { ProjectStatus, ProjectStatusVariant } from "@/domains/linker/types/project.types";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 
 type ProjectCardProps = {
@@ -73,12 +74,16 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
   );
 }
 
-const statusVariant: Record<ProjectDTO["status"], "default" | "secondary" | "outline"> = {
-  active: "default",
-  inactive: "secondary",
-  pending: "outline",
+const projectStatusVariant: ProjectStatusVariant = {
+  active: "default-lighter",
+  inactive: "inactive",
+  pending: "pending",
 };
 
-export function ProjectStatusBadge({ status }: { status: ProjectDTO["status"] }) {
-  return <Badge variant={statusVariant[status]}>{status}</Badge>;
+export function ProjectStatusBadge({ status }: { status: ProjectStatus }) {
+  return (
+    <Badge variant={projectStatusVariant[status]} className="capitalize">
+      {status}
+    </Badge>
+  );
 }

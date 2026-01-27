@@ -6,7 +6,7 @@ import React from "react";
 
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
-import { Topbar } from "@/domains/linker/ui/dashboard/other";
+import { Topbar } from "@/domains/linker/ui/dashboard/project-header";
 import { useAuthStore } from "@/store/linker/auth-store";
 import { AppSidebar } from "@/ui/shared/app-sidebar";
 import "../dashboard.css";
