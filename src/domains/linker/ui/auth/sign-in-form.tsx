@@ -1,15 +1,9 @@
-// ============================================================================
-// FILE: src/components/features/auth/sign-in-form.tsx
-// LOCATION: src/components/features/auth/sign-in-form.tsx
-// PURPOSE: Sign in form with React Hook Form + Server Actions
-// ============================================================================
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Mail } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldGroup } from "@/components/ui/field";
@@ -50,6 +44,7 @@ export function SignInForm() {
           placeholder="you@example.com"
           autoComplete="off"
           required={true}
+          startAddon={<Mail />}
         />
         <FormFieldWrapperPassword
           control={control}

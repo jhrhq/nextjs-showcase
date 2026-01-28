@@ -1,17 +1,11 @@
-// ============================================================================
-// FILE: src/components/shared/form-field-wrapper.tsx
-// LOCATION: src/components/shared/form-field-wrapper.tsx
-// PURPOSE: Reusable form field wrapper component
-// ============================================================================
-
 "use client";
 
-import { Lock, LucideEye, LucideEyeOff, Mail } from "lucide-react";
+import { Lock, LucideEye, LucideEyeOff } from "lucide-react";
 import * as React from "react";
 import { type Control, Controller, type FieldPath, type FieldValues } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from "@/components/ui/input-group";
 import FormError from "@/ui/shared/auth-errro-alert";
 
 type FormFieldWrapperProps<TFieldValues extends FieldValues> = {
@@ -25,6 +19,13 @@ type FormFieldWrapperProps<TFieldValues extends FieldValues> = {
   placeholder?: string;
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
   autoComplete?: string;
+
+  startAddon?: React.ReactNode;
+  endAddon?: React.ReactNode;
+  topAddon?: React.ReactNode;
+  bottomAddon?: React.ReactNode;
+
+  as?: "input" | "textarea";
 };
 
 export function FormFieldWrapper<TFieldValues extends FieldValues>({
@@ -36,9 +37,15 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
   placeholder,
   type = "text",
   autoComplete = "off",
+  startAddon,
+  endAddon,
+  topAddon,
+  bottomAddon,
+  as = "input",
 }: FormFieldWrapperProps<TFieldValues>) {
   const id = React.useId();
   const userHtmlFor = htmlFor || id;
+
   return (
     <Controller
       control={control}
@@ -48,21 +55,44 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
           {label && (
             <FieldLabel htmlFor={userHtmlFor} className="gap-0.5">
               {label}
-              {required && <span className="text-destructive">*</span>}
+              {required && (
+                <>
+                  <span className="text-destructive" aria-hidden="true">
+                    *
+                  </span>
+                  <span className="sr-only">Required</span>
+                </>
+              )}
             </FieldLabel>
           )}
+
           <InputGroup>
-            <InputGroupInput
-              {...field}
-              id={userHtmlFor}
-              aria-invalid={fieldState.invalid}
-              placeholder={placeholder}
-              autoComplete={autoComplete}
-              type={type}
-            />
-            <InputGroupAddon>
-              <Mail />
-            </InputGroupAddon>
+            {topAddon && <InputGroupAddon align="block-start">{topAddon}</InputGroupAddon>}
+
+            {startAddon && <InputGroupAddon align="inline-start">{startAddon}</InputGroupAddon>}
+
+            {as === "textarea" ? (
+              <InputGroupTextarea
+                {...field}
+                id={userHtmlFor}
+                aria-invalid={fieldState.invalid}
+                placeholder={placeholder}
+                autoComplete={autoComplete}
+              />
+            ) : (
+              <InputGroupInput
+                {...field}
+                id={userHtmlFor}
+                aria-invalid={fieldState.invalid}
+                placeholder={placeholder}
+                autoComplete={autoComplete}
+                type={type}
+              />
+            )}
+
+            {endAddon && <InputGroupAddon align="inline-end">{endAddon}</InputGroupAddon>}
+
+            {bottomAddon && <InputGroupAddon align="block-end">{bottomAddon}</InputGroupAddon>}
           </InputGroup>
 
           <FieldError>
@@ -73,23 +103,38 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
     />
   );
 }
+
+type FormFieldWrapperPasswordProps<TFieldValues extends FieldValues> = FormFieldWrapperProps<TFieldValues> & {
+  showToggle?: boolean; // enable / disable eye button
+  defaultVisible?: boolean; // start with password visible
+  lockIcon?: React.ReactNode; // left icon override
+  showIcon?: React.ReactNode; // eye open icon
+  hideIcon?: React.ReactNode; // eye closed icon
+};
+
 export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
   control,
   name,
-  label,
+  label = "Password",
   htmlFor,
   required = false,
-  placeholder = "Please enter you password.",
+  placeholder = "Please enter your password.",
   type = "password",
   autoComplete = "off",
-}: FormFieldWrapperProps<TFieldValues>) {
+
+  showToggle = true,
+  defaultVisible = false,
+  lockIcon = <Lock className="size-4 text-muted-foreground" />,
+  showIcon = <LucideEye className="size-4" />,
+  hideIcon = <LucideEyeOff className="size-4" />,
+}: FormFieldWrapperPasswordProps<TFieldValues>) {
   const id = React.useId();
   const userHtmlFor = htmlFor || id;
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(defaultVisible);
 
   function togglePassword() {
-    setShowPassword(!showPassword);
+    setShowPassword((prev) => !prev);
   }
 
   return (
@@ -100,30 +145,44 @@ export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
         <Field data-invalid={fieldState.invalid}>
           {label && (
             <FieldLabel htmlFor={userHtmlFor} className="gap-0.5">
-              Password {required && <span className="text-destructive">*</span>}
+              {label}
+              {required && (
+                <span className="text-destructive" aria-hidden="true">
+                  *
+                </span>
+              )}
             </FieldLabel>
           )}
+
           <InputGroup>
-            <InputGroupAddon>
-              <Lock />
-            </InputGroupAddon>
+            {/* Left icon */}
+            <InputGroupAddon>{lockIcon}</InputGroupAddon>
+
             <InputGroupInput
               {...field}
               id={userHtmlFor}
               placeholder={placeholder}
               aria-invalid={fieldState.invalid}
+              aria-required={required}
+              required={required}
               type={showPassword ? "text" : type}
               autoComplete={autoComplete}
             />
-            <InputGroupAddon align="inline-end">
-              <Button className="m-0 p-0 size-auto" variant="ghost" type="button" onClick={togglePassword}>
-                {showPassword ? (
-                  <LucideEye strokeWidth="1" className="text-gray-900" />
-                ) : (
-                  <LucideEyeOff strokeWidth="1" />
-                )}
-              </Button>
-            </InputGroupAddon>
+
+            {/* Right toggle button (conditional) */}
+            {showToggle && (
+              <InputGroupAddon align="inline-end">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-xs"
+                  onClick={togglePassword}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? showIcon : hideIcon}
+                </Button>
+              </InputGroupAddon>
+            )}
           </InputGroup>
 
           <FieldError>

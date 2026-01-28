@@ -1,9 +1,3 @@
-// ============================================================================
-// FILE: src/components/features/auth/sign-in-card.tsx
-// LOCATION: src/components/features/auth/sign-in-card.tsx
-// PURPOSE: Sign in page wrapper with card layout
-// ============================================================================
-
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
