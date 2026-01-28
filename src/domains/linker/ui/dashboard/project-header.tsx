@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, ChevronDown, Moon, Plus, SlidersHorizontal } from "lucide-react";
+import { Bell, ChevronDown, Moon, SlidersHorizontal } from "lucide-react";
 import type { SortOrder } from "@/app/(spa)/linker/dashboard/page";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { ProjectStatus } from "@/domains/linker/types/project.types";
+import { CreateProjectDialog } from "@/domains/linker/ui/dashboard/create-project-dialog";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 import { cn } from "@/lib/utils";
 
@@ -98,10 +99,7 @@ export function ProjectsHeader({ projects, tab, sort, onTabChange, onSortChange 
       <ProjectsTabs value={tab} counts={counts} onChange={onTabChange} />
       <div className="flex gap-2">
         <ProjectsFilterSort sort={sort} onSortChange={onSortChange} />
-        <Button className="rounded-none font-medium">
-          <Plus className="mr-2 h-4 w-4" />
-          Add New
-        </Button>
+        <CreateProjectDialog />
       </div>
     </div>
   );
@@ -124,10 +122,10 @@ export function ProjectsTabs({ value, counts, onChange }: ProjectTabProps) {
             key={k}
             value={k}
             className={cn(
-              "rounded-none p-0 data-[state=active]:text-primary data-[state=active]:border-b-primary data-[state=active]:border-b-2 font-medium text-base h-16"
+              "rounded-none p-0 data-[state=active]:text-primary data-[state=active]:border-b-primary data-[state=active]:border-b-2 font-medium text-base h-16 capitalize"
             )}
           >
-            {k.charAt(0).toUpperCase() + k.slice(1)}
+            {k}
             <Badge variant={value === k ? "default" : "secondary"} className="ml-2 font-medium">
               {counts[k]}
             </Badge>

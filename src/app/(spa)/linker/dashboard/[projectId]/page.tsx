@@ -1,6 +1,6 @@
 "use client";
 
-import type { Tool } from "@/domains/linker/types/toos.types";
+import type { Tool } from "@/domains/linker/types/tools.types";
 import { ToolsGrid } from "@/domains/linker/ui/tools/tools-card";
 
 const TOOLS: Tool[] = [

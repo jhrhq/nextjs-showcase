@@ -61,16 +61,19 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
           </div>
 
           <div className="space-y-1">
-            <h3 className="text-base font-semibold">{project.name}</h3>
-            <p className="text-sm text-muted-foreground">{project.description}</p>
+            <h3 className="text-base font-semibold capitalize">{project.name}</h3>
+            <p className="text-sm text-muted-foreground">
+              {project.description?.slice(0, 39)}
+              {project.description && project.description?.length > 39 && "..."}
+            </p>
           </div>
 
           <div className="flex items-center gap-3 bg-muted/40 p-3">
             <div className="flex h-8 w-8 items-center justify-center bg-white">
-              <span className="text-xs font-semibold">TC</span>
+              <span className="text-xs font-semibold">{project.name.slice(0, 2).toUpperCase()}</span>
             </div>
             <div className="text-sm">
-              <p className="font-medium">TechCorp</p>
+              <p className="font-medium">{project.name}</p>
               <p className="text-xs text-muted-foreground">{project.domain}</p>
             </div>
           </div>

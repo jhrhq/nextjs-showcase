@@ -9,7 +9,6 @@ import { DeleteProjectDialog } from "@/domains/linker/ui/dashboard/delete-projec
 import { ProjectGrid } from "@/domains/linker/ui/dashboard/project-grid";
 import { ProjectsHeader } from "@/domains/linker/ui/dashboard/project-header";
 
-// import GihubPagination from "@/app/(spa)/linker/_components/github-issue-pagination";
 export type SortOrder = "none" | "asc" | "desc";
 
 export default function DashboardPage() {

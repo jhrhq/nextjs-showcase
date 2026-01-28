@@ -105,11 +105,11 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
 }
 
 type FormFieldWrapperPasswordProps<TFieldValues extends FieldValues> = FormFieldWrapperProps<TFieldValues> & {
-  showToggle?: boolean; // enable / disable eye button
-  defaultVisible?: boolean; // start with password visible
-  lockIcon?: React.ReactNode; // left icon override
-  showIcon?: React.ReactNode; // eye open icon
-  hideIcon?: React.ReactNode; // eye closed icon
+  showToggle?: boolean;
+  defaultVisible?: boolean;
+  lockIcon?: React.ReactNode;
+  showIcon?: React.ReactNode;
+  hideIcon?: React.ReactNode;
 };
 
 export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
@@ -147,9 +147,12 @@ export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
             <FieldLabel htmlFor={userHtmlFor} className="gap-0.5">
               {label}
               {required && (
-                <span className="text-destructive" aria-hidden="true">
-                  *
-                </span>
+                <>
+                  <span className="text-destructive" aria-hidden="true">
+                    *
+                  </span>
+                  <span className="sr-only">Required</span>
+                </>
               )}
             </FieldLabel>
           )}

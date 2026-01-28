@@ -1,11 +1,5 @@
 import { z } from "zod";
 
-export const createProjectSchema = z.object({
-  name: z.string().min(2, "Project name must be at least 2 characters"),
-  domain: z.url("Must be a valid URL"),
-  description: z.string().optional(),
-});
-
 export const updateProjectSchema = z.object({
   name: z.string().min(2, "Project name must be at least 2 characters").optional(),
   domain: z.url("Must be a valid URL").optional(),
@@ -24,6 +18,14 @@ export const projectSchema = z.object({
   lastCrawled: z.iso.datetime().nullable().optional(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
+});
+
+export const createProjectSchema = z.object({
+  name: z.string("Project name must be at least 2 characters").min(2, "Project name must be at least 2 characters"),
+  domain: z.url("Must be a valid URL"),
+  description: z
+    .string("Project description must be at least 10 characters")
+    .min(10, "Project description must be at least 10 characters"),
 });
 
 export const projectsQuerySchema = z.object({

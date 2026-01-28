@@ -47,13 +47,6 @@ export const signUpSchema = z
     path: ["confirmPassword"],
   });
 
-// Project schemas
-export const createProjectSchema = z.object({
-  name: z.string().min(2, "Project name must be at least 2 characters"),
-  domain: z.url("Must be a valid URL"),
-  description: z.string().optional(),
-});
-
 // Account schemas
 export const updatePasswordSchema = z
   .object({
@@ -71,5 +64,4 @@ export const updatePasswordSchema = z
   });
 
 export type SignUpInput = z.infer<typeof signUpSchema>;
-export type CreateProjectInput = z.infer<typeof createProjectSchema>;
 export type UpdatePasswordInput = z.infer<typeof updatePasswordSchema>;
