@@ -1,5 +1,6 @@
 import { Calendar, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
+import type React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import {
@@ -8,18 +9,38 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import type { ProjectStatus, ProjectStatusVariant } from "@/domains/linker/types/project.types";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 
 type ProjectCardProps = {
   project: ProjectDTO;
-  onEdit: (project: ProjectDTO) => void;
-  onDelete: (id: string) => void;
+  onEdit: (projectId: string) => void;
+  onDelete: (projectId: string) => void;
 };
 
 export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
+  const { id, status } = project;
+
+  function handleEdit(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    e.preventDefault();
+    e.stopPropagation();
+    onEdit(id);
+  }
+
+  function handleDelete(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    e.preventDefault();
+    e.stopPropagation();
+    onDelete(id);
+  }
+
+  const navigatePath =
+    status === "active"
+      ? `${AUTH_CONFIG.ROUTES.DASHBOARD}/${id}`
+      : `${AUTH_CONFIG.ROUTES.DASHBOARD}/${id}${AUTH_CONFIG.ROUTES.SETTINGS}`;
+
   return (
-    <Link href={`/linker/dashboard/${project.id}`}>
+    <Link href={navigatePath}>
       <Card className="rounded-none shadow-sm">
         <CardHeader className="space-y-4">
           <div className="flex items-center justify-between">
@@ -29,10 +50,10 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
                 <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem className="font-medium text-slate-600" onClick={() => onEdit(project)}>
+                <DropdownMenuItem className="font-medium text-slate-600" onClick={handleEdit}>
                   Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem className=" font-medium text-red-500" onClick={() => onDelete(project.id)}>
+                <DropdownMenuItem className=" font-medium text-red-500" onClick={handleDelete}>
                   Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>

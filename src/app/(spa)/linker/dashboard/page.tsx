@@ -1,6 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
+import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { useProjects } from "@/domains/linker/hooks/use-projects";
 import type { ProjectStatus } from "@/domains/linker/types/project.types";
 import { DeleteProjectDialog } from "@/domains/linker/ui/dashboard/delete-project-dialog";
@@ -12,6 +14,7 @@ export type SortOrder = "none" | "asc" | "desc";
 
 export default function DashboardPage() {
   const { data, isPending, isError, error } = useProjects();
+  const router = useRouter();
 
   const [deleteId, setDeleteId] = React.useState<string | null>(null);
   const [tab, setTab] = React.useState<"all" | ProjectStatus>("all");
@@ -28,6 +31,10 @@ export default function DashboardPage() {
 
     return tabData;
   }, [data, sort, tab]);
+
+  function handleEdit(projectId: string) {
+    router.push(`${AUTH_CONFIG.ROUTES.DASHBOARD}/${projectId}/${AUTH_CONFIG.ROUTES.SETTINGS}`);
+  }
 
   function handleDelete(id: string) {
     setDeleteId(id);
@@ -51,7 +58,7 @@ export default function DashboardPage() {
           <p className="text-sm text-muted-foreground">Here is a list of projects that you have created</p>
         </div>
         <ProjectsHeader projects={data} tab={tab} sort={sort} onTabChange={setTab} onSortChange={setSort} />
-        {visibleProjects && <ProjectGrid projects={visibleProjects} onEdit={() => {}} onDelete={handleDelete} />}
+        {visibleProjects && <ProjectGrid projects={visibleProjects} onEdit={handleEdit} onDelete={handleDelete} />}
       </main>
       {/* <GihubPagination /> */}
       <DeleteProjectDialog

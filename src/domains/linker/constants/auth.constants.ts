@@ -34,8 +34,13 @@ export const AUTH_CONFIG = {
   },
   ROUTES: {
     SIGN_IN: "/linker/sign-in",
-    DASHBOARD: "/linker/dashboard",
     VERIFY_EMAIL: "/linker/verify-email",
+    DASHBOARD: "/linker/dashboard",
+    SETTINGS: "/settings",
+    INBOUNDS: "/inbounds",
+    SILO: "/inbounds",
+    LINKS_REPORT: "/links-report",
+    SITE_REPORT: "/site-report",
   },
   API: {
     SIGN_IN: "/auth/sign-in",
@@ -45,7 +50,7 @@ export const AUTH_CONFIG = {
     LOGOUT: "/auth/logout",
     PROJECTS: "/linker/projects",
     INBOUNDS: "/inbounds",
-    SILO: "/inbounds",
+    SILO: "/silo",
     LINKS_REPORT: "/links-report",
     SITE_REPORT: "/site-report",
   },
