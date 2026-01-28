@@ -11,7 +11,7 @@ type ToolsGridProps = {
   // onEdit: (project: ProjectDTO) => void;
   // onDelete: (id: string) => void;
 };
-export function ToolGrid({ tools }: ToolsGridProps) {
+export function ToolsGrid({ tools }: ToolsGridProps) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {tools.map((tool) => (

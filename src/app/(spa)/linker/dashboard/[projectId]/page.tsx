@@ -1,6 +1,6 @@
 "use client";
 
-import { ToolGrid } from "@/domains/linker/ui/tools/tools-card";
+import { ToolsGrid } from "@/domains/linker/ui/tools/tools-card";
 
 const Tool = [
   {
@@ -22,7 +22,7 @@ export type ToolsType = typeof Tool;
 export default function ToolsPage() {
   return (
     <main className=" mt-6">
-      <ToolGrid tools={Tool} />
+      <ToolsGrid tools={Tool} />
     </main>
   );
 }

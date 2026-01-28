@@ -51,7 +51,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div>
+    <>
       <main className="flex-1 space-y-6 mt-6">
         <div>
           <h1 className="text-2xl font-semibold">Projects List</h1>
@@ -70,6 +70,6 @@ export default function DashboardPage() {
           setDeleteId(null);
         }}
       />
-    </div>
+    </>
   );
 }
