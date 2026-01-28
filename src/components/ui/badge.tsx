@@ -46,6 +46,8 @@ const badgeVariants = cva(
         // YELLOW
         "yellow-lighter": "bg-yellow-light text-yellow-dark",
         "yellow-lighter-rounded": "bg-yellow-light text-yellow-dark py-1 px-3 rounded-full",
+        new: " bg-teal-100 text-teal-800",
+        "new-rounded": "bg-teal-100 text-teal-800 py-1 px-3 rounded-full",
       },
     },
     defaultVariants: {

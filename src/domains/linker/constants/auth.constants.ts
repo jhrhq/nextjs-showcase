@@ -38,7 +38,7 @@ export const AUTH_CONFIG = {
     DASHBOARD: "/linker/dashboard",
     SETTINGS: "/settings",
     INBOUNDS: "/inbounds",
-    SILO: "/inbounds",
+    SILO: "/silo",
     LINKS_REPORT: "/links-report",
     SITE_REPORT: "/site-report",
   },

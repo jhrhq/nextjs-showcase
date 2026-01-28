@@ -1,5 +1,4 @@
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
-import type { InboundLink, LinksReport, SiloStructure, SiteReport } from "@/domains/linker/types/project.types";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 import { linkerApi } from "./axios-instance";
 
@@ -27,7 +26,7 @@ export const projectsApi = {
   delete: async (projectId: string): Promise<void> => {
     await linkerApi.delete(`${AUTH_CONFIG.API.PROJECTS}/${projectId}`);
   },
-
+  /* 
   getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.INBOUNDS}`);
     return response.data;
@@ -51,4 +50,5 @@ export const projectsApi = {
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.SITE_REPORT}`);
     return response.data;
   },
+ */
 };

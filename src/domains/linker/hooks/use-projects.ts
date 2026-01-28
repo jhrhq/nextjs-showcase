@@ -53,7 +53,7 @@ export function useDeleteProject() {
   });
 }
 
-export function useInboundLinks(projectId: string) {
+/* export function useInboundLinks(projectId: string) {
   return useQuery({
     queryKey: ["linker-inbound", projectId],
     queryFn: () => projectsApi.getInboundLinks(projectId),
@@ -84,3 +84,4 @@ export function useSiteReport(projectId: string) {
     enabled: !!projectId,
   });
 }
+ */
