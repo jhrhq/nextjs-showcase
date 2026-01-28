@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader } from "@/components/ui/card";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
-import { TOOL_ICON_MAP, type Tool, type ToolStatus, type ToolStatusVariant } from "@/domains/linker/types/toos.types";
+import { TOOL_ICON_MAP, type Tool, type ToolStatus, type ToolStatusVariant } from "@/domains/linker/types/tools.types";
 
 type ToolsGridProps = {
   tools: Tool[];

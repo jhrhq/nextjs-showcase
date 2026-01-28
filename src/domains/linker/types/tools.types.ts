@@ -25,9 +25,9 @@ interface ToolIconConfig {
 // Strictly type the keys
 export const TOOL_ICON_MAP: Record<ToolName, ToolIconConfig> = {
   INBOUNDS: { Icon: Import, className: "-rotate-90 text-primary" },
-  SILO: { Icon: Layers, className: "text-green-500 w-6 h-6" },
-  LINKS_REPORT: { Icon: BarChart2, className: "text-yellow-500 w-6 h-6" },
-  SITE_REPORT: { Icon: Activity, className: "text-purple-500 w-6 h-6" },
+  SILO: { Icon: Layers, className: "text-green-500" },
+  LINKS_REPORT: { Icon: BarChart2, className: "text-yellow-500" },
+  SITE_REPORT: { Icon: Activity, className: "text-purple-500" },
 };
 
 export interface InboundLink {
