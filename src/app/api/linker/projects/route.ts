@@ -64,8 +64,7 @@ export async function POST(request: Request) {
     { status: 201 }
   );
 }
-/* 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+/* export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const authHeader = req.headers.get("authorization");
   const accessToken = authHeader?.replace("Bearer ", "");
 
@@ -101,7 +100,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
     return NextResponse.json({ error: "Failed to update project" }, { status: 500 });
   }
-}
+} */
+/* 
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const authHeader = req.headers.get("authorization");

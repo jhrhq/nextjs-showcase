@@ -1,11 +1,18 @@
 import { z } from "zod";
 
-export const updateProjectSchema = z.object({
-  name: z.string().min(2, "Project name must be at least 2 characters").optional(),
-  domain: z.url("Must be a valid URL").optional(),
-  description: z.string().optional(),
-  status: z.enum(["active", "inactive", "pending"]).optional(),
-});
+export const updateProjectSchema = z
+  .object({
+    name: z.string().min(2, "Project name must be at least 2 characters").optional(),
+    description: z
+      .string()
+      .optional()
+      .transform((val) => (val === "" ? undefined : val))
+      .pipe(z.string().min(10, "Description must be at least 10 characters").optional()),
+    status: z.enum(["active", "inactive", "pending"]).optional(),
+  })
+  .refine((data) => Object.values(data).some((value) => value !== undefined), {
+    message: "At least one field must be provided",
+  });
 
 export const projectSchema = z.object({
   id: z.uuid(),

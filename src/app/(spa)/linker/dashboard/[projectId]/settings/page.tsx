@@ -1,8 +1,6 @@
-// src/app/(spa)/linker/(dashboard)/projects/[id]/page.tsx
-
 "use client";
 
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertTriangle, Loader2, Trash2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,14 +17,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { useDeleteProject, useProjects, useUpdateProject } from "@/domains/linker/hooks/use-projects";
 import { ProjectStatusBadge } from "@/domains/linker/ui/dashboard/project-card";
+import { type UpdateProjectInput, updateProjectSchema } from "@/domains/linker/validations/projects.validations";
+import FormError from "@/ui/shared/auth-errro-alert";
+import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 
 export default function ProjectSettingsPage() {
   const params = useParams();
@@ -43,18 +44,20 @@ export default function ProjectSettingsPage() {
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    // resolver: zodResolver(updateProjectSchema),
+  } = useForm<UpdateProjectInput>({
+    resolver: zodResolver(updateProjectSchema),
     defaultValues: {
       name: project?.name,
       description: project?.description,
+      // status: project?.status,
     },
   });
 
-  const onSubmit = () => {
+  const onSubmit = (data: UpdateProjectInput) => {
+    console.log(data);
     // updateProject.mutate(data);
   };
 
@@ -101,17 +104,29 @@ export default function ProjectSettingsPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" {...register("name")} placeholder="My Project" />
-              {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
-              <Textarea id="description" {...register("description")} placeholder="Project description" rows={3} />
-              {errors.description && <p className="text-sm text-red-600">{errors.description.message}</p>}
-            </div>
+            <FieldGroup>
+              <FormFieldWrapper
+                control={control}
+                label="Project Name"
+                name="name"
+                placeholder="My Awesome Project"
+                autoComplete="off"
+                required={true}
+                // startAddon={<Mail />}
+              />
+              <FormFieldWrapper
+                control={control}
+                label="Description"
+                name="description"
+                placeholder="Brief description of your project (optional)"
+                autoComplete="off"
+                required={true}
+                as="textarea"
+                // startAddon={<Mail />}
+              />
+            </FieldGroup>
+            {/* General Error */}
+            <FormError error={errors.root?.message} />
 
             <Button type="submit" disabled={updateProject.isPending}>
               {updateProject.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
