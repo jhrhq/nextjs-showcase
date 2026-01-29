@@ -1,9 +1,3 @@
-// ============================================================================
-// FILE: src/lib/validations/auth.validation.ts
-// LOCATION: src/lib/validations/auth.validation.ts
-// PURPOSE: Zod schemas for authentication
-// ============================================================================
-
 import { z } from "zod";
 import { AUTH_CONFIG } from "@/domains/portfolio/auth.constants";
 

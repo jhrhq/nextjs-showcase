@@ -1,9 +1,3 @@
-// ============================================================================
-// FILE: src/lib/types/auth.types.ts
-// LOCATION: src/lib/types/auth.types.ts
-// PURPOSE: Authentication domain types
-// ============================================================================
-
 import type { AUTH_ERROR_CODES } from "@/domains/portfolio/auth.constants";
 
 export type AuthErrorCode = (typeof AUTH_ERROR_CODES)[keyof typeof AUTH_ERROR_CODES];

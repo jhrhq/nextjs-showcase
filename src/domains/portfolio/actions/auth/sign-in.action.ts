@@ -1,9 +1,3 @@
-// ============================================================================
-// FILE: src/lib/actions/auth/sign-in.action.ts
-// LOCATION: src/lib/actions/auth/sign-in.action.ts
-// PURPOSE: Server action for sign in
-// ============================================================================
-
 "use server";
 
 import z from "zod";

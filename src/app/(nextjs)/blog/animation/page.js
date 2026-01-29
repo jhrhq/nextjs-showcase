@@ -41,10 +41,6 @@ export default function EnterAnimation() {
   );
 }
 
-/**
- * ==============   Styles   ================
- */
-
 const ball = {
   width: 100,
   height: 100,

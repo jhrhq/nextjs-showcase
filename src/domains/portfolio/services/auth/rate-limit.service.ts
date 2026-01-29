@@ -1,9 +1,3 @@
-// ============================================================================
-// FILE: src/lib/services/auth/rate-limit.service.ts
-// LOCATION: src/lib/services/auth/rate-limit.service.ts
-// PURPOSE: Rate limiting service (in-memory, upgrade to Redis in production)
-// ============================================================================
-
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { AuthError } from "@/domains/portfolio/errors/auth.error";
 import type { RateLimitEntry } from "@/domains/portfolio/types/auth.types";

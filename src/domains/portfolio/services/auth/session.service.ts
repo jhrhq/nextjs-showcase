@@ -1,9 +1,3 @@
-// ============================================================================
-// FILE: src/lib/services/auth/session.service.ts
-// LOCATION: src/lib/services/auth/session.service.ts
-// PURPOSE: Session management service
-// ============================================================================
-
 import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";

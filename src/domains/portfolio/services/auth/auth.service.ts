@@ -1,9 +1,3 @@
-// ============================================================================
-// FILE: src/lib/services/auth/auth.service.ts
-// LOCATION: src/lib/services/auth/auth.service.ts
-// PURPOSE: Core authentication business logic
-// ============================================================================
-
 import { AuthError } from "@/domains/portfolio/errors/auth.error";
 import type { AppUser } from "@/domains/portfolio/types/auth.types";
 

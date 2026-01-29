@@ -1,9 +1,3 @@
-// ============================================================================
-// FILE: src/lib/errors/auth.error.ts
-// LOCATION: src/lib/errors/auth.error.ts
-// PURPOSE: Custom authentication error class
-// ============================================================================
-
 import { AUTH_ERROR_CODES, AUTH_ERROR_MESSAGES } from "@/domains/portfolio/auth.constants";
 import type { AuthErrorCode } from "@/domains/portfolio/types/auth.types";
 

@@ -1,9 +1,3 @@
-// ============================================================================
-// FILE: src/middleware.ts
-// LOCATION: src/middleware.ts
-// PURPOSE: Middleware for protected routes
-// ============================================================================
-
 // import type { NextRequest } from "next/server";
 // import { NextResponse } from "next/server";
 // import { AUTH_CONFIG } from "@/lib/linker/constants/auth.constants";

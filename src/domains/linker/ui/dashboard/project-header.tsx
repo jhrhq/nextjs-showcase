@@ -30,8 +30,6 @@ import { CreateProjectDialog } from "@/domains/linker/ui/dashboard/create-projec
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 import { cn } from "@/lib/utils";
 
-/* ================= TOPBAR ================= */
-
 export function Topbar() {
   return (
     <header className="flex items-center justify-between border-b bg-background px-6 py-3">
@@ -78,7 +76,6 @@ export function Topbar() {
   );
 }
 
-/* ================= HEADER ================= */
 type ProjectsHeaderProps = {
   projects: ProjectDTO[];
   tab: "all" | ProjectStatus;

@@ -1,9 +1,3 @@
-// ============================================================================
-// FILE: src/lib/constants/auth.constants.ts
-// LOCATION: src/lib/constants/auth.constants.ts
-// PURPOSE: Centralized authentication configuration
-// ============================================================================
-
 export const AUTH_CONFIG = {
   RATE_LIMIT: {
     MAX_ATTEMPTS: 5,
