@@ -1,5 +1,9 @@
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
-import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
+import type {
+  CreateProjectInput,
+  ProjectDTO,
+  UpdateProjectAPIInput,
+} from "@/domains/linker/validations/projects.validations";
 import { linkerApi } from "./axios-instance";
 
 export const projectsApi = {
@@ -13,13 +17,13 @@ export const projectsApi = {
     return response.data;
   },
 
-  create: async (data: Partial<ProjectDTO>): Promise<ProjectDTO> => {
+  create: async (data: CreateProjectInput): Promise<ProjectDTO> => {
     const response = await linkerApi.post(AUTH_CONFIG.API.PROJECTS, data);
     return response.data;
   },
 
-  update: async (projectId: string, data: Partial<ProjectDTO>): Promise<ProjectDTO> => {
-    const response = await linkerApi.put(`${AUTH_CONFIG.API.PROJECTS}/${projectId}`, data);
+  update: async (data: UpdateProjectAPIInput): Promise<ProjectDTO> => {
+    const response = await linkerApi.put(`${AUTH_CONFIG.API.PROJECTS}`, data);
     return response.data;
   },
 

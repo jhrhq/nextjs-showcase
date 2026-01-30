@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import z from "zod";
 import { verifyAccessToken } from "@/domains/linker/services/auth/jwt.service";
-import { createProjectSchema } from "@/domains/linker/validations/projects.validations";
+import { createProjectSchema, updateProjectApiSchema } from "@/domains/linker/validations/projects.validations";
 import { getProjects, mockProjects } from "@/lib/db/mock";
 
 export async function GET(request: Request) {
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
     { status: 201 }
   );
 }
-/* export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
   const accessToken = authHeader?.replace("Bearer ", "");
 
@@ -78,29 +78,35 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  try {
-    const body = await req.json();
-    const validatedData = updateProjectSchema.parse(body);
-    const index = mockProjects.findIndex((p) => p.id === params.id);
+  const body = await req.json();
+  const validationResult = updateProjectApiSchema.safeParse(body);
 
-    if (index === -1) {
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
-    }
-
-    mockProjects[index] = {
-      ...mockProjects[index],
-      ...validatedData,
-      updatedAt: new Date().toISOString(),
-    };
-
-    return NextResponse.json(mockProjects[index], { status: 200 });
-  } catch (error) {
-    if (error instanceof Error && error.name === "ZodError") {
-      return NextResponse.json({ error: "Validation failed", details: error }, { status: 400 });
-    }
-    return NextResponse.json({ error: "Failed to update project" }, { status: 500 });
+  if (!validationResult.success) {
+    const validationErrors = z.flattenError(validationResult.error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Please check your input and try again",
+        code: "VALIDATION_ERROR",
+        errors: validationErrors.fieldErrors as Record<string, string[]>,
+      },
+      { status: 400 }
+    );
   }
-} */
+  const index = mockProjects.findIndex((p) => p.id === validationResult.data.projectId);
+
+  if (index === -1) {
+    return NextResponse.json({ error: "Project not found" }, { status: 404 });
+  }
+
+  mockProjects[index] = {
+    ...mockProjects[index],
+    ...validationResult.data,
+    updatedAt: new Date().toISOString(),
+  };
+
+  return NextResponse.json(mockProjects[index], { status: 200 });
+}
 /* 
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {

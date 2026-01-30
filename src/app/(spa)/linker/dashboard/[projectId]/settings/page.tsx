@@ -24,6 +24,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { useDeleteProject, useProjects, useUpdateProject } from "@/domains/linker/hooks/use-projects";
+import { useUpdateProjectForm } from "@/domains/linker/hooks/use-update-project-form";
 import { ProjectStatusBadge } from "@/domains/linker/ui/dashboard/project-card";
 import { type UpdateProjectInput, updateProjectSchema } from "@/domains/linker/validations/projects.validations";
 import FormError from "@/ui/shared/auth-errro-alert";
@@ -43,11 +44,7 @@ export default function ProjectSettingsPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<UpdateProjectInput>({
+  const form = useForm<UpdateProjectInput>({
     resolver: zodResolver(updateProjectSchema),
     defaultValues: {
       name: project?.name,
@@ -56,10 +53,13 @@ export default function ProjectSettingsPage() {
     },
   });
 
-  const onSubmit = (data: UpdateProjectInput) => {
-    console.log(data);
-    // updateProject.mutate(data);
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = form;
+
+  const { onSubmit, isLoading: projectUpdateLoading } = useUpdateProjectForm(form);
 
   const handleStatusToggle = () => {
     // updateProject.mutate({ status: checked ? "active" : "inactive" });
@@ -128,7 +128,7 @@ export default function ProjectSettingsPage() {
             {/* General Error */}
             <FormError error={errors.root?.message} />
 
-            <Button type="submit" disabled={updateProject.isPending}>
+            <Button type="submit" disabled={projectUpdateLoading}>
               {updateProject.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save Changes
             </Button>
