@@ -26,7 +26,7 @@ export function useUpdateProjectForm(form: UseFormReturn<UpdateProjectInput>) {
       { ...data, projectId },
       {
         onSuccess: (data) => {
-          toast.success("Login Successful:", {
+          toast.success("Project Update Successfull", {
             description: data.name,
             position: "bottom-right",
             classNames: {

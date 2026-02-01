@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertTriangle, Loader2, Trash2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,7 +17,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { FieldGroup } from "@/components/ui/field";
+import { Field, FieldContent, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -61,8 +61,15 @@ export default function ProjectSettingsPage() {
 
   const { onSubmit, isLoading: projectUpdateLoading } = useUpdateProjectForm(form);
 
-  const handleStatusToggle = () => {
+  /*   const handleStatusToggle = () => {
     // updateProject.mutate({ status: checked ? "active" : "inactive" });
+  }; */
+  const handleStatusToggle = async (checked: boolean) => {
+    try {
+      onSubmit({ status: checked ? "active" : "inactive" });
+    } catch (error) {
+      console.error("API call failed:", error);
+    }
   };
 
   const handleDelete = () => {
@@ -143,22 +150,40 @@ export default function ProjectSettingsPage() {
           <CardDescription>Control your project status</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Current Status</Label>
-              <p className="text-sm text-gray-600">
-                <ProjectStatusBadge status={project.status} />
-              </p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Switch
-                checked={project.status === "active"}
-                onCheckedChange={handleStatusToggle}
-                disabled={updateProject.isPending}
+          <form id="form-rhf-switch" className="space-y-4">
+            <FieldGroup className="flex items-center justify-between">
+              <Controller
+                name="status"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field orientation="horizontal" data-invalid={fieldState.invalid}>
+                    <FieldContent className="gap-2">
+                      <FieldLabel htmlFor="form-rhf-switch-project-status" className="font-medium">
+                        Current Status
+                      </FieldLabel>
+                      <ProjectStatusBadge status={project.status} />
+                      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                    </FieldContent>
+                    <div className="self-end flex gap-2">
+                      <Switch
+                        id="form-rhf-switch-project-status"
+                        name={field.name}
+                        aria-invalid={fieldState.invalid}
+                        checked={project.status === "active"}
+                        onCheckedChange={async (checked) => {
+                          const statusString = checked ? "active" : "inactive";
+                          field.onChange(statusString);
+                          await handleStatusToggle(checked);
+                        }}
+                        disabled={updateProject.isPending}
+                      />
+                      <Label>{project.status === "active" ? "Deactivate" : "Activate"}</Label>
+                    </div>
+                  </Field>
+                )}
               />
-              <Label>{project.status === "active" ? "Deactivate" : "Activate"}</Label>
-            </div>
-          </div>
+            </FieldGroup>
+          </form>
         </CardContent>
       </Card>
 
