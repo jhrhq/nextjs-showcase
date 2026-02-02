@@ -65,14 +65,3 @@ export interface LinksReport {
   status: number;
   lastChecked: string;
 }
-
-export interface SiteReport {
-  projectId: string;
-  totalPages: number;
-  indexedPages: number;
-  avgLoadTime: number;
-  mobileScore: number;
-  desktopScore: number;
-  seoScore: number;
-  generatedAt: string;
-}
