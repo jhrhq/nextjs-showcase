@@ -2,6 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { useDeleteProject, useProjects, useUpdateProject } from "@/domains/linker/hooks/use-projects";
 import {
@@ -22,21 +23,27 @@ export default function ProjectSettingsPage() {
   const udpateProject = useUpdateProject(projectId);
   const deleteProject = useDeleteProject();
 
-  const handleStatusToggle = async (checked: boolean) => {
+  async function handleStatusToggle(checked: boolean) {
     try {
-      udpateProject.mutate({ status: checked ? "active" : "inactive", projectId });
+      udpateProject.mutate(
+        { status: checked ? "active" : "inactive", projectId },
+        {
+          onSuccess: () => toast.success("Status update successfull"),
+          onError: () => toast.error("Status update failed!"),
+        }
+      );
     } catch (error) {
       console.error("API call failed:", error);
     }
-  };
+  }
 
-  const handleDelete = () => {
+  function handleDelete() {
     deleteProject.mutate(projectId, {
       onSuccess: () => {
         router.push(`${AUTH_CONFIG.ROUTES.DASHBOARD}`);
       },
     });
-  };
+  }
 
   if (isLoading) {
     return (
@@ -61,22 +68,17 @@ export default function ProjectSettingsPage() {
         <p className="text-slate-600 mt-1">Manage your project configuration</p>
       </div>
 
-      {/* General Settings */}
       <SettingsGeneral project={project} />
 
-      {/* Status */}
       <SettingsGeneralStatus
         project={project}
         onToggleStatus={handleStatusToggle}
         isLoading={udpateProject.isPending}
       />
 
-      {/* Details */}
       <SettingsDetails project={project} />
 
-      {/* Usage */}
       <SettingsUsage project={project} />
-      {/* Danger Zone */}
 
       <SettingsProjectDelete project={project} onDelete={handleDelete} isLoading={deleteProject.isPending} />
     </div>
