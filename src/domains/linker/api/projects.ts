@@ -1,4 +1,5 @@
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
+import type { SiteReport } from "@/domains/linker/types/site-report.types";
 import type {
   CreateProjectInput,
   ProjectDTO,
@@ -29,6 +30,11 @@ export const projectsApi = {
 
   delete: async (projectId: string): Promise<void> => {
     await linkerApi.delete(`${AUTH_CONFIG.API.PROJECTS}/${projectId}`);
+  },
+
+  getSiteReport: async (projectId: string): Promise<SiteReport> => {
+    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.SITE_REPORT}`);
+    return response.data;
   },
   /* 
   getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {

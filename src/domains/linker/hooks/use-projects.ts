@@ -53,6 +53,13 @@ export function useDeleteProject() {
   });
 }
 
+export function useSiteReport(projectId: string) {
+  return useQuery({
+    queryKey: ["linker-site-report", projectId],
+    queryFn: () => projectsApi.getSiteReport(projectId),
+    enabled: !!projectId,
+  });
+}
 /* export function useInboundLinks(projectId: string) {
   return useQuery({
     queryKey: ["linker-inbound", projectId],
@@ -77,11 +84,4 @@ export function useLinksReport(projectId: string) {
   });
 }
 
-export function useSiteReport(projectId: string) {
-  return useQuery({
-    queryKey: ["linker-site-report", projectId],
-    queryFn: () => projectsApi.getSiteReport(projectId),
-    enabled: !!projectId,
-  });
-}
  */
