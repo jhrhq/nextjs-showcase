@@ -1,5 +1,5 @@
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
-import { PerformanceResourceTable } from "@/domains/linker/ui/site-report/links-report-tab/performance-resource.table/performance-resource.table";
+import { PerformanceResourceTable } from "@/domains/linker/ui/site-report/links-report-tab-section/performance-resource.table/performance-resource.table";
 
 export function PerformanceTab({ report }: { report: SiteReport }) {
   return (

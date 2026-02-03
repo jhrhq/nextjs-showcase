@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
-import { TechnicalSeoTable } from "@/domains/linker/ui/site-report/links-report-tab/technical-seo.table/technical-seo.table";
+import { TechnicalSeoTable } from "@/domains/linker/ui/site-report/links-report-tab-section/technical-seo.table/technical-seo.table";
 
 interface Props {
   report: SiteReport;
