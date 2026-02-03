@@ -1,7 +1,7 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { PerformanceResource } from "@/domains/linker/types/site-report.types";
-import { performanceResourceColumns } from "@/domains/linker/ui/site-report/links-report-tab/performance-resource.table/performance-resource.column";
+import { performanceResourceColumns } from "@/domains/linker/ui/site-report/links-report-tab-section/performance-resource.table/performance-resource.column";
 import { DataTable } from "@/ui/shared/data-table";
 
 type PerformanceResourceTableProps = {

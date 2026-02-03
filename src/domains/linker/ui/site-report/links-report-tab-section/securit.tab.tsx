@@ -2,7 +2,7 @@ import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
-import { SecurityAuditTable } from "@/domains/linker/ui/site-report/links-report-tab/security-audit.columns/security-audit.table";
+import { SecurityAuditTable } from "@/domains/linker/ui/site-report/links-report-tab-section/security-audit.columns/security-audit.table";
 
 export function SecurityTab({ report }: { report: SiteReport }) {
   const hasCriticalIssues = report.security.some((item) => item.status === "fail");
