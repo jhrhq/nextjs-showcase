@@ -1,10 +1,10 @@
 import { AlertCircle, CheckCircle2, XCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
+import { TechnicalSeoTable } from "@/domains/linker/ui/site-report/linking-page.table/linking-page.table";
 
-export function LinkAnalysis({ report }: { report: SiteReport }) {
+export function LinkAnalysisSection({ report }: { report: SiteReport }) {
   return (
     <div className="space-y-4">
       <Card>
@@ -13,30 +13,7 @@ export function LinkAnalysis({ report }: { report: SiteReport }) {
           <CardDescription>Pages with the most outbound links</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Page URL</TableHead>
-                <TableHead>Internal Links</TableHead>
-                <TableHead>External Links</TableHead>
-                <TableHead>Total</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {report.topLinkingPages.map((page, index) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium max-w-md truncate">{page.url}</TableCell>
-                  <TableCell>
-                    <Badge variant="default">{page.internalLinks}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">{page.externalLinks}</Badge>
-                  </TableCell>
-                  <TableCell className="font-semibold">{page.totalLinks}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <TechnicalSeoTable data={report.topLinkingPages} />
         </CardContent>
       </Card>
 
