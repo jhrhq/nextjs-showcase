@@ -10,9 +10,9 @@ import { CategoryBarChart, LinksDistributionPieChart } from "@/domains/linker/ui
 import { IndexingStatBox, IndexingSummary } from "@/domains/linker/ui/site-report/indexing-summar-card";
 import { LinkAnalysis } from "@/domains/linker/ui/site-report/link-analysis";
 import LinkMetricItem from "@/domains/linker/ui/site-report/link-metric-card";
+import LinkReportTab from "@/domains/linker/ui/site-report/links-report-tab";
 import PerformanceScoreItem from "@/domains/linker/ui/site-report/performance-score-card";
 import { StatsCard } from "@/domains/linker/ui/site-report/stats-card";
-import LinkReportTab from "@/domains/linker/ui/site-report/test-tab";
 import { getScoreColor, getScoreVariant } from "@/domains/linker/utils";
 
 export default function SiteReportPage() {
