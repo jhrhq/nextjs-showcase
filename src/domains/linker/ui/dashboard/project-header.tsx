@@ -51,20 +51,20 @@ export function Topbar() {
 
       <div className="flex items-center gap-4">
         <Button size="icon" variant="ghost">
-          <Moon className="h-4 w-4" />
+          <Moon />
         </Button>
         <Button size="icon" variant="ghost">
-          <Bell className="h-4 w-4" />
+          <Bell />
         </Button>
 
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center gap-2">
-            <Avatar className="h-8 w-8">
+            <Avatar className="size-8">
               <AvatarImage />
               <AvatarFallback>C</AvatarFallback>
             </Avatar>
             <span className="text-sm font-medium">Columbus</span>
-            <ChevronDown className="h-4 w-4" />
+            <ChevronDown />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>Profile</DropdownMenuItem>

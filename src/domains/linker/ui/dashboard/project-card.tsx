@@ -83,7 +83,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
           <div className="flex font-medium text-slate-600">Total Links: {project.totalLinks}</div>
 
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Calendar className="h-4 w-4" />
+            <Calendar />
             <span>
               {new Date(project.updatedAt).toLocaleDateString("en-GB", {
                 day: "2-digit",

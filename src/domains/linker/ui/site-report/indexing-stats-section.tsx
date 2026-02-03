@@ -18,12 +18,9 @@ export default function IndexingStatsSection({ report }: { report: SiteReport })
       <CardContent>
         <div className="space-y-4">
           <IndexingSummary indexed={report.indexedPages} total={report.totalPages} />
-
           <Progress value={indexingRate} className="h-3" />
-
           <div className="grid grid-cols-2 gap-4 mt-4">
             <IndexingStatBox label="Not Indexed" value={notIndexed} />
-
             <IndexingStatBox label="Coverage" value={`${indexingRate}%`} />
           </div>
         </div>

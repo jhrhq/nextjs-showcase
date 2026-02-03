@@ -8,8 +8,7 @@ export default function ChartSection({ report }: { report: SiteReport }) {
   ];
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {/* Category Distribution Bar Chart */}
-      {report.categoryDistribution.length > 0 && <CategoryBarChart data={report.categoryDistribution} />}
+      <CategoryBarChart data={report.categoryDistribution} />
       <LinksDistributionPieChart data={linksPieData} />
     </div>
   );

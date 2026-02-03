@@ -48,9 +48,7 @@ export default function PerformanceSection({ report }: { report: SiteReport }) {
 
         <CardContent className="space-y-6">
           <PerformanceScoreItem label="Mobile Score" score={report.mobileScore} />
-
           <PerformanceScoreItem label="Desktop Score" score={report.desktopScore} />
-
           <PerformanceScoreItem label="SEO Score" score={report.seoScore} />
         </CardContent>
       </Card>
