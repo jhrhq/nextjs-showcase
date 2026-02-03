@@ -1,10 +1,56 @@
+import type { LucideIcon } from "lucide-react";
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
 import { StatsCard } from "@/domains/linker/ui/site-report/stats-card";
-import { getScoreColor, getScoreVariant } from "@/domains/linker/utils";
+import { getScoreColor, getScoreVariant, getSeoScoreStatus } from "@/domains/linker/utils";
+import { cn } from "@/lib/utils";
+
+type LoadTimeRule = {
+  max: number;
+  Icon: LucideIcon;
+  color: string;
+  label: string;
+};
+
+const LOAD_TIME_RULES: LoadTimeRule[] = [
+  {
+    max: 2,
+    Icon: TrendingDown,
+    color: "text-green-600",
+    label: "Excellent",
+  },
+  {
+    max: 3,
+    Icon: Minus,
+    color: "text-yellow-600",
+    label: "Good",
+  },
+  {
+    max: Infinity,
+    Icon: TrendingUp,
+    color: "text-red-600",
+    label: "Needs improvement",
+  },
+];
+
+function getLoadTimeRule(avgLoadTime: number): LoadTimeRule {
+  for (const rule of LOAD_TIME_RULES) {
+    if (avgLoadTime <= rule.max) {
+      return rule;
+    }
+  }
+
+  return LOAD_TIME_RULES[LOAD_TIME_RULES.length - 1];
+}
 
 export default function ReportStatsSection({ report }: { report: SiteReport }) {
+  const indexingPageRate = report.totalPages > 0 ? (report.indexedPages / report.totalPages) * 100 : 0;
+
+  const { Icon, color, label } = getLoadTimeRule(report.avgLoadTime);
+
+  const getSeoScoreLabel = getSeoScoreStatus(report.seoScore);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <StatsCard title="Total Pages" value={report.totalPages} />
@@ -13,7 +59,7 @@ export default function ReportStatsSection({ report }: { report: SiteReport }) {
         title="Indexed Pages"
         value={report.indexedPages}
         valueClassName="text-blue-600"
-        footer={`${((report.indexedPages / report.totalPages) * 100).toFixed(1)}% indexed`}
+        footer={`${indexingPageRate.toFixed(1)}% indexed`}
       />
 
       <StatsCard
@@ -22,16 +68,8 @@ export default function ReportStatsSection({ report }: { report: SiteReport }) {
         valueClassName="text-purple-600"
         footer={
           <div className="flex items-center">
-            {report.avgLoadTime <= 2 ? (
-              <TrendingDown className="h-4 w-4 text-green-600" />
-            ) : report.avgLoadTime <= 3 ? (
-              <Minus className="h-4 w-4 text-yellow-600" />
-            ) : (
-              <TrendingUp className="h-4 w-4 text-red-600" />
-            )}
-            <span className="text-xs text-gray-500 ml-1">
-              {report.avgLoadTime <= 2 ? "Excellent" : report.avgLoadTime <= 3 ? "Good" : "Needs improvement"}
-            </span>
+            <Icon className={cn(color)} />
+            <span className="ml-1 text-xs text-gray-500">{label}</span>
           </div>
         }
       />
@@ -42,7 +80,7 @@ export default function ReportStatsSection({ report }: { report: SiteReport }) {
         valueClassName={getScoreColor(report.seoScore)}
         footer={
           <Badge variant={getScoreVariant(report.seoScore)} className="mt-2">
-            {report.seoScore >= 90 ? "Excellent" : report.seoScore >= 70 ? "Good" : "Poor"}
+            {getSeoScoreLabel}
           </Badge>
         }
       />

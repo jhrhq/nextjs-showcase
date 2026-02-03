@@ -17,3 +17,9 @@ export function getStatusIcon(status: "pass" | "warning" | "fail") {
   if (status === "warning") return <AlertCircle className="h-4 w-4 text-yellow-600" />;
   return <XCircle className="h-4 w-4 text-red-600" />;
 }
+
+export function getSeoScoreStatus(score: number) {
+  if (score >= 90) return "Excellent";
+  if (score >= 70) return "Good";
+  return "Poor";
+}

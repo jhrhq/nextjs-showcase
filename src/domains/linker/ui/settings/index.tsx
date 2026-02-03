@@ -191,7 +191,7 @@ export function SettingsProjectDelete({ project, onDelete, isLoading }: Settings
       </CardHeader>
       <CardContent>
         <Alert variant="destructive" className="mb-4">
-          <AlertTriangle className="h-4 w-4" />
+          <AlertTriangle />
           <AlertDescription>
             Deleting this project will permanently remove all associated data including links, silos, and reports. This
             action cannot be undone.

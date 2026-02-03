@@ -13,7 +13,7 @@ export function SecurityTab({ report }: { report: SiteReport }) {
 
       {hasCriticalIssues && (
         <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
+          <AlertCircle />
           <AlertTitle>Security Issues Detected</AlertTitle>
           <AlertDescription>Critical vulnerabilities require immediate attention.</AlertDescription>
         </Alert>
@@ -37,7 +37,7 @@ function SecurityCard({ label, value, icon }: { label: string; value: string; ic
         <CardDescription>{label}</CardDescription>
       </CardHeader>
       <CardContent className="flex items-center gap-2">
-        <Icon className="h-6 w-6" />
+        <Icon className="size-6" />
         <span className="font-semibold">{value}</span>
       </CardContent>
     </Card>
