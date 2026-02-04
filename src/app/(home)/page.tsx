@@ -16,6 +16,17 @@ export default function HomePage() {
         <div className="grid gap-6 md:grid-cols-2">
           <Card>
             <CardHeader>
+              <CardTitle>Expandable Table</CardTitle>
+              <CardDescription>Expand each cell of tanstack table row.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/expandable-table">
+                <Button className="w-full">Expandable Table</Button>
+              </Link>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
               <CardTitle>Linker SPA Application</CardTitle>
               <CardDescription>Client-side rendered app with full SPA features</CardDescription>
             </CardHeader>
