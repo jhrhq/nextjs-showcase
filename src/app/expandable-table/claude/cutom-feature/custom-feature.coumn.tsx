@@ -127,7 +127,7 @@ export const customFeatureColumns: ColumnDef<Employee>[] = [
               <span className="font-medium">{new Date(row.original.joinDate).toLocaleDateString()}</span>
             </div>
           </div>
-          <div className="mt-2 p-2 bg-white rounded border border-slate-200">
+          <div className="mt-2 p-2 bg-white border border-slate-200">
             <div className="text-xs text-slate-600">
               <strong>Responsibilities:</strong> Leading projects, mentoring team members, and contributing to strategic
               decisions.
@@ -245,7 +245,7 @@ export const customFeatureColumns: ColumnDef<Employee>[] = [
                 {Math.floor((Date.now() - new Date(dateValue).getTime()) / (1000 * 60 * 60 * 24 * 365))} years
               </span>
             </div>
-            <div className="mt-2 p-2 bg-white rounded border border-slate-200">
+            <div className="mt-2 p-2 bg-white border border-slate-200">
               <div className="text-xs text-slate-600">
                 <strong>Milestones:</strong> Probation completed, First promotion, Team lead certification
               </div>
@@ -273,7 +273,7 @@ export const customFeatureColumns: ColumnDef<Employee>[] = [
         <div className="space-y-2">
           <div className="font-semibold text-slate-700">Status Details</div>
           <div className="text-xs">
-            <div className={`p-2 rounded ${status === "active" ? "bg-green-50" : "bg-red-50"}`}>
+            <div className={`p-2 ${status === "active" ? "bg-green-50" : "bg-red-50"}`}>
               {status === "active" ? (
                 <div className="space-y-1">
                   <div className="font-medium text-green-800">✓ Active Employee</div>
@@ -321,7 +321,7 @@ function ExpandableCell({
 }) {
   return (
     <div
-      className="flex items-center justify-between cursor-pointer group hover:bg-slate-50 p-2 -m-2 rounded transition-colors"
+      className="flex items-center justify-between cursor-pointer group hover:bg-slate-50 p-2 -m-2 transition-colors"
       onClick={onToggle}
     >
       <div className="flex-1 truncate">{value}</div>

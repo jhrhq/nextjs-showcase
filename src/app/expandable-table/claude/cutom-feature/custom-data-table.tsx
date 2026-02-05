@@ -14,7 +14,7 @@ interface DataTableProps<TData> {
 
 export default function CustomDataTable<TData>({ table, emptyMessage = "No results found." }: DataTableProps<TData>) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white shadow-sm overflow-hidden">
+    <div className=" border border-slate-200 bg-white shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
@@ -88,7 +88,7 @@ export default function CustomDataTable<TData>({ table, emptyMessage = "No resul
                     {expandedContent && (
                       <tr className="border-b border-slate-200 bg-slate-50">
                         <td colSpan={row.getVisibleCells().length} className="px-4 py-3">
-                          <div className="p-3 bg-white rounded-md border border-slate-200 text-sm">
+                          <div className="p-3 bg-white border border-slate-200 text-sm">
                             <div className="text-xs text-slate-500 mb-2 font-medium uppercase">
                               Expanded value: {expandedContent.columnId}
                             </div>
