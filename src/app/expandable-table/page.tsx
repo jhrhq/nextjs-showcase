@@ -1,8 +1,8 @@
 import ChatGptDataTableDemoPage from "@/app/expandable-table/chatgpt-expd.table";
 import ChatGptCustomFeaturesDataTableDemoPage from "@/app/expandable-table/chatgpt-expd-custom-feature.table";
+import Claude3DataTableDemo from "@/app/expandable-table/claude/cutom-feature/claudeDataTableDemo3WithCustomFeature";
 import ClaudesDataTableDemo from "@/app/expandable-table/claude-expd.table";
 import ClaudeDataTableDemo2 from "@/app/expandable-table/claude-expd2.table";
-import Claude3DataTableDemo from "@/app/expandable-table/claudeDataTableDemo3WithCustomFeature";
 
 export default function ExpandableTablePage() {
   return (

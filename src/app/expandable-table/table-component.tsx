@@ -101,7 +101,7 @@ interface ColumnFilterProps<TData> {
   table: ReactTable<TData>;
 }
 
-function ColumnFilter<TData>({ column, table }: ColumnFilterProps<TData>) {
+export function ColumnFilter<TData>({ column, table }: ColumnFilterProps<TData>) {
   const firstValue = table.getPreFilteredRowModel().flatRows[0]?.getValue(column.id);
 
   const columnFilterValue = column.getFilterValue();
