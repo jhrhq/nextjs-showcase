@@ -6,7 +6,7 @@ import ChartSection from "@/domains/linker/ui/site-report/chart-section";
 import { EmptyState } from "@/domains/linker/ui/site-report/empty-state";
 import IndexingStatsSection from "@/domains/linker/ui/site-report/indexing-stats-section";
 import { LinkAnalysisSection } from "@/domains/linker/ui/site-report/link-analysis-section";
-import LinkReportTab from "@/domains/linker/ui/site-report/links-report-tab-section";
+import LinkReportTabSection from "@/domains/linker/ui/site-report/links-report-tab-section";
 import OverveiwStatsSection from "@/domains/linker/ui/site-report/overveiw-stats-section";
 import PerformanceSection from "@/domains/linker/ui/site-report/performance-section";
 import ReportHeader from "@/domains/linker/ui/site-report/report-header";
@@ -45,7 +45,7 @@ export default function SiteReportPage() {
       <ReportStatsSection report={report} />
       <PerformanceSection report={report} />
       <LinkAnalysisSection report={report} />
-      <LinkReportTab report={report} />
+      <LinkReportTabSection report={report} />
       <IndexingStatsSection report={report} />
     </div>
   );

@@ -78,7 +78,7 @@ export function useSiloStructure(projectId: string) {
 
 export function useLinksReport(projectId: string) {
   return useQuery({
-    queryKey: ["linker-links-report", projectId],
+    queryKey: ["linker-anchor-manager", projectId],
     queryFn: () => projectsApi.getLinksReport(projectId),
     enabled: !!projectId,
   });
