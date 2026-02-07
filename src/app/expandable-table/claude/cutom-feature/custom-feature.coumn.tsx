@@ -1,6 +1,8 @@
 /** biome-ignore-all lint/a11y/useKeyWithClickEvents: false flag */
 /** biome-ignore-all lint/a11y/useButtonType: false flag */
 /** biome-ignore-all lint/a11y/noStaticElementInteractions: false flag */
+"use client";
+
 import type { ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
