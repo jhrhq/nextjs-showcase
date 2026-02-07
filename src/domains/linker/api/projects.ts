@@ -51,7 +51,7 @@ export const projectsApi = {
 
   getLinksReport: async (projectId: string): Promise<LinksReport[]> => {
     const response = await linkerApi.get(
-      `${AUTH_CONFIG.API.PROJECTS}/${projectId}/${projectId}${AUTH_CONFIG.API.LINKS_REPORT}`
+      `${AUTH_CONFIG.API.PROJECTS}/${projectId}/${projectId}${AUTH_CONFIG.API.ANCHOR_MANAGER}`
     );
     return response.data;
   },

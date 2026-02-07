@@ -25,7 +25,7 @@ src/
 │   │   │       │       ├── page.tsx
 │   │   │       │       ├── inbound/page.tsx
 │   │   │       │       ├── silo/page.tsx
-│   │   │       │       ├── links-report/page.tsx
+│   │   │       │       ├── anchor-manager/page.tsx
 │   │   │       │       └── site-report/page.tsx
 │   │   │       └── account/
 │   │   │           ├── page.tsx
@@ -61,7 +61,7 @@ src/
 │           │       ├── route.ts
 │           │       ├── inbound/route.ts
 │           │       ├── silo/route.ts
-│           │       ├── links-report/route.ts
+│           │       ├── anchor-managerer/route.ts
 │           │       └── site-report/route.ts
 │           └── account/
 │               ├── route.ts

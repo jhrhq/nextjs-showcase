@@ -33,7 +33,7 @@ export const AUTH_CONFIG = {
     SETTINGS: "/settings",
     INBOUNDS: "/inbounds",
     SILO: "/silo",
-    LINKS_REPORT: "/links-report",
+    ANCHOR_MANAGER: "/anchor-manager",
     SITE_REPORT: "/site-report",
   },
   API: {
@@ -45,7 +45,7 @@ export const AUTH_CONFIG = {
     PROJECTS: "/linker/projects",
     INBOUNDS: "/inbounds",
     SILO: "/silo",
-    LINKS_REPORT: "/links-report",
+    ANCHOR_MANAGER: "/anchor-managerer",
     SITE_REPORT: "/site-report",
   },
 } as const;

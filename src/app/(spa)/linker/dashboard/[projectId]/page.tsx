@@ -18,8 +18,8 @@ const TOOLS: Tool[] = [
   },
   {
     id: "c3d4e5f6-g7h8-9i0j-1k2l-m3n4o5p6q7r8",
-    name: "LINKS_REPORT",
-    displayName: "Links Report",
+    name: "ANCHOR_MANAGER",
+    displayName: "Anchor Manager",
     status: "new",
     description: "Generate detailed reports on internal and external links.",
   },
