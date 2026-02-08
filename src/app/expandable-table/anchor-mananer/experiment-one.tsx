@@ -23,7 +23,7 @@ const PIE_DATA = [
   { name: "Exact Anchor", value: 17, percent: 4.4, color: "#facc15" },
 ];
 
-export default function AnchorManagerPage() {
+export default function AnchorManagerPageOne() {
   const [search, setSearch] = React.useState("");
 
   const anchors = [
@@ -87,7 +87,7 @@ export default function AnchorManagerPage() {
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-6 md:grid-cols-[320px_1fr]">
           {/* Pie */}
-          <div className="relative h-[260px]">
+          <div className="relative h-65">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={PIE_DATA} dataKey="value" nameKey="name" innerRadius={70} outerRadius={110}>
