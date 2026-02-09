@@ -7,22 +7,27 @@ import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 import * as React from "react";
 import { ColumnFilter } from "@/app/expandable-table/table-component";
 
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
 interface DataTableProps<TData> {
   table: ReactTable<TData>;
   emptyMessage?: string;
 }
 
-export default function CustomDataTable<TData>({ table, emptyMessage = "No results found." }: DataTableProps<TData>) {
+export default function ExpandablecellDataTable<TData>({
+  table,
+  emptyMessage = "No results found.",
+}: DataTableProps<TData>) {
   return (
-    <div className=" border border-slate-200 bg-white shadow-sm overflow-hidden">
+    <div className="border border-slate-200 bg-white shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
+        <Table className="w-full">
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <React.Fragment key={headerGroup.id}>
-                <tr className="border-b border-slate-200 bg-slate-50">
+                <TableRow className="border-b border-slate-200 bg-slate-50">
                   {headerGroup.headers.map((header) => (
-                    <th
+                    <TableHead
                       key={header.id}
                       className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider"
                       style={{ width: header.getSize() }}
@@ -52,63 +57,69 @@ export default function CustomDataTable<TData>({ table, emptyMessage = "No resul
                           </div>
                         </div>
                       )}
-                    </th>
+                    </TableHead>
                   ))}
-                </tr>
+                </TableRow>
+
                 {/* Filter row */}
-                <tr className="border-b border-slate-200 bg-slate-50">
+                <TableRow className="border-b border-slate-200 bg-slate-50">
                   {headerGroup.headers.map((header) => (
-                    <th key={header.id} className="px-4 py-2">
+                    <TableHead key={header.id} className="px-4 py-2">
                       {header.column.getCanFilter() ? <ColumnFilter column={header.column} table={table} /> : null}
-                    </th>
+                    </TableHead>
                   ))}
-                </tr>
+                </TableRow>
               </React.Fragment>
             ))}
-          </thead>
-          <tbody>
+          </TableHeader>
+
+          <TableBody>
             {table.getRowModel().rows.length > 0 ? (
               table.getRowModel().rows.map((row) => {
                 const expandedContent = table.getExpandedContent(row.id);
                 return (
                   <React.Fragment key={row.id}>
                     {/* Main row */}
-                    <tr className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
+                    <TableRow className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
                       {row.getVisibleCells().map((cell) => (
-                        <td
+                        <TableCell
                           key={cell.id}
                           className="px-4 py-3 text-sm text-slate-900"
                           style={{ width: cell.column.getSize() }}
                         >
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </td>
+                        </TableCell>
                       ))}
-                    </tr>
+                    </TableRow>
+
                     {/* Expanded row - full width */}
                     {expandedContent && (
-                      <tr className="border-b border-slate-200 bg-slate-50">
-                        <td colSpan={row.getVisibleCells().length} className="px-4 py-3">
+                      <TableRow className="border-b border-slate-200 bg-slate-50">
+                        <TableCell colSpan={row.getVisibleCells().length} className="px-4 py-3">
                           <div className="p-3 bg-white border border-slate-200 text-sm">
                             <div className="text-xs text-slate-500 mb-2 font-medium uppercase">
                               Expanded value: {expandedContent.columnId}
                             </div>
                             {expandedContent.content}
                           </div>
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     )}
                   </React.Fragment>
                 );
               })
             ) : (
-              <tr>
-                <td colSpan={table.getAllColumns().length} className="px-4 py-8 text-center text-sm text-slate-500">
-                  {emptyMessage}{" "}
-                </td>
-              </tr>
+              <TableRow>
+                <TableCell
+                  colSpan={table.getAllColumns().length}
+                  className="px-4 py-8 text-center text-sm text-slate-500"
+                >
+                  {emptyMessage}
+                </TableCell>
+              </TableRow>
             )}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

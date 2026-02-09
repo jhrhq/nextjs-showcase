@@ -1,7 +1,7 @@
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SecurityCheck } from "@/domains/linker/types/site-report.types";
-import { DataTable } from "@/ui/shared/data-table";
+import { DataTable } from "@/ui/shared/data-table-components/data-table";
 import { securityAuditColumns } from "./security-audit.columns";
 
 type SecurityAuditTableProps = {

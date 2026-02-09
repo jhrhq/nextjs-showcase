@@ -2,7 +2,7 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { TopLinkingPage } from "@/domains/linker/types/site-report.types";
 import { topLinkingPagesColumns } from "@/domains/linker/ui/site-report/linking-page.table/linking-page.column";
-import { DataTable } from "@/ui/shared/data-table";
+import { DataTable } from "@/ui/shared/data-table-components/data-table";
 
 type TechnicalSeoTableProps = {
   data: TopLinkingPage[];
