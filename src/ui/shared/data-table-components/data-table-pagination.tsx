@@ -26,7 +26,7 @@ export function DataTablePagination<TData>({
 
   return (
     <Card>
-      <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4">
+      <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Results info */}
         <div className="text-sm text-slate-600">
           Showing <span className="font-medium">{from}</span> to <span className="font-medium">{to}</span> of{" "}
