@@ -3,18 +3,10 @@ import { useParams } from "next/navigation";
 import AnchorManagerHeader from "@/domains/linker/ui/anchor-manager/anchor-manager-header";
 import AnchorManagerTable from "@/domains/linker/ui/anchor-manager/anchor-manager-table";
 import { fullAnchorApiMock } from "@/domains/linker/ui/anchor-manager/anchor-manager-table/anchor-manager.column";
-import { AnchorChartsSection } from "@/domains/linker/ui/anchor-manager/chart-card";
 import { DistributionAnalysisCard } from "@/domains/linker/ui/anchor-manager/distribution-analysis-card";
 import OverviewCard from "@/domains/linker/ui/anchor-manager/overview-card";
 import { QualityMetricCard } from "@/domains/linker/ui/anchor-manager/quality-metrics";
 
-const PIE_DATA = [
-  { name: "Branded Keyword", value: 90, percent: 23.4, color: "#38bdf8" },
-  { name: "Full-Part Match", value: 20, percent: 5.2, color: "#22d3ee" },
-  { name: "Partial Match", value: 191, percent: 49.7, color: "#fb7185" },
-  { name: "Other Anchor", value: 51, percent: 13.3, color: "#86efac" },
-  { name: "Exact Anchor", value: 17, percent: 4.4, color: "#facc15" },
-];
 export default function AnchorManagerPage() {
   const params = useParams();
   const projectId = params.projectId as string;
@@ -55,9 +47,8 @@ export default function AnchorManagerPage() {
     <div className="space-y-6">
       <AnchorManagerHeader projectName={projectId} />
       <OverviewCard data={anchorData} />
-      <AnchorChartsSection data={anchorData.typeDistribution} />
       <QualityMetricCard data={anchorData.qualityMetrics} />
-      <DistributionAnalysisCard data={PIE_DATA} />
+      <DistributionAnalysisCard data={anchorData.typeDistribution} />
       <AnchorManagerTable data={anchorData.anchors} />
     </div>
   );
