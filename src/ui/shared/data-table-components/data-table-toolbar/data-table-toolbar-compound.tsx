@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export function TableToolbar({ children }: { children: React.ReactNode }) {
   return (
     <Card>
-      <CardContent className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between p-4">
+      <CardContent className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         {children}
       </CardContent>
     </Card>

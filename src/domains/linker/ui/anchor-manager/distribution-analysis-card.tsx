@@ -54,7 +54,7 @@ export function BreakdownCard({ item, total }: BreakdownCardProps) {
   const percent = Math.round((item.count / total) * 100);
 
   return (
-    <Card className="rounded-lg bg-muted/40 px-4 py-3">
+    <Card className=" bg-muted/40 px-4 py-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: COLOR_MAP[item.name] || "#9CA3AF" }} />
@@ -90,7 +90,7 @@ export function DistributionAnalysisCard({ data }: { data: TypeDistributionItem[
             <BreakdownCard key={item.name} item={item} total={total} />
           ))}
           {/* Total row */}
-          <Card className="rounded-lg bg-muted/60 px-4 py-3 font-medium">
+          <Card className=" bg-muted/60 px-4 py-3 font-medium">
             <div className="flex items-center justify-between">
               <span>Total</span>
               <Badge>{total}</Badge>
