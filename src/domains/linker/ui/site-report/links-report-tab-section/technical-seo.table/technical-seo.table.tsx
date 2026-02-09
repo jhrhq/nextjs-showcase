@@ -2,7 +2,7 @@ import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { TechnicalSeoMetric } from "@/domains/linker/types/site-report.types";
 import { technicalSeoColumns } from "@/domains/linker/ui/site-report/links-report-tab-section/technical-seo.table/technical-seo.column";
-import { DataTable } from "@/ui/shared/data-table";
+import { DataTable } from "@/ui/shared/data-table-components/data-table";
 
 type TechnicalSeoTableProps = {
   data: TechnicalSeoMetric[];
