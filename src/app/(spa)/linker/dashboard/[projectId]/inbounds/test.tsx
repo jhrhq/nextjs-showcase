@@ -7,6 +7,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { ArrowDownToLine, ArrowUpFromLine, ChevronRight, ExternalLink, FileText, Link2, Loader2 } from "lucide-react";
 import React, { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { MiniTiptapEditor } from "@/app/(spa)/linker/dashboard/[projectId]/inbounds/mini-tiptap-form";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -207,13 +208,14 @@ export function SentenceList({ postId }: { postId: string }) {
                 {!isEditing ? (
                   <p className="leading-relaxed">{sentence}</p>
                 ) : (
-                  <textarea
-                    value={draft}
-                    onChange={(e) => setDraft(e.target.value)}
-                    rows={3}
-                    className="w-full rounded-md border bg-background p-2 text-sm resize-none focus:ring-2 focus:ring-primary"
-                  />
+                  <MiniTiptapEditor content={draft} onChange={setDraft} />
                 )}
+                {/* <textarea
+                 value={draft}
+                 onChange={(e) => setDraft(e.target.value)}
+                 rows={3}
+                 className="w-full rounded-md border bg-background p-2 text-sm resize-none focus:ring-2 focus:ring-primary"
+               />  */}
 
                 {/* Actions */}
                 <div className="flex items-center gap-3 text-xs text-muted-foreground">
