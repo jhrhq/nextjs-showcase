@@ -167,10 +167,9 @@ function SentenceList({ postId }: { postId: string }) {
   );
 }
 
-// ─── Results Accordion ────────────────────────────────────────────────────────
-// ─── Results Accordion ───────────────────────────────────────────────────
+// ─── Results Accordion with Decision Layer ───────────────────────────────
 function ResultsAccordion({ url }) {
-  const [openItem, setOpenItem] = useState(null);
+  const [openItem, setOpenItem] = useState<string | null>(null);
 
   const { data: results, isLoading } = useQuery({
     queryKey: ["link-results", url],
@@ -188,6 +187,20 @@ function ResultsAccordion({ url }) {
     );
   }
 
+  if (!results || results.length === 0) {
+    return (
+      <Card>
+        <CardContent className="py-12 text-center text-sm text-muted-foreground">
+          No link opportunities found.
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // ── Decision layer ──
+  const recommended = results.slice(0, 3);
+  const others = results.slice(3);
+
   return (
     <section aria-labelledby="link-suggestions-heading">
       <Card>
@@ -198,54 +211,108 @@ function ResultsAccordion({ url }) {
               Link Suggestions
             </CardTitle>
 
-            <Badge variant="secondary">{results?.length ?? 0} found</Badge>
+            <Badge variant="secondary">{results.length} found</Badge>
           </div>
 
           <p className="text-xs text-muted-foreground">
-            Open a result to see suggested sentences for placing the link.
+            Recommended links are based on relevance and internal signals.
           </p>
         </CardHeader>
 
         <Separator />
 
-        <CardContent className="p-4">
-          <Accordion type="single" collapsible value={openItem} onValueChange={setOpenItem}>
-            {results?.map((item) => (
-              <AccordionItem key={item.id} value={item.id}>
-                {/* ── Accordion Header ── */}
-                <AccordionTrigger className="py-3 hover:no-underline">
-                  <div className="flex items-center gap-3 w-full text-left">
-                    {/* Score */}
-                    <div className="flex items-center justify-center w-9 h-9 rounded-full border bg-muted text-xs font-bold shrink-0">
-                      {item.score}
+        <CardContent className="p-4 space-y-6">
+          {/* ── Recommended Section ── */}
+          <section aria-labelledby="recommended-links">
+            <h3 id="recommended-links" className="text-sm font-semibold flex items-center gap-2">
+              ⭐ Recommended opportunities
+            </h3>
+
+            <p className="text-xs text-muted-foreground mb-3">Highest relevance and strongest placement potential.</p>
+
+            <div className="space-y-2">
+              {recommended.map((item) => (
+                <Card key={item.id} className="border-primary/40 bg-primary/5">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-4">
+                      {/* Score */}
+                      <div className="flex items-center justify-center w-10 h-10 rounded-full border bg-background text-sm font-bold shrink-0">
+                        {item.score}
+                      </div>
+
+                      {/* Content */}
+                      <div className="flex-1 space-y-1">
+                        <p className="text-sm font-medium">{item.title}</p>
+
+                        <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
+
+                        <div className="flex flex-wrap gap-2 pt-1 text-xs">
+                          <Badge variant="outline">{item.clicks} clicks</Badge>
+                          <Badge variant="outline">{item.impressions} impressions</Badge>
+                          <Badge variant="outline">Position {item.position}</Badge>
+                        </div>
+
+                        <div className="pt-3">
+                          <p className="text-xs font-medium text-muted-foreground mb-1">Suggested sentences</p>
+
+                          <SentenceList postId={item.id} />
+                        </div>
+                      </div>
                     </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
 
-                    {/* Title */}
-                    <p className="text-sm font-medium leading-snug line-clamp-1">{item.title}</p>
-                  </div>
-                </AccordionTrigger>
+          {/* ── More Opportunities ── */}
+          {others.length > 0 && (
+            <section aria-labelledby="more-links">
+              <Accordion type="single" collapsible>
+                <AccordionItem value="more">
+                  <AccordionTrigger className="text-sm font-medium">
+                    More opportunities ({others.length})
+                  </AccordionTrigger>
 
-                {/* ── Accordion Content ── */}
-                <AccordionContent>
-                  <div className="pl-12 space-y-3">
-                    <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
+                  <AccordionContent>
+                    <Accordion type="single" collapsible value={openItem} onValueChange={setOpenItem}>
+                      {others.map((item) => (
+                        <AccordionItem key={item.id} value={item.id}>
+                          <AccordionTrigger className="py-3 hover:no-underline">
+                            <div className="flex items-center gap-3 w-full text-left">
+                              <div className="flex items-center justify-center w-9 h-9 rounded-full border bg-muted text-xs font-bold shrink-0">
+                                {item.score}
+                              </div>
 
-                    <div className="flex flex-wrap gap-2 text-xs">
-                      <Badge variant="outline">{item.clicks} clicks</Badge>
-                      <Badge variant="outline">{item.impressions} impressions</Badge>
-                      <Badge variant="outline">Position {item.position}</Badge>
-                    </div>
+                              <p className="text-sm font-medium line-clamp-1">{item.title}</p>
+                            </div>
+                          </AccordionTrigger>
 
-                    <div>
-                      <p className="text-xs font-medium text-muted-foreground mb-1">Suggested sentences</p>
+                          <AccordionContent>
+                            <div className="pl-12 space-y-3">
+                              <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
 
-                      {openItem === item.id && <SentenceList postId={item.id} />}
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+                              <div className="flex flex-wrap gap-2 text-xs">
+                                <Badge variant="outline">{item.clicks} clicks</Badge>
+                                <Badge variant="outline">{item.impressions} impressions</Badge>
+                                <Badge variant="outline">Position {item.position}</Badge>
+                              </div>
+
+                              <div>
+                                <p className="text-xs font-medium text-muted-foreground mb-1">Suggested sentences</p>
+
+                                {openItem === item.id && <SentenceList postId={item.id} />}
+                              </div>
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </section>
+          )}
         </CardContent>
       </Card>
     </section>
