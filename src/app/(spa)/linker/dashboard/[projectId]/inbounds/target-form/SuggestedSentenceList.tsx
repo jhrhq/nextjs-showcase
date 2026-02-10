@@ -55,3 +55,114 @@ export function SuggestedSentenceList({ postId }: SuggestedSentenceListProps) {
     </ul>
   );
 }
+
+// ─── Sentence List with Inline Actions ───────────────────────────────────
+export function SentenceList({ postId }) {
+  const { data: sentences, isLoading } = useQuery({
+    queryKey: ["sentences", postId],
+    queryFn: () => fetchSentences(postId),
+  });
+
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [draft, setDraft] = useState("");
+  const [submitted, setSubmitted] = useState<Set<number>>(new Set());
+
+  const handleCopy = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+  };
+
+  const handleEdit = (index: number, text: string) => {
+    setEditingIndex(index);
+    setDraft(text);
+  };
+
+  const handleCancel = () => {
+    setEditingIndex(null);
+    setDraft("");
+  };
+
+  const handleSave = (index: number) => {
+    // Replace with API call if needed
+    setEditingIndex(null);
+    setDraft("");
+  };
+
+  const handleSubmit = (index: number) => {
+    // Stub for API call (send / post / save)
+    setSubmitted((prev) => new Set(prev).add(index));
+  };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-2 mt-2">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Skeleton key={i} className="h-10 w-full" />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-2 mt-2">
+      {sentences?.map((sentence, i) => {
+        const isEditing = editingIndex === i;
+        const isSubmitted = submitted.has(i);
+
+        return (
+          <div key={i} className="group rounded-md border bg-muted/40 px-3 py-2.5 text-sm">
+            <div className="flex items-start gap-2">
+              <ChevronRight className="w-4 h-4 mt-1 text-primary shrink-0" />
+
+              <div className="flex-1 space-y-2">
+                {/* ── Sentence / Editor ── */}
+                {!isEditing ? (
+                  <p className="leading-relaxed">{sentence}</p>
+                ) : (
+                  <textarea
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    rows={3}
+                    className="w-full rounded-md border bg-background p-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
+                )}
+
+                {/* ── Actions ── */}
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  {!isEditing && !isSubmitted && (
+                    <>
+                      <button onClick={() => handleCopy(sentence)} className="hover:text-foreground transition">
+                        Copy
+                      </button>
+
+                      <button onClick={() => handleEdit(i, sentence)} className="hover:text-foreground transition">
+                        Edit
+                      </button>
+
+                      <button onClick={() => handleSubmit(i)} className="font-medium text-primary hover:underline">
+                        Send
+                      </button>
+                    </>
+                  )}
+
+                  {isEditing && (
+                    <>
+                      <button onClick={() => handleSave(i)} className="font-medium text-primary hover:underline">
+                        Save
+                      </button>
+
+                      <button onClick={handleCancel} className="hover:text-foreground transition">
+                        Cancel
+                      </button>
+                    </>
+                  )}
+
+                  {isSubmitted && <span className="flex items-center gap-1 text-green-600 font-medium">✓ Sent</span>}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}

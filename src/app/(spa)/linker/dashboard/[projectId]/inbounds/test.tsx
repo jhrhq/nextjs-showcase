@@ -136,7 +136,7 @@ async function fetchSentences(postId: string) {
 }
 
 // ─── Sentence List ────────────────────────────────────────────────────────────
-function SentenceList({ postId }: { postId: string }) {
+/* function SentenceList({ postId }: { postId: string }) {
   const { data: sentences, isLoading } = useQuery({
     queryKey: ["sentences", postId],
     queryFn: () => fetchSentences(postId),
@@ -165,10 +165,115 @@ function SentenceList({ postId }: { postId: string }) {
       ))}
     </div>
   );
+} */
+
+export function SentenceList({ postId }: { postId: string }) {
+  const { data: sentences, isLoading } = useQuery({
+    queryKey: ["sentences", postId],
+    queryFn: () => fetchSentences(postId),
+  });
+
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [draft, setDraft] = useState("");
+  const [submitted, setSubmitted] = useState<Set<number>>(new Set());
+
+  const copyToClipboard = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-2">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Skeleton key={i} className="h-10 w-full" />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-2">
+      {sentences?.map((sentence, index) => {
+        const isEditing = editingIndex === index;
+        const isSent = submitted.has(index);
+
+        return (
+          <div key={index} className="group rounded-md border bg-muted/40 px-3 py-2.5 text-sm">
+            <div className="flex items-start gap-2">
+              <ChevronRight className="w-4 h-4 mt-1 text-primary shrink-0" />
+
+              <div className="flex-1 space-y-2">
+                {/* Text / Editor */}
+                {!isEditing ? (
+                  <p className="leading-relaxed">{sentence}</p>
+                ) : (
+                  <textarea
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    rows={3}
+                    className="w-full rounded-md border bg-background p-2 text-sm resize-none focus:ring-2 focus:ring-primary"
+                  />
+                )}
+
+                {/* Actions */}
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  {!isEditing && !isSent && (
+                    <>
+                      <button onClick={() => copyToClipboard(sentence)} className="hover:text-foreground">
+                        Copy
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setEditingIndex(index);
+                          setDraft(sentence);
+                        }}
+                        className="hover:text-foreground"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        onClick={() => setSubmitted((prev) => new Set(prev).add(index))}
+                        className="font-medium text-primary hover:underline"
+                      >
+                        Send
+                      </button>
+                    </>
+                  )}
+
+                  {isEditing && (
+                    <>
+                      <button
+                        onClick={() => setEditingIndex(null)}
+                        className="font-medium text-primary hover:underline"
+                      >
+                        Save
+                      </button>
+
+                      <button onClick={() => setEditingIndex(null)} className="hover:text-foreground">
+                        Cancel
+                      </button>
+                    </>
+                  )}
+
+                  {isSent && <span className="font-medium text-green-600">✓ Sent</span>}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 // ─── Results Accordion with Decision Layer ───────────────────────────────
-function ResultsAccordion({ url }) {
+
+// mock API already exists
+// fetchLinkResults(url)
+
+export function ResultsAccordion({ url }: { url: string }) {
   const [openItem, setOpenItem] = useState<string | null>(null);
 
   const { data: results, isLoading } = useQuery({
@@ -187,7 +292,7 @@ function ResultsAccordion({ url }) {
     );
   }
 
-  if (!results || results.length === 0) {
+  if (!results?.length) {
     return (
       <Card>
         <CardContent className="py-12 text-center text-sm text-muted-foreground">
@@ -197,132 +302,103 @@ function ResultsAccordion({ url }) {
     );
   }
 
-  // ── Decision layer ──
   const recommended = results.slice(0, 3);
   const others = results.slice(3);
 
   return (
-    <section aria-labelledby="link-suggestions-heading">
-      <Card>
-        <CardHeader className="pb-2 space-y-1">
-          <div className="flex items-center justify-between">
-            <CardTitle id="link-suggestions-heading" className="text-sm font-semibold flex items-center gap-2">
-              <Link2 className="w-4 h-4" />
-              Link Suggestions
-            </CardTitle>
+    <Card>
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-sm flex items-center gap-2">
+            <Link2 className="w-4 h-4" />
+            Link Suggestions
+          </CardTitle>
+          <Badge variant="secondary">{results.length} found</Badge>
+        </div>
+        <p className="text-xs text-muted-foreground">Recommended links are ranked by relevance and internal signals.</p>
+      </CardHeader>
 
-            <Badge variant="secondary">{results.length} found</Badge>
-          </div>
+      <Separator />
 
-          <p className="text-xs text-muted-foreground">
-            Recommended links are based on relevance and internal signals.
-          </p>
-        </CardHeader>
+      <CardContent className="p-4 space-y-6">
+        {/* Recommended */}
+        <section>
+          <h3 className="text-sm font-semibold mb-2">⭐ Recommended opportunities</h3>
 
-        <Separator />
+          <div className="space-y-2">
+            {recommended.map((item) => (
+              <Card key={item.id} className="border-primary/40 bg-primary/5">
+                <CardContent className="p-4 space-y-3">
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 flex items-center justify-center rounded-full border bg-background text-sm font-bold">
+                      {item.score}
+                    </div>
 
-        <CardContent className="p-4 space-y-6">
-          {/* ── Recommended Section ── */}
-          <section aria-labelledby="recommended-links">
-            <h3 id="recommended-links" className="text-sm font-semibold flex items-center gap-2">
-              ⭐ Recommended opportunities
-            </h3>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">{item.title}</p>
+                      <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
 
-            <p className="text-xs text-muted-foreground mb-3">Highest relevance and strongest placement potential.</p>
-
-            <div className="space-y-2">
-              {recommended.map((item) => (
-                <Card key={item.id} className="border-primary/40 bg-primary/5">
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-4">
-                      {/* Score */}
-                      <div className="flex items-center justify-center w-10 h-10 rounded-full border bg-background text-sm font-bold shrink-0">
-                        {item.score}
+                      <div className="flex gap-2 mt-1 text-xs">
+                        <Badge variant="outline">{item.clicks} clicks</Badge>
+                        <Badge variant="outline">{item.impressions} impressions</Badge>
+                        <Badge variant="outline">Position {item.position}</Badge>
                       </div>
+                    </div>
+                  </div>
 
-                      {/* Content */}
-                      <div className="flex-1 space-y-1">
-                        <p className="text-sm font-medium">{item.title}</p>
+                  <SentenceList postId={item.id} />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
 
-                        <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
+        {/* Others */}
+        {others.length > 0 && (
+          <Accordion type="single" collapsible>
+            <AccordionItem value="more">
+              <AccordionTrigger>More opportunities ({others.length})</AccordionTrigger>
 
-                        <div className="flex flex-wrap gap-2 pt-1 text-xs">
-                          <Badge variant="outline">{item.clicks} clicks</Badge>
-                          <Badge variant="outline">{item.impressions} impressions</Badge>
-                          <Badge variant="outline">Position {item.position}</Badge>
+              <AccordionContent>
+                <Accordion type="single" collapsible value={openItem} onValueChange={setOpenItem}>
+                  {others.map((item) => (
+                    <AccordionItem key={item.id} value={item.id}>
+                      <AccordionTrigger className="py-3">
+                        <div className="flex gap-3 text-left">
+                          <div className="w-8 h-8 rounded-full border flex items-center justify-center text-xs font-bold">
+                            {item.score}
+                          </div>
+                          <span className="text-sm font-medium line-clamp-1">{item.title}</span>
                         </div>
+                      </AccordionTrigger>
 
-                        <div className="pt-3">
-                          <p className="text-xs font-medium text-muted-foreground mb-1">Suggested sentences</p>
+                      <AccordionContent>
+                        <div className="pl-11 space-y-2">
+                          <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
 
                           <SentenceList postId={item.id} />
                         </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-
-          {/* ── More Opportunities ── */}
-          {others.length > 0 && (
-            <section aria-labelledby="more-links">
-              <Accordion type="single" collapsible>
-                <AccordionItem value="more">
-                  <AccordionTrigger className="text-sm font-medium">
-                    More opportunities ({others.length})
-                  </AccordionTrigger>
-
-                  <AccordionContent>
-                    <Accordion type="single" collapsible value={openItem} onValueChange={setOpenItem}>
-                      {others.map((item) => (
-                        <AccordionItem key={item.id} value={item.id}>
-                          <AccordionTrigger className="py-3 hover:no-underline">
-                            <div className="flex items-center gap-3 w-full text-left">
-                              <div className="flex items-center justify-center w-9 h-9 rounded-full border bg-muted text-xs font-bold shrink-0">
-                                {item.score}
-                              </div>
-
-                              <p className="text-sm font-medium line-clamp-1">{item.title}</p>
-                            </div>
-                          </AccordionTrigger>
-
-                          <AccordionContent>
-                            <div className="pl-12 space-y-3">
-                              <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
-
-                              <div className="flex flex-wrap gap-2 text-xs">
-                                <Badge variant="outline">{item.clicks} clicks</Badge>
-                                <Badge variant="outline">{item.impressions} impressions</Badge>
-                                <Badge variant="outline">Position {item.position}</Badge>
-                              </div>
-
-                              <div>
-                                <p className="text-xs font-medium text-muted-foreground mb-1">Suggested sentences</p>
-
-                                {openItem === item.id && <SentenceList postId={item.id} />}
-                              </div>
-                            </div>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </section>
-          )}
-        </CardContent>
-      </Card>
-    </section>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 // ─── Sidebar ─────────────────────────────────────────────────────────────
-function Sidebar({ onSelectUrl }) {
-  const loaderRef = useRef(null);
+
+// mock API already exists
+// fetchSidebarPage()
+
+export function Sidebar({ onSelectUrl }: { onSelectUrl: (url: string) => void }) {
+  const loaderRef = useRef<HTMLDivElement | null>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
     queryKey: ["sidebar-posts"],
@@ -333,36 +409,35 @@ function Sidebar({ onSelectUrl }) {
 
   const posts = data?.pages.flatMap((p) => p.items) ?? [];
 
-  const handleObserver = useCallback(
-    (entries) => {
-      if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+  const onIntersect = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage) {
         fetchNextPage();
       }
     },
-    [fetchNextPage, hasNextPage, isFetchingNextPage]
+    [fetchNextPage, hasNextPage]
   );
 
   React.useEffect(() => {
     const el = loaderRef.current;
     if (!el) return;
 
-    const observer = new IntersectionObserver(handleObserver, {
+    const observer = new IntersectionObserver(onIntersect, {
       threshold: 0.1,
     });
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [handleObserver]);
+  }, [onIntersect]);
 
   return (
-    <aside className="w-72 border-l bg-background flex flex-col" aria-label="Post selector sidebar">
-      {/* ── Sidebar Header ── */}
+    <aside className="w-72 border-l bg-background flex flex-col">
       <header className="p-4 border-b space-y-3">
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="text-[10px]">
-            Target Post
+            Post
           </Badge>
-          <span className="text-sm font-semibold truncate flex-1">Why Does My Bissell C…</span>
+          <span className="text-sm font-semibold truncate flex-1">Select a post</span>
           <ExternalLink className="w-4 h-4 text-muted-foreground" />
         </div>
 
@@ -378,57 +453,41 @@ function Sidebar({ onSelectUrl }) {
         </Tabs>
       </header>
 
-      {/* ── Post List ── */}
-      <nav className="flex-1 overflow-hidden">
-        <ScrollArea className="h-full">
-          <ul className="p-3 space-y-2">
-            {isLoading &&
-              Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-20 w-full rounded-lg" />)}
+      <ScrollArea className="flex-1">
+        <div className="p-3 space-y-2">
+          {isLoading &&
+            Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-20 w-full rounded-lg" />)}
 
-            {!isLoading &&
-              posts.map((post) => (
-                <li key={post.id}>
-                  <Card
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => onSelectUrl(post.slug)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") onSelectUrl(post.slug);
-                    }}
-                    className="group cursor-pointer hover:border-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary"
-                  >
-                    <CardContent className="p-3 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <Badge variant="outline" className="text-[10px] h-4">
-                          Post
-                        </Badge>
+          {!isLoading &&
+            posts.map((post) => (
+              <Card
+                key={post.id}
+                className="cursor-pointer hover:border-primary"
+                onClick={() => onSelectUrl(post.slug)}
+              >
+                <CardContent className="p-3 space-y-1">
+                  <div className="flex justify-between">
+                    <Badge variant="outline" className="text-[10px]">
+                      Post
+                    </Badge>
 
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-6 w-6 opacity-0 group-hover:opacity-100"
-                          onClick={(e) => e.stopPropagation()}
-                          aria-label="Remove post from list"
-                        >
-                          ✕
-                        </Button>
-                      </div>
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={(e) => e.stopPropagation()}>
+                      ✕
+                    </Button>
+                  </div>
 
-                      <p className="text-sm font-medium leading-snug line-clamp-2">{post.title}</p>
+                  <p className="text-sm font-medium line-clamp-2">{post.title}</p>
 
-                      <p className="text-[11px] text-muted-foreground truncate">{post.slug}</p>
-                    </CardContent>
-                  </Card>
-                </li>
-              ))}
+                  <p className="text-[11px] text-muted-foreground truncate">{post.slug}</p>
+                </CardContent>
+              </Card>
+            ))}
 
-            {/* Infinite scroll trigger */}
-            <li ref={loaderRef} className="flex justify-center py-3 h-10">
-              {isFetchingNextPage && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
-            </li>
-          </ul>
-        </ScrollArea>
-      </nav>
+          <div ref={loaderRef} className="flex justify-center py-3 h-10">
+            {isFetchingNextPage && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
+          </div>
+        </div>
+      </ScrollArea>
     </aside>
   );
 }
