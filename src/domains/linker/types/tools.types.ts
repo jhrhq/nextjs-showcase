@@ -55,13 +55,3 @@ export interface SiloPage {
   level: number;
   children: string[];
 }
-
-export interface LinksReport {
-  id: string;
-  url: string;
-  internalLinks: number;
-  externalLinks: number;
-  brokenLinks: number;
-  status: number;
-  lastChecked: string;
-}

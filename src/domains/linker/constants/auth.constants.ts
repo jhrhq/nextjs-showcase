@@ -45,7 +45,7 @@ export const AUTH_CONFIG = {
     PROJECTS: "/linker/projects",
     INBOUNDS: "/inbounds",
     SILO: "/silo",
-    ANCHOR_MANAGER: "/anchor-managerer",
+    ANCHOR_MANAGER: "/anchor-manager",
     SITE_REPORT: "/site-report",
   },
 } as const;

@@ -38,7 +38,7 @@ export type LinkPatternItem = {
   impact: "positive" | "negative" | "neutral";
 };
 
-export type AnchorManagerApi = {
+export type AnchorManager = {
   totalAnchors: number;
   uniqueAnchors: number;
   externalAnchors: number;

@@ -60,6 +60,14 @@ export function useSiteReport(projectId: string) {
     enabled: !!projectId,
   });
 }
+
+export function useAnchorManager(projectId: string) {
+  return useQuery({
+    queryKey: ["linker-anchor-manager", projectId],
+    queryFn: () => projectsApi.getAnchorManager(projectId),
+    enabled: !!projectId,
+  });
+}
 /* export function useInboundLinks(projectId: string) {
   return useQuery({
     queryKey: ["linker-inbound", projectId],
@@ -76,12 +84,6 @@ export function useSiloStructure(projectId: string) {
   });
 }
 
-export function useLinksReport(projectId: string) {
-  return useQuery({
-    queryKey: ["linker-anchor-manager", projectId],
-    queryFn: () => projectsApi.getLinksReport(projectId),
-    enabled: !!projectId,
-  });
-}
+
 
  */
