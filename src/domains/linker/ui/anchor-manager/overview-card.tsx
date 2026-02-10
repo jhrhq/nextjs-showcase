@@ -3,7 +3,7 @@
 import { ExternalLink, Link2, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
-import type { AnchorManagerApi } from "@/domains/linker/types/anchor-manager.types";
+import type { AnchorManager } from "@/domains/linker/types/anchor-manager.types";
 
 interface OverviewStatCardProps {
   title: string;
@@ -35,7 +35,7 @@ function OverviewStatCard({ title, icon, value, valueClassName = "", subtitle, b
   );
 }
 
-export default function OverviewCard({ data }: { data: AnchorManagerApi }) {
+export default function OverviewCard({ data }: { data: AnchorManager }) {
   const totalAnchorsValue = data.totalAnchors.toLocaleString();
   const uniqueAnchorsValue = data.uniqueAnchors.toLocaleString();
   const externalAnchorsValue = data.externalAnchors.toLocaleString();

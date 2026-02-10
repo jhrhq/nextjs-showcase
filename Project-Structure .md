@@ -61,7 +61,7 @@ src/
 │           │       ├── route.ts
 │           │       ├── inbound/route.ts
 │           │       ├── silo/route.ts
-│           │       ├── anchor-managerer/route.ts
+│           │       ├── anchor-manager/route.ts
 │           │       └── site-report/route.ts
 │           └── account/
 │               ├── route.ts

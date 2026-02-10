@@ -1,4 +1,5 @@
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
+import type { AnchorManager } from "@/domains/linker/types/anchor-manager.types";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
 import type {
   CreateProjectInput,
@@ -36,6 +37,11 @@ export const projectsApi = {
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.SITE_REPORT}`);
     return response.data;
   },
+
+  getAnchorManager: async (projectId: string): Promise<AnchorManager> => {
+    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}/${AUTH_CONFIG.API.ANCHOR_MANAGER}`);
+    return response.data;
+  },
   /* 
   getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.INBOUNDS}`);
@@ -49,16 +55,6 @@ export const projectsApi = {
     return response.data;
   },
 
-  getLinksReport: async (projectId: string): Promise<LinksReport[]> => {
-    const response = await linkerApi.get(
-      `${AUTH_CONFIG.API.PROJECTS}/${projectId}/${projectId}${AUTH_CONFIG.API.ANCHOR_MANAGER}`
-    );
-    return response.data;
-  },
-
-  getSiteReport: async (projectId: string): Promise<SiteReport> => {
-    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.SITE_REPORT}`);
-    return response.data;
-  },
+ 
  */
 };
