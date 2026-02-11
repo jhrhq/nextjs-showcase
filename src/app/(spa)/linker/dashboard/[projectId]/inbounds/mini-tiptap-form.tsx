@@ -27,12 +27,12 @@ export function MiniTiptapEditor({ content, onChange }: MiniTiptapEditorProps) {
     ],
     content,
     onUpdate({ editor }) {
-      onChange(editor.getText()); // return plain text
+      onChange(editor.getText());
     },
     editorProps: {
       attributes: { class: "prose prose-sm max-w-none p-2 focus:outline-none" },
     },
-    immediatelyRender: false, // SSR safe
+    immediatelyRender: false,
   });
 
   if (!editor) return null;
@@ -84,7 +84,7 @@ export function MiniTiptapEditor({ content, onChange }: MiniTiptapEditorProps) {
           size="sm"
           variant="ghost"
           onClick={addAnchor}
-          disabled={!editor.isFocused || editor.state.selection.empty} // ✅ check focus too
+          disabled={!editor.isFocused || editor.state.selection.empty}
         >
           Add link
         </Button>

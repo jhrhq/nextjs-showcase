@@ -168,6 +168,9 @@ async function fetchSentences(postId: string) {
   );
 } */
 
+const copyToClipboard = async (text: string) => {
+  await navigator.clipboard.writeText(text);
+};
 export function SentenceList({ postId }: { postId: string }) {
   const { data: sentences, isLoading } = useQuery({
     queryKey: ["sentences", postId],
@@ -177,10 +180,6 @@ export function SentenceList({ postId }: { postId: string }) {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [draft, setDraft] = useState("");
   const [submitted, setSubmitted] = useState<Set<number>>(new Set());
-
-  const copyToClipboard = async (text: string) => {
-    await navigator.clipboard.writeText(text);
-  };
 
   if (isLoading) {
     return (
@@ -393,7 +392,6 @@ export function ResultsAccordion({ url }: { url: string }) {
   );
 }
 
-// ─── Sidebar ──────────────────────────────────────────────────────────────────
 // ─── Sidebar ─────────────────────────────────────────────────────────────
 
 // mock API already exists
