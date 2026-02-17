@@ -3,6 +3,7 @@
 // biome-ignore-all lint: ignoring for testing purposes
 
 "use client";
+
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
   ArrowDownToLine,
@@ -195,7 +196,8 @@ export function SentenceList({ postId }: { postId: string }) {
 
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [draft, setDraft] = useState("");
-  const [submitted, setSubmitted] = useState<Set<number>>(new Set());
+  const [sentIndexes, setSentIndexes] = useState<Set<number>>(new Set());
+  const [sendingIndex, setSendingIndex] = useState<number | null>(null);
 
   if (isLoading) {
     return (
@@ -209,98 +211,137 @@ export function SentenceList({ postId }: { postId: string }) {
 
   return (
     <div className="space-y-2">
-      {sentences?.map((sentence, index) => {
-        const isEditing = editingIndex === index;
-        const isSent = submitted.has(index);
+      {sentences?.map((sentence, index) => (
+        <SentenceItem
+          key={index}
+          sentence={sentence}
+          isEditing={editingIndex === index}
+          isSent={sentIndexes.has(index)}
+          isSending={1 === index}
+          draft={draft}
+          onEdit={() => {
+            setEditingIndex(index);
+            setDraft(sentence);
+          }}
+          onCancel={() => {
+            setEditingIndex(null);
+            setDraft("");
+          }}
+          onDraftChange={setDraft}
+          onSave={() => {
+            setEditingIndex(null);
+          }}
+          onSend={() =>
+            sendMutation.mutate({
+              index,
+              content: editingIndex === index ? draft : sentence,
+            })
+          }
+        />
+      ))}
+    </div>
+  );
+}
 
-        return (
-          <div key={index} className="group rounded-md border bg-muted/40 px-3 py-2.5 text-sm">
-            <div className="flex items-start gap-2">
-              <ChevronRight className="mt-1 text-primary shrink-0" />
+type Props = {
+  sentence: string;
+  draft: string;
+  isEditing: boolean;
+  isSent: boolean;
+  isSending: boolean;
+  onEdit: () => void;
+  onCancel: () => void;
+  onSave: () => void;
+  onSend: () => void;
+  onDraftChange: (val: string) => void;
+};
 
-              <div className="flex-1 space-y-2">
-                {/* Text / Editor */}
-                {!isEditing ? (
-                  <p className="leading-relaxed">{sentence}</p>
-                ) : (
-                  <MiniTiptapEditor content={draft} onChange={setDraft} />
-                )}
-                {/* <textarea
-                 value={draft}
-                 onChange={(e) => setDraft(e.target.value)}
-                 rows={3}
-                 className="w-full rounded-md border bg-background p-2 text-sm resize-none focus:ring-2 focus:ring-primary"
-               />  */}
-                {/* Actions */}
-                <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                  <CopyClipboard value={sentence} timeout={2000}>
-                    {({ copied, copy }) => (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button size="icon" variant="ghost" onClick={copy}>
-                            {copied ? <Check className="text-green-500" /> : <Copy />}
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>{copied ? "Copied" : "Copy"}</TooltipContent>
-                      </Tooltip>
-                    )}
-                  </CopyClipboard>
-                  {!isEditing && !isSent && (
-                    <>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            size="icon"
-                            variant="ghost"
-                            onClick={() => {
-                              setEditingIndex(index);
-                              setDraft(sentence);
-                            }}
-                            className="hover:text-foreground"
-                          >
-                            <Edit2 />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>Edit</TooltipContent>
-                      </Tooltip>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            size="icon"
-                            variant="ghost"
-                            onClick={() => setSubmitted((prev) => new Set(prev).add(index))}
-                            className="hover:text-foreground"
-                          >
-                            <SendHorizontal />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>Send</TooltipContent>
-                      </Tooltip>
-                    </>
-                  )}
+export function SentenceItem({
+  sentence,
+  draft,
+  isEditing,
+  isSent,
+  isSending,
+  onEdit,
+  onCancel,
+  onSave,
+  onSend,
+  onDraftChange,
+}: Props) {
+  return (
+    <div className="rounded-md border bg-muted/40 px-3 py-2.5 text-sm">
+      <div className="flex items-start gap-2">
+        <ChevronRight className="mt-1 text-primary shrink-0" />
 
-                  {isEditing && (
-                    <>
-                      <button
-                        onClick={() => setEditingIndex(null)}
-                        className="font-medium text-primary hover:underline"
-                      >
-                        Save
-                      </button>
+        <div className="flex-1 space-y-2">
+          {!isEditing ? (
+            <p className="leading-relaxed">{sentence}</p>
+          ) : (
+            <MiniTiptapEditor content={draft} onChange={onDraftChange} />
+          )}
 
-                      <button onClick={() => setEditingIndex(null)} className="hover:text-foreground">
-                        Cancel
-                      </button>
-                    </>
-                  )}
+          <SentenceActions
+            sentence={sentence}
+            isEditing={isEditing}
+            isSent={isSent}
+            isSending={isSending}
+            onEdit={onEdit}
+            onCancel={onCancel}
+            onSave={onSave}
+            onSend={onSend}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
-                  {isSent && <span className="font-medium text-green-600">✓ Sent</span>}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      })}
+type Props = {
+  sentence: string;
+  isEditing: boolean;
+  isSent: boolean;
+  isSending: boolean;
+  onEdit: () => void;
+  onCancel: () => void;
+  onSave: () => void;
+  onSend: () => void;
+};
+
+export function SentenceActions({ sentence, isEditing, isSent, isSending, onEdit, onCancel, onSave, onSend }: Props) {
+  return (
+    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+      <CopyClipboard value={sentence} timeout={2000}>
+        {({ copied, copy }) => (
+          <Button size="icon" variant="ghost" onClick={copy}>
+            {copied ? <Check className="text-green-500" /> : <Copy />}
+          </Button>
+        )}
+      </CopyClipboard>
+
+      {!isEditing && !isSent && (
+        <>
+          <Button size="icon" variant="ghost" onClick={onEdit} disabled={isSending}>
+            <Edit2 />
+          </Button>
+
+          <Button size="icon" variant="ghost" onClick={onSend} disabled={isSending}>
+            {isSending ? <Loader2 className="animate-spin" /> : <SendHorizontal />}
+          </Button>
+        </>
+      )}
+
+      {isEditing && (
+        <>
+          <button onClick={onSave} className="font-medium text-primary hover:underline" disabled={isSending}>
+            Save
+          </button>
+          <button onClick={onCancel} disabled={isSending}>
+            Cancel
+          </button>
+        </>
+      )}
+
+      {isSent && <span className="font-medium text-green-600">✓ Sent</span>}
     </div>
   );
 }
