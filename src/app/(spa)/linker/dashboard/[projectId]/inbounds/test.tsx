@@ -4,7 +4,19 @@
 
 "use client";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { ArrowDownToLine, ArrowUpFromLine, ChevronRight, ExternalLink, FileText, Link2, Loader2 } from "lucide-react";
+import {
+  ArrowDownToLine,
+  ArrowUpFromLine,
+  Check,
+  ChevronRight,
+  Copy,
+  Edit2,
+  ExternalLink,
+  FileText,
+  Link2,
+  Loader2,
+  SendHorizontal,
+} from "lucide-react";
 import React, { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MiniTiptapEditor } from "@/app/(spa)/linker/dashboard/[projectId]/inbounds/mini-tiptap-form";
@@ -17,7 +29,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useClipboard } from "@/hooks/shared/use-clipbboart";
 import FormError from "@/ui/shared/auth-errro-alert";
+import { CopyClipboard, CopyToClipboardWithToolTipIcon, Demo1, Demo2 } from "@/ui/shared/copy-to-clipboard";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 
 // ─── Mock API ─────────────────────────────────────────────────────────────────
@@ -168,9 +183,10 @@ async function fetchSentences(postId: string) {
   );
 } */
 
-const copyToClipboard = async (text: string) => {
+/* const copyToClipboard = async (text: string) => {
   await navigator.clipboard.writeText(text);
-};
+}; */
+
 export function SentenceList({ postId }: { postId: string }) {
   const { data: sentences, isLoading } = useQuery({
     queryKey: ["sentences", postId],
@@ -200,7 +216,7 @@ export function SentenceList({ postId }: { postId: string }) {
         return (
           <div key={index} className="group rounded-md border bg-muted/40 px-3 py-2.5 text-sm">
             <div className="flex items-start gap-2">
-              <ChevronRight className="w-4 h-4 mt-1 text-primary shrink-0" />
+              <ChevronRight className="mt-1 text-primary shrink-0" />
 
               <div className="flex-1 space-y-2">
                 {/* Text / Editor */}
@@ -215,31 +231,51 @@ export function SentenceList({ postId }: { postId: string }) {
                  rows={3}
                  className="w-full rounded-md border bg-background p-2 text-sm resize-none focus:ring-2 focus:ring-primary"
                />  */}
-
                 {/* Actions */}
                 <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  <CopyClipboard value={sentence} timeout={2000}>
+                    {({ copied, copy }) => (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button size="icon" variant="ghost" onClick={copy}>
+                            {copied ? <Check className="text-green-500" /> : <Copy />}
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{copied ? "Copied" : "Copy"}</TooltipContent>
+                      </Tooltip>
+                    )}
+                  </CopyClipboard>
                   {!isEditing && !isSent && (
                     <>
-                      <button onClick={() => copyToClipboard(sentence)} className="hover:text-foreground">
-                        Copy
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          setEditingIndex(index);
-                          setDraft(sentence);
-                        }}
-                        className="hover:text-foreground"
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        onClick={() => setSubmitted((prev) => new Set(prev).add(index))}
-                        className="font-medium text-primary hover:underline"
-                      >
-                        Send
-                      </button>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => {
+                              setEditingIndex(index);
+                              setDraft(sentence);
+                            }}
+                            className="hover:text-foreground"
+                          >
+                            <Edit2 />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Edit</TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => setSubmitted((prev) => new Set(prev).add(index))}
+                            className="hover:text-foreground"
+                          >
+                            <SendHorizontal />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Send</TooltipContent>
+                      </Tooltip>
                     </>
                   )}
 
