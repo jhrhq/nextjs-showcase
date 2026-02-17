@@ -50,7 +50,8 @@
       "style": {
         "noNegationElse": "off",
         "useImportType": "error",
-        "useNodejsImportProtocol": "error"
+        "useNodejsImportProtocol": "error",
+        "noNonNullAssertion": "off"
       },
       "suspicious": {
         "noUnknownAtRules": "off",
