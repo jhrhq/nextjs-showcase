@@ -152,42 +152,7 @@ async function fetchSentences(postId: string) {
   return map[postId] ?? [];
 }
 
-// ─── Sentence List ────────────────────────────────────────────────────────────
-/* function SentenceList({ postId }: { postId: string }) {
-  const { data: sentences, isLoading } = useQuery({
-    queryKey: ["sentences", postId],
-    queryFn: () => fetchSentences(postId),
-  });
-
-  if (isLoading) {
-    return (
-      <div className="space-y-2 mt-2">
-        {Array.from({ length: 3 }).map((_, i) => (
-          <Skeleton key={i} className="h-10 w-full" />
-        ))}
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-2 mt-2">
-      {sentences?.map((sentence, i) => (
-        <div
-          key={i}
-          className="flex items-start gap-2 rounded-md border bg-muted/40 px-3 py-2.5 text-sm leading-relaxed"
-        >
-          <ChevronRight className="w-4 h-4 mt-0.5 text-primary shrink-0" />
-          <span>{sentence}</span>
-        </div>
-      ))}
-    </div>
-  );
-} */
-
-/* const copyToClipboard = async (text: string) => {
-  await navigator.clipboard.writeText(text);
-}; */
-
+// ─── Sentence List
 export function SentenceList({ postId }: { postId: string }) {
   const { data: sentences, isLoading } = useQuery({
     queryKey: ["sentences", postId],
@@ -217,7 +182,8 @@ export function SentenceList({ postId }: { postId: string }) {
           sentence={sentence}
           isEditing={editingIndex === index}
           isSent={sentIndexes.has(index)}
-          isSending={1 === index}
+          // isSending={1 === index}
+          isSending={false}
           draft={draft}
           onEdit={() => {
             setEditingIndex(index);
@@ -332,12 +298,18 @@ export function SentenceActions({ sentence, isEditing, isSent, isSending, onEdit
 
       {isEditing && (
         <>
-          <button onClick={onSave} className="font-medium text-primary hover:underline" disabled={isSending}>
+          <Button
+            size={"icon"}
+            variant={"ghost"}
+            onClick={onSave}
+            className="font-medium text-primary hover:underline"
+            disabled={isSending}
+          >
             Save
-          </button>
-          <button onClick={onCancel} disabled={isSending}>
+          </Button>
+          <Button size={"icon"} variant={"ghost"} onClick={onCancel} disabled={isSending}>
             Cancel
-          </button>
+          </Button>
         </>
       )}
 
