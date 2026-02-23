@@ -68,13 +68,8 @@ export function useAnchorManager(projectId: string) {
     enabled: !!projectId,
   });
 }
-/* export function useInboundLinks(projectId: string) {
-  return useQuery({
-    queryKey: ["linker-inbound", projectId],
-    queryFn: () => projectsApi.getInboundLinks(projectId),
-    enabled: !!projectId,
-  });
-}
+
+/* 
 
 export function useSiloStructure(projectId: string) {
   return useQuery({

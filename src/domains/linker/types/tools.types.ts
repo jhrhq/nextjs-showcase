@@ -30,16 +30,6 @@ export const TOOL_ICON_MAP: Record<ToolName, ToolIconConfig> = {
   SITE_REPORT: { Icon: Activity, className: "text-purple-500" },
 };
 
-export interface InboundLink {
-  id: string;
-  sourceUrl: string;
-  targetUrl: string;
-  anchorText: string;
-  doFollow: boolean;
-  status: "active" | "broken" | "redirect";
-  discoveredAt: string;
-}
-
 export interface SiloStructure {
   id: string;
   name: string;
