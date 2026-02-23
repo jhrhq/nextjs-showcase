@@ -46,6 +46,11 @@ export const projectsApi = {
   getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.INBOUNDS}`);
     return response.data;
+  }, */
+  /* 
+  getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {
+    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.INBOUNDS}`);
+    return response.data;
   },
 
   getSiloStructure: async (projectId: string): Promise<SiloStructure[]> => {

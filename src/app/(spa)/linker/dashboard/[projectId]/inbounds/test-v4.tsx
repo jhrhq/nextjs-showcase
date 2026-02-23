@@ -65,6 +65,7 @@ const STARTER_KIT_CONFIG = {
   listItem: false,
   horizontalRule: false,
   hardBreak: false,
+  link: false,
 } as const;
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
@@ -369,7 +370,7 @@ function SentenceRow({ sentence, predefinedUrl, isEditing, onEdit, onSave, onCan
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function SentenceEditorV2({ predefinedUrl }: SentenceEditorV2Props) {
+export default function SentenceEditorV2({ predefinedUrl = "https://local.com" }: SentenceEditorV2Props) {
   const [sentences, setSentences] = useState<Sentence[]>(INITIAL_SENTENCES);
   const [editingId, setEditingId] = useState<number | null>(null);
 
