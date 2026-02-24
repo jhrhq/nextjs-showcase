@@ -14,15 +14,15 @@ export default function InboundSuggestionTabs({ url, isLoading, data }: InboundS
   return (
     <Tabs defaultValue="outbound">
       <TabsList>
-        <TabsTrigger value="inbound" className="gap-1.5">
+        <TabsTrigger value="inbound" className="gap-1.5 text-slate-800 flex">
           <ArrowDownToLine className="w-3.5 h-3.5" />
           Inbound Links (0)
         </TabsTrigger>
-        <TabsTrigger value="outbound" className="gap-1.5">
+        <TabsTrigger value="outbound" className="gap-1.5 text-slate-800 flex">
           <ArrowUpFromLine className="w-3.5 h-3.5" />
-          Outbound Links (2)
+          Outbound Links ({data?.length || 0})
         </TabsTrigger>
-        <TabsTrigger value="external" className="gap-1.5">
+        <TabsTrigger value="external" className="gap-1.5 text-slate-800 flex">
           <ExternalLink className="w-3.5 h-3.5" />
           External Links (0)
         </TabsTrigger>

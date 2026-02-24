@@ -30,6 +30,7 @@ export const InboundTargetForm = React.forwardRef<TargetUrlFormHandle, TargetUrl
   const handleValidSubmit = ({ url }: TargetUrlFormValues) => {
     onSubmit(url);
   };
+
   React.useImperativeHandle(ref, () => ({
     async submitWithUrl(url: string) {
       form.setValue("url", url);

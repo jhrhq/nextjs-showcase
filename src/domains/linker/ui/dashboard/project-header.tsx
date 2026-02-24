@@ -32,7 +32,7 @@ import { cn } from "@/lib/utils";
 
 export function Topbar() {
   return (
-    <header className="flex items-center justify-between border-b bg-background px-6 py-3">
+    <header className="flex sticky top-0 z-50   items-center justify-between border-b bg-background px-6 py-3">
       <div className="flex items-center gap-2 px-3">
         <SidebarTrigger />
         <Separator orientation="vertical" className="mr-2 h-4" />

@@ -7,50 +7,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-// ─── Types ──────────────────────────────────────────────────────────────────
-
-interface Sentence {
-  id: number;
-  html: string;
-}
-
 interface SentenceEditorPanelProps {
-  sentence: Sentence;
+  content: string;
   predefinedUrl?: string;
   onSave: (html: string) => void;
   onCancel: () => void;
 }
-
-interface SentenceRowProps {
-  sentence: Sentence;
-  predefinedUrl?: string;
-  isEditing: boolean;
-  onEdit: () => void;
-  onSave: (html: string) => void;
-  onCancel: () => void;
-}
-
-interface SentenceEditorV2Props {
-  predefinedUrl?: string;
-}
-
-// ─── Constants ───────────────────────────────────────────────────────────────
-
-const INITIAL_SENTENCES: Sentence[] = [
-  { id: 1, html: "The quick brown fox jumps over the lazy dog." },
-  {
-    id: 2,
-    html: 'Visit <a href="https://openai.com">OpenAI</a> for more information.',
-  },
-  {
-    id: 3,
-    html: 'Check out <a href="https://github.com">GitHub</a> and <a href="https://stackoverflow.com">Stack Overflow</a> for coding help.',
-  },
-  { id: 4, html: "Plain sentence with no links at all." },
-];
 
 const EDITOR_LINK_CLASSES =
-  "[&_a]:text-blue-500 [&_a]:p-1 [&_a]:dark:bg-blue-900 [&_a]:dark:text-blue-200 [&_a]:bg-blue-50 [&_a]:border-b [&_a]:font-medium [&_a]:border-primary [&_a]:rounded";
+  "min-h-[60px] w-full px-3 py-2 text-sm rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent border rounded-md rounded-t-none p-4 text-justify [&_a]:text-blue-500 [&_a]:p-1 [&_a]:dark:bg-blue-900 [&_a]:dark:text-blue-200 [&_a]:bg-blue-50 [&_a]:border-b [&_a]:font-medium [&_a]:border-primary [&_a]:rounded";
 
 const STARTER_KIT_CONFIG = {
   heading: false,
@@ -68,20 +33,30 @@ const STARTER_KIT_CONFIG = {
   link: false,
 } as const;
 
-// ─── Utilities ────────────────────────────────────────────────────────────────
+function normalizeUrl(input: string): string {
+  if (!input) return "";
 
-function normalizeUrl(url: string): string {
-  const trimmed = url.trim();
+  const trimmed = input.trim();
   if (!trimmed) return "";
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  return `https://${trimmed}`;
+
+  const candidate = trimmed.startsWith("//")
+    ? `https:${trimmed}`
+    : trimmed.startsWith("http://") || trimmed.startsWith("https://")
+      ? trimmed
+      : `https://${trimmed}`;
+
+  try {
+    const url = new URL(candidate);
+    /* url.protocol = "https:"; // enforce HTTPS */
+    return url.toString();
+  } catch {
+    return "";
+  }
 }
 
 function getSelectionHref(editor: Editor): string {
   return editor.getAttributes("link")?.href ?? "";
 }
-
-// ─── Hook: useSelectionState ──────────────────────────────────────────────────
 
 function useSelectionState(editor: Editor | null) {
   const [hasSelection, setHasSelection] = useState(false);
@@ -126,8 +101,6 @@ function useSelectionState(editor: Editor | null) {
   return { hasSelection, existingHref };
 }
 
-// ─── Hook: useUrlInput ────────────────────────────────────────────────────────
-
 function useUrlInput(editor: Editor | null, existingHref: string) {
   const [urlInputValue, setUrlInputValue] = useState<string | null>(null);
   const urlInputRef = useRef<HTMLInputElement>(null);
@@ -151,8 +124,6 @@ function useUrlInput(editor: Editor | null, existingHref: string) {
 
   return { urlInputValue, setUrlInputValue, urlInputRef, open, confirm, cancel };
 }
-
-// ─── Sub-component: Toolbar ───────────────────────────────────────────────────
 
 interface ToolbarProps {
   editor: Editor | null;
@@ -238,8 +209,6 @@ function Toolbar({
   );
 }
 
-// ─── Sub-component: UrlInput ──────────────────────────────────────────────────
-
 interface UrlInputRowProps {
   value: string;
   onChange: (val: string) => void;
@@ -253,7 +222,7 @@ function UrlInputRow({ value, onChange, onConfirm, onCancel, inputRef }: UrlInpu
     <div className="flex items-center gap-2 px-1 py-1 border-x border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-b-none">
       <Input
         ref={inputRef}
-        type="url"
+        type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => {
@@ -273,20 +242,17 @@ function UrlInputRow({ value, onChange, onConfirm, onCancel, inputRef }: UrlInpu
   );
 }
 
-// ─── Sentence Editor Panel ────────────────────────────────────────────────────
-
-function SentenceEditorPanel({ sentence, predefinedUrl, onSave, onCancel }: SentenceEditorPanelProps) {
+export function MiniTipTapEditorPanel({ content, predefinedUrl, onSave, onCancel }: SentenceEditorPanelProps) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure(STARTER_KIT_CONFIG),
       Link.configure({ openOnClick: false, autolink: false, linkOnPaste: false }),
     ],
     immediatelyRender: false,
-    content: sentence.html,
-    autofocus: false,
+    content,
     editorProps: {
       attributes: {
-        class: `min-h-[60px] w-full px-3 py-2 text-sm rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent border rounded-md rounded-t-none p-4 ${EDITOR_LINK_CLASSES} text-justify`,
+        class: EDITOR_LINK_CLASSES,
       },
     },
   });
@@ -341,63 +307,6 @@ function SentenceEditorPanel({ sentence, predefinedUrl, onSave, onCancel }: Sent
           Save
         </Button>
       </div>
-    </div>
-  );
-}
-
-// ─── Sentence Row ─────────────────────────────────────────────────────────────
-
-function SentenceRow({ sentence, predefinedUrl, isEditing, onEdit, onSave, onCancel }: SentenceRowProps) {
-  return (
-    <li className="border-b border-gray-100 dark:border-gray-800 py-2">
-      {isEditing ? (
-        <SentenceEditorPanel sentence={sentence} predefinedUrl={predefinedUrl} onSave={onSave} onCancel={onCancel} />
-      ) : (
-        <div className="flex items-start justify-between gap-4">
-          <span
-            className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed"
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled HTML from editor output
-            dangerouslySetInnerHTML={{ __html: sentence.html }}
-          />
-          <Button type="button" variant="ghost" size="sm" className="shrink-0 text-xs" onClick={onEdit}>
-            Edit
-          </Button>
-        </div>
-      )}
-    </li>
-  );
-}
-
-// ─── Main Component ───────────────────────────────────────────────────────────
-
-export default function SentenceEditorV2({ predefinedUrl = "https://local.com" }: SentenceEditorV2Props) {
-  const [sentences, setSentences] = useState<Sentence[]>(INITIAL_SENTENCES);
-  const [editingId, setEditingId] = useState<number | null>(null);
-
-  const handleEdit = useCallback((id: number) => setEditingId(id), []);
-  const handleCancel = useCallback(() => setEditingId(null), []);
-
-  const handleSave = useCallback((id: number, newHtml: string) => {
-    setSentences((prev) => prev.map((s) => (s.id === id ? { ...s, html: newHtml } : s)));
-    setEditingId(null);
-  }, []);
-
-  return (
-    <div className="max-w-2xl mx-auto p-4">
-      <h2 className="text-lg font-semibold mb-4">Sentence Editor</h2>
-      <ul className="space-y-1">
-        {sentences.map((sentence) => (
-          <SentenceRow
-            key={sentence.id}
-            sentence={sentence}
-            predefinedUrl={predefinedUrl}
-            isEditing={editingId === sentence.id}
-            onEdit={() => handleEdit(sentence.id)}
-            onSave={(html) => handleSave(sentence.id, html)}
-            onCancel={handleCancel}
-          />
-        ))}
-      </ul>
     </div>
   );
 }
