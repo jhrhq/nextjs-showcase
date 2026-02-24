@@ -81,12 +81,6 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
                     <div className="flex-1">
                       <p className="text-sm font-medium">{item.title}</p>
                       <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
-
-                      <div className="flex gap-2 mt-1 text-xs">
-                        <Badge variant="outline">{item.clicks} clicks</Badge>
-                        <Badge variant="outline">{item.impressions} impressions</Badge>
-                        <Badge variant="outline">Position {item.position}</Badge>
-                      </div>
                     </div>
                   </div>
 
