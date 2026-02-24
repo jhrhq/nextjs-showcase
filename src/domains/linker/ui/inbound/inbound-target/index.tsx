@@ -77,24 +77,22 @@ export default function InboundTarget() {
   }, []);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="grid grid-cols-[minmax(900px,1fr)_400px]">
       {/* ── Main area ── */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-3xl mx-auto p-6 space-y-6">
-          {/* Page heading */}
-          <div>
-            <h1 className="text-xl font-bold tracking-tight">Internal Link Builder</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Enter a URL or click a post from the sidebar to find linking opportunities.
-            </p>
-          </div>
-
-          {/* ── URL Form ── */}
-          <InboundTargetForm ref={formRef} onSubmit={handleFormSubmit} isLoading={isPending} />
-
-          {/* ── Results (shown after submit) ── */}
-          <InboundSuggestionTabs url={submittedUrl} isLoading={isPending} data={data} />
+      <div className="p-6 space-y-6">
+        {/* Page heading */}
+        <div>
+          <h1 className="text-xl font-bold tracking-tight">Internal Link Builder</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Enter a URL or click a post from the sidebar to find linking opportunities.
+          </p>
         </div>
+
+        {/* ── URL Form ── */}
+        <InboundTargetForm ref={formRef} onSubmit={handleFormSubmit} isLoading={isPending} />
+
+        {/* ── Results (shown after submit) ── */}
+        <InboundSuggestionTabs url={submittedUrl} isLoading={isPending} data={data} />
       </div>
 
       {/* ── Sidebar ── */}

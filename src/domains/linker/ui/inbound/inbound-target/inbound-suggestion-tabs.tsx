@@ -31,7 +31,7 @@ export default function InboundSuggestionTabs({ url, isLoading, data }: InboundS
       <TabsContent value="inbound" className="mt-4">
         <Card>
           <CardContent className="py-12 text-center text-sm text-muted-foreground">
-            <FileText className="w-8 h-8 mx-auto mb-2 opacity-30" />
+            <FileText className="size-8 mx-auto mb-2 opacity-30" />
             No Inbound Links Found
           </CardContent>
         </Card>
@@ -44,7 +44,7 @@ export default function InboundSuggestionTabs({ url, isLoading, data }: InboundS
       <TabsContent value="external" className="mt-4">
         <Card>
           <CardContent className="py-12 text-center text-sm text-muted-foreground">
-            <FileText className="w-8 h-8 mx-auto mb-2 opacity-30" />
+            <FileText className="size-8 mx-auto mb-2 opacity-30" />
             No External Links Found
           </CardContent>
         </Card>

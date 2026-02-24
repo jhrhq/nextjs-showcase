@@ -3,7 +3,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { ExternalLink, Loader2 } from "lucide-react";
 import React from "react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -85,7 +84,7 @@ export function InboundSidebar({ onSelectUrl }: { onSelectUrl: (url: string) => 
   }, [onIntersect]);
 
   return (
-    <aside className="w-72 border-l bg-background flex flex-col">
+    <aside className="border-l bg-background flex flex-col">
       <header className="p-4 border-b space-y-3">
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="text-[10px]">
@@ -125,14 +124,16 @@ export function InboundSidebar({ onSelectUrl }: { onSelectUrl: (url: string) => 
                       Post
                     </Badge>
 
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={(e) => e.stopPropagation()}>
+                    {/*   <Button variant="ghost" size="icon" className="h-6 w-6" onClick={(e) => e.stopPropagation()}>
                       ✕
-                    </Button>
+                    </Button> */}
                   </div>
 
                   <p className="text-sm font-medium line-clamp-2">{post.title}</p>
 
-                  <p className="text-[11px] text-muted-foreground truncate">{post.slug}</p>
+                  <p className="text-[11px] text-muted-foreground truncate break-all wrap-anywhere whitespace-normal">
+                    {post.slug}
+                  </p>
                 </CardContent>
               </Card>
             ))}
