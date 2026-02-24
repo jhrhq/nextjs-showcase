@@ -7,9 +7,9 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useCallback } from "react";
 import SentenceEditorV3 from "@/app/(spa)/linker/dashboard/[projectId]/inbounds/editor-setup";
+import SentenceEditorV4 from "@/app/(spa)/linker/dashboard/[projectId]/inbounds/mini-tiptap-editor-panel";
 import SentenceEditor from "@/app/(spa)/linker/dashboard/[projectId]/inbounds/SentenceEditorTiptap";
 import { TargetUrlFormHandle } from "@/app/(spa)/linker/dashboard/[projectId]/inbounds/target-form";
-import SentenceEditorV4 from "@/app/(spa)/linker/dashboard/[projectId]/inbounds/test-v4";
 import SentenceEditorv2 from "@/app/(spa)/linker/dashboard/[projectId]/inbounds/testv2";
 import InboundTarget from "@/domains/linker/ui/inbound/inbound-target";
 import { InboundTargetForm } from "@/domains/linker/ui/inbound/inbound-target/inbound-target-form";
