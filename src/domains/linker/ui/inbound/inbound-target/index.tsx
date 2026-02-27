@@ -77,11 +77,11 @@ export default function InboundTarget() {
   }, []);
 
   return (
-    <div className="grid grid-cols-[minmax(900px,1fr)_400px]">
+    <div className="flex flex-1 w-full">
       {/* ── Main area ── */}
-      <div className="p-6 space-y-6">
+      <div className="flex-1 min-w-0 py-8 pr-6">
         {/* Page heading */}
-        <div>
+        <div className="mb-2">
           <h1 className="text-xl font-bold tracking-tight">Internal Link Builder</h1>
           <p className="text-sm text-muted-foreground mt-1">
             Enter a URL or click a post from the sidebar to find linking opportunities.
@@ -96,7 +96,12 @@ export default function InboundTarget() {
       </div>
 
       {/* ── Sidebar ── */}
-      <InboundSidebar onSelectUrl={handleSidebarPostSelect} />
+      <aside
+        className=" bg-background flex flex-col overflow-hidden sticky top-14 h-[calc(100vh-3.5rem)] border-l"
+        style={{ width: "33.333%" }}
+      >
+        <InboundSidebar onSelectUrl={handleSidebarPostSelect} />
+      </aside>
     </div>
   );
 }

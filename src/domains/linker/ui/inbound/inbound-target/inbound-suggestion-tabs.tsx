@@ -13,22 +13,43 @@ type InboundSuggestionTabsProps = {
 export default function InboundSuggestionTabs({ url, isLoading, data }: InboundSuggestionTabsProps) {
   return (
     <Tabs defaultValue="outbound">
-      <TabsList>
-        <TabsTrigger value="inbound" className="gap-1.5 text-slate-800 flex">
-          <ArrowDownToLine className="w-3.5 h-3.5" />
-          Inbound Links (0)
+      <TabsList className="w-full">
+        <TabsTrigger value="inbound" className="flex-1 p-0">
+          <span className="inline-flex gap-1.5 text-slate-800 pt-1">
+            <ArrowDownToLine className="w-3.5 h-3.5" />
+            Inbound Links (0)
+          </span>
         </TabsTrigger>
-        <TabsTrigger value="outbound" className="gap-1.5 text-slate-800 flex">
-          <ArrowUpFromLine className="w-3.5 h-3.5" />
-          Outbound Links ({data?.length || 0})
+        <TabsTrigger value="outbound" className="flex-1 p-0">
+          <span className="inline-flex items-center gap-1.5 text-slate-800 pt-1">
+            <ArrowUpFromLine className="w-3.5 h-3.5" />
+            Outbound Links ({data?.length || 0})
+          </span>
         </TabsTrigger>
-        <TabsTrigger value="external" className="gap-1.5 text-slate-800 flex">
-          <ExternalLink className="w-3.5 h-3.5" />
-          External Links (0)
+        <TabsTrigger value="external" className="flex-1 p-0">
+          <span className="inline-flex gap-1.5 text-slate-800 pt-1">
+            <ExternalLink className="w-3.5 h-3.5" />
+            External Links (0)
+          </span>
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="inbound" className="mt-4">
+      {/*  <TabsList className="w-full">
+        <TabsTrigger value="inbound" className="flex-1">
+          <ArrowDownToLine className="w-4 h-4 mr-1.5" />
+          Inbound Links (0)
+        </TabsTrigger>
+        <TabsTrigger value="outbound" className="flex-1">
+          <ArrowUpFromLine className="w-4 h-4 mr-1.5" />
+          Outbound Links (4)
+        </TabsTrigger>
+        <TabsTrigger value="external" className="flex-1">
+          <ExternalLink className="w-4 h-4 mr-1.5" />
+          External Links (0)
+        </TabsTrigger>
+      </TabsList> */}
+
+      <TabsContent value="inbound">
         <Card>
           <CardContent className="py-12 text-center text-sm text-muted-foreground">
             <FileText className="size-8 mx-auto mb-2 opacity-30" />
@@ -37,11 +58,11 @@ export default function InboundSuggestionTabs({ url, isLoading, data }: InboundS
         </Card>
       </TabsContent>
 
-      <TabsContent value="outbound" className="mt-4">
+      <TabsContent value="outbound">
         <InboundResultsAccordion url={url} isLoading={isLoading} data={data} />
       </TabsContent>
 
-      <TabsContent value="external" className="mt-4">
+      <TabsContent value="external">
         <Card>
           <CardContent className="py-12 text-center text-sm text-muted-foreground">
             <FileText className="size-8 mx-auto mb-2 opacity-30" />

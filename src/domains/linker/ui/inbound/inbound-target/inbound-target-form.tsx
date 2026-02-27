@@ -45,7 +45,7 @@ export const InboundTargetForm = React.forwardRef<TargetUrlFormHandle, TargetUrl
   }));
 
   return (
-    <Card>
+    <Card className="mb-8">
       <CardHeader className="pb-3">
         <CardTitle className="text-base">Target Content URL</CardTitle>
       </CardHeader>

@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -84,7 +83,7 @@ export function InboundSidebar({ onSelectUrl }: { onSelectUrl: (url: string) => 
   }, [onIntersect]);
 
   return (
-    <aside className="border-l bg-background flex flex-col">
+    <>
       <header className="p-4 border-b space-y-3">
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="text-[10px]">
@@ -93,20 +92,9 @@ export function InboundSidebar({ onSelectUrl }: { onSelectUrl: (url: string) => 
           <span className="text-sm font-semibold truncate flex-1">Select a post</span>
           <ExternalLink className="w-4 h-4 text-muted-foreground" />
         </div>
-
-        <Tabs defaultValue="orphans">
-          <TabsList className="w-full">
-            <TabsTrigger value="orphans" className="flex-1 text-xs">
-              Orphans
-            </TabsTrigger>
-            <TabsTrigger value="search" className="flex-1 text-xs">
-              Search
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
       </header>
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="h-[calc(100vh-8rem)] sm:h-[calc(100vh-10rem)] lg:h-[calc(100vh-12rem)] xl:max-h-160">
         <div className="p-3 space-y-2">
           {isLoading &&
             Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-20 w-full rounded-lg" />)}
@@ -139,10 +127,10 @@ export function InboundSidebar({ onSelectUrl }: { onSelectUrl: (url: string) => 
             ))}
 
           <div ref={loaderRef} className="flex justify-center py-3 h-10">
-            {isFetchingNextPage && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
+            {isFetchingNextPage && <Loader2 className="size-4 animate-spin text-muted-foreground" />}
           </div>
         </div>
       </ScrollArea>
-    </aside>
+    </>
   );
 }
