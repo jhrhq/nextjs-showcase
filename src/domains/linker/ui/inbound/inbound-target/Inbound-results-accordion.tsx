@@ -1,7 +1,8 @@
-import { Link2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Link2 } from "lucide-react";
 import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -15,7 +16,9 @@ type InboundResultsAccordionProps = {
 };
 
 export function InboundResultsAccordion({ url, isLoading, data }: InboundResultsAccordionProps) {
-  const [openItem, setOpenItem] = React.useState<string | undefined>(undefined);
+  const [openRecommended, setOpenRecommended] = React.useState<string[]>();
+  const [openItems, setOpenItems] = React.useState<string[]>();
+  const [showAll, setShowAll] = React.useState(false);
 
   if (isLoading) {
     return (
@@ -36,6 +39,7 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
       </Card>
     );
   }
+
   if (!data?.length) {
     return (
       <Card>
@@ -64,63 +68,98 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
 
       <Separator />
 
-      <CardContent className="p-4 space-y-6">
-        {/* Recommended */}
-        <section>
-          <h3 className="text-sm font-semibold mb-2">⭐ Recommended opportunities</h3>
+      <CardContent className="p-4 space-y-4">
+        {/* ── Recommended Section ── */}
+        <section className="space-y-2">
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-semibold">⭐ Recommended</h3>
+            <Badge variant="secondary" className="text-xs">
+              {recommended.length}
+            </Badge>
+          </div>
 
-          <div className="space-y-2">
+          <Accordion type="multiple" value={openRecommended} onValueChange={setOpenRecommended} className="space-y-2">
             {recommended.map((item) => (
-              <Card key={item.id} className="border-primary/40 bg-primary/5">
-                <CardContent className="p-4 space-y-3">
-                  <div className="flex gap-4">
-                    <div className="w-10 h-10 flex items-center justify-center rounded-full border bg-background text-sm font-bold">
+              <AccordionItem key={item.id} value={item.id} className="border-0">
+                <AccordionTrigger className="px-4 py-3 hover:no-underline hover:bg-primary/10 [&>svg]:shrink-0">
+                  <div className="flex gap-4 text-left flex-1 min-w-0">
+                    <div className="w-10 h-10 flex items-center justify-center rounded-full border bg-background text-sm font-bold shrink-0">
                       {item.score}
                     </div>
-
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium">{item.title}</p>
                       <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
                     </div>
                   </div>
-
+                </AccordionTrigger>
+                <AccordionContent className="data-[state=open]:overflow-visible overflow-visible h-auto space-y-2">
                   <SentenceList postId={item.id} />
-                </CardContent>
-              </Card>
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
         </section>
 
-        {/* Others */}
+        {/* ── Others Section ── */}
         {others.length > 0 && (
-          <Accordion type="single" collapsible>
-            <AccordionItem value="more">
-              <AccordionTrigger>More opportunities ({others.length})</AccordionTrigger>
-              <AccordionContent>
-                <Accordion type="single" collapsible value={openItem} onValueChange={setOpenItem}>
+          <>
+            <Separator />
+
+            <section className="space-y-3">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-muted-foreground">Other opportunities</h3>
+                  <Badge variant="outline" className="text-xs">
+                    {others.length}
+                  </Badge>
+                </div>
+
+                <Button
+                  variant={showAll ? "ghost" : "outline"}
+                  size="sm"
+                  onClick={() => {
+                    setShowAll((prev) => !prev);
+                  }}
+                  className="gap-2"
+                >
+                  {showAll ? (
+                    <>
+                      Show less
+                      <ChevronUp className="w-4 h-4" />
+                    </>
+                  ) : (
+                    <>
+                      Show {others.length} more {others.length === 1 ? "opportunity" : "opportunities"}
+                      <ChevronDown className="w-4 h-4" />
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {showAll && (
+                <Accordion type="multiple" value={openItems} onValueChange={setOpenItems} className="space-y-2">
                   {others.map((item) => (
-                    <AccordionItem key={item.id} value={item.id}>
-                      <AccordionTrigger className="py-3">
-                        <div className="flex gap-3 text-left">
-                          <div className="w-8 h-8 rounded-full border flex items-center justify-center text-xs font-bold">
+                    <AccordionItem key={item.id} value={item.id} className="border-0 animate-in fade-in duration-200">
+                      <AccordionTrigger className="px-4 py-3 hover:no-underline hover:bg-muted/40 [&>svg]:shrink-0">
+                        <div className="flex gap-4 text-left flex-1 min-w-0">
+                          <div className="w-10 h-10 flex items-center justify-center rounded-full border bg-background text-sm font-bold shrink-0">
                             {item.score}
                           </div>
-                          <span className="text-sm font-medium line-clamp-1">{item.title}</span>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium">{item.title}</p>
+                            <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
+                          </div>
                         </div>
                       </AccordionTrigger>
-
-                      <AccordionContent>
-                        <div className="pl-11 space-y-2">
-                          <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
-                          <SentenceList postId={item.id} />
-                        </div>
+                      <AccordionContent className="data-[state=open]:overflow-visible overflow-visible h-auto">
+                        <SentenceList postId={item.id} />
                       </AccordionContent>
                     </AccordionItem>
                   ))}
                 </Accordion>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+              )}
+            </section>
+          </>
         )}
       </CardContent>
     </Card>
