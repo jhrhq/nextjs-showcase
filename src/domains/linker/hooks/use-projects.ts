@@ -69,6 +69,13 @@ export function useAnchorManager(projectId: string) {
   });
 }
 
+export function useSubmitInboundUrl() {
+  return useMutation({
+    mutationKey: ["linker-inbound-url"],
+    mutationFn: ({ projectId, url }: { projectId: string; url: string }) =>
+      projectsApi.postInboundLinks(projectId, url),
+  });
+}
 /* 
 
 export function useSiloStructure(projectId: string) {

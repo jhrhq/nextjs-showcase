@@ -1,6 +1,7 @@
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import type { AnchorManager } from "@/domains/linker/types/anchor-manager.types";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
+import type { InboundData } from "@/domains/linker/validations/inbound.validation";
 import type {
   CreateProjectInput,
   ProjectDTO,
@@ -42,12 +43,15 @@ export const projectsApi = {
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}/${AUTH_CONFIG.API.ANCHOR_MANAGER}`);
     return response.data;
   },
-  /* 
-  getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {
-    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.INBOUNDS}`);
+
+  postInboundLinks: async (projectId: string, url: string): Promise<{ success: true; data: InboundData }> => {
+    const response = await linkerApi.post(`${AUTH_CONFIG.API.PROJECTS}/${projectId}/${AUTH_CONFIG.API.INBOUNDS}`, {
+      url,
+    });
     return response.data;
-  }, */
+  },
   /* 
+  
   getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.INBOUNDS}`);
     return response.data;

@@ -1,6 +1,7 @@
 import { hash } from "bcryptjs";
 import type { AnchorManager } from "@/domains/linker/types/anchor-manager.types";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
+import type { InboundData } from "@/domains/linker/validations/inbound.validation";
 import { type ProjectDTO, projectSchema } from "@/domains/linker/validations/projects.validations";
 
 export type MockUser = {
@@ -346,5 +347,80 @@ export const mockAnchorManager: AnchorManager = {
       impact: "positive",
     },
     { pattern: "PBN Risk", frequency: 2, description: "Potential low-quality network footprint", impact: "negative" },
+  ],
+};
+
+export const mockInboundData: InboundData = {
+  post: {
+    id: "3f1f9c8e-6c5b-4c1a-9d2e-7a8b9c0d1e2f",
+    title: "How to Build Scalable Microservices with Node.js",
+    url: "https://example.com/blog/scalable-microservices-nodejs",
+    language: "en",
+    postType: "blog",
+    // builder: "tech-writer-01",
+    category: "[58]",
+    projectId: "a7b2c3d4-e5f6-47a8-9b1c-2d3e4f5a6b7c",
+  },
+  suggestions: [
+    {
+      id: "9a2d7c4e-1b3f-4e5a-8c9d-0f1a2b3c4d5e",
+      title: "Understanding Event-Driven Architecture",
+      url: "https://example.com/blog/event-driven-architecture",
+      language: "en",
+      postType: "blog",
+      category: "[58]",
+      _postId: "f1e2d3c4-b5a6-4789-8c7d-6e5f4a3b2c1d",
+      score: 95,
+    },
+    {
+      id: "7c6b5a4d-3e2f-4a1b-9d8c-6f5e4d3c2b1a",
+      title: "Scaling Applications with Kubernetes",
+      url: "https://example.com/blog/scaling-with-kubernetes",
+      language: "en",
+      postType: "tutorial",
+      category: "[58]",
+      _postId: "1a2b3c4d-5e6f-4789-9a8b-7c6d5e4f3a2b",
+      score: 91,
+    },
+    {
+      id: "2d4c6b8a-1e3f-4a5b-9c7d-0e1f2a3b4c5d",
+      title: "Best Practices for REST API Design",
+      url: "https://example.com/blog/rest-api-best-practices",
+      language: "en",
+      postType: "guide",
+      category: "[58]",
+      _postId: "5f4e3d2c-1b6a-4987-8c9d-0a1b2c3d4e5f",
+      score: 88,
+    },
+    {
+      id: "8e7d6c5b-4a3f-4b1c-9d2e-6f5a4b3c2d1e",
+      title: "Introduction to Distributed Systems",
+      url: "https://example.com/blog/distributed-systems-intro",
+      language: "en",
+      postType: "article",
+      category: "[58]",
+      _postId: "6b5a4d3c-2e1f-4a8b-9c7d-5e4f3a2b1c0d",
+      score: 85,
+    },
+    {
+      id: "4c3b2a1d-6e5f-4a7b-9c8d-2e1f3a4b5c6d",
+      title: "Monitoring and Logging in Microservices",
+      url: "https://example.com/blog/monitoring-logging-microservices",
+      language: "en",
+      postType: "blog",
+      category: "[58]",
+      _postId: "9d8c7b6a-5e4f-4a3b-9c2d-1e0f2a3b4c5d",
+      score: 83,
+    },
+    {
+      id: "1b2c3d4e-5f6a-4b7c-9d8e-0f1a2b3c4d6e",
+      title: "Container Orchestration Best Practices",
+      url: "https://example.com/blog/container-orchestration-best-practices",
+      language: "en",
+      postType: "guide",
+      category: "[58]",
+      _postId: "3c4d5e6f-7a8b-4c9d-9e0f-1a2b3c4d5e6f",
+      score: 80,
+    },
   ],
 };

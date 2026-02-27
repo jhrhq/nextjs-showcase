@@ -1,3 +1,5 @@
+"use client";
+
 import { ChevronDown, ChevronUp, Link2 } from "lucide-react";
 import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -6,18 +8,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { InboundLinkResult } from "@/domains/linker/types/inbound.types";
 import { SentenceList } from "@/domains/linker/ui/inbound/inbound-target/inbound-sentences";
+import type { InboundSuggestions } from "@/domains/linker/validations/inbound.validation";
 
 type InboundResultsAccordionProps = {
   url: string | null;
   isLoading: boolean;
-  data?: InboundLinkResult[];
+  data?: InboundSuggestions[];
 };
 
 export function InboundResultsAccordion({ url, isLoading, data }: InboundResultsAccordionProps) {
-  const [openRecommended, setOpenRecommended] = React.useState<string[]>();
-  const [openItems, setOpenItems] = React.useState<string[]>();
+  const [openRecommended, setOpenRecommended] = React.useState<string[]>([]);
+  const [openItems, setOpenItems] = React.useState<string[]>([]);
   const [showAll, setShowAll] = React.useState(false);
 
   if (isLoading) {
@@ -58,8 +60,7 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm flex items-center gap-2">
-            <Link2 className="w-4 h-4" />
-            Link Suggestions
+            <Link2 className="w-4 h-4" /> Link Suggestions
           </CardTitle>
           <Badge variant="secondary">{data.length} found</Badge>
         </div>
@@ -77,25 +78,9 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
               {recommended.length}
             </Badge>
           </div>
-
           <Accordion type="multiple" value={openRecommended} onValueChange={setOpenRecommended} className="space-y-2">
             {recommended.map((item) => (
-              <AccordionItem key={item.id} value={item.id} className="border-0">
-                <AccordionTrigger className="px-4 py-3 hover:no-underline hover:bg-primary/10 [&>svg]:shrink-0">
-                  <div className="flex gap-4 text-left flex-1 min-w-0">
-                    <div className="w-10 h-10 flex items-center justify-center rounded-full border bg-background text-sm font-bold shrink-0">
-                      {item.score}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium">{item.title}</p>
-                      <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
-                    </div>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="data-[state=open]:overflow-visible overflow-visible h-auto space-y-2">
-                  <SentenceList postId={item.id} />
-                </AccordionContent>
-              </AccordionItem>
+              <LinkAccordionItem key={item.id} item={item} />
             ))}
           </Accordion>
         </section>
@@ -104,7 +89,6 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
         {others.length > 0 && (
           <>
             <Separator />
-
             <section className="space-y-3">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
@@ -113,23 +97,19 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
                     {others.length}
                   </Badge>
                 </div>
-
                 <Button
                   variant={showAll ? "ghost" : "outline"}
                   size="sm"
-                  onClick={() => {
-                    setShowAll((prev) => !prev);
-                  }}
+                  onClick={() => setShowAll((prev) => !prev)}
                   className="gap-2"
                 >
                   {showAll ? (
                     <>
-                      Show less
-                      <ChevronUp className="w-4 h-4" />
+                      Show less <ChevronUp className="w-4 h-4" />
                     </>
                   ) : (
                     <>
-                      Show {others.length} more {others.length === 1 ? "opportunity" : "opportunities"}
+                      Show {others.length} more {others.length === 1 ? "opportunity" : "opportunities"}{" "}
                       <ChevronDown className="w-4 h-4" />
                     </>
                   )}
@@ -139,22 +119,7 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
               {showAll && (
                 <Accordion type="multiple" value={openItems} onValueChange={setOpenItems} className="space-y-2">
                   {others.map((item) => (
-                    <AccordionItem key={item.id} value={item.id} className="border-0 animate-in fade-in duration-200">
-                      <AccordionTrigger className="px-4 py-3 hover:no-underline hover:bg-muted/40 [&>svg]:shrink-0">
-                        <div className="flex gap-4 text-left flex-1 min-w-0">
-                          <div className="w-10 h-10 flex items-center justify-center rounded-full border bg-background text-sm font-bold shrink-0">
-                            {item.score}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium">{item.title}</p>
-                            <p className="text-xs text-muted-foreground break-all">{item.slug}</p>
-                          </div>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent className="data-[state=open]:overflow-visible overflow-visible h-auto">
-                        <SentenceList postId={item.id} />
-                      </AccordionContent>
-                    </AccordionItem>
+                    <LinkAccordionItem key={item.id} item={item} animate />
                   ))}
                 </Accordion>
               )}
@@ -163,5 +128,31 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
         )}
       </CardContent>
     </Card>
+  );
+}
+
+// ── Reusable Accordion Item ──
+function LinkAccordionItem({ item, animate }: { item: InboundSuggestions; animate?: boolean }) {
+  return (
+    <AccordionItem
+      key={item.id}
+      value={item.id}
+      className={`border-0 ${animate ? "animate-in fade-in duration-200" : ""}`}
+    >
+      <AccordionTrigger className="px-4 py-3 hover:no-underline hover:bg-muted/40 [&>svg]:shrink-0">
+        <div className="flex gap-4 text-left flex-1 min-w-0">
+          <div className="w-10 h-10 flex items-center justify-center rounded-full border bg-background text-sm font-bold shrink-0">
+            {item.score}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium">{item.title}</p>
+            <p className="text-xs text-muted-foreground break-all wrap-anywhere whitespace-normal">{item.url}</p>
+          </div>
+        </div>
+      </AccordionTrigger>
+      <AccordionContent className="data-[state=open]:overflow-visible overflow-visible h-auto">
+        <SentenceList postId={item.id} />
+      </AccordionContent>
+    </AccordionItem>
   );
 }
