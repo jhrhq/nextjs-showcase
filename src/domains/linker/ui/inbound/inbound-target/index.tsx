@@ -1,7 +1,6 @@
-// @ts-nocheck
-import { useMutation } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 import React from "react";
-import type { InboundLinkResult } from "@/domains/linker/types/inbound.types";
+import { useSubmitInboundUrl } from "@/domains/linker/hooks/use-projects";
 import { InboundSidebar } from "@/domains/linker/ui/inbound/inbound-target/inbound-sidebar";
 import InboundSuggestionTabs from "@/domains/linker/ui/inbound/inbound-target/inbound-suggestion-tabs";
 import {
@@ -9,63 +8,17 @@ import {
   type TargetUrlFormHandle,
 } from "@/domains/linker/ui/inbound/inbound-target/inbound-target-form";
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
-async function fetchLinkResults(): Promise<InboundLinkResult[]> {
-  await sleep(1200);
-
-  return [
-    {
-      id: "1",
-      title: "Why Does My Bissell Carpet Cleaner Keep Catching On Carpet",
-      slug: "/why-does-my-bissell-carpet-cleaner-keep-catching-on-carpet/",
-      score: 76,
-      clicks: 0,
-      impressions: 271,
-      position: 4.0,
-    },
-    {
-      id: "2",
-      title: "How to Deep Clean Your Bissell ProHeat 2X",
-      slug: "/how-to-deep-clean-bissell-proheat-2x/",
-      score: 68,
-      clicks: 12,
-      impressions: 540,
-      position: 6.2,
-    },
-    {
-      id: "3",
-      title: "Bissell CrossWave vs Symphony: Full Comparison",
-      slug: "/bissell-crosswave-vs-symphony/",
-      score: 59,
-      clicks: 34,
-      impressions: 820,
-      position: 8.1,
-    },
-    {
-      id: "4",
-      title: "Why Is My Carpet Cleaner Leaving Residue?",
-      slug: "/why-is-my-carpet-cleaner-leaving-residue/",
-      score: 51,
-      clicks: 5,
-      impressions: 312,
-      position: 11.4,
-    },
-  ];
-}
-export function useFetchLinkResults() {
-  return useMutation({
-    mutationFn: fetchLinkResults,
-  });
-}
 export default function InboundTarget() {
+  const params = useParams();
+  const projectId = params.id as string;
+
   const [submittedUrl, setSubmittedUrl] = React.useState<string | null>(null);
   const formRef = React.useRef<TargetUrlFormHandle>(null);
 
-  const { mutate, data, isPending } = useFetchLinkResults();
+  const { mutate, data, isPending } = useSubmitInboundUrl();
 
   const handleFormSubmit = (url: string) => {
-    mutate({ url }, { onSuccess: () => setSubmittedUrl(url) });
+    mutate({ projectId, url }, { onSuccess: (data) => setSubmittedUrl(data.data.post.url) });
   };
 
   const handleSidebarPostSelect = React.useCallback(async (url: string) => {
@@ -78,9 +31,7 @@ export default function InboundTarget() {
 
   return (
     <div className="flex flex-1 w-full">
-      {/* ── Main area ── */}
       <div className="flex-1 min-w-0 py-8 pr-6">
-        {/* Page heading */}
         <div className="mb-2">
           <h1 className="text-xl font-bold tracking-tight">Internal Link Builder</h1>
           <p className="text-sm text-muted-foreground mt-1">
@@ -88,14 +39,11 @@ export default function InboundTarget() {
           </p>
         </div>
 
-        {/* ── URL Form ── */}
         <InboundTargetForm ref={formRef} onSubmit={handleFormSubmit} isLoading={isPending} />
 
-        {/* ── Results (shown after submit) ── */}
-        <InboundSuggestionTabs url={submittedUrl} isLoading={isPending} data={data} />
+        <InboundSuggestionTabs url={submittedUrl} isLoading={isPending} data={data?.data?.suggestions} />
       </div>
 
-      {/* ── Sidebar ── */}
       <aside
         className=" bg-background flex flex-col overflow-hidden sticky top-14 h-[calc(100vh-3.5rem)] border-l"
         style={{ width: "33.333%" }}

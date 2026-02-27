@@ -1,13 +1,14 @@
+"use client";
 import { ArrowDownToLine, ArrowUpFromLine, ExternalLink, FileText } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { InboundLinkResult } from "@/domains/linker/types/inbound.types";
 import { InboundResultsAccordion } from "@/domains/linker/ui/inbound/inbound-target/Inbound-results-accordion";
+import type { InboundSuggestions } from "@/domains/linker/validations/inbound.validation";
 
 type InboundSuggestionTabsProps = {
   url: string | null;
   isLoading: boolean;
-  data?: InboundLinkResult[];
+  data?: InboundSuggestions[];
 };
 
 export default function InboundSuggestionTabs({ url, isLoading, data }: InboundSuggestionTabsProps) {
@@ -33,21 +34,6 @@ export default function InboundSuggestionTabs({ url, isLoading, data }: InboundS
           </span>
         </TabsTrigger>
       </TabsList>
-
-      {/*  <TabsList className="w-full">
-        <TabsTrigger value="inbound" className="flex-1">
-          <ArrowDownToLine className="w-4 h-4 mr-1.5" />
-          Inbound Links (0)
-        </TabsTrigger>
-        <TabsTrigger value="outbound" className="flex-1">
-          <ArrowUpFromLine className="w-4 h-4 mr-1.5" />
-          Outbound Links (4)
-        </TabsTrigger>
-        <TabsTrigger value="external" className="flex-1">
-          <ExternalLink className="w-4 h-4 mr-1.5" />
-          External Links (0)
-        </TabsTrigger>
-      </TabsList> */}
 
       <TabsContent value="inbound">
         <Card>
