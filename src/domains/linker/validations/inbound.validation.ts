@@ -36,6 +36,17 @@ export const InboundDataSchema = z.object({
   suggestions: z.array(SuggestionSchema).default([]),
 });
 
+export const SentenceSuggestionPayloadSchema = z.object({
+  projectId: z.uuid(),
+  postId: z.uuid(), // the post we are that expands accordion
+  targetId: z.uuid(), // we are searching with a url and returned a specific post with Id
+});
+
+export const SentenceSuggestionsSchema = z.array(z.string().min(1));
+
 export type InboundData = z.infer<typeof InboundDataSchema>;
 
 export type TargetUrlFormValues = z.infer<typeof targetUrlSchema>;
+
+export type GenerateSentenceSuggestionsRequest = z.infer<typeof SentenceSuggestionPayloadSchema>;
+export type SentenceSuggestions = z.infer<typeof SentenceSuggestionsSchema>;

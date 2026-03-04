@@ -1,8 +1,10 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React from "react";
 import { projectsApi } from "@/domains/linker/api/projects";
 import type { CreateProjectInput, UpdateProjectAPIInput } from "@/domains/linker/validations/projects.validations";
+import type { GenerateSentenceSuggestionsRequest } from "../validations/inbound.validation";
 
 export function useProjects() {
   return useQuery({
@@ -73,8 +75,27 @@ export function useSubmitInboundUrl() {
   return useMutation({
     mutationKey: ["linker-inbound-url"],
     mutationFn: ({ projectId, url }: { projectId: string; url: string }) =>
-      projectsApi.postInboundLinks(projectId, url),
+      projectsApi.generateInboundSuggestions(projectId, url),
   });
+}
+export function useGenerateSentenceSuggestions(payload: GenerateSentenceSuggestionsRequest, { enabled = true } = {}) {
+  const queryClient = useQueryClient();
+  const prefetch = React.useCallback(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["linker-inbound-sentence-suggestions", payload],
+      queryFn: () => projectsApi.generateSentenceSuggestions(payload),
+      staleTime: 60_000,
+    });
+  }, [payload, queryClient.prefetchQuery]);
+
+  const query = useQuery({
+    queryKey: ["linker-inbound-sentence-suggestions"],
+    queryFn: () => projectsApi.generateSentenceSuggestions(payload),
+    staleTime: 60_000,
+    enabled,
+  });
+
+  return { ...query, prefetch };
 }
 /* 
 

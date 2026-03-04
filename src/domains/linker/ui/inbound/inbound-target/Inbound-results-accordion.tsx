@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown, ChevronUp, Link2 } from "lucide-react";
+import { useParams } from "next/navigation";
 import React from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGenerateSentenceSuggestions } from "@/domains/linker/hooks/use-projects";
 import { SentenceList } from "@/domains/linker/ui/inbound/inbound-target/inbound-sentences";
 import type { InboundSuggestions } from "@/domains/linker/validations/inbound.validation";
 
@@ -119,7 +121,7 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
               {showAll && (
                 <Accordion type="multiple" value={openItems} onValueChange={setOpenItems} className="space-y-2">
                   {others.map((item) => (
-                    <LinkAccordionItem key={item.id} item={item} animate />
+                    <LinkAccordionItem key={item.id} item={item} />
                   ))}
                 </Accordion>
               )}
@@ -132,14 +134,33 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
 }
 
 // ── Reusable Accordion Item ──
-function LinkAccordionItem({ item, animate }: { item: InboundSuggestions; animate?: boolean }) {
+function LinkAccordionItem({ item }: { item: InboundSuggestions }) {
+  const params = useParams<{ projectId: string }>();
+  const projectId = params.projectId;
+
+  /**
+   * projectId,
+   * postId(from suggestions post's, selected post's item.id)
+   * targetId(from suggestions post's, selected post's item._postId ),
+   */
+  const payload = React.useMemo(
+    () => ({
+      projectId,
+      postId: item.id,
+      targetId: item._postId,
+    }),
+    [projectId, item.id, item._postId]
+  );
+
+  const { prefetch } = useGenerateSentenceSuggestions(payload, { enabled: false });
+
   return (
-    <AccordionItem
-      key={item.id}
-      value={item.id}
-      className={`border-0 ${animate ? "animate-in fade-in duration-200" : ""}`}
-    >
-      <AccordionTrigger className="px-4 py-3 hover:no-underline hover:bg-muted/40 [&>svg]:shrink-0">
+    <AccordionItem key={item.id} value={item.id} className="border-0 animate-in fade-in duration-200">
+      <AccordionTrigger
+        onMouseEnter={prefetch}
+        onFocus={prefetch}
+        className="px-4 py-3 hover:no-underline hover:bg-muted/40 [&>svg]:shrink-0"
+      >
         <div className="flex gap-4 text-left flex-1 min-w-0">
           <div className="w-10 h-10 flex items-center justify-center rounded-full border bg-background text-sm font-bold shrink-0">
             {item.score}
@@ -151,7 +172,7 @@ function LinkAccordionItem({ item, animate }: { item: InboundSuggestions; animat
         </div>
       </AccordionTrigger>
       <AccordionContent className="data-[state=open]:overflow-visible overflow-visible h-auto">
-        <SentenceList postId={item.id} />
+        <SentenceList item={item} payload={payload} />
       </AccordionContent>
     </AccordionItem>
   );
