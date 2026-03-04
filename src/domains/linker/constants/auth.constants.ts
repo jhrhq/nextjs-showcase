@@ -47,6 +47,7 @@ export const AUTH_CONFIG = {
     SILO: "/silo",
     ANCHOR_MANAGER: "/anchor-manager",
     SITE_REPORT: "/site-report",
+    SENTENCES: "/sentences", // suggestion for sentences
   },
 } as const;
 

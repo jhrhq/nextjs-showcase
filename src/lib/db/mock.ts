@@ -424,3 +424,68 @@ export const mockInboundData: InboundData = {
     },
   ],
 };
+
+export const mockSentenceSuggestions: Record<string, string[]> = {
+  // postId 1 — Bissell catching on carpet
+  "9a2d7c4e-1b3f-4e5a-8c9d-0f1a2b3c4d5e": [
+    "We've outlined the most common reasons why your Bissell cleaner might be catching on your carpet.",
+    "Let's start with the common machine-related reasons your Bissell carpet cleaner might catch.",
+    "If your Bissell carpet cleaner keeps catching, it is likely due to the roller not being placed properly.",
+    "There are a few things you can do to prevent your Bissell carpet cleaner from catching on the carpet.",
+    "If you're using ultra-plush carpets, that may be why your Bissell vacuum is failing to clean smoothly.",
+  ],
+
+  // postId 2 — ProHeat 2X maintenance
+  "f1e2d3c4-b5a6-4789-8c7d-6e5f4a3b2c1d": [
+    "Regular maintenance of your ProHeat 2X extends its lifespan significantly.",
+    "The brush roll is the most commonly clogged component and should be checked monthly.",
+    "After every use, empty the dirty water tank to prevent odors and bacterial growth.",
+    "Descaling the internal hoses every six months prevents mineral buildup in hard-water areas.",
+    "Always rinse the clean water tank before refilling to avoid detergent residue accumulation.",
+  ],
+
+  // postId 3 — CrossWave vs Symphony comparison
+  "363231db-dd6d-4707-b092-ac1f3fda3b33": [
+    "The CrossWave handles hard floors and area rugs while the Symphony focuses purely on steam cleaning.",
+    "If you have pets, the CrossWave's dual-action brush roll gives it a notable edge over competitors.",
+    "Both models are priced similarly, making the decision come down to your floor type.",
+    "The Symphony requires no cleaning solution, making it a better choice for chemical-sensitive households.",
+    "CrossWave's self-cleaning cycle is a standout feature that keeps the brush roll odor-free.",
+  ],
+
+  // postId 4 — Soap residue troubleshooting
+  "a1b2c3d4-e5f6-7890-abcd-ef1234567890": [
+    "Residue is often caused by using too much cleaning solution in the water tank.",
+    "Always dilute cleaning formulas according to the manufacturer's instructions.",
+    "Running a clean water pass after cleaning helps remove any leftover soap residue.",
+    "Hard water reacts with certain Bissell formulas and accelerates residue buildup on fibers.",
+    "Switching to Bissell's own cleaning formula reduces incompatibility residue by up to 40%.",
+  ],
+
+  // postId 5 — Suction loss diagnosis
+  "b2c3d4e5-f6a7-8901-bcde-f12345678901": [
+    "Loss of suction is most frequently caused by a full or improperly seated dirty water tank.",
+    "Check the nozzle and brush window for hair and fiber clogs before deeper disassembly.",
+    "A cracked or loose hose connection is a silent suction killer that is easy to miss visually.",
+    "Filters should be rinsed monthly and replaced every three to six months under regular use.",
+    "Never operate the unit without the clean water tank seated — it disrupts the internal airflow path.",
+  ],
+
+  // postId 6 — Odor elimination
+  "c3d4e5f6-a7b8-9012-cdef-012345678902": [
+    "Persistent odors are almost always sourced from a dirty water tank that wasn't emptied promptly.",
+    "Bissell's Deep Clean + Antibacterial formula neutralizes odor-causing bacteria at the fiber level.",
+    "Soaking removable brush rolls in white vinegar for 20 minutes eliminates embedded mildew smell.",
+    "Running a 50/50 water and white vinegar cycle through the machine deodorizes internal components.",
+    "If odor persists after cleaning, the foam filter may need replacement rather than rinsing.",
+  ],
+
+  // postId 7 — Streak marks on hard floors
+  "d4e5f6a7-b8c9-0123-defa-123456789003": [
+    "Streak marks on hard floors typically indicate either too much solution or a worn brush strip.",
+    "The edge brush strips on CrossWave models wear down after approximately 40 hours of use.",
+    "Using the hard floor setting while cleaning area rugs redistributes solution unevenly and causes streaking.",
+    "Always ensure the brush roll is spinning freely before each session to avoid drag marks.",
+    "Buff out existing streaks with a dry microfiber cloth immediately after the cleaning pass.",
+  ],
+};
