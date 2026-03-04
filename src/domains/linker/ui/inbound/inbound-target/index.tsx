@@ -2,11 +2,11 @@ import { useParams } from "next/navigation";
 import React from "react";
 import { useSubmitInboundUrl } from "@/domains/linker/hooks/use-projects";
 import { InboundSidebar } from "@/domains/linker/ui/inbound/inbound-target/inbound-sidebar";
-import InboundSuggestionTabs from "@/domains/linker/ui/inbound/inbound-target/inbound-suggestion-tabs";
 import {
   InboundTargetForm,
   type TargetUrlFormHandle,
 } from "@/domains/linker/ui/inbound/inbound-target/inbound-target-form";
+import { InboundResultsAccordion } from "./Inbound-results-accordion";
 
 export default function InboundTarget() {
   const params = useParams();
@@ -41,7 +41,7 @@ export default function InboundTarget() {
 
         <InboundTargetForm ref={formRef} onSubmit={handleFormSubmit} isLoading={isPending} />
 
-        <InboundSuggestionTabs url={submittedUrl} isLoading={isPending} data={data?.data?.suggestions} />
+        <InboundResultsAccordion url={submittedUrl} isLoading={isPending} data={data?.data?.suggestions} />
       </div>
 
       <aside
