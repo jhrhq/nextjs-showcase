@@ -1,7 +1,7 @@
 import { hash } from "bcryptjs";
 import type { AnchorManager } from "@/domains/linker/types/anchor-manager.types";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
-import type { InboundData } from "@/domains/linker/validations/inbound.validation";
+import type { InboundData, SentenceSuggestions } from "@/domains/linker/validations/inbound.validation";
 import { type ProjectDTO, projectSchema } from "@/domains/linker/validations/projects.validations";
 
 export type MockUser = {
@@ -350,6 +350,2122 @@ export const mockAnchorManager: AnchorManager = {
   ],
 };
 
+// const anchorData = [
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Cotton is a natural fiber",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-transfer-paper/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-fade-a-t-shirt/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-transfer-paper/",
+//         sourceContentUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-transfer-paper/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "fabric design utilizes",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/3d-textile/",
+//         sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//       },
+//       { anchorUrl: "https://textiletuts.com/3d-textile/", sourceContentUrl: "https://textiletuts.com/fabric-types/" },
+//       {
+//         anchorUrl: "https://textiletuts.com/3d-textile/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "nonwoven manufacturing techniques explained",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/nonwoven-meaning-types-process/",
+//         sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/nonwoven-meaning-types-process/",
+//         sourceContentUrl: "https://textiletuts.com/best-batting-for-placemats/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/nonwoven-meaning-types-process/",
+//         sourceContentUrl: "https://textiletuts.com/geotextiles/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "discover the top fabric pots for gardening",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-pots/",
+//         sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-pots/",
+//         sourceContentUrl: "https://textiletuts.com/geotextiles/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-pots/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "types of geotextiles for construction",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/geotextiles/",
+//         sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/geotextiles/",
+//         sourceContentUrl: "https://textiletuts.com/nonwoven-meaning-types-process/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/geotextiles/",
+//         sourceContentUrl: "https://textiletuts.com/best-fabric-pots/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "carbon fiber protection",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/is-carbon-fiber-bulletproof/",
+//         sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/is-carbon-fiber-bulletproof/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/is-carbon-fiber-bulletproof/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-sportswear-clothing/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "dyeing microfiber fabrics effectively",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/can-you-dye-microfiber/",
+//         sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/can-you-dye-microfiber/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-dyes/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/can-you-dye-microfiber/",
+//         sourceContentUrl: "https://textiletuts.com/best-clothing-dye-reviews/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "baummwolle fabric characteristics explained",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-baumwolle-fabric/",
+//         sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-baumwolle-fabric/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-baumwolle-fabric/",
+//         sourceContentUrl: "https://textiletuts.com/tetron-vs-cotton/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "biomimicry in modern technology",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/best-table-loom-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "comprehensive types",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-denim/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-denim/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-denim/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "best weaving looms for scarves",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//         sourceContentUrl: "https://textiletuts.com/best-inkle-loom/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//         sourceContentUrl: "https://textiletuts.com/best-table-loom-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//         sourceContentUrl: "https://textiletuts.com/how-does-a-loom-work/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "best weaving looms",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//         sourceContentUrl: "https://textiletuts.com/best-tapestry-loom/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//         sourceContentUrl: "https://textiletuts.com/winding-machine-parameters-and-programming/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//         sourceContentUrl: "https://textiletuts.com/best-inkle-loom/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "fabrics together so that they stay in place while you work",
+//     type: "Extra-Long Anchor",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/3d-textile/",
+//         sourceContentUrl: "https://textiletuts.com/how-long-does-quilt-basting-spray-last/",
+//       },
+//       { anchorUrl: "https://textiletuts.com/3d-textile/", sourceContentUrl: "https://textiletuts.com/quilt-basting/" },
+//       {
+//         anchorUrl: "https://textiletuts.com/3d-textile/",
+//         sourceContentUrl: "https://textiletuts.com/spray-basting-vs-pinning/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "quilters prefer to use pins instead of basting",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/spray-basting-vs-pinning/",
+//         sourceContentUrl: "https://textiletuts.com/how-long-does-quilt-basting-spray-last/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/spray-basting-vs-pinning/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/spray-basting-vs-pinning/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "quilt basting",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/quilt-basting/",
+//         sourceContentUrl: "https://textiletuts.com/spray-basting-vs-pinning/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/quilt-basting/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/quilt-basting/",
+//         sourceContentUrl: "https://textiletuts.com/how-long-does-quilt-basting-spray-last/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Spray basting can save significant time",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//         sourceContentUrl: "https://textiletuts.com/spray-basting-vs-pinning/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//         sourceContentUrl: "https://textiletuts.com/how-long-does-quilt-basting-spray-last/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Handbook of Weaving",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       {
+//         anchorUrl: "https://books.google.com/books?id=SshI5QYlgKMC&lpg",
+//         sourceContentUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//       },
+//       {
+//         anchorUrl: "https://www.researchgate.net/publication/286226502_Handbook_of_weaving/",
+//         sourceContentUrl: "https://textiletuts.com/best-table-loom-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://www.researchgate.net/publication/286226502_Handbook_of_weaving",
+//         sourceContentUrl: "https://textiletuts.com/how-to-start-weaving/",
+//       },
+//       {
+//         anchorUrl: "https://www.researchgate.net/publication/286226502_Handbook_of_weaving",
+//         sourceContentUrl: "https://textiletuts.com/how-does-a-loom-work/",
+//       },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Weaving Made Easy",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       {
+//         anchorUrl: "https://books.google.com/books?id=ylDUDwAAQBAJ&dq",
+//         sourceContentUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//       },
+//       {
+//         anchorUrl: "https://books.google.com/books?id=ylDUDwAAQBAJ&dq",
+//         sourceContentUrl: "https://textiletuts.com/how-to-start-weaving/",
+//       },
+//       {
+//         anchorUrl: "https://books.google.com/books?id=ylDUDwAAQBAJ&dq",
+//         sourceContentUrl: "https://textiletuts.com/best-inkle-loom/",
+//       },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Tapestry looms",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-tapestry-loom/",
+//         sourceContentUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-tapestry-loom/",
+//         sourceContentUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-tapestry-loom/",
+//         sourceContentUrl: "https://textiletuts.com/best-table-loom-reviews/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "beginner weaving loom",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//         sourceContentUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-start-weaving/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//         sourceContentUrl: "https://textiletuts.com/how-does-a-loom-work/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Inkle looms",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-inkle-loom/",
+//         sourceContentUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-inkle-loom/",
+//         sourceContentUrl: "https://textiletuts.com/best-table-loom-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-inkle-loom/",
+//         sourceContentUrl: "https://textiletuts.com/best-tapestry-loom/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "how a weaving loom works",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/how-does-a-loom-work/",
+//         sourceContentUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-does-a-loom-work/",
+//         sourceContentUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-does-a-loom-work/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-start-weaving/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "ultimate fabric types",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/fabric-types/",
+//         sourceContentUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/fabric-types/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/fabric-types/",
+//         sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "crochet yarn for placemats",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/yarn-for-placemats/",
+//         sourceContentUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/yarn-for-placemats/",
+//         sourceContentUrl: "https://textiletuts.com/best-batting-for-placemats/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/yarn-for-placemats/",
+//         sourceContentUrl: "https://textiletuts.com/yarn-types/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "what is batting and what is batting fabric used for",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//         sourceContentUrl: "https://textiletuts.com/can-i-use-felt-instead-of-interfacing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "University of Kentucky",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       {
+//         anchorUrl: "https://fcs-hes.ca.uky.edu/sites/fcs-hes.ca.uky.edu/files/ct-mmb-183.pdf",
+//         sourceContentUrl: "https://textiletuts.com/can-i-use-felt-instead-of-interfacing/",
+//       },
+//       {
+//         anchorUrl: "https://fcs-hes.ca.uky.edu/sites/fcs-hes.ca.uky.edu/files/ct-mmb-183.pdf",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fusible-interfacing/",
+//       },
+//       {
+//         anchorUrl: "https://fcs-hes.ca.uky.edu/sites/fcs-hes.ca.uky.edu/files/ct-mmb-183.pdf",
+//         sourceContentUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//       },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "collars",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-collars/",
+//         sourceContentUrl: "https://textiletuts.com/can-i-use-felt-instead-of-interfacing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-collars/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-collars/",
+//         sourceContentUrl: "https://textiletuts.com/parts-of-a-shirt/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "odor eliminator spray recipe",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/how-do-you-make-odor-eliminator-spray-with-essential-oils/",
+//         sourceContentUrl: "https://textiletuts.com/can-i-use-felt-instead-of-interfacing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-do-you-make-odor-eliminator-spray-with-essential-oils/",
+//         sourceContentUrl: "https://textiletuts.com/best-garment-bag-for-storage/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-do-you-make-odor-eliminator-spray-with-essential-oils/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-fade-a-t-shirt/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "interfacing",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fusible-interfacing/",
+//         sourceContentUrl: "https://textiletuts.com/can-i-use-felt-instead-of-interfacing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fusible-interfacing/",
+//         sourceContentUrl: "https://textiletuts.com/garment-trimmings-accessories/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fusible-interfacing/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "natural inspiration for textiles",
+//     type: "Other Anchor",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/best-table-loom-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/geotextiles/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "differences between wool and linen",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/wool-vs-linen/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/wool-vs-linen/",
+//         sourceContentUrl: "https://textiletuts.com/tetron-vs-cotton/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/wool-vs-linen/",
+//         sourceContentUrl: "https://textiletuts.com/nylon-vs-spandex/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Baumwolle fabric",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-baumwolle-fabric/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-baumwolle-fabric/",
+//         sourceContentUrl: "https://textiletuts.com/tetron-vs-cotton/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-baumwolle-fabric/",
+//         sourceContentUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "sportswear outfit",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-sportswear-clothing/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-sportswear-clothing/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-sportswear-clothing/",
+//         sourceContentUrl: "https://textiletuts.com/are-microfiber-knickers-good/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "best types of shirts",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-shirts/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-shirts/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-shirts/",
+//         sourceContentUrl: "https://textiletuts.com/parts-of-a-shirt/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "denim types",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-denim/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-denim/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-denim/",
+//         sourceContentUrl: "https://textiletuts.com/denim-dyeing-with-indigo-dyes/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "difference between Tetron and cotton",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/tetron-vs-cotton/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/tetron-vs-cotton/",
+//         sourceContentUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/tetron-vs-cotton/",
+//         sourceContentUrl: "https://textiletuts.com/nylon-vs-spandex/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "properties of cotton fibers",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-denim/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//         sourceContentUrl: "https://textiletuts.com/does-algodon-shrink-debunking-the-myth/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//         sourceContentUrl: "https://textiletuts.com/does-kona-cotton-shrink/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//         sourceContentUrl: "https://textiletuts.com/does-preshrunk-cotton-shrink/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//         sourceContentUrl: "https://textiletuts.com/are-cotton-jackets-warm/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//         sourceContentUrl: "https://textiletuts.com/flammability-of-cotton-balls/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "nylon vs spandex fabric",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/nylon-vs-spandex/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/nylon-vs-spandex/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-sportswear-clothing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/nylon-vs-spandex/",
+//         sourceContentUrl: "https://textiletuts.com/are-microfiber-knickers-good/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "how to unshrink a linen dress",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-unshrink-a-linen-dress/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-unshrink-a-linen-dress/",
+//         sourceContentUrl: "https://textiletuts.com/wool-vs-linen/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-unshrink-a-linen-dress/",
+//         sourceContentUrl: "https://textiletuts.com/does-preshrunk-cotton-shrink/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "how to cut sashing strips for quilts",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "preshrunk cotton shrinkage explained",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/does-preshrunk-cotton-shrink/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/does-preshrunk-cotton-shrink/",
+//         sourceContentUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/does-preshrunk-cotton-shrink/",
+//         sourceContentUrl: "https://textiletuts.com/does-kona-cotton-shrink/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "how much do American Eagle jeans shrink",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/do-american-eagle-jeans-shrink/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/do-american-eagle-jeans-shrink/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-denim/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/do-american-eagle-jeans-shrink/",
+//         sourceContentUrl: "https://textiletuts.com/twill-shrinkage/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "crafting detailed and specific titles",
+//     type: "Other Anchor",
+//     cannibalized: false,
+//     internal: [
+//       { anchorUrl: "https://textiletuts.com/", sourceContentUrl: "https://textiletuts.com/fabric-types/" },
+//       { anchorUrl: "https://textiletuts.com/", sourceContentUrl: "https://textiletuts.com/types-of-fashion/" },
+//       { anchorUrl: "https://textiletuts.com/", sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/" },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Denim was originally dyed blue using indigo dye",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/denim-dyeing-with-indigo-dyes/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/denim-dyeing-with-indigo-dyes/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-denim/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/denim-dyeing-with-indigo-dyes/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-dyes/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "moth proof garment bags",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-garment-bag-for-storage/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-garment-bag-for-storage/",
+//         sourceContentUrl: "https://textiletuts.com/how-do-you-make-odor-eliminator-spray-with-essential-oils/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-garment-bag-for-storage/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "best fabric options for quilt backing",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-for-quilt-backing/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-for-quilt-backing/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-for-quilt-backing/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "type of shirt",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-shirts/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-shirts/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-stretch-out-a-dri-fit-shirt/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-shirts/",
+//         sourceContentUrl: "https://textiletuts.com/parts-of-a-shirt/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "formal scarve",
+//     type: "Other Anchor",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-scarves/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-scarves/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-shirts/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-scarves/",
+//         sourceContentUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "best fabric paint for printing",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-paint-for-clothes/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-paint-for-clothes/",
+//         sourceContentUrl: "https://textiletuts.com/arteza-fabric-paint-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-paint-for-clothes/",
+//         sourceContentUrl: "https://textiletuts.com/best-fabric-transfer-paper/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "ecru denim fabric",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-denim/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-denim/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-denim/",
+//         sourceContentUrl: "https://textiletuts.com/denim-dyeing-with-indigo-dyes/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "metal buttons or rivets for clothing",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-buttons/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-buttons/",
+//         sourceContentUrl: "https://textiletuts.com/garment-trimmings-accessories/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-buttons/",
+//         sourceContentUrl: "https://textiletuts.com/parts-of-a-shirt/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "different types of fabric",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/fabric-types/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/fabric-types/",
+//         sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/fabric-types/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-sportswear-clothing/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "fixing a stretched collar",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-shrink-a-t-shirt-collar/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-shrink-a-t-shirt-collar/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-collars/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-shrink-a-t-shirt-collar/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-fade-a-t-shirt/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "why are prom dresses so expensive",
+//     type: "Exact Anchor",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/why-are-prom-dresses-so-expensive/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/why-are-prom-dresses-so-expensive/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/why-are-prom-dresses-so-expensive/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-shirts/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "microfiber knickers",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/are-microfiber-knickers-good/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-sportswear-clothing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/are-microfiber-knickers-good/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/are-microfiber-knickers-good/",
+//         sourceContentUrl: "https://textiletuts.com/nylon-vs-spandex/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "types of fabric",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/fabric-types/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-sportswear-clothing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/fabric-types/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/fabric-types/",
+//         sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Facebook",
+//     type: "Generic Anchor",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       { anchorUrl: "https://www.facebook.com/asad.meem", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://www.facebook.com/ahmd.sabbir", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://www.facebook.com/anik.yusuf", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://www.facebook.com/oshuvo.chaya.90", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://www.facebook.com/Pro.Ifty.Leo", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://www.facebook.com/shahrukh.sam.3", sourceContentUrl: "https://textiletuts.com/about/" },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Instagram",
+//     type: "Generic Anchor",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       { anchorUrl: "https://www.instagram.com/viper.meem/", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://www.instagram.com/asocialsabbir/", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://www.instagram.com/ifty7/", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://www.instagram.com/anik_yusuf_/", sourceContentUrl: "https://textiletuts.com/about/" },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "LinkedIn",
+//     type: "Generic Anchor",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       {
+//         anchorUrl: "https://www.linkedin.com/in/kazi-sifat-muntasir-04a492189",
+//         sourceContentUrl: "https://textiletuts.com/about/",
+//       },
+//       {
+//         anchorUrl: "https://www.linkedin.com/in/md-asad-ullah-meem-416132159/",
+//         sourceContentUrl: "https://textiletuts.com/about/",
+//       },
+//       {
+//         anchorUrl: "https://www.linkedin.com/in/mohammad-yousuf-9228baa6/",
+//         sourceContentUrl: "https://textiletuts.com/about/",
+//       },
+//       { anchorUrl: "https://www.linkedin.com/in/ahmdsabbir/", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://www.linkedin.com/in/ifty7/", sourceContentUrl: "https://textiletuts.com/about/" },
+//       {
+//         anchorUrl: "https://www.linkedin.com/in/shahrukh-islam-43125b23a",
+//         sourceContentUrl: "https://textiletuts.com/about/",
+//       },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "READ FULL BIO",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       { anchorUrl: "https://textiletuts.com/author/asad/", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://textiletuts.com/author/asad/", sourceContentUrl: "https://textiletuts.com/fabric-types/" },
+//       {
+//         anchorUrl: "https://textiletuts.com/author/asad/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-denim/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "contact us",
+//     type: "Exact Anchor",
+//     cannibalized: false,
+//     internal: [
+//       { anchorUrl: "https://textiletuts.com/contact/", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://textiletuts.com/contact/", sourceContentUrl: "https://textiletuts.com/" },
+//       { anchorUrl: "https://textiletuts.com/contact/", sourceContentUrl: "https://textiletuts.com/fabric-types/" },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "University Profile",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       {
+//         anchorUrl: "https://portcity.edu.bd/HomePage/SubPageDetailsInfo/2388/Teacher/kazi-sifat-muntasir",
+//         sourceContentUrl: "https://textiletuts.com/about/",
+//       },
+//       {
+//         anchorUrl: "https://portcity.edu.bd/HomePage/SubPageDetailsInfo/2388/Teacher/kazi-sifat-muntasir",
+//         sourceContentUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//       },
+//       {
+//         anchorUrl: "https://portcity.edu.bd/HomePage/SubPageDetailsInfo/2388/Teacher/kazi-sifat-muntasir",
+//         sourceContentUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//       },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "YouTube channel",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       { anchorUrl: "https://www.youtube.com/TextileTuts", sourceContentUrl: "https://textiletuts.com/about/" },
+//       { anchorUrl: "https://www.youtube.com/TextileTuts", sourceContentUrl: "https://textiletuts.com/" },
+//       { anchorUrl: "https://www.youtube.com/TextileTuts", sourceContentUrl: "https://textiletuts.com/fabric-types/" },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Research Gate",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       {
+//         anchorUrl: "https://www.researchgate.net/profile/Iftay-Alam",
+//         sourceContentUrl: "https://textiletuts.com/about/",
+//       },
+//       {
+//         anchorUrl: "https://www.researchgate.net/profile/Iftay-Alam",
+//         sourceContentUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//       },
+//       {
+//         anchorUrl: "https://www.researchgate.net/profile/Iftay-Alam",
+//         sourceContentUrl: "https://textiletuts.com/types-of-dyes/",
+//       },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "best inkle loom reviews",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-inkle-loom/",
+//         sourceContentUrl: "https://textiletuts.com/best-table-loom-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-inkle-loom/",
+//         sourceContentUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-inkle-loom/",
+//         sourceContentUrl: "https://textiletuts.com/best-tapestry-loom/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "weaving machine for home",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//         sourceContentUrl: "https://textiletuts.com/best-table-loom-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//         sourceContentUrl: "https://textiletuts.com/how-does-a-loom-work/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//         sourceContentUrl: "https://textiletuts.com/best-tapestry-loom/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "scarve weaving looms",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//         sourceContentUrl: "https://textiletuts.com/best-table-loom-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//         sourceContentUrl: "https://textiletuts.com/best-inkle-loom/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//         sourceContentUrl: "https://textiletuts.com/best-weaving-loom-for-beginners/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "surface is designed to keep your yarn",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/yarn-types/",
+//         sourceContentUrl: "https://textiletuts.com/best-table-loom-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/yarn-types/",
+//         sourceContentUrl: "https://textiletuts.com/yarn-for-placemats/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/yarn-types/",
+//         sourceContentUrl: "https://textiletuts.com/best-loom-for-weaving-scarves/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "biological inspiration in design",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/best-table-loom-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/geotextiles/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/3d-textile/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "are cotton suits worth it",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/are-cotton-suits-good/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-denim/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/are-cotton-suits-good/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/are-cotton-suits-good/",
+//         sourceContentUrl: "https://textiletuts.com/properties-of-cotton-fiber/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "light blue pants color combinations",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/what-color-goes-with-light-blue-pants/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-denim/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-color-goes-with-light-blue-pants/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-color-goes-with-light-blue-pants/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-shirts/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "twill shrinkage",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/twill-shrinkage/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-denim/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/twill-shrinkage/",
+//         sourceContentUrl: "https://textiletuts.com/does-preshrunk-cotton-shrink/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/twill-shrinkage/",
+//         sourceContentUrl: "https://textiletuts.com/do-american-eagle-jeans-shrink/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "all types of fashion styles",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fashion/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-denim/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fashion/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fashion/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-sportswear-clothing/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Garment Manufacturing Technology: Rajkishore Nayak, Rajiv Padhye",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       {
+//         anchorUrl: "https://www.elsevier.com/books/garment-manufacturing-technology/nayak/978-1-78242-232-7",
+//         sourceContentUrl: "https://textiletuts.com/types-of-buttons/",
+//       },
+//       {
+//         anchorUrl: "https://www.elsevier.com/books/garment-manufacturing-technology/nayak/978-1-78242-232-7",
+//         sourceContentUrl: "https://textiletuts.com/parts-of-a-shirt/",
+//       },
+//       {
+//         anchorUrl: "https://books.google.com/books?id=y9YKrgEACAAJ&dq",
+//         sourceContentUrl: "https://textiletuts.com/parts-of-a-shirt/",
+//       },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "different types of shirts",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-shirts/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-buttons/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-shirts/",
+//         sourceContentUrl: "https://textiletuts.com/parts-of-a-shirt/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-shirts/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-collars/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "different types of clothes styles",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fashion/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-buttons/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fashion/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fashion/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-shirts/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Fabric paint",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-paint-for-clothes/",
+//         sourceContentUrl: "https://textiletuts.com/arteza-fabric-paint-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-paint-for-clothes/",
+//         sourceContentUrl: "https://textiletuts.com/best-fabric-transfer-paper/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-paint-for-clothes/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "acid dyes",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/arteza-fabric-paint-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/is-fabric-dye-the-same-as-tie-dye/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/carbona-color-run-remover-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/best-t-shirts-for-tie-dye/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-dye-acrylic-yarn-and-fabric/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-dye-wool/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/difference-between-mordants-and-other-chemicals/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-dye-nylon/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/dye-fiber-bond/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/best-clothing-dye-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/can-you-dye-scrubs/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-dyes/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "fabric dyes",
+//     type: "Other Anchor",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-clothing-dye-reviews/",
+//         sourceContentUrl: "https://textiletuts.com/arteza-fabric-paint-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-clothing-dye-reviews/",
+//         sourceContentUrl: "https://textiletuts.com/is-fabric-conditioner-the-same-as-fabric-softener/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-clothing-dye-reviews/",
+//         sourceContentUrl: "https://textiletuts.com/is-fabric-dye-permanent/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-clothing-dye-reviews/",
+//         sourceContentUrl: "https://textiletuts.com/best-paint-for-clothes/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Fundamentals and Practices in Colouration of Textiles – J N Chakraborty",
+//     type: "Extra-Long Anchor",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       {
+//         anchorUrl: "https://books.google.com/books?id=qUf7CAAAQBAJ",
+//         sourceContentUrl: "https://textiletuts.com/arteza-fabric-paint-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://books.google.com/books?id=qUf7CAAAQBAJ",
+//         sourceContentUrl: "https://textiletuts.com/best-fabric-dye-for-polyester/",
+//       },
+//       {
+//         anchorUrl: "https://books.google.com/books?id=qUf7CAAAQBAJ",
+//         sourceContentUrl: "https://textiletuts.com/types-of-dyes/",
+//       },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Textile Dyeing – Dr. N. N. Mahapatra",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       {
+//         anchorUrl: "https://books.google.com/books?id=1mioDwAAQBAJ",
+//         sourceContentUrl: "https://textiletuts.com/arteza-fabric-paint-reviews/",
+//       },
+//       {
+//         anchorUrl: "https://books.google.com/books?id=1mioDwAAQBAJ",
+//         sourceContentUrl: "https://textiletuts.com/best-fabric-dye-for-polyester/",
+//       },
+//       {
+//         anchorUrl: "https://books.google.com/books?id=1mioDwAAQBAJ",
+//         sourceContentUrl: "https://textiletuts.com/acid-dyes-types-properties-dyeing-mechanism/",
+//       },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "The Fashion Design Manual",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       {
+//         anchorUrl: "https://books.google.com/books?id=jGWWlVedQTQC&lpg",
+//         sourceContentUrl: "https://textiletuts.com/types-of-collars/",
+//       },
+//       {
+//         anchorUrl: "https://books.google.com/books?id=jGWWlVedQTQC&lpg",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fashion/",
+//       },
+//       {
+//         anchorUrl: "https://books.google.com/books?id=jGWWlVedQTQC&lpg",
+//         sourceContentUrl: "https://textiletuts.com/types-of-shirts/",
+//       },
+//     ],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "fashion types",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fashion/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-collars/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fashion/",
+//         sourceContentUrl: "https://textiletuts.com/fabric-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-fashion/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-sportswear-clothing/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "cutting sashing strips for quilts",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//         sourceContentUrl: "https://textiletuts.com/best-fabric-for-quilt-backing/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "can I use felt instead of interfacing",
+//     type: "Exact Anchor",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/can-i-use-felt-instead-of-interfacing/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/can-i-use-felt-instead-of-interfacing/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-fusible-interfacing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/can-i-use-felt-instead-of-interfacing/",
+//         sourceContentUrl: "https://textiletuts.com/garment-trimmings-accessories/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "sewing machine jamming underneath reasons",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/why-does-my-sewing-machine-keep-jamming-underneath/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/why-does-my-sewing-machine-keep-jamming-underneath/",
+//         sourceContentUrl: "https://textiletuts.com/types-of-sewing-stitches/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/why-does-my-sewing-machine-keep-jamming-underneath/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "difference between batting and wadding",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/wadding-vs-batting/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/wadding-vs-batting/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/wadding-vs-batting/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "how to cut sashing strips for quilting",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "quilt wadding",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//         sourceContentUrl: "https://textiletuts.com/wadding-vs-batting/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Rotary cutter",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/round-knife-cutting-machine-for-cloths/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/round-knife-cutting-machine-for-cloths/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/round-knife-cutting-machine-for-cloths/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "stitching",
+//     type: "Other Anchor",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-sewing-stitches/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-sewing-stitches/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/types-of-sewing-stitches/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-knit-a-buttonhole-band/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "knitting a buttonhole band",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-knit-a-buttonhole-band/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-cut-sashing-strips-for-quilts/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-knit-a-buttonhole-band/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-knit-a-buttonhole-in-moss-stitch/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-to-knit-a-buttonhole-band/",
+//         sourceContentUrl: "https://textiletuts.com/how-to-make-professional-buttonholes/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "best fabric for soft quilt backing",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-for-quilt-backing/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-for-quilt-backing/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/best-fabric-for-quilt-backing/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "quilt batting",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//         sourceContentUrl: "https://textiletuts.com/wadding-vs-batting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//         sourceContentUrl: "https://textiletuts.com/best-batting-for-placemats/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "spray basting vs pinning",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/spray-basting-vs-pinning/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/spray-basting-vs-pinning/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/spray-basting-vs-pinning/",
+//         sourceContentUrl: "https://textiletuts.com/how-long-does-quilt-basting-spray-last/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "wadding in sewing",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//         sourceContentUrl: "https://textiletuts.com/wadding-vs-batting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/what-is-wadding-in-sewing/",
+//         sourceContentUrl: "https://textiletuts.com/what-is-batting-fabric-and-what-is-batting-fabric-used-for/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Quilt basting spray longevity",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/how-long-does-quilt-basting-spray-last/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-long-does-quilt-basting-spray-last/",
+//         sourceContentUrl: "https://textiletuts.com/spray-basting-vs-pinning/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/how-long-does-quilt-basting-spray-last/",
+//         sourceContentUrl: "https://textiletuts.com/quilt-basting/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "biomimetics applications in technology",
+//     type: "Partial Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/best-basting-spray-for-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/geotextiles/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/biomimetics-in-textile/",
+//         sourceContentUrl: "https://textiletuts.com/3d-textile/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "yarns for placemats",
+//     type: "Full-Part Match",
+//     cannibalized: false,
+//     internal: [
+//       {
+//         anchorUrl: "https://textiletuts.com/yarn-for-placemats/",
+//         sourceContentUrl: "https://textiletuts.com/best-batting-for-placemats/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/yarn-for-placemats/",
+//         sourceContentUrl: "https://textiletuts.com/yarn-types/",
+//       },
+//       {
+//         anchorUrl: "https://textiletuts.com/yarn-for-placemats/",
+//         sourceContentUrl: "https://textiletuts.com/best-batting-for-hand-quilting/",
+//       },
+//     ],
+//     external: [],
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     anchor: "Cotton in nonwoven",
+//     type: "Branded Keyword",
+//     cannibalized: false,
+//     internal: [],
+//     external: [
+//       {
+//         anchorUrl: "https://www.researchgate.net/publication/345797764_Cotton_in_Nonwoven_Products",
+//         sourceContentUrl: "https://textiletuts.com/best-batting-for-placemats/",
+//       },
+//       {
+//         anchorUrl: "https://www.researchgate.net/publication/345797764_Cotton_in_Nonwoven_Products",
+//         sourceContentUrl: "https://textiletuts.com/best-batting-for-hand-quilting/",
+//       },
+//       {
+//         anchorUrl: "https://www.researchgate.net/publication/345797764_Cotton_in_Nonwoven_Products",
+//         sourceContentUrl: "https://textiletuts.com/best-batting-for-potholders/",
+//       },
+//     ],
+//   },
+// ];
+
 export const mockInboundData: InboundData = {
   post: {
     id: "3f1f9c8e-6c5b-4c1a-9d2e-7a8b9c0d1e2f",
@@ -425,67 +2541,165 @@ export const mockInboundData: InboundData = {
   ],
 };
 
-export const mockSentenceSuggestions: Record<string, string[]> = {
-  // postId 1 — Bissell catching on carpet
+export const mockSentenceSuggestions: Record<string, SentenceSuggestions> = {
   "9a2d7c4e-1b3f-4e5a-8c9d-0f1a2b3c4d5e": [
-    "We've outlined the most common reasons why your Bissell cleaner might be catching on your carpet.",
-    "Let's start with the common machine-related reasons your Bissell carpet cleaner might catch.",
-    "If your Bissell carpet cleaner keeps catching, it is likely due to the roller not being placed properly.",
-    "There are a few things you can do to prevent your Bissell carpet cleaner from catching on the carpet.",
-    "If you're using ultra-plush carpets, that may be why your Bissell vacuum is failing to clean smoothly.",
+    {
+      id: "7f0d1d0a-3c62-4b63-bc18-2a1f3f3a1b11",
+      text: "We've outlined the most common reasons why your Bissell cleaner might be catching on your carpet.",
+    },
+    {
+      id: "a5c7a1c6-3a7f-4c54-9e1a-2b2e8c9e5b12",
+      text: "Let's start with the common machine-related reasons your Bissell carpet cleaner might catch.",
+    },
+    {
+      id: "4e51a8f2-8f8a-4c3c-9a7a-6c3a2f8e0c13",
+      text: "If your Bissell carpet cleaner keeps catching, it is likely due to the roller not being placed properly.",
+    },
+    {
+      id: "c7e11a59-b3c4-4b62-91f0-0c7e62c34d14",
+      text: "There are a few things you can do to prevent your Bissell carpet cleaner from catching on the carpet.",
+    },
+    {
+      id: "f83b1b63-1e43-4c9b-a2b4-3d3c2e9a5e15",
+      text: "If you're using ultra-plush carpets, that may be why your Bissell vacuum is failing to clean smoothly.",
+    },
   ],
 
-  // postId 2 — ProHeat 2X maintenance
   "f1e2d3c4-b5a6-4789-8c7d-6e5f4a3b2c1d": [
-    "Regular maintenance of your ProHeat 2X extends its lifespan significantly.",
-    "The brush roll is the most commonly clogged component and should be checked monthly.",
-    "After every use, empty the dirty water tank to prevent odors and bacterial growth.",
-    "Descaling the internal hoses every six months prevents mineral buildup in hard-water areas.",
-    "Always rinse the clean water tank before refilling to avoid detergent residue accumulation.",
+    {
+      id: "c63b6d73-cc91-4f3a-b8f1-29a61e24c216",
+      text: "Regular maintenance of your ProHeat 2X extends its lifespan significantly.",
+    },
+    {
+      id: "6c87cde6-d4f1-4d6a-9b89-0f3b61d7f217",
+      text: "The brush roll is the most commonly clogged component and should be checked monthly.",
+    },
+    {
+      id: "be25fdf1-5b2a-4e8c-b6f5-91c0d21b0218",
+      text: "After every use, empty the dirty water tank to prevent odors and bacterial growth.",
+    },
+    {
+      id: "a6d9c3a2-b03b-4a0f-9a3f-2f9f52f2d219",
+      text: "Descaling the internal hoses every six months prevents mineral buildup in hard-water areas.",
+    },
+    {
+      id: "a8e3e27a-0a74-4e22-b79e-b0b21e8f0c20",
+      text: "Always rinse the clean water tank before refilling to avoid detergent residue accumulation.",
+    },
   ],
 
-  // postId 3 — CrossWave vs Symphony comparison
   "363231db-dd6d-4707-b092-ac1f3fda3b33": [
-    "The CrossWave handles hard floors and area rugs while the Symphony focuses purely on steam cleaning.",
-    "If you have pets, the CrossWave's dual-action brush roll gives it a notable edge over competitors.",
-    "Both models are priced similarly, making the decision come down to your floor type.",
-    "The Symphony requires no cleaning solution, making it a better choice for chemical-sensitive households.",
-    "CrossWave's self-cleaning cycle is a standout feature that keeps the brush roll odor-free.",
+    {
+      id: "c1e55df7-7c32-41a0-8a2b-6dcd77e60221",
+      text: "The CrossWave handles hard floors and area rugs while the Symphony focuses purely on steam cleaning.",
+    },
+    {
+      id: "f2b3ad5e-8b10-4e9c-9f6c-43f3e51fa522",
+      text: "If you have pets, the CrossWave's dual-action brush roll gives it a notable edge over competitors.",
+    },
+    {
+      id: "3c70e2c4-4c6e-4e7c-93a7-8c9f7c2d7c23",
+      text: "Both models are priced similarly, making the decision come down to your floor type.",
+    },
+    {
+      id: "b7e2a8de-b09f-44df-9c67-3f1e3df1b824",
+      text: "The Symphony requires no cleaning solution, making it a better choice for chemical-sensitive households.",
+    },
+    {
+      id: "5f06a0e1-2f88-4cbb-8d1c-b0c9e1a1cc25",
+      text: "CrossWave's self-cleaning cycle is a standout feature that keeps the brush roll odor-free.",
+    },
   ],
 
-  // postId 4 — Soap residue troubleshooting
   "a1b2c3d4-e5f6-7890-abcd-ef1234567890": [
-    "Residue is often caused by using too much cleaning solution in the water tank.",
-    "Always dilute cleaning formulas according to the manufacturer's instructions.",
-    "Running a clean water pass after cleaning helps remove any leftover soap residue.",
-    "Hard water reacts with certain Bissell formulas and accelerates residue buildup on fibers.",
-    "Switching to Bissell's own cleaning formula reduces incompatibility residue by up to 40%.",
+    {
+      id: "0d4a6c1b-ec0e-4e91-b4f0-1e3b9c21d026",
+      text: "Residue is often caused by using too much cleaning solution in the water tank.",
+    },
+    {
+      id: "5b9c12f1-14e3-4d9a-bbdf-6a5e8a6f3027",
+      text: "Always dilute cleaning formulas according to the manufacturer's instructions.",
+    },
+    {
+      id: "fa0f10b1-7d63-4c98-93c3-b1df7c5f2d28",
+      text: "Running a clean water pass after cleaning helps remove any leftover soap residue.",
+    },
+    {
+      id: "5b63a1c2-9980-4b7a-8bcb-7e6e1a9f1e29",
+      text: "Hard water reacts with certain Bissell formulas and accelerates residue buildup on fibers.",
+    },
+    {
+      id: "6f4f4e8c-1a93-4f45-91d4-bfa8cbb76c30",
+      text: "Switching to Bissell's own cleaning formula reduces incompatibility residue by up to 40%.",
+    },
   ],
 
-  // postId 5 — Suction loss diagnosis
   "b2c3d4e5-f6a7-8901-bcde-f12345678901": [
-    "Loss of suction is most frequently caused by a full or improperly seated dirty water tank.",
-    "Check the nozzle and brush window for hair and fiber clogs before deeper disassembly.",
-    "A cracked or loose hose connection is a silent suction killer that is easy to miss visually.",
-    "Filters should be rinsed monthly and replaced every three to six months under regular use.",
-    "Never operate the unit without the clean water tank seated — it disrupts the internal airflow path.",
+    {
+      id: "9f8c9b1a-3a32-4b5c-9f34-7b3e7d6d9a31",
+      text: "Loss of suction is most frequently caused by a full or improperly seated dirty water tank.",
+    },
+    {
+      id: "8ad63a72-1c14-4e7b-b33a-7a2b7b8d3c32",
+      text: "Check the nozzle and brush window for hair and fiber clogs before deeper disassembly.",
+    },
+    {
+      id: "da02e82e-5b92-47e2-9e27-1c5b6a8e4c33",
+      text: "A cracked or loose hose connection is a silent suction killer that is easy to miss visually.",
+    },
+    {
+      id: "e03f2e61-4c4c-4c2c-b13a-93f3c7e62e34",
+      text: "Filters should be rinsed monthly and replaced every three to six months under regular use.",
+    },
+    {
+      id: "b9e67e4a-2d98-4d21-96df-3b1e3e92c635",
+      text: "Never operate the unit without the clean water tank seated — it disrupts the internal airflow path.",
+    },
   ],
 
-  // postId 6 — Odor elimination
   "c3d4e5f6-a7b8-9012-cdef-012345678902": [
-    "Persistent odors are almost always sourced from a dirty water tank that wasn't emptied promptly.",
-    "Bissell's Deep Clean + Antibacterial formula neutralizes odor-causing bacteria at the fiber level.",
-    "Soaking removable brush rolls in white vinegar for 20 minutes eliminates embedded mildew smell.",
-    "Running a 50/50 water and white vinegar cycle through the machine deodorizes internal components.",
-    "If odor persists after cleaning, the foam filter may need replacement rather than rinsing.",
+    {
+      id: "41f98e60-12e3-4a1a-a9c6-9c2bdf0a3e36",
+      text: "Persistent odors are almost always sourced from a dirty water tank that wasn't emptied promptly.",
+    },
+    {
+      id: "3e2a6d2c-2c1c-4a3e-92a7-b3e9d1b0a437",
+      text: "Bissell's Deep Clean + Antibacterial formula neutralizes odor-causing bacteria at the fiber level.",
+    },
+    {
+      id: "f6b7a3a5-8a8e-4f5a-b0c9-7b7c3e9a4438",
+      text: "Soaking removable brush rolls in white vinegar for 20 minutes eliminates embedded mildew smell.",
+    },
+    {
+      id: "d5b1b9a3-3a5c-4f0c-98a3-8e8c9a2f4939",
+      text: "Running a 50/50 water and white vinegar cycle through the machine deodorizes internal components.",
+    },
+    {
+      id: "4c4c6c2d-b92b-4e63-9f31-2e7b2a8b3c40",
+      text: "If odor persists after cleaning, the foam filter may need replacement rather than rinsing.",
+    },
   ],
 
-  // postId 7 — Streak marks on hard floors
   "d4e5f6a7-b8c9-0123-defa-123456789003": [
-    "Streak marks on hard floors typically indicate either too much solution or a worn brush strip.",
-    "The edge brush strips on CrossWave models wear down after approximately 40 hours of use.",
-    "Using the hard floor setting while cleaning area rugs redistributes solution unevenly and causes streaking.",
-    "Always ensure the brush roll is spinning freely before each session to avoid drag marks.",
-    "Buff out existing streaks with a dry microfiber cloth immediately after the cleaning pass.",
+    {
+      id: "ed3a1c2b-5a1f-4e9b-8a12-9f3a6e1d1141",
+      text: "Streak marks on hard floors typically indicate either too much solution or a worn brush strip.",
+    },
+    {
+      id: "af7b4e3c-cc31-4d52-8d2e-7b6d9e3c1242",
+      text: "The edge brush strips on CrossWave models wear down after approximately 40 hours of use.",
+    },
+    {
+      id: "8f9e6c1d-2b4e-4b4e-bb2e-6e7b3c8e7f43",
+      text: "Using the hard floor setting while cleaning area rugs redistributes solution unevenly and causes streaking.",
+    },
+    {
+      id: "2b4d6e8f-3c9a-4a8a-b6c7-9e2a4b5c5a44",
+      text: "Always ensure the brush roll is spinning freely before each session to avoid drag marks.",
+    },
+    {
+      id: "c9d1a7b4-0f4a-4f74-a6b3-1e7b3a6d3b45",
+      text: "Buff out existing streaks with a dry microfiber cloth immediately after the cleaning pass.",
+    },
   ],
 };

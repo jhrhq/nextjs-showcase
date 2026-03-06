@@ -42,11 +42,23 @@ export const SentenceSuggestionPayloadSchema = z.object({
   targetId: z.uuid(), // we are searching with a url and returned a specific post with Id
 });
 
-export const SentenceSuggestionsSchema = z.array(z.string().min(1));
+export const SentenceSuggestionSchema = z.array(
+  z.object({
+    id: z.uuid(),
+    text: z.string().min(1),
+  })
+);
+export const SingleSentenceSchema = SentenceSuggestionSchema.element;
+
+export const SentenceSubmissionPayloadSchema = SentenceSuggestionPayloadSchema.extend({
+  sentence: SingleSentenceSchema,
+});
 
 export type InboundData = z.infer<typeof InboundDataSchema>;
 
 export type TargetUrlFormValues = z.infer<typeof targetUrlSchema>;
 
 export type GenerateSentenceSuggestionsRequest = z.infer<typeof SentenceSuggestionPayloadSchema>;
-export type SentenceSuggestions = z.infer<typeof SentenceSuggestionsSchema>;
+export type SentenceSuggestions = z.infer<typeof SentenceSuggestionSchema>;
+export type SingleSentenceSuggestion = z.infer<typeof SingleSentenceSchema>;
+export type SentenceSelectionPayload = z.infer<typeof SentenceSubmissionPayloadSchema>;

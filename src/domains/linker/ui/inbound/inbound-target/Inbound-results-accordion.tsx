@@ -133,7 +133,6 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
   );
 }
 
-// ── Reusable Accordion Item ──
 function LinkAccordionItem({ item }: { item: InboundSuggestions }) {
   const params = useParams<{ projectId: string }>();
   const projectId = params.projectId;
