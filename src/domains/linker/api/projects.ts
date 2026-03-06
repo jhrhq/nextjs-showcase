@@ -4,6 +4,7 @@ import type { SiteReport } from "@/domains/linker/types/site-report.types";
 import type {
   GenerateSentenceSuggestionsRequest,
   InboundData,
+  SentenceSelectionPayload,
   SentenceSuggestions,
 } from "@/domains/linker/validations/inbound.validation";
 import type {
@@ -58,6 +59,14 @@ export const projectsApi = {
     payload: GenerateSentenceSuggestionsRequest
   ): Promise<{ success: true; data: SentenceSuggestions }> => {
     const response = await linkerApi.post(
+      `${AUTH_CONFIG.API.PROJECTS}/${payload.projectId}/${AUTH_CONFIG.API.SENTENCES}`,
+      payload
+    );
+
+    return response.data;
+  },
+  submitSentence: async (payload: SentenceSelectionPayload): Promise<{ success: true; data: SentenceSuggestions }> => {
+    const response = await linkerApi.put(
       `${AUTH_CONFIG.API.PROJECTS}/${payload.projectId}/${AUTH_CONFIG.API.SENTENCES}`,
       payload
     );

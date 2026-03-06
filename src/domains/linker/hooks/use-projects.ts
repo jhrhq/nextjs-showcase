@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { projectsApi } from "@/domains/linker/api/projects";
 import type { CreateProjectInput, UpdateProjectAPIInput } from "@/domains/linker/validations/projects.validations";
-import type { GenerateSentenceSuggestionsRequest } from "../validations/inbound.validation";
+import type { GenerateSentenceSuggestionsRequest, SentenceSelectionPayload } from "../validations/inbound.validation";
 
 export function useProjects() {
   return useQuery({
@@ -96,6 +96,12 @@ export function useGenerateSentenceSuggestions(payload: GenerateSentenceSuggesti
   });
 
   return { ...query, prefetch };
+}
+export function useSumbitSentence() {
+  return useMutation({
+    mutationKey: ["linker-inbound-sentence-submit"],
+    mutationFn: (payload: SentenceSelectionPayload) => projectsApi.submitSentence(payload),
+  });
 }
 /* 
 

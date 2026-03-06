@@ -1,11 +1,10 @@
-// @ts-nocheck
-/** biome-ignore-all lint/correctness/noUnusedVariables: false flag */
 "use client";
 import { Check, ChevronRight, Copy, Edit2, Loader2, SendHorizontal } from "lucide-react";
 import React from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGenerateSentenceSuggestions } from "@/domains/linker/hooks/use-projects";
+import { useGenerateSentenceSuggestions, useSumbitSentence } from "@/domains/linker/hooks/use-projects";
 import { MiniTipTapEditorPanel } from "@/domains/linker/ui/tip-tap-editor/mini-tiptap-editor-panel";
 import type {
   GenerateSentenceSuggestionsRequest,
@@ -21,43 +20,14 @@ export function SentenceList({
   payload: GenerateSentenceSuggestionsRequest;
 }) {
   const { data, isLoading } = useGenerateSentenceSuggestions(payload);
-  const [editingIndex, setEditingIndex] = React.useState<number | null>(null);
-  const [sentIndexes, setSentIndexes] = React.useState<Set<number>>(new Set());
-  const [sendingIndex, setSendingIndex] = React.useState<number | null>(null);
-  console.log(data);
-  const handleEdit = (index: number) => {
-    setEditingIndex(index);
-  };
+  const [sentSentences, setSentSentences] = React.useState<Set<string>>(new Set());
 
-  const handleOnSave = () => {
-    setEditingIndex(null);
-  };
-
-  const handleCancel = () => {
-    setEditingIndex(null);
-  };
-  const handleOnSend = (index: number) => {
-    // TODO
-    /** mutation functionality
-     * set projectId
-     * set content
-     * set others necessary...
-     */
-    sendMutation.mutate(
-      {
-        index,
-        content: editingIndex === index ? draft : sentence,
-      },
-      {
-        onSuccess: () => {
-          setSentIndexes((prev) => {
-            const next = new Set(prev);
-            next.add(index);
-            return next;
-          });
-        },
-      }
-    );
+  const handleSentSentences = (id: string) => {
+    setSentSentences((prev) => {
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
   };
 
   if (isLoading) {
@@ -72,18 +42,13 @@ export function SentenceList({
 
   return (
     <>
-      {data?.data.map((sentence, index) => (
+      {data?.data.map((sentence) => (
         <SentenceItem
-          key={index}
+          key={sentence.id}
           sentence={sentence}
-          isEditing={editingIndex === index}
-          isSent={sentIndexes.has(index)}
-          // isSending={1 === index}
-          isSending={false}
-          onEdit={() => handleEdit(index)}
-          onSave={handleOnSave}
-          onCancel={handleCancel}
-          onSend={() => handleOnSend(index)}
+          payload={payload}
+          onSentSentences={handleSentSentences}
+          isSent={sentSentences.has(sentence.id)}
         />
       ))}
     </>
@@ -91,37 +56,65 @@ export function SentenceList({
 }
 
 type SentenceItemProps = {
-  sentence: string;
-  predefinedUrl: string | null;
-  isEditing: boolean;
+  payload: GenerateSentenceSuggestionsRequest;
+  sentence: { id: string; text: string };
+  predefinedUrl?: string;
   isSent: boolean;
-  isSending: boolean;
-  onEdit: () => void;
-  onCancel: () => void;
-  onSave: () => void;
-  onSend: () => void;
+  onSentSentences: (id: string) => void;
 };
 
-export function SentenceItem({
-  sentence,
-  predefinedUrl,
-  isEditing,
-  isSent,
-  isSending,
-  onEdit,
-  onCancel,
-  onSave,
-  onSend,
-}: SentenceItemProps) {
-  const [draft, setDraft] = React.useState(sentence);
-  const hadleSave = (content: string) => {
-    onSave();
-    setDraft(content);
+export function SentenceItem({ payload, sentence, predefinedUrl, isSent, onSentSentences }: SentenceItemProps) {
+  const [draft, setDraft] = React.useState(sentence.text);
+  const [isEditing, setIsEditing] = React.useState<boolean>(false);
+  const sendMutation = useSumbitSentence();
+
+  const handleEdit = () => {
+    setIsEditing(true);
   };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  const hadleSave = (content: string) => {
+    setDraft(content);
+    handleCancel();
+  };
+
+  const handleOnSend = () => {
+    sendMutation.mutate(
+      {
+        ...payload,
+        sentence: {
+          id: sentence.id,
+          text: draft,
+        },
+      },
+      {
+        onSuccess: () => {
+          onSentSentences(sentence.id);
+          toast.success("Updated Successfully", {
+            position: "bottom-right",
+            classNames: {
+              content: "flex flex-col gap-2",
+            },
+            style: {
+              "--border-radius": "calc(var(--radius)  + 4px)",
+            } as React.CSSProperties,
+          });
+        },
+      }
+    );
+  };
+
+  if (isSent) {
+    return null;
+  }
+
   return (
     <div className="border bg-muted/40 px-3 py-2.5 text-sm">
       <div className="flex items-start gap-2">
-        <ChevronRight className="mt-1 text-primary shrink-0" />
+        <ChevronRight className="mt-1 text-blue-500 shrink-0" />
 
         <div className="flex-1 space-y-2">
           {!isEditing ? (
@@ -135,12 +128,19 @@ export function SentenceItem({
               content={draft}
               predefinedUrl={predefinedUrl}
               onSave={hadleSave}
-              onCancel={onCancel}
+              onCancel={handleCancel}
             />
           )}
+
           {!isEditing && (
             <div className="place-items-end">
-              <SentenceActions sentence={draft} isSent={isSent} isSending={isSending} onEdit={onEdit} onSend={onSend} />
+              <SentenceActions
+                sentence={draft}
+                isSent={isSent}
+                isSending={false}
+                onEdit={handleEdit}
+                onSend={handleOnSend}
+              />
             </div>
           )}
         </div>
@@ -163,7 +163,7 @@ export function SentenceActions({ sentence, isSent, isSending, onEdit, onSend }:
       <CopyClipboard value={sentence} timeout={2000}>
         {({ copied, copy }) => (
           <Button size="icon" variant="ghost" onClick={copy}>
-            {copied ? <Check className="text-green-500" /> : <Copy />}
+            {copied ? <Check /> : <Copy />}
           </Button>
         )}
       </CopyClipboard>
@@ -172,13 +172,15 @@ export function SentenceActions({ sentence, isSent, isSending, onEdit, onSend }:
         <Edit2 />
       </Button>
 
-      <Button size="icon" variant="ghost" onClick={onSend} disabled={isSending || isSent}>
-        {isSending ? <Loader2 className="animate-spin" /> : <SendHorizontal />}
-      </Button>
+      {!isSent && (
+        <Button size="icon" variant="ghost" onClick={onSend} disabled={isSending || isSent}>
+          {isSending ? <Loader2 className="animate-spin" /> : <SendHorizontal />}
+        </Button>
+      )}
 
       {isSent && (
-        <span className="font-medium text-green-600">
-          <Check /> Sent
+        <span className="font-medium">
+          <Check className="text-green-500" /> Sent
         </span>
       )}
     </div>
