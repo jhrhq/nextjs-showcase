@@ -32,10 +32,14 @@ export const anchorColumns: ColumnDef<Anchor>[] = [
     size: 40,
   },
   {
+    accessorKey: "anchorText",
+    header: "Anchor",
+  },
+  {
     accessorKey: "inbound",
-    header: "Inbound",
+    header: "Internal",
     cell: ({ getValue, cell, row }) => {
-      const content = <AnchorList title="Inbound Links" items={row.original.inbound} />;
+      const content = <AnchorList title="Internal Links" items={row.original.inbound} />;
       const totalInbounds = getValue() as LinkDetail[];
 
       return (
@@ -54,9 +58,9 @@ export const anchorColumns: ColumnDef<Anchor>[] = [
   },
   {
     accessorKey: "outbound",
-    header: "Outbound",
+    header: "External",
     cell: ({ getValue, cell, row }) => {
-      const content = <AnchorList title="Outbound Links" items={row.original.outbound} />;
+      const content = <AnchorList title="External Links" items={row.original.outbound} />;
       const totalOutbounds = getValue() as LinkDetail[];
 
       return (
@@ -72,6 +76,10 @@ export const anchorColumns: ColumnDef<Anchor>[] = [
       );
     },
     filterFn: "equals",
+  },
+  {
+    accessorKey: "type",
+    header: "Type",
   },
 ];
 
