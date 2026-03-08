@@ -33,7 +33,7 @@ export const anchorColumns: ColumnDef<Anchor>[] = [
   },
   {
     accessorKey: "inbound",
-    header: "Inboudn",
+    header: "Inbound",
     cell: ({ getValue, cell, row }) => {
       const content = <AnchorList title="Inbound Links" items={row.original.inbound} />;
       const totalInbounds = getValue() as LinkDetail[];

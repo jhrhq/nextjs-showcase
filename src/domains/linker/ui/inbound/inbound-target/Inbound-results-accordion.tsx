@@ -154,7 +154,7 @@ function LinkAccordionItem({ item }: { item: InboundSuggestions }) {
   const { prefetch } = useGenerateSentenceSuggestions(payload, { enabled: false });
 
   return (
-    <AccordionItem key={item.id} value={item.id} className="border-0 animate-in fade-in duration-200">
+    <AccordionItem key={item.id} value={item.id} className="border-0  animate-in fade-in duration-200">
       <AccordionTrigger
         onMouseEnter={prefetch}
         onFocus={prefetch}
