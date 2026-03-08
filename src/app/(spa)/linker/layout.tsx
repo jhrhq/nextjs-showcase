@@ -30,7 +30,7 @@ export default async function LinkerLayout({
     <html lang="en" className={inter.variable}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>{children}</Providers>
-        <Toaster closeButton={true} />
+        <Toaster closeButton={true} richColors />
       </body>
     </html>
   );
