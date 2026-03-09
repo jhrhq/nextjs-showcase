@@ -5,10 +5,20 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Anchor, LinkDetail } from "@/domains/linker/types/anchor-manager.types";
+import { cn } from "@/lib/utils";
+
+export const COLOR_MAP: Record<string, { bg: string; text: string }> = {
+  "Exact Match": { bg: "bg-sky-100", text: "text-sky-800" },
+  "Partial Match": { bg: "bg-rose-100", text: "text-rose-800" },
+  Branded: { bg: "bg-amber-100", text: "text-amber-800" },
+  Generic: { bg: "bg-green-100", text: "text-green-800" },
+  "Naked URL": { bg: "bg-blue-100", text: "text-blue-800" },
+};
 
 export const anchorColumns: ColumnDef<Anchor>[] = [
   {
@@ -80,6 +90,12 @@ export const anchorColumns: ColumnDef<Anchor>[] = [
   {
     accessorKey: "type",
     header: "Type",
+    cell: ({ getValue }) => {
+      const anchorType = getValue() as string;
+      const colorSet = COLOR_MAP[anchorType] || { bg: "bg-gray-100", text: "text-gray-700" };
+
+      return <Badge className={cn(colorSet.bg, colorSet.text)}>{anchorType}</Badge>;
+    },
   },
 ];
 
