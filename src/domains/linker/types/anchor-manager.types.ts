@@ -7,7 +7,7 @@ export type LinkDetail = {
 
 export type Anchor = {
   id: string;
-  type: "exact" | "partial" | "branded" | "generic" | "naked";
+  type: "Exact Match" | "Partial Match" | "Branded" | "Generic" | "Naked URL";
   anchorText: string;
   inbound: LinkDetail[];
   outbound: LinkDetail[];
