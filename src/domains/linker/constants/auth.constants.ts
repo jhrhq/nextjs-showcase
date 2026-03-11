@@ -33,6 +33,7 @@ export const AUTH_CONFIG = {
     SETTINGS: "/settings",
     INBOUNDS: "/inbounds",
     SILO: "/silo",
+    CREATE_SILO: "/create-silo",
     ANCHOR_MANAGER: "/anchor-manager",
     SITE_REPORT: "/site-report",
   },
