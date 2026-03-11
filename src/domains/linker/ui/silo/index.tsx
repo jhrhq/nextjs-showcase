@@ -1,11 +1,6 @@
 /** biome-ignore-all lint/a11y/useSemanticElements: false flag for group */
 "use client";
 
-/**
- * SiloPage — shadcn/ui + Tailwind v4
- * Components: badge button card dialog input label scroll-area separator skeleton tooltip
- */
-
 import { ChevronRight, Link } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { type KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react";
@@ -379,7 +374,7 @@ export default function SiloPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [viewMode, setViewMode] = useState<ViewMode>("empty");
 
-  const createSilPath = `${AUTH_CONFIG.ROUTES.DASHBOARD}/${params.projectId}${AUTH_CONFIG.ROUTES.SILO}${AUTH_CONFIG.ROUTES.CREATE_SILO}`;
+  const createSiloPath = `${AUTH_CONFIG.ROUTES.DASHBOARD}/${params.projectId}${AUTH_CONFIG.ROUTES.SILO}${AUTH_CONFIG.ROUTES.CREATE_SILO}`;
 
   useEffect(() => {
     setLoading(true);
@@ -391,7 +386,7 @@ export default function SiloPage() {
   }, [viewMode]);
 
   const handleCreateSilo = () => {
-    router.push(createSilPath);
+    router.push(createSiloPath);
   };
 
   const handleSiloClick = useCallback((silo: Silo) => {
