@@ -11,17 +11,17 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
-import CreateSiloCard from "./create-silo-card";
+import CreateCustomNetworkCard from "./create-custom-network-card";
 
 // ─── Domain types ─────────────────────────────────────────────────────────────
 
-type SiloStatus = "active" | "draft";
+type CustomNetworkStatus = "active" | "draft";
 
-interface Silo {
+interface CustomNetwork {
   id: number;
   name: string;
   mainUrl: string;
-  status: SiloStatus;
+  status: CustomNetworkStatus;
   linkedCount: number;
   lastUpdated: string;
   urls: string[];
@@ -29,7 +29,7 @@ interface Silo {
 
 type ViewMode = "empty" | "filled";
 
-const MOCK_SILOS: Silo[] = [
+const MOCK_CUSTOMNETWORKS: CustomNetwork[] = [
   {
     id: 1,
     name: "SEO Blog Hub",
@@ -132,7 +132,7 @@ function NetworkVisualizer({ count }: NetworkVisualizerProps) {
 
 // ─── Status badge ─────────────────────────────────────────────────────────────
 
-function SiloStatusBadge({ status }: { status: SiloStatus }) {
+function CustomNetworkStatusBadge({ status }: { status: CustomNetworkStatus }) {
   return (
     <Badge
       variant={status === "active" ? "default" : "secondary"}
@@ -143,24 +143,24 @@ function SiloStatusBadge({ status }: { status: SiloStatus }) {
   );
 }
 
-// ─── Silo card ────────────────────────────────────────────────────────────────
+// ─── CustomNetwork card ────────────────────────────────────────────────────────────────
 
-interface SiloCardProps {
-  silo: Silo;
-  onClick: (silo: Silo) => void;
+interface CustomNetworkCardProps {
+  customNetwork: CustomNetwork;
+  onClick: (customNetwork: CustomNetwork) => void;
 }
 
-function SiloCard({ silo, onClick }: SiloCardProps) {
-  const preview = silo.urls.slice(0, 3);
-  const overflow = silo.linkedCount - 3;
+function CustomNetworkCard({ customNetwork, onClick }: CustomNetworkCardProps) {
+  const preview = customNetwork.urls.slice(0, 3);
+  const overflow = customNetwork.linkedCount - 3;
 
   return (
     <Card
       role="button"
       tabIndex={0}
-      aria-label={`Open silo: ${silo.name}`}
-      onClick={() => onClick(silo)}
-      onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => e.key === "Enter" && onClick(silo)}
+      aria-label={`Open CustomNetwork: ${customNetwork.name}`}
+      onClick={() => onClick(customNetwork)}
+      onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => e.key === "Enter" && onClick(customNetwork)}
       className="group relative cursor-pointer transition-all duration-300 overflow-hidden outline-none hover:-translate-y-1 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-ring"
     >
       {/* Top shimmer accent — uses CSS var so it adapts to theme */}
@@ -170,12 +170,12 @@ function SiloCard({ silo, onClick }: SiloCardProps) {
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <SiloStatusBadge status={silo.status} />
-              <time className="text-[11px] text-muted-foreground">{silo.lastUpdated}</time>
+              <CustomNetworkStatusBadge status={customNetwork.status} />
+              <time className="text-[11px] text-muted-foreground">{customNetwork.lastUpdated}</time>
             </div>
-            <h3 className="mt-2 text-[15px] font-semibold truncate leading-snug">{silo.name}</h3>
+            <h3 className="mt-2 text-[15px] font-semibold truncate leading-snug">{customNetwork.name}</h3>
           </div>
-          <NetworkVisualizer count={silo.linkedCount} />
+          <NetworkVisualizer count={customNetwork.linkedCount} />
         </div>
       </CardHeader>
 
@@ -188,10 +188,12 @@ function SiloCard({ silo, onClick }: SiloCardProps) {
             <TooltipProvider delayDuration={300}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <span className="text-primary text-xs font-mono truncate cursor-default">{silo.mainUrl}</span>
+                  <span className="text-primary text-xs font-mono truncate cursor-default">
+                    {customNetwork.mainUrl}
+                  </span>
                 </TooltipTrigger>
                 <TooltipContent side="top" className="text-xs font-mono">
-                  {silo.mainUrl}
+                  {customNetwork.mainUrl}
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -202,7 +204,7 @@ function SiloCard({ silo, onClick }: SiloCardProps) {
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground mb-2">
             Linked Pages&ensp;
-            <span className="text-primary normal-case tracking-normal font-semibold">{silo.linkedCount}</span>
+            <span className="text-primary normal-case tracking-normal font-semibold">{customNetwork.linkedCount}</span>
           </p>
           <ul className="space-y-1.5">
             {preview.map((url, i) => (
@@ -224,12 +226,12 @@ function SiloCard({ silo, onClick }: SiloCardProps) {
       <Separator />
 
       <CardFooter className="flex items-center justify-between py-3 px-5">
-        <span className="text-xs text-muted-foreground">{silo.linkedCount} internal links</span>
+        <span className="text-xs text-muted-foreground">{customNetwork.linkedCount} internal links</span>
         <Button
           variant="ghost"
           size="sm"
           className="h-auto py-0 px-0 text-xs text-primary hover:bg-transparent gap-1"
-          aria-label={`Manage ${silo.name}`}
+          aria-label={`Manage ${customNetwork.name}`}
         >
           Manage <ChevronRight className="size-3.5" />
         </Button>
@@ -240,7 +242,7 @@ function SiloCard({ silo, onClick }: SiloCardProps) {
 
 // ─── Skeleton cards ───────────────────────────────────────────────────────────
 
-function SiloSkeletonCard() {
+function CustomNetworkSkeletonCard() {
   return (
     <Card className="p-5 space-y-4">
       <div className="flex items-start justify-between gap-3">
@@ -322,7 +324,7 @@ function EmptyIllustration() {
   );
 }
 
-// ─── Create silo dialog ───────────────────────────────────────────────────────
+// ─── Create customNetwork dialog ───────────────────────────────────────────────────────
 
 // ─── Page header ──────────────────────────────────────────────────────────────
 
@@ -340,7 +342,7 @@ function PageHeader({ viewMode, onViewModeChange }: PageHeaderProps) {
           <div className="size-8 rounded-xl bg-primary flex items-center justify-center">
             <Link className="size-4 text-primary-foreground" />
           </div>
-          <span className="font-bold text-[17px] tracking-tight">SiloLink</span>
+          <span className="font-bold text-[17px] tracking-tight">CustomNetworkLink</span>
           <span className="text-muted-foreground text-sm hidden sm:inline">/&ensp;Workspace</span>
         </div>
 
@@ -355,7 +357,7 @@ function PageHeader({ viewMode, onViewModeChange }: PageHeaderProps) {
               aria-pressed={viewMode === mode}
               className="h-7  px-3 text-xs font-medium capitalize"
             >
-              {mode === "empty" ? "Empty State" : "With Silos"}
+              {mode === "empty" ? "Empty State" : "With CustomNetworks"}
             </Button>
           ))}
         </div>
@@ -366,35 +368,35 @@ function PageHeader({ viewMode, onViewModeChange }: PageHeaderProps) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function SiloPage() {
+export default function CustomNetworkPage() {
   const router = useRouter();
   const params = useParams();
 
-  const [silos, setSilos] = useState<Silo[]>([]);
+  const [customNetworks, setCustomNetworks] = useState<CustomNetwork[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [viewMode, setViewMode] = useState<ViewMode>("empty");
 
-  const createSiloPath = `${AUTH_CONFIG.ROUTES.DASHBOARD}/${params.projectId}${AUTH_CONFIG.ROUTES.SILO}${AUTH_CONFIG.ROUTES.CREATE_SILO}`;
+  const createCustomNetworkPath = `${AUTH_CONFIG.ROUTES.DASHBOARD}/${params.projectId}${AUTH_CONFIG.ROUTES.CREATE_CUSTOM_NETWORK}${AUTH_CONFIG.ROUTES.CREATE_CUSTOM_NETWORK}`;
 
   useEffect(() => {
     setLoading(true);
     const timer = window.setTimeout(() => {
-      setSilos(viewMode === "filled" ? MOCK_SILOS : []);
+      setCustomNetworks(viewMode === "filled" ? MOCK_CUSTOMNETWORKS : []);
       setLoading(false);
     }, 900);
     return () => window.clearTimeout(timer);
   }, [viewMode]);
 
-  const handleCreateSilo = () => {
-    router.push(createSiloPath);
+  const handleCreateCustomNetwork = () => {
+    router.push(createCustomNetworkPath);
   };
 
-  const handleSiloClick = useCallback((silo: Silo) => {
-    console.info("[SiloPage] selected:", silo.id);
+  const handleCustomNetworkClick = useCallback((customNetwork: CustomNetwork) => {
+    console.info("[CustomNetworkPage] selected:", customNetwork.id);
   }, []);
 
-  const isEmpty = !loading && silos.length === 0;
-  const hasSilos = !loading && silos.length > 0;
+  const isEmpty = !loading && customNetworks.length === 0;
+  const hasCustomNetworks = !loading && customNetworks.length > 0;
 
   return (
     <TooltipProvider>
@@ -405,15 +407,16 @@ export default function SiloPage() {
           {/* Page title */}
           <div className="mb-8">
             <h1 className="text-[28px] font-bold tracking-tight">
-              Your Silos
-              {hasSilos && (
+              Your CustomNetworks
+              {hasCustomNetworks && (
                 <span className="ms-3 text-base font-normal text-muted-foreground">
-                  {silos.length} cluster{silos.length !== 1 ? "s" : ""}
+                  {customNetworks.length} cluster
+                  {customNetworks.length !== 1 ? "s" : ""}
                 </span>
               )}
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Organize URLs into siloed clusters for powerful internal linking.
+              Organize URLs into customNetworked clusters for powerful internal linking.
             </p>
           </div>
 
@@ -421,7 +424,7 @@ export default function SiloPage() {
           {loading && (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 3 }).map((_, i) => (
-                <SiloSkeletonCard key={i} />
+                <CustomNetworkSkeletonCard key={i} />
               ))}
             </div>
           )}
@@ -431,22 +434,26 @@ export default function SiloPage() {
             <div className="flex flex-col items-center pt-4">
               <EmptyIllustration />
               <div className="w-full max-w-sm">
-                <CreateSiloCard onClick={handleCreateSilo} isEmpty={isEmpty} />
+                <CreateCustomNetworkCard onClick={handleCreateCustomNetwork} isEmpty={isEmpty} />
               </div>
               <p className="mt-5 max-w-xs text-center text-xs text-muted-foreground/60">
-                Start by creating your first silo — define a hub URL and connect all related pages to build a strong
-                internal linking structure.
+                Start by creating your first customNetwork — define a hub URL and connect all related pages to build a
+                strong internal linking structure.
               </p>
             </div>
           )}
 
           {/* Filled state */}
-          {hasSilos && (
+          {hasCustomNetworks && (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {silos.map((silo) => (
-                <SiloCard key={silo.id} silo={silo} onClick={handleSiloClick} />
+              {customNetworks.map((customNetwork) => (
+                <CustomNetworkCard
+                  key={customNetwork.id}
+                  customNetwork={customNetwork}
+                  onClick={handleCustomNetworkClick}
+                />
               ))}
-              <CreateSiloCard onClick={handleCreateSilo} isEmpty={false} />
+              <CreateCustomNetworkCard onClick={handleCreateCustomNetwork} isEmpty={false} />
             </div>
           )}
         </main>

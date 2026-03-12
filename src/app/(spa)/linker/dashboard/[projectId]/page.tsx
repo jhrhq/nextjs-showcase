@@ -12,9 +12,9 @@ const TOOLS: Tool[] = [
   },
   {
     id: "b2c3d4e5-f6g7-8h9i-0j1k-l2m3n4o5p6q7",
-    name: "SILO",
-    displayName: "Silo",
-    description: "Create and manage content silos for better site structure.",
+    name: "CUSTOM_NETWORK",
+    displayName: "Custom Network",
+    description: "Create and manage content custom networks for better site structure.",
   },
   {
     id: "c3d4e5f6-g7h8-9i0j-1k2l-m3n4o5p6q7r8",

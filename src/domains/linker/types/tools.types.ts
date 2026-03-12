@@ -4,7 +4,7 @@ import type { BadgeVariant } from "@/types/shared/variants.types";
 
 export type RouteKey = keyof typeof AUTH_CONFIG.ROUTES;
 
-export type ToolName = Extract<RouteKey, "INBOUNDS" | "SILO" | "ANCHOR_MANAGER" | "SITE_REPORT">;
+export type ToolName = Extract<RouteKey, "INBOUNDS" | "CUSTOM_NETWORK" | "ANCHOR_MANAGER" | "SITE_REPORT">;
 
 export type ToolStatus = "new" | "active" | "inactive";
 
@@ -25,20 +25,20 @@ interface ToolIconConfig {
 // Strictly type the keys
 export const TOOL_ICON_MAP: Record<ToolName, ToolIconConfig> = {
   INBOUNDS: { Icon: Import, className: "-rotate-90 text-primary" },
-  SILO: { Icon: Layers, className: "text-green-500" },
+  CUSTOM_NETWORK: { Icon: Layers, className: "text-green-500" },
   ANCHOR_MANAGER: { Icon: SlidersHorizontal, className: "text-yellow-500" },
   SITE_REPORT: { Icon: Activity, className: "text-purple-500" },
 };
 
-export interface SiloStructure {
+export interface CustomNetworkStructure {
   id: string;
   name: string;
-  pages: SiloPage[];
+  pages: CustomNetworkPage[];
   depth: number;
   totalLinks: number;
 }
 
-export interface SiloPage {
+export interface CustomNetworkPage {
   id: string;
   url: string;
   title: string;

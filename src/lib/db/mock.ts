@@ -30,7 +30,7 @@ export const mockProjects: ProjectDTO[] = [
     description: "Main corporate website",
     status: "active",
     totalLinks: 1250,
-    totalSilos: 8,
+    totalCustomNetworks: 8,
     lastCrawled: now(),
     createdAt: now(),
     updatedAt: now(),
@@ -42,7 +42,7 @@ export const mockProjects: ProjectDTO[] = [
     description: "Online retail platform",
     status: "active",
     totalLinks: 3420,
-    totalSilos: 15,
+    totalCustomNetworks: 15,
     lastCrawled: now(),
     createdAt: now(),
     updatedAt: now(),
@@ -54,7 +54,7 @@ export const mockProjects: ProjectDTO[] = [
     description: "Content publishing site",
     status: "inactive",
     totalLinks: 890,
-    totalSilos: 5,
+    totalCustomNetworks: 5,
     lastCrawled: now(),
     createdAt: now(),
     updatedAt: now(),
@@ -66,7 +66,7 @@ export const mockProjects: ProjectDTO[] = [
     description: "Personal portfolio website",
     status: "pending",
     totalLinks: 45,
-    totalSilos: 2,
+    totalCustomNetworks: 2,
     lastCrawled: null,
     createdAt: now(),
     updatedAt: now(),
@@ -108,9 +108,24 @@ export const mockSiteReports: SiteReport = {
     redirects: 145,
   },
   topLinkingPages: [
-    { url: "/blog/seo-guide", internalLinks: 45, externalLinks: 12, totalLinks: 57 },
-    { url: "/resources/tools", internalLinks: 38, externalLinks: 25, totalLinks: 63 },
-    { url: "/blog/marketing-tips", internalLinks: 42, externalLinks: 8, totalLinks: 50 },
+    {
+      url: "/blog/seo-guide",
+      internalLinks: 45,
+      externalLinks: 12,
+      totalLinks: 57,
+    },
+    {
+      url: "/resources/tools",
+      internalLinks: 38,
+      externalLinks: 25,
+      totalLinks: 63,
+    },
+    {
+      url: "/blog/marketing-tips",
+      internalLinks: 42,
+      externalLinks: 8,
+      totalLinks: 50,
+    },
     { url: "/services", internalLinks: 35, externalLinks: 15, totalLinks: 50 },
   ],
   topExternalDomains: [
@@ -126,16 +141,36 @@ export const mockSiteReports: SiteReport = {
       value: "1180/1250",
       recommendation: "70 pages missing meta descriptions",
     },
-    { metric: "Title Tags", status: "pass", value: "1245/1250", recommendation: "5 pages missing title tags" },
-    { metric: "H1 Tags", status: "warning", value: "1150/1250", recommendation: "100 pages missing H1 tags" },
+    {
+      metric: "Title Tags",
+      status: "pass",
+      value: "1245/1250",
+      recommendation: "5 pages missing title tags",
+    },
+    {
+      metric: "H1 Tags",
+      status: "warning",
+      value: "1150/1250",
+      recommendation: "100 pages missing H1 tags",
+    },
     {
       metric: "Image Alt Text",
       status: "fail",
       value: "850/1250",
       recommendation: "400 pages have images without alt text",
     },
-    { metric: "Robots.txt", status: "pass", value: "Valid", recommendation: "Properly configured" },
-    { metric: "XML Sitemap", status: "pass", value: "Valid", recommendation: "Submitted to search engines" },
+    {
+      metric: "Robots.txt",
+      status: "pass",
+      value: "Valid",
+      recommendation: "Properly configured",
+    },
+    {
+      metric: "XML Sitemap",
+      status: "pass",
+      value: "Valid",
+      recommendation: "Submitted to search engines",
+    },
   ],
   contentMetrics: [
     { name: "Title Optimization", score: 95, count: 1245 },
@@ -169,11 +204,31 @@ export const mockSiteReports: SiteReport = {
     ],
   },
   security: [
-    { feature: "HTTPS", status: "pass", details: "All pages served over HTTPS" },
-    { feature: "SSL Certificate", status: "pass", details: "Valid SSL certificate, expires in 89 days" },
-    { feature: "Security Headers", status: "warning", details: "Missing Content-Security-Policy header" },
-    { feature: "Mixed Content", status: "warning", details: "3 instances of mixed content detected" },
-    { feature: "XSS Protection", status: "pass", details: "X-XSS-Protection header present" },
+    {
+      feature: "HTTPS",
+      status: "pass",
+      details: "All pages served over HTTPS",
+    },
+    {
+      feature: "SSL Certificate",
+      status: "pass",
+      details: "Valid SSL certificate, expires in 89 days",
+    },
+    {
+      feature: "Security Headers",
+      status: "warning",
+      details: "Missing Content-Security-Policy header",
+    },
+    {
+      feature: "Mixed Content",
+      status: "warning",
+      details: "3 instances of mixed content detected",
+    },
+    {
+      feature: "XSS Protection",
+      status: "pass",
+      details: "X-XSS-Protection header present",
+    },
   ],
 };
 
@@ -516,7 +571,13 @@ export const mockAnchorManager: AnchorManager = {
   ],
 
   diversityAnalysis: [
-    { category: "Exact Match", current: 10, target: 7, status: "warning", recommendation: "Reduce exact match usage" },
+    {
+      category: "Exact Match",
+      current: 10,
+      target: 7,
+      status: "warning",
+      recommendation: "Reduce exact match usage",
+    },
     {
       category: "Branded",
       current: 35,
@@ -524,14 +585,41 @@ export const mockAnchorManager: AnchorManager = {
       status: "bad",
       recommendation: "Significant increase in branded anchors needed",
     },
-    { category: "Generic", current: 25, target: 25, status: "good", recommendation: "Stable" },
-    { category: "Naked URL", current: 15, target: 15, status: "good", recommendation: "Stable" },
+    {
+      category: "Generic",
+      current: 25,
+      target: 25,
+      status: "good",
+      recommendation: "Stable",
+    },
+    {
+      category: "Naked URL",
+      current: 15,
+      target: 15,
+      status: "good",
+      recommendation: "Stable",
+    },
   ],
 
   competitorComparison: [
-    { metric: "Backlink Count", yourValue: 5420, competitorAvg: 4800, status: "better" },
-    { metric: "Domain Authority", yourValue: 42, competitorAvg: 45, status: "worse" },
-    { metric: "Dofollow Ratio", yourValue: "78%", competitorAvg: "72%", status: "better" },
+    {
+      metric: "Backlink Count",
+      yourValue: 5420,
+      competitorAvg: 4800,
+      status: "better",
+    },
+    {
+      metric: "Domain Authority",
+      yourValue: 42,
+      competitorAvg: 45,
+      status: "worse",
+    },
+    {
+      metric: "Dofollow Ratio",
+      yourValue: "78%",
+      competitorAvg: "72%",
+      status: "better",
+    },
   ],
 
   linkPatterns: [
@@ -541,7 +629,12 @@ export const mockAnchorManager: AnchorManager = {
       description: "Consistent monthly link acquisition",
       impact: "positive",
     },
-    { pattern: "PBN Risk", frequency: 2, description: "Potential low-quality network footprint", impact: "negative" },
+    {
+      pattern: "PBN Risk",
+      frequency: 2,
+      description: "Potential low-quality network footprint",
+      impact: "negative",
+    },
   ],
 };
 
