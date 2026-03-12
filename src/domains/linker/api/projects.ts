@@ -73,20 +73,20 @@ export const projectsApi = {
 
     return response.data;
   },
-  /* 
-  
+  /*
+
   getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.INBOUNDS}`);
     return response.data;
   },
 
-  getSiloStructure: async (projectId: string): Promise<SiloStructure[]> => {
+  getCustomNetworkStructure: async (projectId: string): Promise<CustomNetowrkStructure[]> => {
     const response = await linkerApi.get(
-      `${AUTH_CONFIG.API.PROJECTS}/${projectId}/${projectId}${AUTH_CONFIG.API.SILO}`
+      `${AUTH_CONFIG.API.PROJECTS}/${projectId}/${projectId}${AUTH_CONFIG.API.CUSTOM_NETWORK}`
     );
     return response.data;
   },
 
- 
+
  */
 };

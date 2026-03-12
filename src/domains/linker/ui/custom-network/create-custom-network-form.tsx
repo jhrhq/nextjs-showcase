@@ -8,30 +8,43 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-interface CreateSiloForm {
+interface CreateCustomNetworkForm {
   name: string;
   mainUrl: string;
   urlInput: string;
   urls: string[];
 }
 
-const INITIAL_FORM: CreateSiloForm = { name: "", mainUrl: "", urlInput: "", urls: [] };
+const INITIAL_FORM: CreateCustomNetworkForm = {
+  name: "",
+  mainUrl: "",
+  urlInput: "",
+  urls: [],
+};
 
-export function CreateSiloForm() {
-  const [form, setForm] = React.useState<CreateSiloForm>(INITIAL_FORM);
+export function CreateCustomNetworkForm() {
+  const [form, setForm] = React.useState<CreateCustomNetworkForm>(INITIAL_FORM);
 
-  const patch = <K extends keyof CreateSiloForm>(key: K, value: CreateSiloForm[K]) =>
+  const patch = <K extends keyof CreateCustomNetworkForm>(key: K, value: CreateCustomNetworkForm[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
   const addUrl = React.useCallback(() => {
     const trimmed = form.urlInput.trim();
     if (trimmed && !form.urls.includes(trimmed)) {
-      setForm((prev) => ({ ...prev, urls: [...prev.urls, trimmed], urlInput: "" }));
+      setForm((prev) => ({
+        ...prev,
+        urls: [...prev.urls, trimmed],
+        urlInput: "",
+      }));
     }
   }, [form.urlInput, form.urls]);
 
   const removeUrl = React.useCallback(
-    (index: number) => setForm((prev) => ({ ...prev, urls: prev.urls.filter((_, i) => i !== index) })),
+    (index: number) =>
+      setForm((prev) => ({
+        ...prev,
+        urls: prev.urls.filter((_, i) => i !== index),
+      })),
     []
   );
 
@@ -53,21 +66,21 @@ export function CreateSiloForm() {
       {/* Subtle tint using theme primary — no hardcoded colour */}
       <div className="relative px-6 pt-6 pb-0">
         <CardHeader className="mb-6">
-          <CardTitle className="text-xl font-bold">Create Silo</CardTitle>
+          <CardTitle className="text-xl font-bold">Create Custom Network</CardTitle>
           <CardDescription>Link pages into a connected internal cluster.</CardDescription>
         </CardHeader>
 
         <div className="space-y-5">
-          {/* Silo name */}
+          {/* Custom Network name */}
           <div className="space-y-1.5">
             <Label
-              htmlFor="silo-name"
+              htmlFor="CustomNetwork-name"
               className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground"
             >
-              Silo Name
+              Custom Network Name
             </Label>
             <Input
-              id="silo-name"
+              id="CustomNetwork-name"
               value={form.name}
               onChange={(e) => patch("name", e.target.value)}
               placeholder="e.g. SEO Blog Hub"
@@ -155,7 +168,7 @@ export function CreateSiloForm() {
       <CardFooter className="flex gap-3 px-6 py-5 mt-2">
         <Button onClick={handleSubmit} disabled={!isValid} className="flex-1 gap-2">
           <Link className="size-4" />
-          Create Silo
+          Create Custom Network
         </Button>
       </CardFooter>
     </Card>

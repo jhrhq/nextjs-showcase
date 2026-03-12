@@ -103,12 +103,12 @@ export function useSumbitSentence() {
     mutationFn: (payload: SentenceSelectionPayload) => projectsApi.submitSentence(payload),
   });
 }
-/* 
+/*
 
-export function useSiloStructure(projectId: string) {
+export function useCustomNetworkStructure(projectId: string) {
   return useQuery({
-    queryKey: ["linker-silo", projectId],
-    queryFn: () => projectsApi.getSiloStructure(projectId),
+    queryKey: ["linker-custom-network", projectId],
+    queryFn: () => projectsApi.getCustomNetworkStructure(projectId),
     enabled: !!projectId,
   });
 }

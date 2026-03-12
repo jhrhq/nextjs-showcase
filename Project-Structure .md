@@ -24,7 +24,7 @@ src/
 │   │   │       │   └── [id]/
 │   │   │       │       ├── page.tsx
 │   │   │       │       ├── inbound/page.tsx
-│   │   │       │       ├── silo/page.tsx
+│   │   │       │       ├── custom-network/page.tsx
 │   │   │       │       ├── anchor-manager/page.tsx
 │   │   │       │       └── site-report/page.tsx
 │   │   │       └── account/
@@ -60,7 +60,7 @@ src/
 │           │   └── [id]/
 │           │       ├── route.ts
 │           │       ├── inbound/route.ts
-│           │       ├── silo/route.ts
+│           │       ├── custom-network/route.ts
 │           │       ├── anchor-manager/route.ts
 │           │       └── site-report/route.ts
 │           └── account/
@@ -327,5 +327,3 @@ app/api/auth/sign-in/route.ts
 * External contract
 
 ---
-
-

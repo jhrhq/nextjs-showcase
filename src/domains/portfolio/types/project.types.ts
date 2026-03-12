@@ -5,7 +5,7 @@ export interface Project {
   description?: string;
   status: "active" | "inactive" | "pending";
   totalLinks: number;
-  totalSilos: number;
+  totalCustomNetworks: number;
   lastCrawled?: string;
   createdAt: string;
   updatedAt: string;
@@ -21,15 +21,15 @@ export interface InboundLink {
   discoveredAt: string;
 }
 
-export interface SiloStructure {
+export interface CustomNetworkStructure {
   id: string;
   name: string;
-  pages: SiloPage[];
+  pages: CustomNetworkPage[];
   depth: number;
   totalLinks: number;
 }
 
-export interface SiloPage {
+export interface CustomNetworkPage {
   id: string;
   url: string;
   title: string;

@@ -164,8 +164,8 @@ export function SettingsUsage({ project }: SettingsUsageProps) {
             <p className="text-3xl font-bold text-blue-600">{project.totalLinks.toLocaleString()}</p>
           </div>
           <div className="space-y-2">
-            <Label className="text-gray-600">Total Silos</Label>
-            <p className="text-3xl font-bold text-green-600">{project.totalSilos}</p>
+            <Label className="text-gray-600">Total CustomNetworks</Label>
+            <p className="text-3xl font-bold text-green-600">{project.totalCustomNetworks}</p>
           </div>
         </div>
       </CardContent>
@@ -193,8 +193,8 @@ export function SettingsProjectDelete({ project, onDelete, isLoading }: Settings
         <Alert variant="destructive" className="mb-4">
           <AlertTriangle />
           <AlertDescription>
-            Deleting this project will permanently remove all associated data including links, silos, and reports. This
-            action cannot be undone.
+            Deleting this project will permanently remove all associated data including links, custom networks, and
+            reports. This action cannot be undone.
           </AlertDescription>
         </Alert>
 

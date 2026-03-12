@@ -4,7 +4,7 @@ import { Plus } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-interface CreateSiloCardProps {
+interface CreateCustomNetworkCardProps {
   onClick: () => void;
   isEmpty: boolean;
 }
@@ -15,12 +15,12 @@ const HINTS = [
   { dot: "bg-violet-500", text: "Auto-link your content" },
 ] as const;
 
-export default function CreateSiloCard({ onClick, isEmpty }: CreateSiloCardProps) {
+export default function CreateCustomNetworkCard({ onClick, isEmpty }: CreateCustomNetworkCardProps) {
   return (
     <Card
       role="button"
       tabIndex={0}
-      aria-label="Create new silo"
+      aria-label="Create new custom network"
       onClick={onClick}
       onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => e.key === "Enter" && onClick()}
       className={cn(
@@ -36,16 +36,18 @@ export default function CreateSiloCard({ onClick, isEmpty }: CreateSiloCardProps
         <Plus className="size-7" />
       </div>
 
-      <p className="text-[15px] font-semibold mb-1.5 transition-colors group-hover:text-primary">Create New Silo</p>
+      <p className="text-[15px] font-semibold mb-1.5 transition-colors group-hover:text-primary">
+        Create New CustomNetwork
+      </p>
 
-      <p className="text-sm text-muted-foreground leading-relaxed max-w-[190px]">
+      <p className="text-sm text-muted-foreground leading-relaxed max-w-47.5">
         {isEmpty
           ? "Connect your URLs into a powerful internal linking structure"
           : "Add another URL cluster to your workspace"}
       </p>
 
       {isEmpty && (
-        <ul className="mt-6 space-y-2.5" aria-label="Steps to create a silo">
+        <ul className="mt-6 space-y-2.5" aria-label="Steps to create a custom network">
           {HINTS.map(({ dot, text }) => (
             <li key={text} className="flex items-center gap-2 text-xs text-muted-foreground">
               <span className={`size-1.5 rounded-full ${dot} shrink-0`} />

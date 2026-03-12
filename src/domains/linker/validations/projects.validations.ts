@@ -7,7 +7,7 @@ export const projectSchema = z.object({
   description: z.string().optional(),
   status: z.enum(["active", "inactive", "pending"]),
   totalLinks: z.number().int().nonnegative(),
-  totalSilos: z.number().int().nonnegative(),
+  totalCustomNetworks: z.number().int().nonnegative(),
   lastCrawled: z.iso.datetime().nullable().optional(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),

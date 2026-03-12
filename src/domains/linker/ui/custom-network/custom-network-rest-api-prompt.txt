@@ -1,0 +1,332 @@
+Build a Next.js 14 REST API (App Router) for the CustomNetworkLink application.
+This is API-only — no frontend pages, no SSR, just /api/* route handlers.
+
+## Domain Summary
+A customNetwork is an internal linking cluster with one hub URL and multiple child URLs.
+Users create customNetworks, add child URLs, then mark directed link connections as built.
+The API tracks all of this and computes progress stats.
+
+---
+
+## Tech Stack
+- Next.js 14 App Router (route handlers only)
+- TypeScript strict mode
+- Prisma ORM + PostgreSQL
+- Zod (request validation)
+- NextAuth.js v5 (JWT sessions, credentials provider)
+- No tRPC — pure REST with typed JSON responses
+
+---
+
+## Database Schema (Prisma)
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // bcrypt hashed
+  name      String?
+  customNetworks     CustomNetwork[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CustomNetwork {
+  id          String       @id @default(cuid())
+  name        String
+  mainUrl     String
+  status      CustomNetworkStatus   @default(active)
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  childUrls   ChildUrl[]
+  connections LinkConnection[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model ChildUrl {
+  id     String @id @default(cuid())
+  url    String
+  customNetworkId String
+  customNetwork   CustomNetwork   @relation(fields: [customNetworkId], references: [id], onDelete: Cascade)
+  @@unique([customNetworkId, url])
+}
+
+model LinkConnection {
+  id        String   @id @default(cuid())
+  customNetworkId    String
+  customNetwork      CustomNetwork     @relation(fields: [customNetworkId], references: [id], onDelete: Cascade)
+  fromUrl   String
+  toUrl     String
+  builtAt   DateTime @default(now())
+  @@unique([customNetworkId, fromUrl, toUrl])
+}
+
+enum CustomNetworkStatus { active draft }
+
+---
+
+## Response Envelope (always use these shapes)
+
+// Success
+{ "data": T, "message": string }
+
+// Paginated
+{ "data": T[], "total": number, "page": number, "limit": number }
+
+// Error
+{ "error": { "message": string, "code": string, "field"?: string } }
+
+HTTP status codes:
+  200 OK | 201 Created | 400 Bad Request | 401 Unauthorized
+  403 Forbidden | 404 Not Found | 409 Conflict | 422 Unprocessable | 500 Server Error
+
+---
+
+## Computed Fields
+These are NEVER stored in DB — compute them on every CustomNetwork response:
+
+function computeLinksBuilt(connections: LinkConnection[]): number {
+  return connections.length
+}
+
+function computeTotalLinks(childCount: number): number {
+  return childCount * (childCount + 1)
+}
+
+// Attach to every CustomNetwork API response:
+interface CustomNetworkResponse extends CustomNetwork {
+  linksBuilt: number   // connections.length
+  totalLinks: number   // n × (n + 1)
+  pct:        number   // 0–100
+  stage:      "not-started" | "in-progress" | "complete"
+}
+
+---
+
+## API Routes
+
+### Auth
+POST /api/auth/register
+  body: { email, password, name? }
+  → 201 { data: { id, email, name } }
+  validate: email unique, password min 8 chars
+
+POST /api/auth/login
+  body: { email, password }
+  → 200 { data: { token, user: { id, email, name } } }
+
+POST /api/auth/logout
+  → 200 { data: null, message: "Logged out" }
+
+GET /api/auth/me
+  auth required
+  → 200 { data: { id, email, name } }
+
+---
+
+### CustomNetworks
+All customNetwork routes require authentication.
+Users can only access their own customNetworks.
+
+GET /api/customNetworks
+  query: ?page=1&limit=20&status=active&search=
+  → PaginatedResponse<CustomNetworkResponse>
+  include: childUrls + connection count
+  order: updatedAt desc
+
+POST /api/customNetworks
+  body: { name, mainUrl, status?, urls: string[] }
+  validate (Zod):
+    name: string min 2
+    mainUrl: valid URL
+    status: "active" | "draft" (default "active")
+    urls: array of valid URLs, min 1, no duplicates, none equal mainUrl
+  → 201 CustomNetworkResponse
+  creates CustomNetwork + all ChildUrl records in a transaction
+
+GET /api/customNetworks/:id
+  → 200 CustomNetworkResponse with childUrls + all connections
+  404 if not found or not owned by user
+
+PUT /api/customNetworks/:id
+  body: { name?, mainUrl?, status?, urls?: string[] }
+  If urls provided: replace all ChildUrl records (delete+recreate in tx)
+  Recompute linksBuilt after url change
+  → 200 CustomNetworkResponse
+
+DELETE /api/customNetworks/:id
+  cascade deletes ChildUrls + LinkConnections
+  → 200 { data: { id } }
+
+---
+
+### Connections
+GET /api/customNetworks/:id/connections
+  → 200 { data: LinkConnection[] }
+  all connections for this customNetwork, ordered by builtAt desc
+
+POST /api/customNetworks/:id/connections
+  body: { fromUrl: string, toUrl: string }
+  validate:
+    fromUrl !== toUrl
+    both URLs must exist in customNetwork (hub or child)
+    connection must not already exist (409 if duplicate)
+  → 201 { data: LinkConnection }
+
+DELETE /api/customNetworks/:id/connections/:connectionId
+  → 200 { data: { id } }
+
+POST /api/customNetworks/:id/connections/bulk
+  body: { connections: { fromUrl, toUrl }[] }
+  Insert all valid, skip duplicates (upsert behavior)
+  → 200 { data: { created: number, skipped: number } }
+
+---
+
+### Matrix
+GET /api/customNetworks/:id/matrix
+  Builds the full N×N matrix of all possible directed links
+  N = 1 hub + all children
+  → 200 {
+      data: {
+        customNetworkId: string
+        urls: string[]    // hub first, then children
+        built: Record<string, Record<string, boolean>>
+        // built[fromUrl][toUrl] = true if connection exists
+        stats: {
+          total: number
+          built: number
+          pct:   number
+        }
+      }
+    }
+
+---
+
+## Validation Schemas (Zod)
+
+const urlSchema = z.string().url()
+
+const createCustomNetworkSchema = z.object({
+  name:    z.string().min(2).max(100),
+  mainUrl: urlSchema,
+  status:  z.enum(["active","draft"]).default("active"),
+  urls:    z.array(urlSchema).min(1).max(50),
+}).refine(
+  d => new Set(d.urls).size === d.urls.length,
+  { message: "Duplicate child URLs not allowed", path: ["urls"] }
+).refine(
+  d => !d.urls.includes(d.mainUrl),
+  { message: "Hub URL cannot be a child URL", path: ["urls"] }
+)
+
+const createConnectionSchema = z.object({
+  fromUrl: urlSchema,
+  toUrl:   urlSchema,
+}).refine(d => d.fromUrl !== d.toUrl, {
+  message: "fromUrl and toUrl must be different"
+})
+
+---
+
+## Middleware & Auth Pattern
+
+// lib/auth.ts
+export async function requireAuth(req: NextRequest): Promise<User> {
+  // extract JWT from Authorization: Bearer <token> header
+  // verify with jose or jsonwebtoken
+  // return user or throw 401
+}
+
+// All protected route handlers:
+export async function GET(req: NextRequest, { params }) {
+  const user = await requireAuth(req)
+  // ... handler logic
+}
+
+---
+
+## Error Handler Utility
+
+// lib/apiError.ts
+export class ApiError extends Error {
+  constructor(
+    public statusCode: number,
+    public message: string,
+    public code: string,
+    public field?: string
+  ) { super(message) }
+}
+
+export function handleError(error: unknown): NextResponse {
+  if (error instanceof ApiError) {
+    return NextResponse.json(
+      { error: { message: error.message, code: error.code, field: error.field } },
+      { status: error.statusCode }
+    )
+  }
+  if (error instanceof ZodError) {
+    const first = error.errors[0]
+    return NextResponse.json(
+      { error: { message: first.message, code: "VALIDATION_ERROR", field: first.path.join(".") } },
+      { status: 422 }
+    )
+  }
+  console.error(error)
+  return NextResponse.json(
+    { error: { message: "Internal server error", code: "INTERNAL_ERROR" } },
+    { status: 500 }
+  )
+}
+
+---
+
+## File Structure
+
+app/
+  api/
+    auth/
+      register/route.ts
+      login/route.ts
+      logout/route.ts
+      me/route.ts
+    customNetworks/
+      route.ts                          # GET list, POST create
+      [id]/
+        route.ts                        # GET one, PUT update, DELETE
+        connections/
+          route.ts                      # GET all, POST create, POST bulk
+          [connectionId]/route.ts       # DELETE
+        matrix/route.ts                 # GET matrix
+lib/
+  prisma.ts          # singleton Prisma client
+  auth.ts            # requireAuth, signToken, verifyToken
+  apiError.ts        # ApiError class + handleError
+  customNetworkMath.ts        # totalPossibleLinks, computeStats, buildMatrix
+  validators.ts      # all Zod schemas
+prisma/
+  schema.prisma
+
+---
+
+## Business Logic Rules
+1. On customNetwork creation, all ChildUrl records created in same transaction
+2. On customNetwork URL update, delete all existing connections that reference
+   removed URLs, then recreate ChildUrls — maintain referential integrity
+3. Matrix endpoint builds the full grid in memory — do not store matrix
+4. A connection is only valid if both fromUrl and toUrl exist in the customNetwork
+   (hub URL counts as a valid endpoint)
+5. Bulk connection insert skips duplicates silently (upsert)
+6. Deleting a customNetwork cascades to all ChildUrls and LinkConnections
+7. Users cannot access customNetworks owned by other users — always filter by userId
+8. All URL values stored as-is (no normalization) but validated as valid URL format
+
+---
+
+## Environment Variables
+
+DATABASE_URL=
+JWT_SECRET=
+JWT_EXPIRES_IN=7d
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=

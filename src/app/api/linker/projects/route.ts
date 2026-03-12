@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     description: validationResult.data.description,
     status: "pending" as const,
     totalLinks: 0,
-    totalSilos: 0,
+    totalCustomNetworks: 0,
     lastCrawled: null,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -107,7 +107,7 @@ export async function PUT(req: NextRequest) {
 
   return NextResponse.json(mockProjects[index], { status: 200 });
 }
-/* 
+/*
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const authHeader = req.headers.get("authorization");
