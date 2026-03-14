@@ -186,8 +186,8 @@ const STAGE_CONFIG: Record<Stage, StageConfig> = {
 
 function StatCell({ label, value, bg, labelCls, valueCls }: StatCellProps) {
   return (
-    <div className={cn("flex flex-col items-center justify-center gap-0.5 px-3 py-2 flex-1", bg)}>
-      <span className={cn("text-[10px] font-semibold uppercase tracking-wider leading-none", labelCls)}>{label}</span>
+    <div className={cn("flex flex-col items-center justify-center gap-0.5 p-2 flex-1", bg)}>
+      <span className={cn("text-[10px] font-semibold uppercase tracking-normal leading-none", labelCls)}>{label}</span>
       <span className={cn("text-sm font-bold tabular-nums leading-tight", valueCls)}>{value}</span>
     </div>
   );
@@ -243,8 +243,16 @@ function MatrixDialog({ open, onClose, network, pages, isConnected, onToggle, me
                     cls: "bg-emerald-50 border border-emerald-200 text-emerald-600 font-bold",
                     label: "Linked",
                   },
-                  { icon: "✗", cls: "bg-white border border-border text-muted-foreground/40", label: "No link" },
-                  { icon: "—", cls: "bg-muted/30 border border-border/40 text-muted-foreground/25", label: "Self" },
+                  {
+                    icon: "✗",
+                    cls: "bg-white border border-border text-muted-foreground/40",
+                    label: "No link",
+                  },
+                  {
+                    icon: "—",
+                    cls: "bg-muted/30 border border-border/40 text-muted-foreground/25",
+                    label: "Self",
+                  },
                 ] as const
               ).map(({ icon, cls, label }) => (
                 <span key={label} className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -259,12 +267,12 @@ function MatrixDialog({ open, onClose, network, pages, isConnected, onToggle, me
             <table className="border-collapse">
               <thead>
                 <tr>
-                  <th className="w-[88px]" />
+                  <th className="w-22" />
                   {pages.map((p) => (
                     <th key={p.id} className="w-9 pb-2 px-0.5 text-center">
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <span className="block text-[10px] font-semibold text-muted-foreground truncate max-w-[34px] cursor-default">
+                          <span className="block text-[10px] font-semibold text-muted-foreground truncate max-w-8.5 cursor-default">
                             {p.label}
                           </span>
                         </TooltipTrigger>
@@ -282,7 +290,7 @@ function MatrixDialog({ open, onClose, network, pages, isConnected, onToggle, me
                     <td className="pr-3 py-0.5">
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <span className="text-[11px] font-mono text-muted-foreground truncate block max-w-[84px] cursor-default">
+                          <span className="text-[11px] font-mono text-muted-foreground truncate block max-w-21 cursor-default">
                             {src.slug}
                           </span>
                         </TooltipTrigger>
@@ -358,7 +366,7 @@ export function CustomNetworkCard({ network, onDelete }: CustomNetworkCardProps)
   return (
     <>
       <Card
-        className="relative w-full overflow-hidden rounded-none cursor-pointer border-border transition-all duration-150 hover:shadow-md active:scale-[0.995]"
+        className="relative w-full overflow-hidden @container grid grid-rows-[auto,1fr,auto] gap-4 rounded-none cursor-pointer border-border transition-all duration-150 hover:shadow-md active:scale-[0.995]"
         onClick={() => setMatrixOpen(true)}
       >
         <CardHeader className="px-5 pt-4 pb-3">
@@ -413,42 +421,38 @@ export function CustomNetworkCard({ network, onDelete }: CustomNetworkCardProps)
             </div>
           </div>
         </CardHeader>
-
         <Separator />
-
-        <CardContent className="px-5 pt-3 pb-4 space-y-3">
-          <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
-            <StatCell label="Pages" value={pageCount} bg={cfg.statBg} labelCls={cfg.statFg} valueCls={cfg.statFg} />
-            <StatCell label="Possible" value={possible} bg={cfg.statBg} labelCls={cfg.statFg} valueCls={cfg.statFg} />
-            <StatCell label="Built" value={built} bg={cfg.statBg} labelCls={cfg.statFg} valueCls={cfg.statFg} />
-            <StatCell
-              label="Remaining"
-              value={remaining}
-              bg={cfg.statHighBg}
-              labelCls={cfg.statHighFg}
-              valueCls={cfg.statHighFg}
-            />
-          </div>
-
-          <div className="flex items-center justify-between gap-3" onClick={(e) => e.stopPropagation()}>
-            <span className="text-xs text-muted-foreground tabular-nums">{completion}% complete</span>
-
-            <Button
-              variant="ghost"
-              size="sm"
-              className={cn(
-                "rounded-none text-xs font-semibold gap-1.5 px-3 h-8 border-0 shadow-none",
-                cfg.btnFg,
-                cfg.btnHoverBg
-              )}
-              onClick={() => setMatrixOpen(true)}
-            >
-              <cfg.BtnIcon className="size-3.5 shrink-0" />
-              {cfg.btnLabel}
-              <ArrowRight className="size-3.5 shrink-0" />
-            </Button>
-          </div>
+        <CardContent className="grid gap-3 grid-cols-1 @xs:grid-cols-4 @xs:gap-2 @lg:grid-cols-4">
+          <StatCell label="Pages" value={pageCount} bg={cfg.statBg} labelCls={cfg.statFg} valueCls={cfg.statFg} />
+          <StatCell label="Possible" value={possible} bg={cfg.statBg} labelCls={cfg.statFg} valueCls={cfg.statFg} />
+          <StatCell label="Built" value={built} bg={cfg.statBg} labelCls={cfg.statFg} valueCls={cfg.statFg} />
+          <StatCell
+            label="Remaining"
+            value={remaining}
+            bg={cfg.statHighBg}
+            labelCls={cfg.statHighFg}
+            valueCls={cfg.statHighFg}
+          />
+          {/*<div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
+          </div>*/}
         </CardContent>
+        <div
+          className="flex flex-col items-center gap-3 @xs:flex-row @xs:gap-2 @xs:items-center @xs:justify-between px-4 group-data-[size=sm]/card:px-3"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <span className="text-xs text-muted-foreground tabular-nums">{completion}% complete</span>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn("text-xs font-semibold gap-1.5 px-3 h-8 border-0", cfg.btnFg, cfg.btnHoverBg)}
+            onClick={() => setMatrixOpen(true)}
+          >
+            <cfg.BtnIcon className="size-3.5 shrink-0" />
+            {cfg.btnLabel}
+            <ArrowRight className="size-3.5 shrink-0" />
+          </Button>
+        </div>
       </Card>
 
       <MatrixDialog

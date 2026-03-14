@@ -39,11 +39,31 @@ const NETWORKS: NetworkItem[] = [
     seedCount: 0,
     pages: [
       { id: "1", slug: "/home", label: "Home", url: "https://acme.com/" },
-      { id: "2", slug: "/about", label: "About", url: "https://acme.com/about" },
-      { id: "3", slug: "/services", label: "Services", url: "https://acme.com/services" },
+      {
+        id: "2",
+        slug: "/about",
+        label: "About",
+        url: "https://acme.com/about",
+      },
+      {
+        id: "3",
+        slug: "/services",
+        label: "Services",
+        url: "https://acme.com/services",
+      },
       { id: "4", slug: "/blog", label: "Blog", url: "https://acme.com/blog" },
-      { id: "5", slug: "/contact", label: "Contact", url: "https://acme.com/contact" },
-      { id: "6", slug: "/pricing", label: "Pricing", url: "https://acme.com/pricing" },
+      {
+        id: "5",
+        slug: "/contact",
+        label: "Contact",
+        url: "https://acme.com/contact",
+      },
+      {
+        id: "6",
+        slug: "/pricing",
+        label: "Pricing",
+        url: "https://acme.com/pricing",
+      },
     ],
   },
   {
@@ -52,10 +72,30 @@ const NETWORKS: NetworkItem[] = [
     date: "2024-12-14",
     seedCount: 6,
     pages: [
-      { id: "1", slug: "/blog/seo", label: "SEO Guide", url: "https://acme.com/blog/seo" },
-      { id: "2", slug: "/blog/links", label: "Int. Linking", url: "https://acme.com/blog/links" },
-      { id: "3", slug: "/blog/content", label: "Content", url: "https://acme.com/blog/content" },
-      { id: "4", slug: "/blog/analytics", label: "Analytics", url: "https://acme.com/blog/analytics" },
+      {
+        id: "1",
+        slug: "/blog/seo",
+        label: "SEO Guide",
+        url: "https://acme.com/blog/seo",
+      },
+      {
+        id: "2",
+        slug: "/blog/links",
+        label: "Int. Linking",
+        url: "https://acme.com/blog/links",
+      },
+      {
+        id: "3",
+        slug: "/blog/content",
+        label: "Content",
+        url: "https://acme.com/blog/content",
+      },
+      {
+        id: "4",
+        slug: "/blog/analytics",
+        label: "Analytics",
+        url: "https://acme.com/blog/analytics",
+      },
     ],
   },
   {
@@ -64,9 +104,24 @@ const NETWORKS: NetworkItem[] = [
     date: "2025-01-22",
     seedCount: 999,
     pages: [
-      { id: "1", slug: "/products/starter", label: "Starter", url: "https://acme.com/products/starter" },
-      { id: "2", slug: "/products/pro", label: "Pro", url: "https://acme.com/products/pro" },
-      { id: "3", slug: "/products/agency", label: "Agency", url: "https://acme.com/products/agency" },
+      {
+        id: "1",
+        slug: "/products/starter",
+        label: "Starter",
+        url: "https://acme.com/products/starter",
+      },
+      {
+        id: "2",
+        slug: "/products/pro",
+        label: "Pro",
+        url: "https://acme.com/products/pro",
+      },
+      {
+        id: "3",
+        slug: "/products/agency",
+        label: "Agency",
+        url: "https://acme.com/products/agency",
+      },
     ],
   },
 ];
@@ -79,7 +134,7 @@ function NetworkItemSkeletonCard() {
           <Skeleton className="h-4 w-20 rounded-full" />
           <Skeleton className="h-5 w-40 rounded-md" />
         </div>
-        <Skeleton className="size-[68px] rounded-full shrink-0" />
+        <Skeleton className="size-17 rounded-full shrink-0" />
       </div>
       <Skeleton className="h-9 w-full rounded-lg" />
       <div className="space-y-2">
@@ -220,53 +275,48 @@ export default function NetworkItemPage() {
   const hasNetworkItems = !loading && networks.length > 0;
   return (
     <TooltipProvider>
-      <div className="min-h-screen" style={{ fontFamily: "'Instrument Sans', 'Segoe UI', sans-serif" }}>
-        <PageHeader viewMode={viewMode} onViewModeChange={setViewMode} />
-
-        <main className="relative max-w-6xl mx-auto px-6 py-10">
-          {/* Page title */}
-          <div className="mb-8">
-            <h1 className="text-[28px] font-bold tracking-tight">
-              Your NetworkItems
-              {hasNetworkItems && (
-                <span className="ms-3 text-base font-normal text-muted-foreground">
-                  {networks.length} cluster
-                  {networks.length !== 1 ? "s" : ""}
-                </span>
-              )}
-            </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Organize URLs into networked clusters for powerful internal linking.
-            </p>
-          </div>
-
-          {/* Loading skeletons */}
-          {loading && (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <NetworkItemSkeletonCard key={i} />
-              ))}
-            </div>
+      <PageHeader viewMode={viewMode} onViewModeChange={setViewMode} />
+      {/* Page title */}
+      <div className="mb-8">
+        <h1 className="text-[28px] font-bold tracking-tight">
+          Your NetworkItems
+          {hasNetworkItems && (
+            <span className="ms-3 text-base font-normal text-muted-foreground">
+              {networks.length} cluster
+              {networks.length !== 1 ? "s" : ""}
+            </span>
           )}
-
-          {/* Empty state */}
-          {isEmpty && (
-            <div className="flex flex-col items-center pt-4">
-              <EmptyIllustration />
-              <div className="w-full max-w-sm">
-                <CreateNetworkItemCard onClick={handleCreateNetworkItem} isEmpty={isEmpty} />
-              </div>
-              <p className="mt-5 max-w-xs text-center text-xs text-muted-foreground/60">
-                Start by creating your first network — define a hub URL and connect all related pages to build a strong
-                internal linking structure.
-              </p>
-            </div>
-          )}
-
-          {/* Filled state */}
-          {hasNetworkItems && <CustomNetworks networks={networks} />}
-        </main>
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Organize URLs into networked clusters for powerful internal linking.
+        </p>
       </div>
+
+      {/* Loading skeletons */}
+      {loading && (
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <NetworkItemSkeletonCard key={i} />
+          ))}
+        </div>
+      )}
+
+      {/* Empty state */}
+      {isEmpty && (
+        <div className="flex flex-col items-center pt-4">
+          <EmptyIllustration />
+          <div className="w-full max-w-sm">
+            <CreateNetworkItemCard onClick={handleCreateNetworkItem} isEmpty={isEmpty} />
+          </div>
+          <p className="mt-5 max-w-xs text-center text-xs text-muted-foreground/60">
+            Start by creating your first network — define a hub URL and connect all related pages to build a strong
+            internal linking structure.
+          </p>
+        </div>
+      )}
+
+      {/* Filled state */}
+      {hasNetworkItems && <CustomNetworks networks={networks} />}
     </TooltipProvider>
   );
 }
