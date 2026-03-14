@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
 import CreateNetworkItemCard from "./create-custom-network-card";
 import CustomNetworks from "./custom-networks";
@@ -213,8 +212,8 @@ interface PageHeaderProps {
 
 function PageHeader({ viewMode, onViewModeChange }: PageHeaderProps) {
   return (
-    <header className="sticky top-0 z-40 border-b backdrop-blur-md px-6 py-4">
-      <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+    <header className="sticky top-12 z-40 border-b backdrop-blur-md py-4">
+      <div className=" flex items-center justify-between gap-4">
         {/* Logo */}
         <div className="flex items-center gap-3">
           <div className="size-8 rounded-xl bg-primary flex items-center justify-center">
@@ -274,7 +273,7 @@ export default function NetworkItemPage() {
   const isEmpty = !loading && networks.length === 0;
   const hasNetworkItems = !loading && networks.length > 0;
   return (
-    <TooltipProvider>
+    <>
       <PageHeader viewMode={viewMode} onViewModeChange={setViewMode} />
       {/* Page title */}
       <div className="mb-8">
@@ -317,6 +316,6 @@ export default function NetworkItemPage() {
 
       {/* Filled state */}
       {hasNetworkItems && <CustomNetworks networks={networks} />}
-    </TooltipProvider>
+    </>
   );
 }
