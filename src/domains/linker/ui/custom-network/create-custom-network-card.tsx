@@ -29,7 +29,7 @@ export default function CreateCustomNetworkCard({ onClick, isEmpty }: CreateCust
         "transition-all duration-300 outline-none",
         "hover:-translate-y-1 hover:shadow-xl hover:border-primary/50",
         "focus-visible:ring-2 focus-visible:ring-ring",
-        isEmpty ? "min-h-[340px] p-10" : "min-h-[260px] p-8"
+        isEmpty ? "min-h-85 p-10" : "min-h-65 p-8"
       )}
     >
       <div className="size-14  flex items-center justify-center mb-4 bg-muted transition-all duration-300 group-hover:bg-primary group-hover:scale-110 group-hover:shadow-lg">
