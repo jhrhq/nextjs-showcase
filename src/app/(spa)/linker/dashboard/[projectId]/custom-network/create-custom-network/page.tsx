@@ -1,5 +1,5 @@
-import CreateCustomNetworkForm from "@/domains/linker/ui/custom-network/create-custom-network-form";
+import CreateCustomNetwork from "@/domains/linker/ui/custom-network/create-custom-network";
 
 export default function CreateCustomNetworkPage() {
-  return <CreateCustomNetworkForm />;
+  return <CreateCustomNetwork />;
 }
