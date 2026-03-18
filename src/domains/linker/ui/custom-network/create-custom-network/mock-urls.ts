@@ -1,0 +1,555 @@
+import type { SidebarUrl } from "./sidebar-url";
+
+export const ALL_MOCK_URLS: SidebarUrl[] = [
+  // ── Design ────────────────────────────────────────────────────────────────
+  {
+    id: "d1",
+    url: "https://figma.com",
+    title: "Figma",
+    domain: "figma.com",
+    category: "Design",
+    description: "Collaborative interface design and prototyping tool",
+  },
+  {
+    id: "d2",
+    url: "https://dribbble.com",
+    title: "Dribbble",
+    domain: "dribbble.com",
+    category: "Design",
+    description: "Showcase and discover creative work from designers",
+  },
+  {
+    id: "d3",
+    url: "https://framer.com",
+    title: "Framer",
+    domain: "framer.com",
+    category: "Design",
+    description: "Design and publish interactive websites visually",
+  },
+  {
+    id: "d4",
+    url: "https://behance.net",
+    title: "Behance",
+    domain: "behance.net",
+    category: "Design",
+    description: "Adobe's platform for showcasing creative portfolios",
+  },
+  {
+    id: "d5",
+    url: "https://spline.design",
+    title: "Spline",
+    domain: "spline.design",
+    category: "Design",
+    description: "Create and collaborate on 3D design in the browser",
+  },
+  {
+    id: "d6",
+    url: "https://coolors.co",
+    title: "Coolors",
+    domain: "coolors.co",
+    category: "Design",
+    description: "Super-fast color palettes generator",
+  },
+  {
+    id: "d7",
+    url: "https://lottiefiles.com",
+    title: "LottieFiles",
+    domain: "lottiefiles.com",
+    category: "Design",
+    description: "Lightweight, scalable animations for any platform",
+  },
+  {
+    id: "d8",
+    url: "https://canva.com",
+    title: "Canva",
+    domain: "canva.com",
+    category: "Design",
+    description: "Drag-and-drop design tool for non-designers",
+  },
+  {
+    id: "d9",
+    url: "https://fonts.google.com",
+    title: "Google Fonts",
+    domain: "fonts.google.com",
+    category: "Design",
+    description: "Free, open-source fonts optimised for the web",
+  },
+  {
+    id: "d10",
+    url: "https://unsplash.com",
+    title: "Unsplash",
+    domain: "unsplash.com",
+    category: "Design",
+    description: "Freely usable high-resolution photos",
+  },
+
+  // ── Dev Tools ─────────────────────────────────────────────────────────────
+  {
+    id: "t1",
+    url: "https://github.com",
+    title: "GitHub",
+    domain: "github.com",
+    category: "Dev Tools",
+    description: "Host and review code, manage projects, build software",
+  },
+  {
+    id: "t2",
+    url: "https://vercel.com",
+    title: "Vercel",
+    domain: "vercel.com",
+    category: "Dev Tools",
+    description: "Frontend cloud platform for deploying modern web apps",
+  },
+  {
+    id: "t3",
+    url: "https://supabase.com",
+    title: "Supabase",
+    domain: "supabase.com",
+    category: "Dev Tools",
+    description: "Open-source Firebase alternative with Postgres",
+  },
+  {
+    id: "t4",
+    url: "https://railway.app",
+    title: "Railway",
+    domain: "railway.app",
+    category: "Dev Tools",
+    description: "Instant infrastructure deployment from GitHub",
+  },
+  {
+    id: "t5",
+    url: "https://netlify.com",
+    title: "Netlify",
+    domain: "netlify.com",
+    category: "Dev Tools",
+    description: "Build, deploy, and scale modern web projects",
+  },
+  {
+    id: "t6",
+    url: "https://turso.tech",
+    title: "Turso",
+    domain: "turso.tech",
+    category: "Dev Tools",
+    description: "Edge SQLite database built on libSQL",
+  },
+  {
+    id: "t7",
+    url: "https://neon.tech",
+    title: "Neon",
+    domain: "neon.tech",
+    category: "Dev Tools",
+    description: "Serverless Postgres with branching and auto-scaling",
+  },
+  {
+    id: "t8",
+    url: "https://fly.io",
+    title: "Fly.io",
+    domain: "fly.io",
+    category: "Dev Tools",
+    description: "Deploy full-stack apps close to users worldwide",
+  },
+  {
+    id: "t9",
+    url: "https://render.com",
+    title: "Render",
+    domain: "render.com",
+    category: "Dev Tools",
+    description: "Unified platform to build and run apps and websites",
+  },
+  {
+    id: "t10",
+    url: "https://planetscale.com",
+    title: "PlanetScale",
+    domain: "planetscale.com",
+    category: "Dev Tools",
+    description: "Serverless MySQL platform powered by Vitess",
+  },
+  {
+    id: "t11",
+    url: "https://upstash.com",
+    title: "Upstash",
+    domain: "upstash.com",
+    category: "Dev Tools",
+    description: "Serverless Redis and Kafka with per-request pricing",
+  },
+  {
+    id: "t12",
+    url: "https://gitpod.io",
+    title: "Gitpod",
+    domain: "gitpod.io",
+    category: "Dev Tools",
+    description: "Automated, ephemeral dev environments in the cloud",
+  },
+
+  // ── AI ────────────────────────────────────────────────────────────────────
+  {
+    id: "a1",
+    url: "https://openai.com",
+    title: "OpenAI",
+    domain: "openai.com",
+    category: "AI",
+    description: "Creator of GPT-4, DALL·E, Whisper, and Sora",
+  },
+  {
+    id: "a2",
+    url: "https://anthropic.com",
+    title: "Anthropic",
+    domain: "anthropic.com",
+    category: "AI",
+    description: "AI safety company — home of Claude",
+  },
+  {
+    id: "a3",
+    url: "https://huggingface.co",
+    title: "Hugging Face",
+    domain: "huggingface.co",
+    category: "AI",
+    description: "ML model hub and datasets for the open-source community",
+  },
+  {
+    id: "a4",
+    url: "https://replicate.com",
+    title: "Replicate",
+    domain: "replicate.com",
+    category: "AI",
+    description: "Run open-source AI models via a simple cloud API",
+  },
+  {
+    id: "a5",
+    url: "https://perplexity.ai",
+    title: "Perplexity",
+    domain: "perplexity.ai",
+    category: "AI",
+    description: "AI-powered search engine with cited answers",
+  },
+  {
+    id: "a6",
+    url: "https://groq.com",
+    title: "Groq",
+    domain: "groq.com",
+    category: "AI",
+    description: "Ultra-fast LLM inference on LPU hardware",
+  },
+  {
+    id: "a7",
+    url: "https://together.ai",
+    title: "Together AI",
+    domain: "together.ai",
+    category: "AI",
+    description: "Cloud platform for running and fine-tuning open models",
+  },
+  {
+    id: "a8",
+    url: "https://cohere.com",
+    title: "Cohere",
+    domain: "cohere.com",
+    category: "AI",
+    description: "NLP APIs for enterprise — embeddings, generate, classify",
+  },
+  {
+    id: "a9",
+    url: "https://stability.ai",
+    title: "Stability AI",
+    domain: "stability.ai",
+    category: "AI",
+    description: "Open generative AI for images, language, audio, and 3D",
+  },
+  {
+    id: "a10",
+    url: "https://mistral.ai",
+    title: "Mistral AI",
+    domain: "mistral.ai",
+    category: "AI",
+    description: "Frontier open-source language models from Europe",
+  },
+
+  // ── Documentation ──────────────────────────────────────────────────────────
+  {
+    id: "doc1",
+    url: "https://developer.mozilla.org",
+    title: "MDN Web Docs",
+    domain: "developer.mozilla.org",
+    category: "Documentation",
+    description: "Comprehensive documentation for all web technologies",
+  },
+  {
+    id: "doc2",
+    url: "https://react.dev",
+    title: "React Docs",
+    domain: "react.dev",
+    category: "Documentation",
+    description: "Official documentation for the React library",
+  },
+  {
+    id: "doc3",
+    url: "https://nextjs.org/docs",
+    title: "Next.js Docs",
+    domain: "nextjs.org",
+    category: "Documentation",
+    description: "Full-stack React framework with App Router documentation",
+  },
+  {
+    id: "doc4",
+    url: "https://tailwindcss.com/docs",
+    title: "Tailwind Docs",
+    domain: "tailwindcss.com",
+    category: "Documentation",
+    description: "Utility-first CSS framework documentation",
+  },
+  {
+    id: "doc5",
+    url: "https://www.typescriptlang.org/docs",
+    title: "TypeScript Docs",
+    domain: "typescriptlang.org",
+    category: "Documentation",
+    description: "Official TypeScript handbook and reference",
+  },
+  {
+    id: "doc6",
+    url: "https://zod.dev",
+    title: "Zod Docs",
+    domain: "zod.dev",
+    category: "Documentation",
+    description: "TypeScript-first schema validation documentation",
+  },
+  {
+    id: "doc7",
+    url: "https://ui.shadcn.com",
+    title: "shadcn/ui",
+    domain: "ui.shadcn.com",
+    category: "Documentation",
+    description: "Re-usable components built with Radix UI and Tailwind",
+  },
+  {
+    id: "doc8",
+    url: "https://react-hook-form.com",
+    title: "React Hook Form",
+    domain: "react-hook-form.com",
+    category: "Documentation",
+    description: "Performant, flexible and extensible forms with validation",
+  },
+  {
+    id: "doc9",
+    url: "https://tanstack.com/query",
+    title: "TanStack Query",
+    domain: "tanstack.com",
+    category: "Documentation",
+    description: "Powerful async state management for TypeScript apps",
+  },
+  {
+    id: "doc10",
+    url: "https://devdocs.io",
+    title: "DevDocs",
+    domain: "devdocs.io",
+    category: "Documentation",
+    description: "All-in-one API documentation browser",
+  },
+
+  // ── News ──────────────────────────────────────────────────────────────────
+  {
+    id: "n1",
+    url: "https://news.ycombinator.com",
+    title: "Hacker News",
+    domain: "news.ycombinator.com",
+    category: "News",
+    description: "Social news for hackers, startups, and curious people",
+  },
+  {
+    id: "n2",
+    url: "https://producthunt.com",
+    title: "Product Hunt",
+    domain: "producthunt.com",
+    category: "News",
+    description: "Discover the best new products every day",
+  },
+  {
+    id: "n3",
+    url: "https://dev.to",
+    title: "DEV Community",
+    domain: "dev.to",
+    category: "News",
+    description: "A community of software developers sharing ideas",
+  },
+  {
+    id: "n4",
+    url: "https://smashingmagazine.com",
+    title: "Smashing Mag",
+    domain: "smashingmagazine.com",
+    category: "News",
+    description: "Articles for web designers and developers",
+  },
+  {
+    id: "n5",
+    url: "https://css-tricks.com",
+    title: "CSS-Tricks",
+    domain: "css-tricks.com",
+    category: "News",
+    description: "Daily articles about CSS, HTML, JavaScript, and design",
+  },
+  {
+    id: "n6",
+    url: "https://techcrunch.com",
+    title: "TechCrunch",
+    domain: "techcrunch.com",
+    category: "News",
+    description: "Startup and technology news from Silicon Valley",
+  },
+  {
+    id: "n7",
+    url: "https://theverge.com",
+    title: "The Verge",
+    domain: "theverge.com",
+    category: "News",
+    description: "Technology, science, art, and culture journalism",
+  },
+  {
+    id: "n8",
+    url: "https://thenewstack.io",
+    title: "The New Stack",
+    domain: "thenewstack.io",
+    category: "News",
+    description: "News and tutorials for modern cloud-native developers",
+  },
+
+  // ── Cloud ─────────────────────────────────────────────────────────────────
+  {
+    id: "c1",
+    url: "https://aws.amazon.com",
+    title: "AWS",
+    domain: "aws.amazon.com",
+    category: "Cloud",
+    description: "Amazon Web Services — leading cloud infrastructure",
+  },
+  {
+    id: "c2",
+    url: "https://cloud.google.com",
+    title: "Google Cloud",
+    domain: "cloud.google.com",
+    category: "Cloud",
+    description: "Google's suite of cloud computing services",
+  },
+  {
+    id: "c3",
+    url: "https://azure.microsoft.com",
+    title: "Azure",
+    domain: "azure.microsoft.com",
+    category: "Cloud",
+    description: "Microsoft's cloud platform for building modern apps",
+  },
+  {
+    id: "c4",
+    url: "https://cloudflare.com",
+    title: "Cloudflare",
+    domain: "cloudflare.com",
+    category: "Cloud",
+    description: "CDN, DDoS protection, and edge computing platform",
+  },
+  {
+    id: "c5",
+    url: "https://digitalocean.com",
+    title: "DigitalOcean",
+    domain: "digitalocean.com",
+    category: "Cloud",
+    description: "Cloud infrastructure for developers and startups",
+  },
+  {
+    id: "c6",
+    url: "https://linode.com",
+    title: "Akamai / Linode",
+    domain: "linode.com",
+    category: "Cloud",
+    description: "Cloud computing with simple, predictable pricing",
+  },
+
+  // ── Analytics ─────────────────────────────────────────────────────────────
+  {
+    id: "an1",
+    url: "https://plausible.io",
+    title: "Plausible",
+    domain: "plausible.io",
+    category: "Analytics",
+    description: "Privacy-first, lightweight Google Analytics alternative",
+  },
+  {
+    id: "an2",
+    url: "https://posthog.com",
+    title: "PostHog",
+    domain: "posthog.com",
+    category: "Analytics",
+    description: "Open-source product analytics and session recording",
+  },
+  {
+    id: "an3",
+    url: "https://mixpanel.com",
+    title: "Mixpanel",
+    domain: "mixpanel.com",
+    category: "Analytics",
+    description: "Product analytics to measure and improve engagement",
+  },
+  {
+    id: "an4",
+    url: "https://amplitude.com",
+    title: "Amplitude",
+    domain: "amplitude.com",
+    category: "Analytics",
+    description: "Digital analytics platform for product teams",
+  },
+  {
+    id: "an5",
+    url: "https://segment.com",
+    title: "Segment",
+    domain: "segment.com",
+    category: "Analytics",
+    description: "Customer data platform — collect, clean, and activate",
+  },
+  {
+    id: "an6",
+    url: "https://hotjar.com",
+    title: "Hotjar",
+    domain: "hotjar.com",
+    category: "Analytics",
+    description: "Heatmaps, session recordings, and user feedback surveys",
+  },
+  {
+    id: "an7",
+    url: "https://clarity.microsoft.com",
+    title: "MS Clarity",
+    domain: "clarity.microsoft.com",
+    category: "Analytics",
+    description: "Free behaviour analytics with heatmaps and session replays",
+  },
+];
+
+export const PAGE_SIZE = 12;
+
+/** Simulate a paginated API call with a network delay */
+export async function fetchMockUrls(
+  page: number,
+  search: string
+): Promise<{
+  data: SidebarUrl[];
+  nextPage: number | null;
+  totalCount: number;
+}> {
+  await new Promise<void>((resolve) => setTimeout(resolve, 450));
+
+  const filtered = search.trim()
+    ? ALL_MOCK_URLS.filter(
+        (u) =>
+          u.title.toLowerCase().includes(search.toLowerCase()) ||
+          u.domain.toLowerCase().includes(search.toLowerCase()) ||
+          u.category.toLowerCase().includes(search.toLowerCase()) ||
+          u.description.toLowerCase().includes(search.toLowerCase())
+      )
+    : ALL_MOCK_URLS;
+
+  const start = (page - 1) * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+  const slice = filtered.slice(start, end);
+
+  return {
+    data: slice,
+    nextPage: end < filtered.length ? page + 1 : null,
+    totalCount: filtered.length,
+  };
+}
