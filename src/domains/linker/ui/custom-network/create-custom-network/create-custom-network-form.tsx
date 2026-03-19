@@ -17,8 +17,6 @@ import { cn } from "@/lib/utils";
 import FormError from "@/ui/shared/auth-errro-alert";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 
-// ─── Zod schemas ──────────────────────────────────────────────────────────────
-
 const urlItemSchema = z.object({
   url: z.url("Enter a valid URL starting with https://"),
 });
@@ -30,8 +28,6 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-// ─── Derived per-field state ──────────────────────────────────────────────────
-
 type UrlFieldStatus = "empty" | "valid" | "invalid" | "duplicate";
 
 interface UrlFieldMeta {
@@ -40,8 +36,6 @@ interface UrlFieldMeta {
   isValid: boolean;
   isInvalid: boolean;
 }
-
-// ─── Props ────────────────────────────────────────────────────────────────────
 
 interface UrlFormProps {
   /**
@@ -280,8 +274,6 @@ function UrlRow({ fieldId, index, meta, total, errorMessage, control, onRemove, 
   );
 }
 
-// ─── Main UrlForm ─────────────────────────────────────────────────────────────
-
 export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingConsumed, onUrlsChange }: UrlFormProps) {
   const bulkRef = useRef<HTMLTextAreaElement>(null);
 
@@ -345,8 +337,6 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingUrls, append, trigger, replace, watchedUrls.length, watchedUrls.map, watchedUrls[0]]);
 
-  // ── Bulk textarea import ───────────────────────────────────────────────────
-
   const handleBulkImport = useCallback(() => {
     const text = bulkRef.current?.value ?? "";
     const extracted = extractUrls(text);
@@ -367,8 +357,6 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
     if (bulkRef.current) bulkRef.current.value = "";
     void trigger("urls");
   }, [watchedUrls, append, replace, trigger]);
-
-  // ── Single-field multi-URL paste ──────────────────────────────────────────
 
   const onInputPaste = useCallback(
     (e: React.ClipboardEvent<HTMLInputElement>, idx: number) => {
@@ -391,8 +379,6 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
     [watchedUrls, replace, trigger]
   );
 
-  // ── Submit ────────────────────────────────────────────────────────────────
-
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log("Submitted:", data);
     await new Promise<void>((resolve) => setTimeout(resolve, 900));
@@ -404,8 +390,6 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
     duplicateIndices.size === 0 &&
     validCount === fields.length &&
     fields.length > 0;
-
-  // ── Render ────────────────────────────────────────────────────────────────
 
   return (
     <TooltipProvider delayDuration={200}>
@@ -463,6 +447,18 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
                     placeholder={
                       'Paste anything, for example:\n\nhttps://github.com, https://vercel.com\n<a href="https://example.com">link</a>\n{"url":"https://api.example.com"}'
                     }
+                    defaultValue={`https://example.com/battle/observe.html
+                    \nhttps://example.com/cemetery
+                    \nhttps://observe.example.net/billowy.aspx#bless
+                    \nhttps://example.com/sophisticated
+                    \nhttps://overflow.example.com/disturbed/name
+                    \nhttps://example.com/
+                    \nhttps://example.edu/bite#person
+                    \nhttps://pizzas.example.com/hurried/authority.html
+                    \nhttps://www.example.com/?tree=noise&harmonious=baby
+                    \nhttps://www.example.com/act
+                    \nhttps://example.com/
+                    \nhttps://uninterested.example.com/`}
                     className="font-mono text-sm resize-none"
                     autoComplete="off"
                   />
