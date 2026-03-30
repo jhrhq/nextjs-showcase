@@ -20,7 +20,7 @@ import { UrlSidebar } from "./url-sidebar";
  *   Sidebar click → pendingUrls queue → UrlForm consumes & appends
  *   UrlForm watch → onUrlsChange → addedUrls Set → Sidebar marks cards
  */
-export default function Page() {
+export default function CreateCustomNetworPage() {
   /**
    * Queue of URLs the user clicked in the sidebar.
    * UrlForm empties this queue via onPendingConsumed after appending them.
@@ -43,18 +43,8 @@ export default function Page() {
   }, []);
 
   return (
-    /*
-      Outer container: full viewport height, flex row, no page-level overflow.
-      The sidebar uses `sticky top-0 h-screen` so it stays fixed while the
-      left column scrolls normally.
-    */
     <div className="flex min-h-screen bg-background">
-      {/* ── Main content (scrollable) ─────────────────────────────────── */}
       <main className="flex-1 min-w-0 px-6 py-10">
-        {/*
-          Max-width keeps the form readable on wide screens.
-          Centred within the flex-1 column.
-        */}
         <div className="mx-auto max-w-2xl">
           <CreateCustomNetworkForm
             pendingUrls={pendingUrls}
@@ -64,7 +54,7 @@ export default function Page() {
         </div>
       </main>
 
-      {/* ── Sticky sidebar ────────────────────────────────────────────── */}
+      {/* ── Sticky sidebar ── */}
       <aside className="w-80 shrink-0" aria-label="URL browser">
         <UrlSidebar addedUrls={addedUrlsSet} onAddUrl={handleAddUrl} />
       </aside>

@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Globe, Link2, Plus, Sparkles, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import type * as React from "react";
 import { useCallback, useEffect, useRef } from "react";
 import { Controller, type SubmitHandler, useFieldArray, useForm, useWatch } from "react-hook-form";
@@ -23,7 +24,26 @@ const urlItemSchema = z.object({
 
 const formSchema = z.object({
   collectionName: z.string().min(1, "Collection name is required").max(80, "Keep it under 80 characters"),
-  urls: z.array(urlItemSchema).min(1, "Add at least one URL"),
+  urls: z
+    .array(urlItemSchema)
+    .min(1, "Add at least one URL")
+    .superRefine((items, ctx) => {
+      const seen = new Map<string, number>();
+
+      items.forEach((item, index) => {
+        const url = item.url;
+
+        if (seen.has(url)) {
+          ctx.addIssue({
+            code: "custom", // ✅ v4: string codes, no z.ZodIssueCode enum
+            message: "This URL is already added",
+            path: [index, "url"],
+          });
+        } else {
+          seen.set(url, index);
+        }
+      });
+    }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -276,7 +296,7 @@ function UrlRow({ fieldId, index, meta, total, errorMessage, control, onRemove, 
 
 export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingConsumed, onUrlsChange }: UrlFormProps) {
   const bulkRef = useRef<HTMLTextAreaElement>(null);
-
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -487,7 +507,7 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
 
             <Separator />
 
-            <CardContent className="pt-4 space-y-2">
+            <CardContent className="py-4 space-y-2">
               {fields.map((field, index) => {
                 const currentUrl = watchedUrls[index]?.url ?? "";
                 const fieldError = errors.urls?.[index]?.url;
@@ -529,9 +549,7 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
 
             <DuplicateWarning count={duplicateIndices.size} />
 
-            <Separator />
-
-            <CardFooter className="justify-between pt-4">
+            <CardFooter className="justify-between">
               <Button
                 type="button"
                 variant="ghost"
@@ -542,7 +560,16 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
                 Reset form
               </Button>
 
-              <Button type="submit" disabled={!canSubmit} className="gap-2 min-w-32">
+              <Button
+                type="submit"
+                onClick={() =>
+                  router.push(
+                    "/linker/dashboard/0150de33-fc87-4015-bb37-1b34a8cc1710/custom-network/create-custom-network-table"
+                  )
+                }
+                disabled={!canSubmit}
+                className="gap-2 min-w-32"
+              >
                 {isSubmitting ? (
                   <>
                     <span
