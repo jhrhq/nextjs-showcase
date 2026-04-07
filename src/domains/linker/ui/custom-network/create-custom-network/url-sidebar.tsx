@@ -57,8 +57,7 @@ interface UrlSidebarProps {
   onAddUrl: (url: string) => void;
 }
 
-// ── Sidebar ────────────────────────────────────────────────────────────────
-
+// ── Sidebar ───
 export function UrlSidebar({ addedUrls, onAddUrl }: UrlSidebarProps) {
   const { urls, isLoading, isFetchingMore, hasMore, totalCount, error, search, setSearch, sentinelRef } =
     useInfiniteUrls();
@@ -69,8 +68,8 @@ export function UrlSidebar({ addedUrls, onAddUrl }: UrlSidebarProps) {
         Sticky container — the parent <aside> must NOT have overflow-hidden.
         height = 100vh, flex column so header stays fixed and list scrolls.
       */}
-      <div className="sticky top-0 h-screen flex flex-col border-l bg-background">
-        {/* ── Fixed header ──────────────────────────────────────────────── */}
+      <div className="sticky top-0 h-screen flex flex-col border-l bg-background max-w-80">
+        {/* ── Fixed header ── */}
         <div className="shrink-0 px-4 pt-5 pb-3 space-y-3">
           <div className="flex items-baseline justify-between gap-2">
             <h2 className="text-sm font-semibold">Browse URLs</h2>
@@ -79,7 +78,6 @@ export function UrlSidebar({ addedUrls, onAddUrl }: UrlSidebarProps) {
             )}
           </div>
 
-          {/* Search */}
           <Input
             type="search"
             placeholder="Search by name, domain, category…"
@@ -97,34 +95,30 @@ export function UrlSidebar({ addedUrls, onAddUrl }: UrlSidebarProps) {
           {/* Initial loading skeletons */}
           {isLoading && Array.from({ length: 6 }).map((_, i) => <CardSkeleton key={i} />)}
 
-          {/* Error state */}
           {!isLoading && error && <ErrorState message={error} />}
 
-          {/* Empty state */}
           {!isLoading && !error && urls.length === 0 && <EmptyState search={search} />}
 
-          {/* URL cards */}
           {!isLoading &&
             urls.map((item) => (
-              <UrlCard key={item.id} item={item} isAdded={addedUrls.has(item.url)} onAdd={onAddUrl} />
+              <UrlCard
+                key={item.id}
+                item={item}
+                isAdded={addedUrls.has(item.url.endsWith("/") ? item.url : `${item.url}/`)}
+                onAdd={onAddUrl}
+              />
             ))}
 
-          {/* Fetch-more loading indicator */}
           {isFetchingMore && (
             <div className="flex justify-center py-3">
               <Loader2 className="size-4 animate-spin text-muted-foreground" aria-label="Loading more URLs" />
             </div>
           )}
 
-          {/* End-of-list message */}
           {!isLoading && !hasMore && urls.length > 0 && (
             <p className="text-center text-[11px] text-muted-foreground py-3">All {totalCount} URLs loaded</p>
           )}
 
-          {/*
-            IntersectionObserver sentinel.
-            When this div scrolls into view, the hook fires loadMore().
-          */}
           {hasMore && !isFetchingMore && <div ref={sentinelRef} className="h-1" aria-hidden="true" />}
         </div>
       </div>

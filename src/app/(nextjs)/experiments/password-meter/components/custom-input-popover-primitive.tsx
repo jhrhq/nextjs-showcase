@@ -516,6 +516,15 @@ const Content = PopoverContent;
 // const Close = PopoverClose;
 const Arrow = PopoverArrow;
 
+export type {
+  // PopoverAnchorProps,
+  PopoverArrowProps,
+  // PopoverCloseProps,
+  PopoverContentProps,
+  PopoverPortalProps,
+  PopoverProps,
+  PopoverTriggerProps,
+};
 export {
   // Anchor,
   Arrow,
@@ -534,13 +543,4 @@ export {
   //
   Root,
   Trigger,
-};
-export type {
-  // PopoverAnchorProps,
-  PopoverArrowProps,
-  // PopoverCloseProps,
-  PopoverContentProps,
-  PopoverPortalProps,
-  PopoverProps,
-  PopoverTriggerProps,
 };

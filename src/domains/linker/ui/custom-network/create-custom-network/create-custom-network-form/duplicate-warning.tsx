@@ -1,12 +1,19 @@
-"use client";
+/**
+ * duplicate-warning.tsx
+ *
+ * Amber warning banner shown below the URL list when duplicates exist.
+ * Wrapped in React.memo — only re-renders when `count` changes.
+ */
 
+import { TriangleAlert } from "lucide-react";
+import * as React from "react";
 import { Separator } from "@/components/ui/separator";
 
-export interface DuplicateWarningProps {
+interface DuplicateWarningProps {
   count: number;
 }
 
-export function DuplicateWarning({ count }: DuplicateWarningProps) {
+export const DuplicateWarning = React.memo(function DuplicateWarning({ count }: DuplicateWarningProps) {
   if (count === 0) return null;
 
   return (
@@ -14,7 +21,7 @@ export function DuplicateWarning({ count }: DuplicateWarningProps) {
       <Separator />
       <div className="px-6 py-3 bg-amber-50 flex items-start gap-2.5">
         <span className="text-amber-500 text-sm mt-0.5" aria-hidden="true">
-          ⚠
+          <TriangleAlert className="size-4" />
         </span>
         <p className="text-xs text-amber-700 leading-relaxed">
           <strong>
@@ -25,4 +32,6 @@ export function DuplicateWarning({ count }: DuplicateWarningProps) {
       </div>
     </>
   );
-}
+});
+
+DuplicateWarning.displayName = "DuplicateWarning";

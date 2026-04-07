@@ -28,6 +28,80 @@ type FormFieldWrapperProps<TFieldValues extends FieldValues> = {
   as?: "input" | "textarea";
 };
 
+/**
+ * Generic form field wrapper built on top of React Hook Form's `Controller`.
+ *
+ * Provides a consistent API for rendering controlled inputs with:
+ * - label + required indicator
+ * - validation state handling
+ * - error display
+ * - flexible input rendering (input / textarea)
+ * - composable UI addons (start/end/top/bottom)
+ *
+ * Strongly typed via `TFieldValues`, ensuring:
+ * - `name` is restricted to valid keys of your form schema
+ * - `field.value` and updates stay type-safe
+ *
+ * @template TFieldValues extends FieldValues
+ *
+ * @param props.control - RHF control instance from `useForm<T>()`
+ * @param props.name - Field path, type-safe against `TFieldValues`
+ *
+ * @param props.label - Optional label text
+ * @param props.htmlFor - Custom id (falls back to `useId`)
+ * @param props.required - Adds visual required indicator (does NOT enforce validation)
+ *
+ * @param props.placeholder - Input placeholder
+ * @param props.type - Native input type (ignored for textarea)
+ * @param props.autoComplete - Browser autocomplete behavior
+ *
+ * @param props.startAddon - Inline element before input (e.g. icon)
+ * @param props.endAddon - Inline element after input (e.g. button)
+ * @param props.topAddon - Block element above input
+ * @param props.bottomAddon - Block element below input
+ *
+ * @param props.as - Switch between `"input"` and `"textarea"`
+ *
+ * @remarks
+ * - Validation rules should be defined in `useForm` or schema (e.g. Zod), not here
+ * - `required` is purely visual; use RHF validation for actual enforcement
+ * - Avoid passing uncontrolled props (value/defaultValue) — RHF manages state
+ *
+ * @example Type-safe usage
+ * ```ts
+ * type FormValues = {
+ *   email: string;
+ *   message: string;
+ * };
+ *
+ * const form = useForm<FormValues>();
+ *
+ * // ✅ Valid: "email" exists in FormValues
+ * <FormFieldWrapper<FormValues>
+ *   control={form.control}
+ *   name="email"
+ *   label="Email"
+ *   type="email"
+ * />
+ *
+ * // ❌ Type error: "username" is not in FormValues
+ * <FormFieldWrapper<FormValues>
+ *   control={form.control}
+ *   name="username" // TS error
+ * />
+ * ```
+ *
+ * @example With addons
+ * ```tsx
+ * <FormFieldWrapper
+ *   control={control}
+ *   name="amount"
+ *   label="Amount"
+ *   startAddon={<span>$</span>}
+ *   endAddon={<span>USD</span>}
+ * />
+ * ```
+ */
 export function FormFieldWrapper<TFieldValues extends FieldValues>({
   control,
   name,

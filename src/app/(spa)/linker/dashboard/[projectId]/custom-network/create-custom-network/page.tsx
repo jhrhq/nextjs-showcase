@@ -1,5 +1,5 @@
-import CreateCustomNetworkExcercise from "@/domains/linker/ui/custom-network/excercise";
+import CreateCustomNetwork from "@/domains/linker/ui/custom-network/create-custom-network";
 
 export default function CreateCustomNetworkPage() {
-  return <CreateCustomNetworkExcercise />;
+  return <CreateCustomNetwork />;
 }

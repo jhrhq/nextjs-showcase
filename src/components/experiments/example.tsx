@@ -48,4 +48,4 @@ function Example({
   );
 }
 
-export { ExampleWrapper, Example };
+export { Example, ExampleWrapper };
