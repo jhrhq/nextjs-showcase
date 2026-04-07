@@ -138,7 +138,7 @@ function AnchorList({ title, items }: { title: string; items: LinkDetail[] }) {
 
               <div className="text-slate-500 truncate">
                 Anchor URL:{" "}
-                <a href={link.anchorUrl} target="_blank" className="text-blue-600 underline">
+                <a href={link.anchorUrl} target="_blank" className="text-blue-600 underline" rel="noopener">
                   {link.anchorUrl}
                 </a>
               </div>

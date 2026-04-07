@@ -1,19 +1,17 @@
-// components/UrlForm/formSchema.ts
-import { z } from "zod";
-import { findDuplicateIndices } from "./url-utils";
+import z from "zod";
+import { findDuplicateIndices } from "../ui/custom-network/create-custom-network/create-custom-network-form/url-utils";
 
-const urlItemSchema = z.object({
-  url: z.string().min(1, "URL is required"),
+export const urlItemSchema = z.object({
+  url: z.url("Enter a valid URL starting with https://"),
 });
 
-export const formSchema = z.object({
+export const createCustomNetworkFormSchema = z.object({
   collectionName: z.string().min(1, "Collection name is required").max(80, "Keep it under 80 characters"),
 
   urls: z
     .array(urlItemSchema)
     .min(1, "Add at least one URL")
     .superRefine((items, ctx) => {
-      // Use optimized duplicate detection
       const dupes = findDuplicateIndices(items);
 
       dupes.forEach((i) => {
@@ -26,4 +24,6 @@ export const formSchema = z.object({
     }),
 });
 
-export type FormValues = z.infer<typeof formSchema>;
+// ─── Inferred TypeScript type ────
+
+export type CreateCustomNetworkFormValues = z.infer<typeof createCustomNetworkFormSchema>;

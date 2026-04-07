@@ -88,7 +88,6 @@ interface UrlCardProps {
 
 export function UrlCard({ item, isAdded, onAdd }: UrlCardProps) {
   const { badge } = CATEGORY_STYLES[item.category];
-
   const handleCardClick = () => {
     if (!isAdded) onAdd(item.url);
   };

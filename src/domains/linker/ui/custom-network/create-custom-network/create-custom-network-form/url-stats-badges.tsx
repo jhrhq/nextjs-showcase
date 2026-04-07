@@ -10,16 +10,12 @@ import * as React from "react";
 import { Badge } from "@/components/ui/badge";
 
 interface UrlStatsBadgesProps {
-  total:      number;
-  valid:      number;
+  total: number;
+  valid: number;
   duplicates: number;
 }
 
-export const UrlStatsBadges = React.memo(function UrlStatsBadges({
-  total,
-  valid,
-  duplicates,
-}: UrlStatsBadgesProps) {
+export const UrlStatsBadges = React.memo(function UrlStatsBadges({ total, valid, duplicates }: UrlStatsBadgesProps) {
   return (
     <div className="flex items-center gap-1.5 shrink-0">
       <Badge variant="secondary" className="font-mono text-xs tabular-nums">
