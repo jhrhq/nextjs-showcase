@@ -27,7 +27,7 @@ export function LinkAnalysisSection({ report }: { report: SiteReport }) {
           <CardContent>
             <div className="space-y-4">
               <LinkHealthItem
-                icon={<CheckCircle2 className="h-5 w-5 text-green-600" />}
+                icon={<CheckCircle2 className="size-5 text-green-600" />}
                 label="Active Links"
                 value={report.linkMetrics.activeLinks}
                 bgClass="bg-green-50"
@@ -35,7 +35,7 @@ export function LinkAnalysisSection({ report }: { report: SiteReport }) {
               />
 
               <LinkHealthItem
-                icon={<XCircle className="h-5 w-5 text-red-600" />}
+                icon={<XCircle className="size-5 text-red-600" />}
                 label="Broken Links"
                 value={report.linkMetrics.brokenLinks}
                 bgClass="bg-red-50"
@@ -44,7 +44,7 @@ export function LinkAnalysisSection({ report }: { report: SiteReport }) {
               />
 
               <LinkHealthItem
-                icon={<AlertCircle className="h-5 w-5 text-yellow-600" />}
+                icon={<AlertCircle className="size-5 text-yellow-600" />}
                 label="Redirects"
                 value={report.linkMetrics.redirects}
                 bgClass="bg-yellow-50"

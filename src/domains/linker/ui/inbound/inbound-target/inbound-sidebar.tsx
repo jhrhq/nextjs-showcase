@@ -112,7 +112,7 @@ export function InboundSidebar({ onSelectUrl }: { onSelectUrl: (url: string) => 
                       Post
                     </Badge>
 
-                    {/*   <Button variant="ghost" size="icon" className="h-6 w-6" onClick={(e) => e.stopPropagation()}>
+                    {/*   <Button variant="ghost" size="icon" className="size-6" onClick={(e) => e.stopPropagation()}>
                       ✕
                     </Button> */}
                   </div>

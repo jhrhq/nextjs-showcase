@@ -13,9 +13,9 @@ export function getScoreColor(score: number) {
 }
 
 export function getStatusIcon(status: "pass" | "warning" | "fail") {
-  if (status === "pass") return <CheckCircle2 className="h-4 w-4 text-green-600" />;
-  if (status === "warning") return <AlertCircle className="h-4 w-4 text-yellow-600" />;
-  return <XCircle className="h-4 w-4 text-red-600" />;
+  if (status === "pass") return <CheckCircle2 className="size-4 text-green-600" />;
+  if (status === "warning") return <AlertCircle className="size-4 text-yellow-600" />;
+  return <XCircle className="size-4 text-red-600" />;
 }
 
 export function getSeoScoreStatus(score: number) {

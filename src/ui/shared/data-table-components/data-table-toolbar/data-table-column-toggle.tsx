@@ -17,7 +17,7 @@ export function DataTableColumnToggle<TData>({ table }: DataTableColumnTogglePro
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
-          <Settings2 className="mr-2 h-4 w-4" />
+          <Settings2 className="mr-2 size-4" />
           Columns
         </Button>
       </DropdownMenuTrigger>

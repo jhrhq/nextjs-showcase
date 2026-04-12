@@ -20,7 +20,7 @@ export default function AnchorManagerPage() {
   if (projectsLoading || anchorLoading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+        <Loader2 className="size-8 animate-spin text-blue-600" />
       </div>
     );
   }

@@ -61,7 +61,7 @@ export function DataTablePagination<TData>({
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
-              <ChevronLeft className="h-4 w-4 mr-1" />
+              <ChevronLeft className="size-4 mr-1" />
               Previous
             </Button>
 
@@ -72,7 +72,7 @@ export function DataTablePagination<TData>({
 
             <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
               Next
-              <ChevronRight className="h-4 w-4 ml-1" />
+              <ChevronRight className="size-4 ml-1" />
             </Button>
           </div>
         </div>

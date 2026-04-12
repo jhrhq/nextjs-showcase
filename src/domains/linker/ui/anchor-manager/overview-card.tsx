@@ -53,7 +53,7 @@ export default function OverviewCard({ data }: { data: AnchorManager }) {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <OverviewStatCard
         title="Total Anchors"
-        icon={<Link2 className="h-4 w-4" />}
+        icon={<Link2 className="size-4" />}
         value={totalAnchorsValue}
         subtitle="Across all pages"
         valueClassName="text-gray-900"
@@ -61,7 +61,7 @@ export default function OverviewCard({ data }: { data: AnchorManager }) {
 
       <OverviewStatCard
         title="Unique Anchors"
-        icon={<Link2 className="h-4 w-4" />}
+        icon={<Link2 className="size-4" />}
         value={uniqueAnchorsValue}
         subtitle="Different anchor texts"
         valueClassName="text-blue-600"
@@ -69,7 +69,7 @@ export default function OverviewCard({ data }: { data: AnchorManager }) {
 
       <OverviewStatCard
         title="External Anchors"
-        icon={<ExternalLink className="h-4 w-4" />}
+        icon={<ExternalLink className="size-4" />}
         value={externalAnchorsValue}
         subtitle={externalAnchorsSubtitle}
         valueClassName="text-green-600"
@@ -77,7 +77,7 @@ export default function OverviewCard({ data }: { data: AnchorManager }) {
 
       <OverviewStatCard
         title="Optimization Score"
-        icon={<TrendingUp className="h-4 w-4" />}
+        icon={<TrendingUp className="size-4" />}
         value={optimizationScoreValue}
         badgeText={optimizationScoreLabel}
         valueClassName="text-purple-600"

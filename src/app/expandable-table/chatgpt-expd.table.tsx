@@ -186,7 +186,7 @@ export function DataTable<TData extends { id: string }>({ data, columns }: DataT
                                 }))
                               }
                             >
-                              {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                              {expanded ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
                             </Button>
                           )}
                         </div>
