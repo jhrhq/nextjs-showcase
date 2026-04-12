@@ -93,7 +93,7 @@ export default function AnchorManagerPage() {
         header: "",
         cell: () => (
           <Button>
-            <MoreHorizontal className="h-4 w-4" />
+            <MoreHorizontal className="size-4" />
           </Button>
         ),
       },

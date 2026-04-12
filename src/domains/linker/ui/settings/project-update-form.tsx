@@ -64,7 +64,7 @@ export default function ProjectUpdateForm({ project }: ProjectUpdateFormProps) {
       <FormError error={errors.root?.message} />
 
       <Button type="submit" disabled={projectUpdateLoading}>
-        {updateProject.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {updateProject.isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
         Save Changes
       </Button>
     </form>

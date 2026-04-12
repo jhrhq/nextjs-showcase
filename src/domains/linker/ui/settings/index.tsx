@@ -201,7 +201,7 @@ export function SettingsProjectDelete({ project, onDelete, isLoading }: Settings
         <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
           <DialogTrigger asChild>
             <Button variant="destructive">
-              <Trash2 className="mr-2 h-4 w-4" />
+              <Trash2 className="mr-2 size-4" />
               Delete Project
             </Button>
           </DialogTrigger>
@@ -235,7 +235,7 @@ export function SettingsProjectDelete({ project, onDelete, isLoading }: Settings
                 onClick={onDelete}
                 disabled={deleteConfirmText !== project.name || isLoading}
               >
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
                 Delete Project
               </Button>
             </DialogFooter>

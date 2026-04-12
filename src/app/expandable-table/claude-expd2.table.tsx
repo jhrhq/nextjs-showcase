@@ -576,7 +576,7 @@ export default function ClaudeDataTableDemo2() {
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div className="flex flex-1 gap-2 items-center w-full sm:w-auto">
           <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-500" />
+            <Search className="absolute left-2 top-2.5 size-4 text-slate-500" />
             <Input
               placeholder="Search all columns..."
               value={globalFilter ?? ""}
@@ -589,7 +589,7 @@ export default function ClaudeDataTableDemo2() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              <Settings2 className="mr-2 h-4 w-4" />
+              <Settings2 className="mr-2 size-4" />
               Columns
             </Button>
           </DropdownMenuTrigger>
@@ -651,11 +651,11 @@ export default function ClaudeDataTableDemo2() {
                               {header.column.getCanSort() && (
                                 <span className="ml-1">
                                   {header.column.getIsSorted() === "asc" ? (
-                                    <ChevronUp className="h-4 w-4" />
+                                    <ChevronUp className="size-4" />
                                   ) : header.column.getIsSorted() === "desc" ? (
-                                    <ChevronDown className="h-4 w-4" />
+                                    <ChevronDown className="size-4" />
                                   ) : (
-                                    <ChevronsUpDown className="h-4 w-4 text-slate-400" />
+                                    <ChevronsUpDown className="size-4 text-slate-400" />
                                   )}
                                 </span>
                               )}
@@ -762,7 +762,7 @@ export default function ClaudeDataTableDemo2() {
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="size-4" />
               Previous
             </Button>
             <div className="text-sm text-slate-600">
@@ -770,7 +770,7 @@ export default function ClaudeDataTableDemo2() {
             </div>
             <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
               Next
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="size-4" />
             </Button>
           </div>
         </div>

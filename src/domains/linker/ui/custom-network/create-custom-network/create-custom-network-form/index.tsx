@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Globe, Plus } from "lucide-react";
 import React from "react";
-import { type Control, type SubmitHandler, useFieldArray, useForm, useWatch } from "react-hook-form";
+import { type SubmitHandler, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldError } from "@/components/ui/field";
@@ -206,7 +206,7 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
                       isDuplicate={meta.isDuplicate}
                       isInvalid={meta.isInvalid}
                       errorMessage={fieldError?.message}
-                      control={control as Control<CreateCustomNetworkFormValues>}
+                      control={control}
                       onRemove={handleRemove}
                       onPaste={onInputPaste}
                     />

@@ -47,7 +47,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
             <ProjectStatusBadge status={project.status} />
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+                <MoreHorizontal className="size-4 text-muted-foreground" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem className="font-medium text-slate-600" onClick={handleEdit}>
@@ -69,7 +69,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
           </div>
 
           <div className="flex items-center gap-3 bg-muted/40 p-3">
-            <div className="flex h-8 w-8 items-center justify-center bg-white">
+            <div className="flex size-8 items-center justify-center bg-white">
               <span className="text-xs font-semibold">{project.name.slice(0, 2).toUpperCase()}</span>
             </div>
             <div className="text-sm">
