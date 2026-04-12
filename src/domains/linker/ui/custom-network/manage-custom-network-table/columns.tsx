@@ -1,10 +1,10 @@
 "use client";
 import type { ColumnDef } from "@tanstack/react-table";
-import { BarChart2, CheckCircle2, ChevronDown, ChevronRight, ExternalLink, Zap } from "lucide-react";
+import { BarChart2, CheckCircle2, ChevronDown, ChevronRight, ExternalLink, RefreshCw, Unlink, Zap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { fuzzySort } from "@/infra/utils.tanstack-table";
 import { cn } from "@/lib/utils";
 import type { RegistryRowData, UrlOccurrence } from "./data";
@@ -26,10 +26,54 @@ function Highlight({ text, query }: { text: string; query: string }) {
 }
 
 // ── State badge ──
-const STATE_CFG: Record<string, { dot: string; text: string }> = {
+export const STATE_CFG: Record<string, { dot: string; text: string }> = {
   "In Progress": { dot: "bg-amber-500", text: "text-amber-700" },
   "Fully Linked": { dot: "bg-emerald-500", text: "text-emerald-700" },
   Unlinked: { dot: "bg-slate-400", text: "text-slate-500" },
+};
+
+// Define the mapping outside to prevent re-creation on every render
+const STATUS_CONFIG = {
+  ACTIVE: {
+    label: "Active",
+    Icon: CheckCircle2,
+    cls: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    iconCls: "size-3 text-emerald-500",
+  },
+  STALE: {
+    label: "Stale",
+    Icon: RefreshCw,
+    cls: "bg-indigo-50  text-indigo-700  border-indigo-200",
+    iconCls: "size-3 text-indigo-500",
+  },
+  UNLINKED: {
+    label: "Unlinked",
+    Icon: Unlink,
+    cls: "bg-gray-50 text-gray-700 border-gray-200",
+    iconCls: "size-3 text-gray-500",
+  },
+} as const;
+export const NestedStatusBadge = ({ status }: { status: string }) => {
+  const cfg = STATUS_CONFIG[status] || STATUS_CONFIG.UNLINKED;
+  const Icon = cfg.Icon;
+
+  return (
+    <TooltipProvider delayDuration={200}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div
+            className={cn("inline-flex items-center gap-1.5 text-[11px] font-semibold px-2 py-1 rounded-md", cfg.cls)}
+          >
+            <Icon size={14} className={cfg.iconCls} />
+            <span>{cfg.label}</span>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent side="top" className="text-[10px]">
+          <p>Link Status: {cfg.label}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
 };
 
 // ── Column factory ───
