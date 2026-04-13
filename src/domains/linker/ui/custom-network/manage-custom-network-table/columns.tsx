@@ -1,30 +1,28 @@
-"use client";
-import type { ColumnDef } from "@tanstack/react-table";
-import { BarChart2, CheckCircle2, ChevronDown, ChevronRight, ExternalLink, RefreshCw, Unlink, Zap } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import type { ColumnDef, FilterFn } from "@tanstack/react-table";
+import { CheckCircle2, ChevronRight, ExternalLink, RefreshCw, Unlink } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { fuzzySort } from "@/infra/utils.tanstack-table";
+import { fuzzyFilter, fuzzySort } from "@/infra/utils.tanstack-table";
 import { cn } from "@/lib/utils";
-import type { RegistryRowData, UrlOccurrence } from "./data";
+import { AppearsInAudit } from "./appeares-in-audit";
+import type { NestedLinkData, RegistryRowData } from "./data";
 
-// ── Highlight ───
-function Highlight({ text, query }: { text: string; query: string }) {
-  if (!query.trim()) return <>{text}</>;
-  const idx = text.toLowerCase().indexOf(query.toLowerCase().trim());
-  if (idx === -1) return <>{text}</>;
-  return (
-    <>
-      {text.slice(0, idx)}
-      <mark className="bg-yellow-200 text-yellow-900 rounded-sm px-0.5">
-        {text.slice(idx, idx + query.trim().length)}
-      </mark>
-      {text.slice(idx + query.trim().length)}
-    </>
-  );
-}
+/**
+ * Type-safe filter function for nested statuses
+ * filterValue is explicitly typed as an array of valid statuses
+ */
+const nestedStatusFilterFn: FilterFn<RegistryRowData> = (row, _columnId, filterValue: NestedLinkData["status"][]) => {
+  // If no filters are selected in the faceted filter, show all rows
+  if (!filterValue || filterValue.length === 0) {
+    return true;
+  }
 
+  // Check if any child object has a status included in the filter selection
+  return row.original.nestedData?.some((child) => filterValue.includes(child.status)) ?? false;
+};
 // ── State badge ──
 export const STATE_CFG: Record<string, { dot: string; text: string }> = {
   "In Progress": { dot: "bg-amber-500", text: "text-amber-700" },
@@ -53,7 +51,9 @@ const STATUS_CONFIG = {
     iconCls: "size-3 text-gray-500",
   },
 } as const;
-export const NestedStatusBadge = ({ status }: { status: string }) => {
+type StatusType = keyof typeof STATUS_CONFIG;
+
+export const NestedStatusBadge = ({ status }: { status: StatusType }) => {
   const cfg = STATUS_CONFIG[status] || STATUS_CONFIG.UNLINKED;
   const Icon = cfg.Icon;
 
@@ -76,170 +76,175 @@ export const NestedStatusBadge = ({ status }: { status: string }) => {
   );
 };
 
-// ── Column factory ───
-interface ColumnOptions {
-  urlFreqMap: Map<string, UrlOccurrence[]>;
-  deepMode: boolean;
-  deepQuery: string;
-  deepResults: Array<{ row: RegistryRowData; rowUrlMatch: boolean }>;
-  onFreqClick: (url: string) => void;
+export type UrlUsageMap = Record<string, number>;
+
+interface ColumnProps {
+  urlUsageMap: UrlUsageMap;
 }
 
-export function getColumns({
-  urlFreqMap,
-  deepMode,
-  deepQuery,
-  deepResults,
-  onFreqClick,
-}: ColumnOptions): ColumnDef<RegistryRowData>[] {
-  return [
-    {
-      id: "select",
-      size: 40,
-      header: ({ table }) => (
-        <Checkbox
-          checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
-          onCheckedChange={(v) => table.toggleAllPageRowsSelected(!!v)}
-          aria-label="Select all"
-          className="size-3"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(v) => row.toggleSelected(!!v)}
-          aria-label="Select row"
-          className="size-3"
-          onClick={(e) => e.stopPropagation()}
-        />
-      ),
-      enableSorting: false,
-      enableColumnFilter: false,
-    },
+export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<RegistryRowData>[] => [
+  {
+    id: "select",
+    size: 40,
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
+        onCheckedChange={(v) => table.toggleAllPageRowsSelected(!!v)}
+        aria-label="Select all"
+        className="size-3"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(v) => row.toggleSelected(!!v)}
+        aria-label="Select row"
+        className="size-3"
+        onClick={(e) => e.stopPropagation()}
+      />
+    ),
+    enableSorting: false,
+    enableColumnFilter: false,
+  },
+  {
+    id: "expander",
+    header: () => null,
+    cell: ({ row }) => (
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={row.getToggleExpandedHandler()}
+        className="size-7 text-muted-foreground hover:text-foreground"
+      >
+        <ChevronRight className={cn("h-4 w-4 transition-transform", row.getIsExpanded() && "rotate-90")} />
+      </Button>
+    ),
+  },
+  {
+    accessorKey: "url",
+    header: "Page URL",
+    filterFn: fuzzyFilter,
+    sortingFn: fuzzySort,
+    cell: ({ getValue }) => (
+      <span className="text-blue-600 text-sm font-medium flex items-center gap-2">
+        {getValue() as string} <ExternalLink className="size-3 text-muted-foreground/40 shrink-0" />
+      </span>
+    ),
+  },
+  {
+    id: "appearsIn",
+    header: "Appears In",
+    enableSorting: false,
+    enableColumnFilter: false,
+    accessorFn: (row) => urlUsageMap[row.url] || 0,
+    cell: ({ row, table }) => <AppearsInAudit row={row} table={table} urlUsageMap={urlUsageMap} />,
+  },
+  {
+    id: "composition",
+    header: "Link Composition",
+    cell: ({ row }) => {
+      const children = row.original.nestedData || [];
+      const total = children.length;
 
-    {
-      id: "expander",
-      size: 36,
-      header: "",
-      cell: ({ row }) =>
-        row.getCanExpand() ? (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-7 text-muted-foreground hover:text-foreground"
-            onClick={row.getToggleExpandedHandler()}
-          >
-            {row.getIsExpanded() ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
-          </Button>
-        ) : null,
-      enableSorting: false,
-      enableColumnFilter: false,
-    },
+      if (total === 0) return <span className="text-[10px] text-slate-400 italic">No links</span>;
 
-    {
-      accessorKey: "url",
-      header: "Page URL",
-      filterFn: "fuzzy",
-      sortingFn: fuzzySort,
-      cell: ({ getValue, row }) => {
-        const url = getValue() as string;
-        const isDeepMatch = deepMode && deepResults.find((r) => r.row.id === row.id)?.rowUrlMatch;
-        return (
-          <div className="flex items-center gap-2">
-            <code className={cn("text-sm font-mono font-semibold", isDeepMatch ? "text-yellow-700" : "text-primary")}>
-              {deepMode && deepQuery ? <Highlight text={url} query={deepQuery} /> : url}
-            </code>
-            {isDeepMatch && (
-              <Badge className="text-[9px] bg-yellow-100 text-yellow-800 border-0 gap-0.5 shrink-0 px-1.5">
-                <Zap className="size-2" />
-                direct
-              </Badge>
-            )}
-            <ExternalLink className="size-3 text-muted-foreground/40 shrink-0" />
-          </div>
-        );
-      },
-    },
+      const activeCount = children.filter((c) => c.status === "ACTIVE").length;
+      const staleCount = children.filter((c) => c.status === "STALE" || c.isStale).length;
+      const unlinkedCount = children.filter((c) => c.status === "UNLINKED" || c.isUnlinked).length;
 
-    {
-      accessorKey: "targetLinks",
-      header: "Target Links",
-      enableColumnFilter: false,
-      cell: ({ getValue }) => {
-        return (
-          <span className="text-sm font-medium text-gray-600 tabular-nums w-9 shrink-0">{getValue() as string}</span>
-        );
-      },
-    },
+      // Convert to percentages for the bar segments
+      const activeP = (activeCount / total) * 100;
+      const staleP = (staleCount / total) * 100;
+      const unlinkedP = (unlinkedCount / total) * 100;
 
-    {
-      id: "appearsIn",
-      header: "Appears In",
-      enableSorting: false,
-      enableColumnFilter: false,
-      cell: ({ row }) => {
-        const occurrences = urlFreqMap.get(row.original.url) ?? [];
-        if (occurrences.length === 0)
-          return <span className="text-xs text-muted-foreground/50 italic">Not linked</span>;
-
-        return (
+      return (
+        <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-7 px-2 gap-1 text-muted-foreground hover:text-primary"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onFreqClick(row.original.url);
-                }}
-              >
-                <BarChart2 size={12} />
-                <span className="text-[10px] font-bold tabular-nums">{occurrences.length}</span>
-              </Button>
+              <div className="w-36 cursor-help space-y-1.5">
+                {/* Segmented Bar */}
+                <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-slate-100 shadow-inner">
+                  <div
+                    style={{ width: `${activeP}%` }}
+                    className="bg-green-500 shadow-[inset_-1px_0_0_rgba(0,0,0,0.1)]"
+                  />
+                  <div
+                    style={{ width: `${staleP}%` }}
+                    className="bg-amber-400 shadow-[inset_-1px_0_0_rgba(0,0,0,0.1)]"
+                  />
+                  <div style={{ width: `${unlinkedP}%` }} className="bg-slate-300" />
+                </div>
+
+                {/* Labels */}
+                <div className="flex justify-between items-center text-[10px] font-bold text-slate-500">
+                  <span className="tabular-nums">{total} Links</span>
+                  <div className="flex gap-1.5">
+                    {activeCount > 0 && <span className="text-green-600">{activeCount}A</span>}
+                    {staleCount > 0 && <span className="text-amber-600">{staleCount}S</span>}
+                    {unlinkedCount > 0 && <span className="text-slate-400">{unlinkedCount}U</span>}
+                  </div>
+                </div>
+              </div>
             </TooltipTrigger>
-            <TooltipContent side="top">
-              <p>Appears {occurrences.length}× across all pages</p>
+            <TooltipContent className="p-3 bg-slate-900 text-white border-none shadow-xl">
+              <div className="space-y-1 text-xs">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-green-500" />
+                  <span>{activeCount} Active Links</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-amber-400" />
+                  <span>{staleCount} Stale Links</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-slate-400" />
+                  <span>{unlinkedCount} Unlinked Links</span>
+                </div>
+              </div>
             </TooltipContent>
           </Tooltip>
-        );
-      },
+        </TooltipProvider>
+      );
     },
+  },
+  {
+    accessorKey: "state",
+    header: "State",
+    filterFn: "arrIncludesSome",
+    cell: ({ getValue }) => {
+      const state = getValue() as string;
+      const cfg = STATE_CFG[state] ?? STATE_CFG.Unlinked;
+      return (
+        <div className="flex items-center gap-1.5">
+          <span className={cn("size-2 rounded-full shrink-0", cfg.dot)} />
+          <span className={cn("text-xs font-medium", cfg.text)}>{state}</span>
+        </div>
+      );
+    },
+  },
+  {
+    id: "nestedStatus",
+    // Accessor extracts an array of statuses for the faceted unique values engine
+    accessorFn: (row) => row.nestedData?.map((c) => c.status) ?? [],
 
-    {
-      accessorKey: "state",
-      header: "State",
-      filterFn: "arrIncludesSome",
-      cell: ({ getValue }) => {
-        const state = getValue() as string;
-        const cfg = STATE_CFG[state] ?? STATE_CFG.Unlinked;
-        return (
-          <div className="flex items-center gap-1.5">
-            <span className={cn("size-2 rounded-full shrink-0", cfg.dot)} />
-            <span className={cn("text-xs font-medium", cfg.text)}>{state}</span>
-          </div>
-        );
-      },
-    },
+    // Applying the type-safe filter function
+    filterFn: nestedStatusFilterFn,
 
-    {
-      id: "actions",
-      header: "Action",
-      enableSorting: false,
-      enableColumnFilter: false,
-      cell: ({ row }) =>
-        row.original.state === "Fully Linked" ? (
-          <CheckCircle2 className="size-4 text-emerald-500" />
-        ) : (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-7 text-xs text-primary hover:bg-primary/10 font-medium"
-            onClick={(e) => e.stopPropagation()}
-          >
-            Mark Complete
-          </Button>
-        ),
-    },
-  ];
-}
+    // Metadata to help TanStack internal types if needed
+    enableColumnFilter: true,
+    enableGlobalFilter: false, // Usually, you don't want the raw status array searchable via global search
+  },
+  {
+    id: "actions",
+    enableSorting: false,
+    enableColumnFilter: false,
+    header: () => <div className="text-right">Action</div>,
+    cell: () => (
+      <div className="flex items-center justify-end gap-2">
+        <Button variant="link" size="sm" className="h-7 text-xs text-primary hover:bg-primary/10 font-medium">
+          Mark Complete
+        </Button>
+      </div>
+    ),
+  },
+];

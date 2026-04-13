@@ -1,9 +1,8 @@
-"use client";
-import type { RankingInfo } from "@tanstack/match-sorter-utils";
 import {
   type Column,
   type ColumnFiltersState,
   type ExpandedState,
+  type FilterFn,
   flexRender,
   getCoreRowModel,
   getExpandedRowModel,
@@ -16,39 +15,39 @@ import {
   type SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, ChevronsUpDown, ChevronUp, Layers } from "lucide-react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
+import React, { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { fuzzyFilter } from "@/infra/utils.tanstack-table";
-import { cn } from "@/lib/utils";
-import { getColumns } from "./columns";
-import { buildUrlFrequencyMap, deepSearch, REGISTRY_DATA, type RegistryRowData } from "./data";
+import { getColumns, type UrlUsageMap } from "./columns";
+import type { RegistryRowData } from "./data";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
-import { DeepSearchSheet } from "./deep-search-sheet";
-import { FreqSheet } from "./freq-sheet";
-import { NestedPanel } from "./nested-panel";
-import { arrIncludesSomeFilter, deepLinkFilter } from "./utils";
+import { ExpandedRowContent } from "./expanded-row-content";
 
-// ── Module augmentation ──
-declare module "@tanstack/react-table" {
-  interface FilterFns {
-    fuzzy: import("@tanstack/react-table").FilterFn<unknown>;
-    deepLink: import("@tanstack/react-table").FilterFn<unknown>;
-    arrIncludesSome: import("@tanstack/react-table").FilterFn<unknown>;
-  }
-  interface FilterMeta {
-    itemRank: RankingInfo;
-  }
-}
+const globalFilterWithNested: FilterFn<RegistryRowData> = (row, _columnId, filterValue) => {
+  const search = String(filterValue).toLowerCase();
 
+  // 1. Check parent fields
+  const inParent = [row.original.url, row.original.state, row.original.targetLinks].some((val) =>
+    val?.toLowerCase().includes(search)
+  );
+
+  if (inParent) return true;
+
+  // 2. Check nested children fields
+  const inChildren = row.original.nestedData?.some((child) =>
+    [child.title, child.url, child.anchor, child.status].some((val) => val?.toLowerCase().includes(search))
+  );
+
+  return !!inChildren;
+};
+
+// ── Sortable header cell ──
 interface SortableHeaderProps<TData, TValue> {
   column: Column<TData, TValue>;
   children: React.ReactNode;
 }
-// ── Sortable header cell ──
 function SortableHeader<TData, TValue>({ column, children }: SortableHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) return <>{children}</>;
   return (
@@ -71,97 +70,60 @@ function SortableHeader<TData, TValue>({ column, children }: SortableHeaderProps
   );
 }
 
-// ── Main DataTable ──
-export function DataTable() {
-  const urlFreqMap = useMemo(() => buildUrlFrequencyMap(), []);
-
-  // Core state
+export function RegistryDataTable({ data }: { data: RegistryRowData[] }) {
   const [expanded, setExpanded] = useState<ExpandedState>({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const isFiltered = globalFilter.length > 0 || columnFilters.length > 0;
 
-  // Deep search
-  const [deepMode, setDeepMode] = useState(false);
-  const [deepQuery, setDeepQuery] = useState("");
-  const [deepSheetOpen, setDeepSheetOpen] = useState(false);
-
-  // Freq sheet
-  const [freqUrl, setFreqUrl] = useState<string | null>(null);
-  const [freqSheetOpen, setFreqSheetOpen] = useState(false);
-
-  const openFreq = useCallback((url: string) => {
-    setFreqUrl(url);
-    setFreqSheetOpen(true);
-  }, []);
-
-  // Deep search results (scans all rows, not just visible)
-  const deepResults = useMemo(() => {
-    if (!deepQuery.trim()) return [];
-    return REGISTRY_DATA.map((row) => {
-      const { rowUrlMatch, nestedMatches } = deepSearch(row, deepQuery);
-      return { row, rowUrlMatch, nestedMatches };
-    }).filter((r) => r.rowUrlMatch || r.nestedMatches.length > 0);
-  }, [deepQuery]);
-
-  // Auto-expand rows with nested matches in deep mode
-  useEffect(() => {
-    if (!deepMode || !deepQuery.trim()) return;
-    const toExpand: Record<string, boolean> = {};
-    for (const r of deepResults) if (r.nestedMatches.length > 0) toExpand[r.row.id] = true;
-    setExpanded((prev) => ({ ...(prev as Record<string, boolean>), ...toExpand }));
-  }, [deepResults, deepMode, deepQuery]);
-
-  const handleModeChange = (deep: boolean) => {
-    setDeepMode(deep);
-    if (!deep) {
-      setDeepQuery("");
-      setDeepSheetOpen(false);
-    }
-  };
-
-  const handleDeepQueryChange = (q: string) => {
-    setDeepQuery(q);
-    if (q.trim()) setDeepSheetOpen(false);
-    else setDeepSheetOpen(false);
-  };
+  const urlUsageMap = useMemo<UrlUsageMap>(() => {
+    const counts: UrlUsageMap = {};
+    data.forEach((p) => {
+      p.nestedData?.forEach((c) => {
+        if (c.url) counts[c.url] = (counts[c.url] || 0) + 1;
+      });
+    });
+    return counts;
+  }, [data]);
 
   const handleReset = () => {
     setGlobalFilter("");
     setColumnFilters([]);
-    setDeepQuery("");
-    setDeepSheetOpen(false);
   };
 
+  // Memoize columns to prevent table jittering on re-renders
   const columns = useMemo(
     () =>
       getColumns({
-        urlFreqMap,
-        deepMode,
-        deepQuery,
-        deepResults,
-        onFreqClick: openFreq,
+        urlUsageMap,
       }),
-    [urlFreqMap, deepMode, deepQuery, deepResults, openFreq]
+    [urlUsageMap]
   );
 
-  const activeGlobalFilter = deepMode ? deepQuery : globalFilter;
-
-  const table = useReactTable<RegistryRowData>({
-    data: REGISTRY_DATA,
+  const table = useReactTable({
+    data,
     columns,
-    state: { expanded, sorting, columnFilters, globalFilter: activeGlobalFilter, rowSelection },
+    state: {
+      rowSelection,
+      sorting,
+      globalFilter,
+      columnFilters,
+      columnVisibility: {
+        nestedStatus: false,
+      },
+      // Use true for all rows during filter, otherwise use manual state
+      expanded: isFiltered ? true : expanded,
+    },
     getRowId: (row) => row.id,
-    onExpandedChange: setExpanded,
     getRowCanExpand: (row) => (row.original.nestedData?.length ?? 0) > 0,
+    globalFilterFn: globalFilterWithNested,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onGlobalFilterChange: deepMode ? setDeepQuery : setGlobalFilter,
-    globalFilterFn: (deepMode ? "deepLink" : "fuzzy") as "fuzzy" | "deepLink",
-    filterFns: { fuzzy: fuzzyFilter, deepLink: deepLinkFilter, arrIncludesSome: arrIncludesSomeFilter },
     onRowSelectionChange: setRowSelection,
-    enableRowSelection: true,
+    onGlobalFilterChange: setGlobalFilter,
+    onColumnFiltersChange: setColumnFilters,
+    onExpandedChange: setExpanded,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -171,116 +133,64 @@ export function DataTable() {
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
     paginateExpandedRows: false,
-    initialState: { pagination: { pageSize: 6 } },
+    initialState: {},
   });
-
   return (
-    <TooltipProvider delayDuration={120}>
-      <div className="bg-card overflow-hidden border">
-        {/* Toolbar */}
-        <DataTableToolbar
-          table={table}
-          deepMode={deepMode}
-          deepQuery={deepQuery}
-          globalFilter={globalFilter}
-          deepResultCount={deepResults.length}
-          deepNestedCount={deepResults.reduce((s, r) => s + r.nestedMatches.length, 0)}
-          onModeChange={handleModeChange}
-          onDeepQueryChange={handleDeepQueryChange}
-          onGlobalFilterChange={setGlobalFilter}
-          onOpenDeepSheet={() => setDeepSheetOpen(true)}
-          onReset={handleReset}
-        />
+    <div className="space-y-4">
+      <DataTableToolbar
+        table={table}
+        globalFilter={globalFilter}
+        onGlobalFilterChange={setGlobalFilter}
+        onReset={handleReset}
+      />
 
-        {/* Deep mode hint */}
-        {deepMode && !deepQuery && (
-          <div className="flex items-center gap-2 px-4 py-2.5 bg-primary/5 border-b border-primary/10 text-xs text-primary">
-            <Layers className="h-3.5 w-3.5 shrink-0" />
-            <span>
-              Deep Search scans <strong>all nested link URLs, titles & anchors</strong> — try{" "}
-              <code className="bg-primary/10 px-1.5 py-0.5 rounded font-mono text-[11px]">
-                /solutions/financial-services
-              </code>
-            </span>
-          </div>
-        )}
-
-        {/* Table */}
+      {/* THE TABLE */}
+      <div className=" border bg-white shadow-sm">
         <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((hg) => (
-              <TableRow key={hg.id} className="bg-muted/50 hover:bg-muted/50 border-b">
-                {hg.headers.map((h) => (
-                  <TableHead
-                    key={h.id}
-                    className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground py-3"
-                    style={{ width: h.getSize() !== 150 ? h.getSize() : undefined }}
-                  >
-                    <SortableHeader column={h.column}>
-                      {h.isPlaceholder ? null : flexRender(h.column.columnDef.header, h.getContext())}
+          <TableHeader className="bg-slate-50">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id} className="text-[10px] font-bold uppercase text-slate-400">
+                    <SortableHeader column={header.column}>
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </SortableHeader>
                   </TableHead>
                 ))}
               </TableRow>
             ))}
           </TableHeader>
-
           <TableBody>
             {table.getRowModel().rows.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={columns.length} className="text-center py-16 text-muted-foreground text-sm">
-                  No results match your {deepMode ? "deep search" : "filters"}.
+                  No results match your filters.
                 </TableCell>
               </TableRow>
             ) : (
               table.getRowModel().rows.map((row) => {
-                const deepRowResult = deepMode ? deepResults.find((r) => r.row.id === row.id) : null;
-                const hasNestedMatch = (deepRowResult?.nestedMatches.length ?? 0) > 0;
-
                 return (
                   <React.Fragment key={row.id}>
                     <TableRow
-                      className={cn(
-                        "cursor-pointer border-b transition-colors",
-                        row.getIsSelected() && "bg-primary/5",
-                        row.getIsExpanded() && !row.getIsSelected() && "bg-muted/30",
-                        hasNestedMatch && !row.getIsSelected() && "bg-yellow-50/40"
-                      )}
+                      className="group cursor-pointer border-b transition-colors hover:bg-slate-50/50"
                       onClick={row.getCanExpand() ? row.getToggleExpandedHandler() : undefined}
                     >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id} className="py-3">
+                        <TableCell key={cell.id} className="p-4">
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </TableCell>
                       ))}
                     </TableRow>
 
-                    {row.getIsExpanded() && (
-                      <TableRow className="hover:bg-transparent border-0">
-                        <TableCell colSpan={row.getAllCells().length} className="p-0">
-                          <NestedPanel
-                            row={row}
-                            deepQuery={deepMode ? deepQuery : ""}
-                            urlFreqMap={urlFreqMap}
-                            onUrlClick={openFreq}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    )}
+                    {row.getIsExpanded() && <ExpandedRowContent row={row} table={table} />}
                   </React.Fragment>
                 );
               })
             )}
           </TableBody>
         </Table>
-
-        {/* Pagination */}
         <DataTablePagination table={table} />
       </div>
-
-      {/* Sheets */}
-      <DeepSearchSheet open={deepSheetOpen} onOpenChange={setDeepSheetOpen} query={deepQuery} results={deepResults} />
-      <FreqSheet open={freqSheetOpen} onOpenChange={setFreqSheetOpen} freqUrl={freqUrl} urlFreqMap={urlFreqMap} />
-    </TooltipProvider>
+    </div>
   );
 }
