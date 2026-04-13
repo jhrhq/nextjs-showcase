@@ -1,5 +1,5 @@
 import { REGISTRY_DATA } from "./data";
-import { DataTable } from "./data-table";
+import { RegistryDataTable } from "./data-table";
 
 const STATS = [
   { label: "Total Nodes", value: REGISTRY_DATA.length, accent: "#1a56db" },
@@ -25,8 +25,8 @@ export default function InternalLinkManagement() {
         {STATS.map(({ label, value, accent }) => (
           <div
             key={label}
-            className="bg-card rounded-xl p-5 shadow-sm border border-border/30"
-            style={{ borderTop: `3px solid ${accent}` }}
+            className="bg-card p-5 shadow-sm border border-border/30"
+            style={{ borderLeft: `3px solid ${accent}` }}
           >
             <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</p>
             <p className="text-4xl font-bold text-foreground tracking-tight leading-none">{value}</p>
@@ -35,7 +35,7 @@ export default function InternalLinkManagement() {
       </div>
 
       {/* Data table */}
-      <DataTable />
+      <RegistryDataTable data={REGISTRY_DATA} />
     </div>
   );
 }
