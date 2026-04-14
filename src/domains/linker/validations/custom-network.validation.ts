@@ -53,6 +53,7 @@ export const RegistryRowResponseSchema = z.object({
 
 // 3. Final Network Response Schema
 export const CreateCustomNetworkResponseSchema = z.object({
+  id: z.uuid(),
   projectId: z.uuid(),
   collectionName: z.string(),
   data: z.array(RegistryRowResponseSchema).min(1),

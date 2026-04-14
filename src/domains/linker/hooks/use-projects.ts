@@ -1,10 +1,12 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 import { projectsApi } from "@/domains/linker/api/projects";
 import type { CreateProjectInput, UpdateProjectAPIInput } from "@/domains/linker/validations/projects.validations";
+import { AUTH_CONFIG } from "../constants/auth.constants";
 import type { createCustomNetworkPayload } from "../validations/custom-network.validation";
 import type { GenerateSentenceSuggestionsRequest, SentenceSelectionPayload } from "../validations/inbound.validation";
 
@@ -107,13 +109,13 @@ export function useSumbitSentence() {
 }
 
 export function useSumbitCustomNetowrkUrls() {
+  const router = useRouter();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ["linker-custom-network"],
+    mutationKey: ["linker-custom-network-submit-urls"],
     mutationFn: (payload: createCustomNetworkPayload) => projectsApi.submitCustomNetworkUrls(payload),
     onSuccess: (data) => {
-      queryClient.setQueryData(["network", data.data.projectId], data.data);
-
+      queryClient.setQueryData(["linker-custom-network", data.data.projectId, data.data.id], data.data);
       toast.success("Updated Successfully", {
         position: "bottom-right",
         classNames: {
@@ -123,14 +125,17 @@ export function useSumbitCustomNetowrkUrls() {
           "--border-radius": "calc(var(--radius)  + 4px)",
         } as React.CSSProperties,
       });
+      router.push(
+        `${AUTH_CONFIG.ROUTES.DASHBOARD}/${data.data.projectId}/${AUTH_CONFIG.API.CUSTOM_NETWORK}/${data.data.id}`
+      );
     },
   });
 }
 
 export function useCustomNetworkStructure(projectId: string, customNetworkId: string) {
   return useQuery({
-    queryKey: ["linker-custom-network", projectId],
+    queryKey: ["linker-custom-network", projectId, customNetworkId],
     queryFn: () => projectsApi.getCustomNetworkStructure(projectId, customNetworkId),
-    enabled: !!projectId,
+    enabled: !!projectId && !!customNetworkId,
   });
 }
