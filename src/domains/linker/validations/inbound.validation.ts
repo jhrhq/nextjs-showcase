@@ -38,8 +38,8 @@ export const InboundDataSchema = z.object({
 
 export const SentenceSuggestionPayloadSchema = z.object({
   projectId: z.uuid(),
-  postId: z.uuid(), // the post we are that expands accordion
-  targetId: z.uuid(), // we are searching with a url and returned a specific post with Id
+  postId: z.uuid(),
+  targetId: z.uuid(),
 });
 
 export const SentenceSuggestionSchema = z.array(

@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Globe, Plus } from "lucide-react";
+import { useParams } from "next/navigation";
 import React from "react";
 import { type SubmitHandler, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { FieldError } from "@/components/ui/field";
 import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CREATE_CUSTOM_NETWORK_FORM_DEFAULTS } from "@/domains/linker/constants/custom-network.constants";
+import { useSumbitCustomNetowrkUrls } from "@/domains/linker/hooks/use-projects";
 import {
   type CreateCustomNetworkFormValues,
   createCustomNetworkFormSchema,
@@ -37,6 +39,9 @@ interface UrlFormProps {
 }
 
 export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingConsumed, onUrlsChange }: UrlFormProps) {
+  const submitUrls = useSumbitCustomNetowrkUrls();
+
+  const { projectId } = useParams<{ projectId: string }>();
   const {
     control,
     handleSubmit,
@@ -127,16 +132,16 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
   );
 
   const onSubmit: SubmitHandler<CreateCustomNetworkFormValues> = async (data) => {
-    console.log("Submitted", data);
-    await new Promise<void>((resolve) => setTimeout(resolve, 900));
+    submitUrls.mutate({ ...data, projectId });
   };
 
   const canSubmit =
     !isSubmitting &&
-    !isSubmitSuccessful &&
+    // !isSubmitSuccessful &&
     duplicateIndices.size === 0 &&
     validCount === fields.length &&
     fields.length > 0;
+
   return (
     <TooltipProvider delayDuration={200}>
       <div className="space-y-4">
