@@ -5,11 +5,6 @@ import {
   STATUS_OPTIONS,
 } from "@/domains/linker/validations/custom-network.validation";
 
-// Helper function outside to keep the handler lean
-/**
- * Logic: Deterministic State Calculation
- */
-
 const calculateState = (nested: { status: string }[]) => {
   const allUnlinked = nested.every((n) => n.status === "UNLINKED");
   if (allUnlinked) return "Unlinked";
@@ -65,11 +60,18 @@ export async function POST(request: NextRequest) {
       };
     });
 
-    return NextResponse.json({
-      projectId: parsedData.projectId,
-      collectionName: parsedData.collectionName,
-      data: rows,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          id: crypto.randomUUID(),
+          projectId: parsedData.projectId,
+          collectionName: parsedData.collectionName,
+          data: rows,
+        },
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
