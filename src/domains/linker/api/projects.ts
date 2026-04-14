@@ -12,6 +12,10 @@ import type {
   ProjectDTO,
   UpdateProjectAPIInput,
 } from "@/domains/linker/validations/projects.validations";
+import type {
+  CreateCustomNetworkResponseSchemaValues,
+  createCustomNetworkPayload,
+} from "../validations/custom-network.validation";
 import { linkerApi } from "./axios-instance";
 
 export const projectsApi = {
@@ -73,6 +77,26 @@ export const projectsApi = {
 
     return response.data;
   },
+  submitCustomNetworkUrls: async (
+    payload: createCustomNetworkPayload
+  ): Promise<{ success: true; data: CreateCustomNetworkResponseSchemaValues }> => {
+    const response = await linkerApi.post(
+      `${AUTH_CONFIG.API.PROJECTS}/${payload.projectId}/${AUTH_CONFIG.API.CUSTOM_NETWORK}`,
+      payload
+    );
+
+    return response.data;
+  },
+
+  getCustomNetworkStructure: async (
+    projectId: string,
+    customNetworkId: string
+  ): Promise<CreateCustomNetworkResponseSchemaValues[]> => {
+    const response = await linkerApi.get(
+      `${AUTH_CONFIG.API.PROJECTS}/${projectId}/${projectId}${AUTH_CONFIG.API.CUSTOM_NETWORK}/${customNetworkId}`
+    );
+    return response.data;
+  },
   /*
 
   getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {
@@ -80,12 +104,6 @@ export const projectsApi = {
     return response.data;
   },
 
-  getCustomNetworkStructure: async (projectId: string): Promise<CustomNetowrkStructure[]> => {
-    const response = await linkerApi.get(
-      `${AUTH_CONFIG.API.PROJECTS}/${projectId}/${projectId}${AUTH_CONFIG.API.CUSTOM_NETWORK}`
-    );
-    return response.data;
-  },
 
 
  */

@@ -34,7 +34,7 @@ export const AUTH_CONFIG = {
     INBOUNDS: "/inbounds",
     CUSTOM_NETWORK: "/custom-network",
     CREATE_CUSTOM_NETWORK: "/create-custom-network",
-    ANCHOR_MANAGER: "/anchor-manager",
+    MANAGE_CUSTOM_NETWORK: "/manage-custom-network",
     SITE_REPORT: "/site-report",
   },
   API: {

@@ -2,8 +2,10 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
+import { toast } from "sonner";
 import { projectsApi } from "@/domains/linker/api/projects";
 import type { CreateProjectInput, UpdateProjectAPIInput } from "@/domains/linker/validations/projects.validations";
+import type { createCustomNetworkPayload } from "../validations/custom-network.validation";
 import type { GenerateSentenceSuggestionsRequest, SentenceSelectionPayload } from "../validations/inbound.validation";
 
 export function useProjects() {
@@ -103,16 +105,32 @@ export function useSumbitSentence() {
     mutationFn: (payload: SentenceSelectionPayload) => projectsApi.submitSentence(payload),
   });
 }
-/*
 
-export function useCustomNetworkStructure(projectId: string) {
-  return useQuery({
-    queryKey: ["linker-custom-network", projectId],
-    queryFn: () => projectsApi.getCustomNetworkStructure(projectId),
-    enabled: !!projectId,
+export function useSumbitCustomNetowrkUrls() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["linker-custom-network"],
+    mutationFn: (payload: createCustomNetworkPayload) => projectsApi.submitCustomNetworkUrls(payload),
+    onSuccess: (data) => {
+      queryClient.setQueryData(["network", data.data.projectId], data.data);
+
+      toast.success("Updated Successfully", {
+        position: "bottom-right",
+        classNames: {
+          content: "flex flex-col gap-2",
+        },
+        style: {
+          "--border-radius": "calc(var(--radius)  + 4px)",
+        } as React.CSSProperties,
+      });
+    },
   });
 }
 
-
-
- */
+export function useCustomNetworkStructure(projectId: string, customNetworkId: string) {
+  return useQuery({
+    queryKey: ["linker-custom-network", projectId],
+    queryFn: () => projectsApi.getCustomNetworkStructure(projectId, customNetworkId),
+    enabled: !!projectId,
+  });
+}
