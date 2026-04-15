@@ -19,13 +19,13 @@ import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import type { CustomNetworkCollectionValues } from "@/domains/linker/validations/custom-network.validation";
 import { getColumns, type UrlUsageMap } from "./columns";
-import type { RegistryRowData } from "./data";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 import { ExpandedRowContent } from "./expanded-row-content";
 
-const globalFilterWithNested: FilterFn<RegistryRowData> = (row, _columnId, filterValue) => {
+const globalFilterWithNested: FilterFn<CustomNetworkCollectionValues> = (row, _columnId, filterValue) => {
   const search = String(filterValue).toLowerCase();
 
   // 1. Check parent fields
@@ -70,7 +70,7 @@ function SortableHeader<TData, TValue>({ column, children }: SortableHeaderProps
   );
 }
 
-export function RegistryDataTable({ data }: { data: RegistryRowData[] }) {
+export function RegistryDataTable({ data }: { data: CustomNetworkCollectionValues[] }) {
   const [expanded, setExpanded] = useState<ExpandedState>({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);

@@ -16,7 +16,7 @@ import {
   Network,
   Trash2,
 } from "lucide-react";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,27 +37,31 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
+// 🔹 Exact type alias as requested
+export type CreateCustomNetworkResponseSchemaValues = {
+  id: string;
+  projectId: string;
+  collectionName: string;
+  date?: string; // Optional fallback for UI
+  collections: {
+    id: string;
+    url: string;
+    targetLinks: string;
+    state: "In Progress" | "Fully Linked" | "Not Started";
+    nestedData: {
+      id: string;
+      title: string;
+      url: string;
+      anchor: string;
+      status: "ACTIVE" | "STALE" | "UNLINKED";
+    }[];
+  }[];
+};
+
 type Stage = "start" | "progress" | "complete";
-
-interface Page {
-  id: string;
-  slug: string;
-  label: string;
-  url: string;
-}
-
-export interface NetworkItem {
-  id: string;
-  name: string;
-  date: string;
-  seedCount: number;
-  pages: Page[];
-}
 
 interface Metrics {
   pageCount: number;
@@ -91,35 +95,21 @@ interface StatCellProps {
   valueCls: string;
 }
 
-interface MatrixDialogProps {
-  open: boolean;
-  onClose: () => void;
-  network: NetworkItem;
-  pages: Page[];
-  isConnected: (a: string, b: string) => boolean;
-  onToggle: (a: string, b: string) => void;
-  metrics: Metrics;
-  stage: Stage;
-  cfg: StageConfig;
-}
+// 🔹 Derive metrics directly from collections & nestedData
+function calcMetrics(network: CreateCustomNetworkResponseSchemaValues): Metrics {
+  const pageCount = network.collections.length;
+  let possible = 0;
+  let built = 0;
 
-interface CustomNetworkCardProps {
-  network: NetworkItem;
-  onDelete: (id: string) => void;
-}
+  for (const collection of network.collections) {
+    possible += collection.nestedData.length;
+    built += collection.nestedData.filter((n) => n.status === "ACTIVE").length;
+  }
 
-function seedConnections(pages: Page[], count: number): Set<string> {
-  const keys: string[] = [];
-  for (const src of pages) for (const tgt of pages) if (src.id !== tgt.id) keys.push(`${src.id}->${tgt.id}`);
-  return new Set(keys.slice(0, Math.min(count, keys.length)));
-}
-
-function calcMetrics(pages: Page[], connections: Set<string>): Metrics {
-  const possible = pages.length * (pages.length - 1);
-  const built = connections.size;
   const remaining = Math.max(possible - built, 0);
   const completion = possible > 0 ? Math.round((built / possible) * 100) : 0;
-  return { pageCount: pages.length, possible, built, remaining, completion };
+
+  return { pageCount, possible, built, remaining, completion };
 }
 
 function getStage(built: number, possible: number): Stage {
@@ -193,192 +183,36 @@ function StatCell({ label, value, bg, labelCls, valueCls }: StatCellProps) {
   );
 }
 
-function MatrixDialog({ open, onClose, network, pages, isConnected, onToggle, metrics, cfg }: MatrixDialogProps) {
-  const { built, possible, remaining, completion } = metrics;
-
-  return (
-    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="max-w-xl w-full p-0 gap-0 rounded-none overflow-hidden">
-        <DialogHeader className="px-6 pt-5 pb-4 border-b border-border">
-          <div className="flex items-center justify-between">
-            <div>
-              <DialogTitle className="text-sm font-semibold">{network.name}</DialogTitle>
-              <DialogDescription className="text-xs text-muted-foreground mt-0.5">
-                Row = source · Column = target · click to toggle
-              </DialogDescription>
-            </div>
-            <Badge
-              className={cn(
-                "text-[11px] font-semibold px-2.5 py-1 rounded-none border-0 flex items-center gap-1.5",
-                cfg.badgeBg,
-                cfg.badgeFg
-              )}
-            >
-              <cfg.StatusIcon className="size-3" />
-              {cfg.label}
-            </Badge>
-          </div>
-        </DialogHeader>
-
-        <div className="px-6 py-3 bg-muted/40 border-b border-border">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-xs text-muted-foreground">
-              Built:{" "}
-              <span className="font-semibold text-foreground tabular-nums">
-                {built} / {possible}
-              </span>
-            </span>
-            <span className="text-xs font-bold tabular-nums">{completion}%</span>
-          </div>
-          <Progress value={completion} className={cn("h-1.5 rounded-none", cfg.progressBar)} />
-        </div>
-
-        <TooltipProvider delayDuration={80}>
-          <div className="px-6 py-5 overflow-x-auto">
-            <div className="flex items-center gap-4 mb-4">
-              {(
-                [
-                  {
-                    icon: "✓",
-                    cls: "bg-emerald-50 border border-emerald-200 text-emerald-600 font-bold",
-                    label: "Linked",
-                  },
-                  {
-                    icon: "✗",
-                    cls: "bg-white border border-border text-muted-foreground/40",
-                    label: "No link",
-                  },
-                  {
-                    icon: "—",
-                    cls: "bg-muted/30 border border-border/40 text-muted-foreground/25",
-                    label: "Self",
-                  },
-                ] as const
-              ).map(({ icon, cls, label }) => (
-                <span key={label} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <span className={cn("size-5 flex items-center justify-center font-mono text-[11px]", cls)}>
-                    {icon}
-                  </span>
-                  {label}
-                </span>
-              ))}
-            </div>
-
-            <table className="border-collapse">
-              <thead>
-                <tr>
-                  <th className="w-22" />
-                  {pages.map((p) => (
-                    <th key={p.id} className="w-9 pb-2 px-0.5 text-center">
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <span className="block text-[10px] font-semibold text-muted-foreground truncate max-w-8.5 cursor-default">
-                            {p.label}
-                          </span>
-                        </TooltipTrigger>
-                        <TooltipContent side="top" className="font-mono text-xs rounded-none">
-                          {p.slug}
-                        </TooltipContent>
-                      </Tooltip>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {pages.map((src) => (
-                  <tr key={src.id}>
-                    <td className="pr-3 py-0.5">
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <span className="text-[11px] font-mono text-muted-foreground truncate block max-w-21 cursor-default">
-                            {src.slug}
-                          </span>
-                        </TooltipTrigger>
-                        <TooltipContent side="left" className="text-xs rounded-none">
-                          {src.url}
-                        </TooltipContent>
-                      </Tooltip>
-                    </td>
-                    {pages.map((tgt) => {
-                      const isSelf = src.id === tgt.id;
-                      const linked = !isSelf && isConnected(src.id, tgt.id);
-                      return (
-                        <td key={tgt.id} className="px-0.5 py-0.5">
-                          <Button
-                            disabled={isSelf}
-                            onClick={() => !isSelf && onToggle(src.id, tgt.id)}
-                            className={cn(
-                              "size-9 text-sm font-mono flex items-center justify-center border transition-all select-none",
-                              isSelf
-                                ? "bg-muted/30 border-border/40 text-muted-foreground/25 cursor-default"
-                                : linked
-                                  ? "bg-emerald-50 border-emerald-200 text-emerald-600 font-bold hover:bg-emerald-100 cursor-pointer"
-                                  : "bg-white border-border text-muted-foreground/40 hover:bg-muted/40 cursor-pointer"
-                            )}
-                          >
-                            {isSelf ? "—" : linked ? "✓" : "✗"}
-                          </Button>
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </TooltipProvider>
-
-        <div className="flex items-center justify-between px-6 py-4 border-t border-border bg-muted/20">
-          <p className="text-xs text-muted-foreground">
-            {remaining > 0 ? `${remaining} connection${remaining !== 1 ? "s" : ""} remaining` : "All links connected!"}
-          </p>
-          <Button size="sm" onClick={onClose} className="rounded-none text-xs">
-            Done
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
+export interface CustomNetworkCardProps {
+  network: CreateCustomNetworkResponseSchemaValues;
+  onDelete: (id: string) => void;
+  onViewLinks?: (network: CreateCustomNetworkResponseSchemaValues) => void;
 }
 
-export function CustomNetworkCard({ network, onDelete }: CustomNetworkCardProps) {
-  const [connections, setConnections] = useState<Set<string>>(() => seedConnections(network.pages, network.seedCount));
-  const [matrixOpen, setMatrixOpen] = useState(false);
+export function CustomNetworkCard({ network, onDelete, onViewLinks }: CustomNetworkCardProps) {
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [matrixOpen, setMatrixOpen] = useState(false); // Added missing state
 
-  const toggle = useCallback((a: string, b: string): void => {
-    const key = `${a}->${b}`;
-    setConnections((prev) => {
-      const next = new Set(prev);
-      next.has(key) ? next.delete(key) : next.add(key);
-      return next;
-    });
-  }, []);
-
-  const isConnected = useCallback((a: string, b: string): boolean => connections.has(`${a}->${b}`), [connections]);
-
-  const metrics = useMemo<Metrics>(() => calcMetrics(network.pages, connections), [connections, network.pages]);
-
+  const metrics = useMemo(() => calcMetrics(network), [network]);
   const { pageCount, possible, built, remaining, completion } = metrics;
   const stage = getStage(built, possible);
   const cfg = STAGE_CONFIG[stage];
 
+  // Safe date fallback since `date` wasn't in the original schema
+  const displayDate = network.date || new Date().toISOString();
+
   return (
     <>
-      <Card
-        className="relative w-full overflow-hidden @container grid grid-rows-[auto,1fr,auto] gap-4 rounded-none cursor-pointer border-border transition-all duration-150 hover:shadow-md active:scale-[0.995]"
-        onClick={() => setMatrixOpen(true)}
-      >
+      <Card className="relative w-full overflow-hidden @container grid grid-rows-[auto,1fr,auto] gap-4 rounded-none cursor-pointer border-border transition-all duration-150 hover:shadow-md active:scale-[0.995]">
         <CardHeader className="px-5 pt-4 pb-3">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-foreground leading-tight truncate">{network.name}</p>
+              <p className="text-sm font-semibold text-foreground leading-tight truncate">{network.collectionName}</p>
               <div className="flex items-center gap-1.5 mt-1 text-xs text-muted-foreground">
                 <Calendar className="size-3 shrink-0" />
-                <span>{fmt(network.date)}</span>
+                <span>{fmt(displayDate)}</span>
               </div>
             </div>
-
             <div className="flex items-center gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
               <Badge
                 className={cn(
@@ -390,7 +224,6 @@ export function CustomNetworkCard({ network, onDelete }: CustomNetworkCardProps)
                 <cfg.StatusIcon className="size-3" />
                 {cfg.label}
               </Badge>
-
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -404,7 +237,7 @@ export function CustomNetworkCard({ network, onDelete }: CustomNetworkCardProps)
                 <DropdownMenuContent align="end" className="w-44 rounded-none">
                   <DropdownMenuItem
                     className="text-xs gap-2 cursor-pointer rounded-none"
-                    onClick={() => setMatrixOpen(true)}
+                    onClick={() => onViewLinks?.(network)}
                   >
                     <List className="size-3.5" />
                     View links
@@ -433,15 +266,12 @@ export function CustomNetworkCard({ network, onDelete }: CustomNetworkCardProps)
             labelCls={cfg.statHighFg}
             valueCls={cfg.statHighFg}
           />
-          {/*<div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
-          </div>*/}
         </CardContent>
         <div
-          className="flex flex-col items-center gap-3 @xs:flex-row @xs:gap-2 @xs:items-center @xs:justify-between px-4 group-data-[size=sm]/card:px-3"
+          className="flex flex-col items-center gap-3 @xs:flex-row @xs:gap-2 @xs:items-center @xs:justify-between px-4"
           onClick={(e) => e.stopPropagation()}
         >
           <span className="text-xs text-muted-foreground tabular-nums">{completion}% complete</span>
-
           <Button
             variant="ghost"
             size="sm"
@@ -455,22 +285,10 @@ export function CustomNetworkCard({ network, onDelete }: CustomNetworkCardProps)
         </div>
       </Card>
 
-      <MatrixDialog
-        open={matrixOpen}
-        onClose={() => setMatrixOpen(false)}
-        network={network}
-        pages={network.pages}
-        isConnected={isConnected}
-        onToggle={toggle}
-        metrics={metrics}
-        stage={stage}
-        cfg={cfg}
-      />
-
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <AlertDialogContent className="rounded-none">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-sm font-semibold">Delete "{network.name}"?</AlertDialogTitle>
+            <AlertDialogTitle className="text-sm font-semibold">Delete "{network.collectionName}"?</AlertDialogTitle>
             <AlertDialogDescription className="text-xs text-muted-foreground">
               This will permanently remove the network and all link connections. This cannot be undone.
             </AlertDialogDescription>
@@ -486,6 +304,21 @@ export function CustomNetworkCard({ network, onDelete }: CustomNetworkCardProps)
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Dialog open={matrixOpen} onOpenChange={setMatrixOpen}>
+        <DialogContent className="sm:max-w-3xl rounded-none">
+          <DialogHeader>
+            <DialogTitle className="text-sm font-semibold">Link Matrix: {network.collectionName}</DialogTitle>
+            <DialogDescription className="text-xs text-muted-foreground">
+              Managing {pageCount} collections with {possible} potential connections.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-8 text-center text-sm text-muted-foreground">
+            {/* Replace with your actual matrix/table component */}
+            Matrix UI renders here using <code>network.collections</code>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

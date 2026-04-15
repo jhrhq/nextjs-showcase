@@ -3,127 +3,16 @@
 
 import { Link } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
+import { useCustomNetworkStructures } from "../../hooks/use-projects";
 import CreateNetworkItemCard from "./create-custom-network-card";
 import CustomNetworks from "./custom-networks";
 
-// ─── Domain types ─────────────────────────────────────────────────────────────
-
-interface Page {
-  id: string;
-  slug: string;
-  label: string;
-  url: string;
-}
-
-interface NetworkItem {
-  id: string;
-  name: string;
-  date: string;
-  seedCount: number;
-  pages: Page[];
-}
-
 type ViewMode = "empty" | "filled";
-
-const NETWORKS: NetworkItem[] = [
-  {
-    id: "net-1",
-    name: "Main Site",
-    date: "2024-11-03",
-    seedCount: 0,
-    pages: [
-      { id: "1", slug: "/home", label: "Home", url: "https://acme.com/" },
-      {
-        id: "2",
-        slug: "/about",
-        label: "About",
-        url: "https://acme.com/about",
-      },
-      {
-        id: "3",
-        slug: "/services",
-        label: "Services",
-        url: "https://acme.com/services",
-      },
-      { id: "4", slug: "/blog", label: "Blog", url: "https://acme.com/blog" },
-      {
-        id: "5",
-        slug: "/contact",
-        label: "Contact",
-        url: "https://acme.com/contact",
-      },
-      {
-        id: "6",
-        slug: "/pricing",
-        label: "Pricing",
-        url: "https://acme.com/pricing",
-      },
-    ],
-  },
-  {
-    id: "net-2",
-    name: "Blog Cluster",
-    date: "2024-12-14",
-    seedCount: 6,
-    pages: [
-      {
-        id: "1",
-        slug: "/blog/seo",
-        label: "SEO Guide",
-        url: "https://acme.com/blog/seo",
-      },
-      {
-        id: "2",
-        slug: "/blog/links",
-        label: "Int. Linking",
-        url: "https://acme.com/blog/links",
-      },
-      {
-        id: "3",
-        slug: "/blog/content",
-        label: "Content",
-        url: "https://acme.com/blog/content",
-      },
-      {
-        id: "4",
-        slug: "/blog/analytics",
-        label: "Analytics",
-        url: "https://acme.com/blog/analytics",
-      },
-    ],
-  },
-  {
-    id: "net-3",
-    name: "Product Pages",
-    date: "2025-01-22",
-    seedCount: 999,
-    pages: [
-      {
-        id: "1",
-        slug: "/products/starter",
-        label: "Starter",
-        url: "https://acme.com/products/starter",
-      },
-      {
-        id: "2",
-        slug: "/products/pro",
-        label: "Pro",
-        url: "https://acme.com/products/pro",
-      },
-      {
-        id: "3",
-        slug: "/products/agency",
-        label: "Agency",
-        url: "https://acme.com/products/agency",
-      },
-    ],
-  },
-];
 
 function NetworkItemSkeletonCard() {
   return (
@@ -245,24 +134,12 @@ function PageHeader({ viewMode, onViewModeChange }: PageHeaderProps) {
 
 export default function NetworkItemPage() {
   const router = useRouter();
-  const params = useParams();
+  const params = useParams<{ projectId: string }>();
+  const { data, isLoading } = useCustomNetworkStructures(params.projectId);
 
-  const [networks, setNetworkItems] = useState<NetworkItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [viewMode, setViewMode] = useState<ViewMode>("empty");
 
   const createNetworkItemPath = `${AUTH_CONFIG.ROUTES.DASHBOARD}/${params.projectId}${AUTH_CONFIG.ROUTES.CUSTOM_NETWORK}${AUTH_CONFIG.ROUTES.CREATE_CUSTOM_NETWORK}`;
-
-  useEffect(() => {
-    setLoading(true);
-
-    const timer = window.setTimeout(() => {
-      setNetworkItems(viewMode === "filled" ? NETWORKS : []);
-      setLoading(false);
-    }, 900);
-
-    return () => window.clearTimeout(timer);
-  }, [viewMode]);
 
   // const handleNetworkItemClick = useCallback((network: NetworkItem) => {
   //   console.info("[NetworkItemPage] selected:", network.id);
@@ -270,8 +147,6 @@ export default function NetworkItemPage() {
 
   const handleCreateNetworkItem = () => router.push(createNetworkItemPath);
 
-  const isEmpty = !loading && networks.length === 0;
-  const hasNetworkItems = !loading && networks.length > 0;
   return (
     <>
       <PageHeader viewMode={viewMode} onViewModeChange={setViewMode} />
@@ -279,10 +154,10 @@ export default function NetworkItemPage() {
       <div className="mb-8">
         <h1 className="text-[28px] font-bold tracking-tight">
           Your NetworkItems
-          {hasNetworkItems && (
+          {data && data.length > 0 && (
             <span className="ms-3 text-base font-normal text-muted-foreground">
-              {networks.length} cluster
-              {networks.length !== 1 ? "s" : ""}
+              {data.length} cluster
+              {data.length !== 1 ? "s" : ""}
             </span>
           )}
         </h1>
@@ -292,7 +167,7 @@ export default function NetworkItemPage() {
       </div>
 
       {/* Loading skeletons */}
-      {loading && (
+      {isLoading && (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 3 }).map((_, i) => (
             <NetworkItemSkeletonCard key={i} />
@@ -301,11 +176,11 @@ export default function NetworkItemPage() {
       )}
 
       {/* Empty state */}
-      {isEmpty && (
+      {(!data || data.length) === 0 && (
         <div className="flex flex-col items-center pt-4">
           <EmptyIllustration />
           <div className="w-full max-w-sm">
-            <CreateNetworkItemCard onClick={handleCreateNetworkItem} isEmpty={isEmpty} />
+            <CreateNetworkItemCard onClick={handleCreateNetworkItem} isEmpty={true} />
           </div>
           <p className="mt-5 max-w-xs text-center text-xs text-muted-foreground/60">
             Start by creating your first network — define a hub URL and connect all related pages to build a strong
@@ -315,7 +190,7 @@ export default function NetworkItemPage() {
       )}
 
       {/* Filled state */}
-      {hasNetworkItems && <CustomNetworks networks={networks} />}
+      {data && <CustomNetworks networks={data} />}
     </>
   );
 }

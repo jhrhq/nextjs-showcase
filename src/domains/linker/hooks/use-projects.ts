@@ -132,6 +132,13 @@ export function useSumbitCustomNetowrkUrls() {
   });
 }
 
+export function useCustomNetworkStructures(projectId: string) {
+  return useQuery({
+    queryKey: ["linker-custom-networks", projectId],
+    queryFn: () => projectsApi.getCustomNetworkStructures(projectId),
+    enabled: !!projectId,
+  });
+}
 export function useCustomNetworkStructure(projectId: string, customNetworkId: string) {
   return useQuery({
     queryKey: ["linker-custom-network", projectId, customNetworkId],

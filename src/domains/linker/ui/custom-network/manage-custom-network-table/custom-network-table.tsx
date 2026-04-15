@@ -1,11 +1,23 @@
-import { REGISTRY_DATA } from "./data";
+import { CUSTOM_NETWORK_DATA } from "./data";
 import { RegistryDataTable } from "./data-table";
 
 const STATS = [
-  { label: "Total Nodes", value: REGISTRY_DATA.length, accent: "#1a56db" },
-  { label: "Fully Linked", value: REGISTRY_DATA.filter((r) => r.state === "Fully Linked").length, accent: "#10b981" },
-  { label: "In Progress", value: REGISTRY_DATA.filter((r) => r.state === "In Progress").length, accent: "#f59e0b" },
-  { label: "Unlinked", value: REGISTRY_DATA.filter((r) => r.state === "Unlinked").length, accent: "#e11d48" },
+  { label: "Total Nodes", value: CUSTOM_NETWORK_DATA.collections.length, accent: "#1a56db" },
+  {
+    label: "Fully Linked",
+    value: CUSTOM_NETWORK_DATA.collections.filter((r) => r.state === "Fully Linked").length,
+    accent: "#10b981",
+  },
+  {
+    label: "In Progress",
+    value: CUSTOM_NETWORK_DATA.collections.filter((r) => r.state === "In Progress").length,
+    accent: "#f59e0b",
+  },
+  {
+    label: "Not Started",
+    value: CUSTOM_NETWORK_DATA.collections.filter((r) => r.state === "Not Started").length,
+    accent: "#e11d48",
+  },
 ];
 
 export default function InternalLinkManagement() {
@@ -35,7 +47,7 @@ export default function InternalLinkManagement() {
       </div>
 
       {/* Data table */}
-      <RegistryDataTable data={REGISTRY_DATA} />
+      <RegistryDataTable data={CUSTOM_NETWORK_DATA.collections} />
     </div>
   );
 }
