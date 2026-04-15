@@ -7,11 +7,11 @@ import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from "
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import type { RegistryRowData } from "./data";
+import type { CustomNetworkCollectionValues } from "@/domains/linker/validations/custom-network.validation";
 
 interface AppearsInAuditProps {
-  row: Row<RegistryRowData>;
-  table: Table<RegistryRowData>;
+  row: Row<CustomNetworkCollectionValues>;
+  table: Table<CustomNetworkCollectionValues>;
   urlUsageMap: Record<string, number>;
 }
 
@@ -20,7 +20,7 @@ export function AppearsInAudit({ row, table, urlUsageMap }: AppearsInAuditProps)
   const count = urlUsageMap[currentUrl] || 0;
 
   // Safely cast data from table options
-  const allData = table.options.data as RegistryRowData[];
+  const allData = table.options.data as CustomNetworkCollectionValues[];
 
   // Memoize the instances calculation for performance
   const globalInstances = React.useMemo(() => {

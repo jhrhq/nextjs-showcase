@@ -1,9 +1,10 @@
 "use client";
 
-import { CustomNetworkCard, type NetworkItem } from "./custom-network-card";
+import type { CreateCustomNetworkResponseSchemaValues } from "../../validations/custom-network.validation";
+import { CustomNetworkCard } from "./custom-network-card";
 
 type CustomNetworksProps = {
-  networks: NetworkItem[];
+  networks: CreateCustomNetworkResponseSchemaValues[];
 };
 export default function CustomNetworks({ networks }: CustomNetworksProps) {
   const handleDelete = () => {};

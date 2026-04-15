@@ -3,7 +3,7 @@ import type { Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import type { RegistryRowData } from "./data";
+import type { CustomNetworkCollectionValues } from "@/domains/linker/validations/custom-network.validation";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 export const STATE_OPTIONS = [
@@ -13,7 +13,7 @@ export const STATE_OPTIONS = [
 ];
 
 interface DataTableToolbarProps {
-  table: Table<RegistryRowData>;
+  table: Table<CustomNetworkCollectionValues>;
   globalFilter: string;
   onGlobalFilterChange: (q: string) => void;
   onReset: () => void;

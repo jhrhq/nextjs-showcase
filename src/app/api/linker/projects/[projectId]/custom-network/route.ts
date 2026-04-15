@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { verifyAccessToken } from "@/domains/linker/services/auth/jwt.service";
+import { ALL_CUSTOM_NETWORK_DATA_ARRAY } from "@/domains/linker/ui/custom-network/manage-custom-network-table/data";
 import {
   createCustomNetworkPayloadSchema,
   STATUS_OPTIONS,
@@ -17,6 +18,35 @@ const calculateState = (nested: { status: string }[]) => {
 
   return "Fully Linked";
 };
+
+export async function GET(request: NextRequest) {
+  const authHeader = request.headers.get("authorization");
+  const accessToken = authHeader?.replace("Bearer ", "");
+
+  if (!accessToken) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const payload = verifyAccessToken(accessToken);
+
+  if (!payload) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    return NextResponse.json(
+      {
+        success: true,
+        data: ALL_CUSTOM_NETWORK_DATA_ARRAY,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    // TODO : REMOVE console.log and add error message
+    console.log(error);
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+}
 
 export async function POST(request: NextRequest) {
   const authHeader = request.headers.get("authorization");

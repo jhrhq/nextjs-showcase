@@ -5,16 +5,23 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import type {
+  CustomNetworkCollectionValues,
+  CustomNetworkNestedLinkValues,
+} from "@/domains/linker/validations/custom-network.validation";
 import { fuzzyFilter, fuzzySort } from "@/infra/utils.tanstack-table";
 import { cn } from "@/lib/utils";
 import { AppearsInAudit } from "./appeares-in-audit";
-import type { NestedLinkData, RegistryRowData } from "./data";
 
 /**
  * Type-safe filter function for nested statuses
  * filterValue is explicitly typed as an array of valid statuses
  */
-const nestedStatusFilterFn: FilterFn<RegistryRowData> = (row, _columnId, filterValue: NestedLinkData["status"][]) => {
+const nestedStatusFilterFn: FilterFn<CustomNetworkCollectionValues> = (
+  row,
+  _columnId,
+  filterValue: CustomNetworkNestedLinkValues["status"][]
+) => {
   // If no filters are selected in the faceted filter, show all rows
   if (!filterValue || filterValue.length === 0) {
     return true;
@@ -82,7 +89,7 @@ interface ColumnProps {
   urlUsageMap: UrlUsageMap;
 }
 
-export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<RegistryRowData>[] => [
+export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetworkCollectionValues>[] => [
   {
     id: "select",
     size: 40,

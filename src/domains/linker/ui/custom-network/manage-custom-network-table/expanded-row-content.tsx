@@ -2,12 +2,15 @@ import type { Row, Table } from "@tanstack/react-table";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
+import type {
+  CustomNetworkCollectionValues,
+  CustomNetworkNestedLinkValues,
+} from "@/domains/linker/validations/custom-network.validation";
 import { NestedStatusBadge } from "./columns";
-import type { NestedLinkData, RegistryRowData } from "./data";
 
 interface ExpandedRowContentProps {
-  row: Row<RegistryRowData>;
-  table: Table<RegistryRowData>;
+  row: Row<CustomNetworkCollectionValues>;
+  table: Table<CustomNetworkCollectionValues>;
 }
 
 export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
@@ -28,20 +31,22 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
   }, [row.original.nestedData, globalFilter, statusFilter]);
 
   // 2. Action Buttons Helper
-  const renderActions = (child: NestedLinkData) => {
+  const renderActions = (child: CustomNetworkNestedLinkValues) => {
     return (
       <div className="flex items-center justify-end gap-1">
-        {child.isUnlinked && (
+        {child.status === "UNLINKED" && (
           <Button variant="link" size="sm" className="h-7 hover:no-underline text-xs px-2.5 font-bold text-blue-600">
             Add Link
           </Button>
         )}
-        {child.isStale && !child.isUnlinked && (
+
+        {child.status === "STALE" && (
           <Button variant="secondary" size="sm" className="h-7 bg-transparent border-none text-xs px-2.5 font-bold">
-            Refresh
+            Active
           </Button>
         )}
-        {!child.isUnlinked && !child.isStale && (
+
+        {child.status === "ACTIVE" && (
           <Button
             variant="link"
             size="sm"

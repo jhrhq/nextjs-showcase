@@ -29,26 +29,26 @@ export const createCustomNetworkPayloadSchema = createCustomNetworkFormSchema.ex
 });
 
 export const StatusEnum = z.enum(["ACTIVE", "STALE", "UNLINKED"]);
-export const StateEnum = z.enum(["In Progress", "Fully Linked", "Unlinked"]);
+export const StateEnum = z.enum(["In Progress", "Fully Linked", "Not Started"]);
 
 export const STATUS_OPTIONS = StatusEnum.options;
 export const STATE_OPTIONS = StateEnum.options;
 
-export const NestedLinkResponseSchema = z.object({
-  id: z.uuid(), // Zod v4 top-level UUID validation
+export const CustomNetworkNestedLinkSchema = z.object({
+  id: z.uuid(),
   title: z.string(),
-  url: z.url(), // Zod v4 top-level URL validation
+  url: z.url(),
   anchor: z.string(),
   status: StatusEnum,
 });
 
 // 2. Parent Row Schema
-export const RegistryRowResponseSchema = z.object({
+export const CustomNetworkCollectionSchema = z.object({
   id: z.uuid(),
   url: z.url(),
-  targetLinks: z.string(), // e.g., "2/4"
+  targetLinks: z.string(),
   state: StateEnum,
-  nestedData: z.array(NestedLinkResponseSchema),
+  nestedData: z.array(CustomNetworkNestedLinkSchema),
 });
 
 // 3. Final Network Response Schema
@@ -56,11 +56,15 @@ export const CreateCustomNetworkResponseSchema = z.object({
   id: z.uuid(),
   projectId: z.uuid(),
   collectionName: z.string(),
-  data: z.array(RegistryRowResponseSchema).min(1),
+  collections: z.array(CustomNetworkCollectionSchema).min(1),
 });
 
 export type createCustomNetworkPayload = z.infer<typeof createCustomNetworkPayloadSchema>;
 
 export type CreateCustomNetworkFormValues = z.infer<typeof createCustomNetworkFormSchema>;
+export type CustomNetworkCollectionValues = z.infer<typeof CustomNetworkCollectionSchema>;
+export type CustomNetworkNestedLinkValues = z.infer<typeof CustomNetworkNestedLinkSchema>;
 
 export type CreateCustomNetworkResponseSchemaValues = z.infer<typeof CreateCustomNetworkResponseSchema>;
+
+export type AllCustomNetworkDataType = Record<string, CreateCustomNetworkResponseSchemaValues>;
