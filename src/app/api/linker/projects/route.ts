@@ -104,8 +104,13 @@ export async function PUT(req: NextRequest) {
     ...validationResult.data,
     updatedAt: new Date().toISOString(),
   };
-
-  return NextResponse.json(mockProjects[index], { status: 200 });
+  return NextResponse.json(
+    {
+      success: true,
+      data: mockProjects[index],
+    },
+    { status: 200 }
+  );
 }
 /*
 

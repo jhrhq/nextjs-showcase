@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
           id: crypto.randomUUID(),
           projectId: parsedData.projectId,
           collectionName: parsedData.collectionName,
-          data: rows,
+          collections: rows,
         },
       },
       { status: 200 }
