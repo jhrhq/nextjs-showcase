@@ -65,7 +65,7 @@ export default function AnchorManagerTable({ data }: { data: Anchor[] }) {
   });
 
   return (
-    <div className="w-full max-w-7xl mx-auto space-y-4">
+    <div className="w-full mx-auto space-y-4">
       <DataTableToolBar
         table={table}
         globalFilter={globalFilter}
