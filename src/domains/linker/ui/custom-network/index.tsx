@@ -140,6 +140,10 @@ export default function NetworkItemPage() {
   const [viewMode, setViewMode] = useState<ViewMode>("empty");
 
   const createNetworkItemPath = `${AUTH_CONFIG.ROUTES.DASHBOARD}/${params.projectId}${AUTH_CONFIG.ROUTES.CUSTOM_NETWORK}${AUTH_CONFIG.ROUTES.CREATE_CUSTOM_NETWORK}`;
+  const navigateNetworkItemPath = (customNetowrkId: string) =>
+    router.push(
+      `${AUTH_CONFIG.ROUTES.DASHBOARD}/${params.projectId}/${AUTH_CONFIG.ROUTES.CUSTOM_NETWORK}/${customNetowrkId}`
+    );
 
   // const handleNetworkItemClick = useCallback((network: NetworkItem) => {
   //   console.info("[NetworkItemPage] selected:", network.id);
@@ -190,7 +194,7 @@ export default function NetworkItemPage() {
       )}
 
       {/* Filled state */}
-      {data && <CustomNetworks networks={data} />}
+      {data && <CustomNetworks networks={data} onNavigateCustomNetwork={navigateNetworkItemPath} />}
     </>
   );
 }

@@ -6,8 +6,11 @@ import InternalLinkManagement from "@/domains/linker/ui/custom-network/manage-cu
 
 export default function CreateCustomNetworkTable() {
   const { projectId, customNetworkId } = useParams<{ projectId: string; customNetworkId: string }>();
-  const { isLoading } = useCustomNetworkStructure(projectId, customNetworkId);
+  const { data, isLoading } = useCustomNetworkStructure(projectId, customNetworkId);
 
   if (isLoading) return <h1>Loading....</h1>;
-  return <InternalLinkManagement />;
+
+  if (!data) return <h1>No data</h1>
+
+  return <InternalLinkManagement data={data} />;
 }

@@ -13,7 +13,6 @@ import type {
   UpdateProjectAPIInput,
 } from "@/domains/linker/validations/projects.validations";
 import type {
-  AllCustomNetworkDataType,
   CreateCustomNetworkResponseSchemaValues,
   createCustomNetworkPayload,
 } from "../validations/custom-network.validation";
@@ -90,26 +89,24 @@ export const projectsApi = {
   },
 
   getCustomNetworkStructures: async (projectId: string): Promise<CreateCustomNetworkResponseSchemaValues[]> => {
-    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}/${AUTH_CONFIG.API.CUSTOM_NETWORK}`);
+    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.CUSTOM_NETWORK}`);
     return response.data.data;
   },
+
   getCustomNetworkStructure: async (
     projectId: string,
     customNetworkId: string
   ): Promise<CreateCustomNetworkResponseSchemaValues> => {
     const response = await linkerApi.get(
-      `${AUTH_CONFIG.API.PROJECTS}/${projectId}/${AUTH_CONFIG.API.CUSTOM_NETWORK}/${customNetworkId}`
+      `${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.CUSTOM_NETWORK}/${customNetworkId}`
     );
-    return response.data;
+    return response.data.data;
   },
-  /*
 
+  /*
   getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.INBOUNDS}`);
     return response.data;
   },
-
-
-
  */
 };

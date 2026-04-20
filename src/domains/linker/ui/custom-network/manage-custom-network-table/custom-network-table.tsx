@@ -1,3 +1,4 @@
+import type { CreateCustomNetworkResponseSchemaValues } from "@/domains/linker/validations/custom-network.validation";
 import { CUSTOM_NETWORK_DATA } from "./data";
 import { RegistryDataTable } from "./data-table";
 
@@ -20,7 +21,7 @@ const STATS = [
   },
 ];
 
-export default function InternalLinkManagement() {
+export default function InternalLinkManagement({ data }: { data: CreateCustomNetworkResponseSchemaValues }) {
   return (
     <div className="min-h-screen">
       {/* Header */}
@@ -47,7 +48,7 @@ export default function InternalLinkManagement() {
       </div>
 
       {/* Data table */}
-      <RegistryDataTable data={CUSTOM_NETWORK_DATA.collections} />
+      <RegistryDataTable data={data.collections} />
     </div>
   );
 }
