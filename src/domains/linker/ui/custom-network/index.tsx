@@ -1,12 +1,11 @@
 /** biome-ignore-all lint/a11y/useSemanticElements: false flag for group */
 "use client";
 
-import { Link } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
 import { useCustomNetworkStructures } from "../../hooks/use-projects";
 import CreateNetworkItemCard from "./create-custom-network-card";
@@ -102,31 +101,26 @@ interface PageHeaderProps {
 function PageHeader({ viewMode, onViewModeChange }: PageHeaderProps) {
   return (
     <header className="sticky top-12 z-40 border-b backdrop-blur-md py-4">
-      <div className=" flex items-center justify-between gap-4">
-        {/* Logo */}
-        <div className="flex items-center gap-3">
-          <div className="size-8 rounded-xl bg-primary flex items-center justify-center">
-            <Link className="size-4 text-primary-foreground" />
-          </div>
-          <span className="font-bold text-[17px] tracking-tight">NetworkItemLink</span>
-          <span className="text-muted-foreground text-sm hidden sm:inline">/&ensp;Workspace</span>
-        </div>
-
-        {/* Demo toggle */}
-        <div role="group" aria-label="Toggle demo state" className="flex items-center gap-1  border p-1">
+      <div className=" flex flex-col items-center justify-between gap-4">
+        <ToggleGroup
+          type="single"
+          value={viewMode}
+          onValueChange={(val) => val && onViewModeChange(val as "empty" | "filled")}
+          className="flex self-end items-center gap-1 border p-1"
+        >
           {(["empty", "filled"] as const).map((mode) => (
-            <Button
+            <ToggleGroupItem
               key={mode}
-              variant={viewMode === mode ? "default-lighter" : "ghost"}
-              size="sm"
-              onClick={() => onViewModeChange(mode)}
-              aria-pressed={viewMode === mode}
-              className="h-7  px-3 text-xs font-medium capitalize"
+              value={mode}
+              className="h-7 px-3 text-xs font-medium capitalize
+                data-[state=on]:bg-primary/10 data-[state=on]:text-primary data-[state=on]:shadow-sm
+                data-[state=off]:bg-transparent data-[state=off]:hover:bg-muted/50"
+              aria-label={`Toggle ${mode === "empty" ? "empty state" : "network items"}`}
             >
               {mode === "empty" ? "Empty State" : "With NetworkItems"}
-            </Button>
+            </ToggleGroupItem>
           ))}
-        </div>
+        </ToggleGroup>
       </div>
     </header>
   );
@@ -137,7 +131,7 @@ export default function NetworkItemPage() {
   const params = useParams<{ projectId: string }>();
   const { data, isLoading } = useCustomNetworkStructures(params.projectId);
 
-  const [viewMode, setViewMode] = useState<ViewMode>("empty");
+  const [viewMode, setViewMode] = useState<ViewMode>("filled");
 
   const createNetworkItemPath = `${AUTH_CONFIG.ROUTES.DASHBOARD}/${params.projectId}${AUTH_CONFIG.ROUTES.CUSTOM_NETWORK}${AUTH_CONFIG.ROUTES.CREATE_CUSTOM_NETWORK}`;
   const navigateNetworkItemPath = (customNetowrkId: string) =>
@@ -150,11 +144,9 @@ export default function NetworkItemPage() {
   // }, []);
 
   const handleCreateNetworkItem = () => router.push(createNetworkItemPath);
-
   return (
     <>
       <PageHeader viewMode={viewMode} onViewModeChange={setViewMode} />
-      {/* Page title */}
       <div className="mb-8">
         <h1 className="text-[28px] font-bold tracking-tight">
           Your NetworkItems
@@ -169,18 +161,7 @@ export default function NetworkItemPage() {
           Organize URLs into networked clusters for powerful internal linking.
         </p>
       </div>
-
-      {/* Loading skeletons */}
-      {isLoading && (
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <NetworkItemSkeletonCard key={i} />
-          ))}
-        </div>
-      )}
-
-      {/* Empty state */}
-      {(!data || data.length) === 0 && (
+      {viewMode === "empty" ? (
         <div className="flex flex-col items-center pt-4">
           <EmptyIllustration />
           <div className="w-full max-w-sm">
@@ -191,10 +172,32 @@ export default function NetworkItemPage() {
             internal linking structure.
           </p>
         </div>
-      )}
+      ) : (
+        <>
+          {isLoading && (
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <NetworkItemSkeletonCard key={i} />
+              ))}
+            </div>
+          )}
 
-      {/* Filled state */}
-      {data && <CustomNetworks networks={data} onNavigateCustomNetwork={navigateNetworkItemPath} />}
+          {(!data || data.length) === 0 && (
+            <div className="flex flex-col items-center pt-4">
+              <EmptyIllustration />
+              <div className="w-full max-w-sm">
+                <CreateNetworkItemCard onClick={handleCreateNetworkItem} isEmpty={true} />
+              </div>
+              <p className="mt-5 max-w-xs text-center text-xs text-muted-foreground/60">
+                Start by creating your first network — define a hub URL and connect all related pages to build a strong
+                internal linking structure.
+              </p>
+            </div>
+          )}
+
+          {data && <CustomNetworks networks={data} onNavigateCustomNetwork={navigateNetworkItemPath} />}
+        </>
+      )}
     </>
   );
 }

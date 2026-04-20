@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { projectsApi } from "@/domains/linker/api/projects";
 import type { CreateProjectInput, UpdateProjectAPIInput } from "@/domains/linker/validations/projects.validations";
 import { AUTH_CONFIG } from "../constants/auth.constants";
+import type { CreateCustomNetworkResponseSchemaValues } from "../ui/custom-network/custom-network-card";
 import type { createCustomNetworkPayload } from "../validations/custom-network.validation";
 import type { GenerateSentenceSuggestionsRequest, SentenceSelectionPayload } from "../validations/inbound.validation";
 
@@ -114,9 +115,15 @@ export function useSumbitCustomNetowrkUrls() {
   return useMutation({
     mutationKey: ["linker-custom-network-submit-urls"],
     mutationFn: (payload: createCustomNetworkPayload) => projectsApi.submitCustomNetworkUrls(payload),
-    onSuccess: (data) => {
+    onSuccess: (data: { data: CreateCustomNetworkResponseSchemaValues }) => {
       queryClient.setQueryData(["linker-custom-network", data.data.projectId, data.data.id], data.data);
+      router.push(
+        `${AUTH_CONFIG.ROUTES.DASHBOARD}/${data.data.projectId}/${AUTH_CONFIG.API.CUSTOM_NETWORK}/${data.data.id}`
+      );
+
       toast.success("Updated Successfully", {
+        description:
+          "Generated data is temporary and will be automatically removed after (5 minutes) upon page navigation or refresh.",
         position: "bottom-right",
         classNames: {
           content: "flex flex-col gap-2",
@@ -125,9 +132,6 @@ export function useSumbitCustomNetowrkUrls() {
           "--border-radius": "calc(var(--radius)  + 4px)",
         } as React.CSSProperties,
       });
-      router.push(
-        `${AUTH_CONFIG.ROUTES.DASHBOARD}/${data.data.projectId}/${AUTH_CONFIG.API.CUSTOM_NETWORK}/${data.data.id}`
-      );
     },
   });
 }
@@ -144,5 +148,7 @@ export function useCustomNetworkStructure(projectId: string, customNetworkId: st
     queryKey: ["linker-custom-network", projectId, customNetworkId],
     queryFn: () => projectsApi.getCustomNetworkStructure(projectId, customNetworkId),
     enabled: !!projectId && !!customNetworkId,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 5,
   });
 }
