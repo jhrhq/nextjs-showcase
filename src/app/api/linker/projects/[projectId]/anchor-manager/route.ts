@@ -22,7 +22,16 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json(report, { status: 200 });
-  } catch (_rror) {
-    return NextResponse.json({ error: "Failed to fetch site report" }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "SERVER_ERROR",
+          message: error instanceof Error ? error.message : "Internal Server Error",
+        },
+      },
+      { status: 500 }
+    );
   }
 }

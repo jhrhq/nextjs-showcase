@@ -41,10 +41,15 @@ export async function GET(request: NextRequest) {
       },
       { status: 200 }
     );
-  } catch (error) {
-    // TODO : REMOVE console.log and add error message
-    console.log(error);
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  } catch {
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Internal Server Error",
+        message: "An unexpected error occurred while fetching network data.",
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -103,7 +108,15 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "SERVER_ERROR",
+          message: error instanceof Error ? error.message : "Internal Server Error",
+        },
+      },
+      { status: 500 }
+    );
   }
 }

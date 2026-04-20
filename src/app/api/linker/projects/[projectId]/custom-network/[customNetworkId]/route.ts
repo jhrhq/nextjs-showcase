@@ -33,8 +33,15 @@ export async function GET(request: NextRequest, { params }: { params: Promise<Ro
       { status: 200 }
     );
   } catch (error) {
-    // TODO : REMOVE console.log and add error message
-    console.log(error);
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "SERVER_ERROR",
+          message: error instanceof Error ? error.message : "Internal Server Error",
+        },
+      },
+      { status: 500 }
+    );
   }
 }
