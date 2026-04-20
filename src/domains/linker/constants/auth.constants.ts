@@ -36,6 +36,7 @@ export const AUTH_CONFIG = {
     CREATE_CUSTOM_NETWORK: "/create-custom-network",
     MANAGE_CUSTOM_NETWORK: "/manage-custom-network",
     SITE_REPORT: "/site-report",
+    ANCHOR_MANAGER: "/anchor-manager",
   },
   API: {
     SIGN_IN: "/auth/sign-in",

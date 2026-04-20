@@ -156,8 +156,8 @@ export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetwor
       if (total === 0) return <span className="text-[10px] text-slate-400 italic">No links</span>;
 
       const activeCount = children.filter((c) => c.status === "ACTIVE").length;
-      const staleCount = children.filter((c) => c.status === "STALE" || c.isStale).length;
-      const unlinkedCount = children.filter((c) => c.status === "UNLINKED" || c.isUnlinked).length;
+      const staleCount = children.filter((c) => c.status === "STALE").length;
+      const unlinkedCount = children.filter((c) => c.status === "UNLINKED").length;
 
       // Convert to percentages for the bar segments
       const activeP = (activeCount / total) * 100;
