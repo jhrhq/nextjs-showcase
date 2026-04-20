@@ -186,10 +186,11 @@ function StatCell({ label, value, bg, labelCls, valueCls }: StatCellProps) {
 export interface CustomNetworkCardProps {
   network: CreateCustomNetworkResponseSchemaValues;
   onDelete: (id: string) => void;
+  onNavigateCustomNetwork: (customNetowrkId: string) => void;
   onViewLinks?: (network: CreateCustomNetworkResponseSchemaValues) => void;
 }
 
-export function CustomNetworkCard({ network, onDelete, onViewLinks }: CustomNetworkCardProps) {
+export function CustomNetworkCard({ network, onDelete, onNavigateCustomNetwork, onViewLinks }: CustomNetworkCardProps) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [matrixOpen, setMatrixOpen] = useState(false); // Added missing state
 
@@ -203,7 +204,10 @@ export function CustomNetworkCard({ network, onDelete, onViewLinks }: CustomNetw
 
   return (
     <>
-      <Card className="relative w-full overflow-hidden @container grid grid-rows-[auto,1fr,auto] gap-4 rounded-none cursor-pointer border-border transition-all duration-150 hover:shadow-md active:scale-[0.995]">
+      <Card
+        onClick={() => onNavigateCustomNetwork(network.id)}
+        className="relative w-full overflow-hidden @container grid grid-rows-[auto,1fr,auto] gap-4 rounded-none cursor-pointer border-border transition-all duration-150 hover:shadow-md active:scale-[0.995]"
+      >
         <CardHeader className="px-5 pt-4 pb-3">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
