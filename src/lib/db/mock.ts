@@ -35,18 +35,7 @@ export const mockProjects: ProjectDTO[] = [
     createdAt: now(),
     updatedAt: now(),
   },
-  {
-    id: crypto.randomUUID(),
-    name: "E-commerce Store",
-    domain: "https://mystore.com",
-    description: "Online retail platform",
-    status: "active",
-    totalLinks: 3420,
-    totalCustomNetworks: 15,
-    lastCrawled: now(),
-    createdAt: now(),
-    updatedAt: now(),
-  },
+
   {
     id: crypto.randomUUID(),
     name: "Blog Platform",
