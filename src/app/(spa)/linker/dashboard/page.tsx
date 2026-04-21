@@ -68,6 +68,7 @@ export default function DashboardPage() {
           alert(`delete project ${deleteId}`);
           setDeleteId(null);
         }}
+        projectId={deleteId}
       />
     </>
   );
