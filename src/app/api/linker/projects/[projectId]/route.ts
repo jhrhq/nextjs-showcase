@@ -35,7 +35,6 @@ export async function DELETE(req: NextRequest, { params }: { params: { projectId
     );
   }
   const restProjects = mockProjects.filter((p) => p.id !== validationResult.data);
-  console.log("rest projects", restProjects);
   // if (index === -1) {
   //   return NextResponse.json({ error: "Project not found" }, { status: 404 });
   // }
