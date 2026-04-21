@@ -9,14 +9,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useDeleteProject } from "../../hooks/use-projects";
 
 interface DeleteProjectDialogProps {
   open: boolean;
   onConfirm: () => void;
   onCancel: () => void;
+  projectId: string | null;
 }
 
-export function DeleteProjectDialog({ open, onConfirm, onCancel }: DeleteProjectDialogProps) {
+export function DeleteProjectDialog({ open, onConfirm, projectId, onCancel }: DeleteProjectDialogProps) {
+  const { mutate } = useDeleteProject();
+
   return (
     <AlertDialog open={open} onOpenChange={onCancel}>
       <AlertDialogContent>
@@ -26,7 +30,15 @@ export function DeleteProjectDialog({ open, onConfirm, onCancel }: DeleteProject
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>Delete</AlertDialogAction>
+          <AlertDialogAction
+            onClick={() => {
+              onConfirm();
+              if (!projectId) return;
+              mutate(projectId);
+            }}
+          >
+            Delete
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
