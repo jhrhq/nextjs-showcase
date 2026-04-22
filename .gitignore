@@ -43,3 +43,6 @@ next-env.d.ts
 # Husky
 !.husky/
 .husky/_
+
+# biome
+biome.exe
