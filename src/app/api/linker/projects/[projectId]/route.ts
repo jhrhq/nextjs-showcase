@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 import z from "zod";
+import { mockProjects } from "@/domains/linker/db/mock";
 import { verifyAccessToken } from "@/domains/linker/services/auth/jwt.service";
 import { updateProjectApiSchema } from "@/domains/linker/validations/projects.validations";
-import { mockProjects } from "@/lib/db/mock";
 
 export async function DELETE(req: NextRequest, { params }: { params: { projectId: string } }) {
   const authHeader = req.headers.get("authorization");
@@ -35,9 +35,6 @@ export async function DELETE(req: NextRequest, { params }: { params: { projectId
     );
   }
   const restProjects = mockProjects.filter((p) => p.id !== validationResult.data);
-  // if (index === -1) {
-  //   return NextResponse.json({ error: "Project not found" }, { status: 404 });
-  // }
 
   return NextResponse.json(
     {

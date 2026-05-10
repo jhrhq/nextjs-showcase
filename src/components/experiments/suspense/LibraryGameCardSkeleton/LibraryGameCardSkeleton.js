@@ -1,15 +1,14 @@
-import { LoremIpsum } from "lorem-ipsum";
-
 import { random } from "@/utils";
-
-const lorem = new LoremIpsum();
 
 function LibraryGameCardSkeleton() {
   return (
     <article className="library-game-card skeleton" aria-hidden="true">
       <div className="hero-img"></div>
-      <h2>{lorem.generateWords(random(2, 4))}</h2>
-      <p>{lorem.generateWords(random(20, 40))}</p>
+      <h2>Lorem Ipsum</h2>
+      <p>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+        standard dummy text ever since the 1500s
+      </p>
       <dl>
         <dt>Time played</dt>
         <dd>{random(0, 500)} hours</dd>

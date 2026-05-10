@@ -18,7 +18,7 @@ export default function ProjectSettingsPage() {
   const router = useRouter();
   const projectId = params.projectId as string;
 
-  const { data: projects, isLoading } = useProjects();
+  const { projects, isFetching: isLoading } = useProjects();
   const project = projects?.find((p) => p.id === projectId);
   const udpateProject = useUpdateProject(projectId);
   const deleteProject = useDeleteProject();

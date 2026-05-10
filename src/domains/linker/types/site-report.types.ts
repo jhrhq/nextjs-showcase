@@ -75,8 +75,6 @@ export interface SecurityCheck {
 }
 
 export interface SiteReport {
-  projectId: string;
-
   // Content & pages
   totalPosts: number;
   totalPages: number;

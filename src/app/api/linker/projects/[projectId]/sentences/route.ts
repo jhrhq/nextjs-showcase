@@ -1,13 +1,13 @@
 import "server-only";
 import { NextResponse } from "next/server";
 import z from "zod";
+import { mockSentenceSuggestions } from "@/domains/linker/db/mock";
 import { verifyAccessToken } from "@/domains/linker/services/auth/jwt.service";
 import {
   SentenceSubmissionPayloadSchema,
   SentenceSuggestionPayloadSchema,
   SentenceSuggestionSchema,
 } from "@/domains/linker/validations/inbound.validation";
-import { mockSentenceSuggestions } from "@/lib/db/mock";
 
 // Inbound suggestion sentences
 /**

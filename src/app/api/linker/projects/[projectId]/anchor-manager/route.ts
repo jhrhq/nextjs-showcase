@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { mockAnchorManager } from "@/domains/linker/db/mock";
 import { verifyAccessToken } from "@/domains/linker/services/auth/jwt.service";
-import { mockAnchorManager } from "@/lib/db/mock";
 
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get("authorization");

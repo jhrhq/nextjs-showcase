@@ -1,16 +1,20 @@
 "use client";
 
+import { useLiveQuery } from "dexie-react-hooks";
 import { useParams } from "next/navigation";
-import { useCustomNetworkStructure } from "@/domains/linker/hooks/use-projects";
+import { db } from "@/domains/linker/db/indexdb";
+// import { useCustomNetworkStructure } from "@/domains/linker/hooks/use-projects";
 import InternalLinkManagement from "@/domains/linker/ui/custom-network/manage-custom-network-table/custom-network-table";
 
 export default function CreateCustomNetworkTable() {
   const { projectId, customNetworkId } = useParams<{ projectId: string; customNetworkId: string }>();
-  const { data, isLoading } = useCustomNetworkStructure(projectId, customNetworkId);
+  // const { data, isLoading } = useCustomNetworkStructure(projectId, customNetworkId);
+  const data = useLiveQuery(() => db.customNetworks.get(projectId), [projectId]);
+  const currentNetwork = data?.customNetworks.find((item) => item.id === customNetworkId);
 
-  if (isLoading) return <h1>Loading....</h1>;
+  if ((data || currentNetwork) === undefined) return <h1>Loading....</h1>;
 
-  if (!data) return <h1>No data</h1>
+  if (!data || !currentNetwork) return <h1>No data</h1>;
 
-  return <InternalLinkManagement data={data} />;
+  return <InternalLinkManagement data={currentNetwork} />;
 }

@@ -12,8 +12,8 @@ export default function AnchorManagerPage() {
   const params = useParams();
   const projectId = params.projectId as string;
 
-  const { data: projects, isLoading: projectsLoading } = useProjects();
-  const { data: anchorData, isLoading: anchorLoading } = useAnchorManager(projectId);
+  const { projects, isFetching: projectsLoading } = useProjects();
+  const { anchorData, isFetching: anchorLoading } = useAnchorManager(projectId);
 
   const project = projects?.find((p) => p.id === projectId);
 

@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 import z from "zod";
+import { getProjects, mockProjects } from "@/domains/linker/db/mock";
 import { verifyAccessToken } from "@/domains/linker/services/auth/jwt.service";
 import { createProjectSchema, updateProjectApiSchema } from "@/domains/linker/validations/projects.validations";
-import { getProjects, mockProjects } from "@/lib/db/mock";
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get("authorization");

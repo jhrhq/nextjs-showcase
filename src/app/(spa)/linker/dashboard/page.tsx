@@ -12,7 +12,7 @@ import { ProjectsHeader } from "@/domains/linker/ui/dashboard/project-header";
 export type SortOrder = "none" | "asc" | "desc";
 
 export default function DashboardPage() {
-  const { data, isPending, isError, error } = useProjects();
+  const { isFetching, isError, error, projects } = useProjects();
   const router = useRouter();
 
   const [deleteId, setDeleteId] = React.useState<string | null>(null);
@@ -20,7 +20,7 @@ export default function DashboardPage() {
   const [sort, setSort] = React.useState<SortOrder>("none");
 
   const visibleProjects = React.useMemo(() => {
-    let tabData = tab === "all" ? data : data?.filter((p) => p.status === tab);
+    let tabData = tab === "all" ? projects : projects?.filter((p) => p.status === tab);
 
     if (sort !== "none") {
       tabData = tabData?.slice().sort((a, b) => {
@@ -29,7 +29,7 @@ export default function DashboardPage() {
     }
 
     return tabData;
-  }, [data, sort, tab]);
+  }, [projects, sort, tab]);
 
   function handleEdit(projectId: string) {
     router.push(`${AUTH_CONFIG.ROUTES.DASHBOARD}/${projectId}/${AUTH_CONFIG.ROUTES.SETTINGS}`);
@@ -39,13 +39,13 @@ export default function DashboardPage() {
     setDeleteId(id);
   }
 
-  if (isPending) return "Loading...";
+  if (isFetching) return "Loading...";
 
   if (isError) {
     return <div className="text-red-600">{(error as Error).message || "Something went wrong"}</div>;
   }
 
-  if (!data?.length) {
+  if (!projects?.length) {
     return <div className="text-muted-foreground">No projects found</div>;
   }
 
@@ -56,7 +56,7 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-semibold">Projects List</h1>
           <p className="text-sm text-muted-foreground">Here is a list of projects that you have created</p>
         </div>
-        <ProjectsHeader projects={data} tab={tab} sort={sort} onTabChange={setTab} onSortChange={setSort} />
+        <ProjectsHeader projects={projects} tab={tab} sort={sort} onTabChange={setTab} onSortChange={setSort} />
         {visibleProjects && <ProjectGrid projects={visibleProjects} onEdit={handleEdit} onDelete={handleDelete} />}
       </main>
       {/* <GihubPagination /> */}
@@ -65,8 +65,8 @@ export default function DashboardPage() {
         onCancel={() => setDeleteId(null)}
         onConfirm={() => {
           if (!deleteId) return;
-          alert(`delete project ${deleteId}`);
-          setDeleteId(null);
+          // alert(`delete project ${deleteId}`);
+          // setDeleteId(null);
         }}
         projectId={deleteId}
       />

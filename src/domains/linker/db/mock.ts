@@ -70,7 +70,6 @@ export function getProjects(_useId: string, limit?: number): ProjectDTO[] {
 // src/lib/linker/db/mock-data.ts (updated)
 
 export const mockSiteReports: SiteReport = {
-  projectId: "1",
   totalPosts: 245,
   totalLinks: 5420,
   totalInternalLinks: 4180,

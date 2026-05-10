@@ -16,8 +16,8 @@ export default function SiteReportPage() {
   const params = useParams();
   const projectId = params.projectId as string;
 
-  const { data: projects, isLoading: projectsLoading } = useProjects();
-  const { data: report, isLoading: reportLoading } = useSiteReport(projectId);
+  const { projects, isFetching: projectsLoading } = useProjects();
+  const { siteReport, isFetching: reportLoading } = useSiteReport(projectId);
 
   const project = projects?.find((p) => p.id === projectId);
 
@@ -33,20 +33,20 @@ export default function SiteReportPage() {
     return <EmptyState message="Project not found" />;
   }
 
-  if (!report) {
+  if (!siteReport) {
     return <EmptyState message="No site report available" />;
   }
 
   return (
     <div className="space-y-6">
-      <ReportHeader projectName={project.name} generatedDate={report.generatedAt} />
-      <OverveiwStatsSection report={report} />
-      <ChartSection report={report} />
-      <ReportStatsSection report={report} />
-      <PerformanceSection report={report} />
-      <LinkAnalysisSection report={report} />
-      <LinkReportTabSection report={report} />
-      <IndexingStatsSection report={report} />
+      <ReportHeader projectName={project.name} generatedDate={siteReport.generatedAt} />
+      <OverveiwStatsSection report={siteReport} />
+      <ChartSection report={siteReport} />
+      <ReportStatsSection report={siteReport} />
+      <PerformanceSection report={siteReport} />
+      <LinkAnalysisSection report={siteReport} />
+      <LinkReportTabSection report={siteReport} />
+      <IndexingStatsSection report={siteReport} />
     </div>
   );
 }
