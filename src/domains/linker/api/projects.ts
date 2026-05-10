@@ -12,6 +12,7 @@ import type {
   ProjectDTO,
   UpdateProjectAPIInput,
 } from "@/domains/linker/validations/projects.validations";
+import { db } from "../db/indexdb";
 import type {
   CreateCustomNetworkResponseSchemaValues,
   createCustomNetworkPayload,
@@ -20,7 +21,13 @@ import { linkerApi } from "./axios-instance";
 
 export const projectsApi = {
   getAll: async (): Promise<ProjectDTO[]> => {
+    const count = await db.projects.count();
+
+    if (count > 0) {
+      return db.projects.toArray();
+    }
     const response = await linkerApi.get(AUTH_CONFIG.API.PROJECTS);
+    await db.projects.bulkPut(response.data.projects);
     return response.data.projects;
   },
 
@@ -44,12 +51,19 @@ export const projectsApi = {
   },
 
   getSiteReport: async (projectId: string): Promise<SiteReport> => {
+    const cached = await db.siteReports.get(projectId);
+    if (cached) return cached;
+
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.SITE_REPORT}`);
+    await db.siteReports.put({ projectId, ...response.data });
     return response.data;
   },
 
   getAnchorManager: async (projectId: string): Promise<AnchorManager> => {
+    const cached = await db.anchorManagers.get(projectId);
+    if (cached) return cached;
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}/${AUTH_CONFIG.API.ANCHOR_MANAGER}`);
+    await db.anchorManagers.put({ projectId, ...response.data });
     return response.data;
   },
 
@@ -69,6 +83,7 @@ export const projectsApi = {
 
     return response.data;
   },
+
   submitSentence: async (payload: SentenceSelectionPayload): Promise<{ success: true; data: SentenceSuggestions }> => {
     const response = await linkerApi.put(
       `${AUTH_CONFIG.API.PROJECTS}/${payload.projectId}/${AUTH_CONFIG.API.SENTENCES}`,
@@ -88,8 +103,15 @@ export const projectsApi = {
     return response.data;
   },
 
-  getCustomNetworkStructures: async (projectId: string): Promise<CreateCustomNetworkResponseSchemaValues[]> => {
+  getCustomNetworkStructures: async (
+    projectId: string
+  ): Promise<{ projectId: string; customNetworks: CreateCustomNetworkResponseSchemaValues[] }> => {
+    // const cached = await db.customNetwork.get(projectId);
+    // if (cached) return cached;
+
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.CUSTOM_NETWORK}`);
+    await db.customNetworks.put({ projectId, customNetworks: response.data.data });
+
     return response.data.data;
   },
 

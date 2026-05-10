@@ -1,21 +1,27 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 import { projectsApi } from "@/domains/linker/api/projects";
 import type { CreateProjectInput, UpdateProjectAPIInput } from "@/domains/linker/validations/projects.validations";
 import { AUTH_CONFIG } from "../constants/auth.constants";
+import { db } from "../db/indexdb";
 import type { CreateCustomNetworkResponseSchemaValues } from "../ui/custom-network/custom-network-card";
 import type { createCustomNetworkPayload } from "../validations/custom-network.validation";
 import type { GenerateSentenceSuggestionsRequest, SentenceSelectionPayload } from "../validations/inbound.validation";
 
 export function useProjects() {
-  return useQuery({
+  const { isFetching, error, isError } = useQuery({
     queryKey: ["linker-projects"],
     queryFn: projectsApi.getAll,
   });
+
+  const projects = useLiveQuery(() => db.projects.toArray(), []);
+
+  return { projects: projects ?? [], isFetching, error, isError };
 }
 
 export function useProject(id: string) {
@@ -61,19 +67,23 @@ export function useDeleteProject() {
 }
 
 export function useSiteReport(projectId: string) {
-  return useQuery({
+  const { isFetching } = useQuery({
     queryKey: ["linker-site-report", projectId],
     queryFn: () => projectsApi.getSiteReport(projectId),
     enabled: !!projectId,
   });
+  const siteReport = useLiveQuery(() => db.siteReports.get(projectId), [projectId]);
+  return { siteReport, isFetching: siteReport === undefined || isFetching };
 }
 
 export function useAnchorManager(projectId: string) {
-  return useQuery({
+  const { isFetching } = useQuery({
     queryKey: ["linker-anchor-manager", projectId],
     queryFn: () => projectsApi.getAnchorManager(projectId),
     enabled: !!projectId,
   });
+  const anchorData = useLiveQuery(() => db.anchorManagers.get(projectId), [projectId]);
+  return { anchorData, isFetching: anchorData === undefined || isFetching };
 }
 
 export function useSubmitInboundUrl() {
@@ -137,11 +147,14 @@ export function useSumbitCustomNetowrkUrls() {
 }
 
 export function useCustomNetworkStructures(projectId: string) {
-  return useQuery({
+  const { isFetching } = useQuery({
     queryKey: ["linker-custom-networks", projectId],
     queryFn: () => projectsApi.getCustomNetworkStructures(projectId),
     enabled: !!projectId,
   });
+
+  const data = useLiveQuery(() => db.customNetworks.get(projectId), [projectId]);
+  return { data, isFetching: data === undefined || isFetching };
 }
 export function useCustomNetworkStructure(projectId: string, customNetworkId: string) {
   return useQuery({

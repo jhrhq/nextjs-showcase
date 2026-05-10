@@ -1,9 +1,8 @@
 import { compare } from "bcryptjs";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
+import { type MockUser, mockUsers } from "@/domains/linker/db/mock";
 import { env } from "@/infra/env";
-
-import { type MockUser, mockUsers } from "@/lib/db/mock";
 
 type RefreshTokenRecord = {
   userId: string;

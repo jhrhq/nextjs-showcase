@@ -21,7 +21,7 @@ interface DataTableToolbarProps {
 
 export function DataTableToolbar({ table, globalFilter, onGlobalFilterChange }: DataTableToolbarProps) {
   return (
-    <div className="flex flex-wrap items-center gap-2 px-4 py-2 border-b">
+    <div className="flex flex-wrap items-center gap-2 py-2 border-b">
       {/* Search input */}
       <div className="relative">
         <Input

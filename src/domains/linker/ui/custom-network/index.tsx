@@ -129,8 +129,7 @@ function PageHeader({ viewMode, onViewModeChange }: PageHeaderProps) {
 export default function NetworkItemPage() {
   const router = useRouter();
   const params = useParams<{ projectId: string }>();
-  const { data, isLoading } = useCustomNetworkStructures(params.projectId);
-
+  const { data, isFetching } = useCustomNetworkStructures(params.projectId);
   const [viewMode, setViewMode] = useState<ViewMode>("filled");
 
   const createNetworkItemPath = `${AUTH_CONFIG.ROUTES.DASHBOARD}/${params.projectId}${AUTH_CONFIG.ROUTES.CUSTOM_NETWORK}${AUTH_CONFIG.ROUTES.CREATE_CUSTOM_NETWORK}`;
@@ -139,10 +138,6 @@ export default function NetworkItemPage() {
       `${AUTH_CONFIG.ROUTES.DASHBOARD}/${params.projectId}/${AUTH_CONFIG.ROUTES.CUSTOM_NETWORK}/${customNetowrkId}`
     );
 
-  // const handleNetworkItemClick = useCallback((network: NetworkItem) => {
-  //   console.info("[NetworkItemPage] selected:", network.id);
-  // }, []);
-
   const handleCreateNetworkItem = () => router.push(createNetworkItemPath);
   return (
     <>
@@ -150,10 +145,10 @@ export default function NetworkItemPage() {
       <div className="mb-8">
         <h1 className="text-[28px] font-bold tracking-tight">
           Your NetworkItems
-          {data && data.length > 0 && (
+          {data && data.customNetworks.length > 0 && (
             <span className="ms-3 text-base font-normal text-muted-foreground">
-              {data.length} cluster
-              {data.length !== 1 ? "s" : ""}
+              {data.customNetworks.length} cluster
+              {data.customNetworks.length !== 1 ? "s" : ""}
             </span>
           )}
         </h1>
@@ -174,7 +169,7 @@ export default function NetworkItemPage() {
         </div>
       ) : (
         <>
-          {isLoading && (
+          {isFetching && (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 3 }).map((_, i) => (
                 <NetworkItemSkeletonCard key={i} />
@@ -182,7 +177,7 @@ export default function NetworkItemPage() {
             </div>
           )}
 
-          {(!data || data.length) === 0 && (
+          {(!data || data.customNetworks.length) === 0 && (
             <div className="flex flex-col items-center pt-4">
               <EmptyIllustration />
               <div className="w-full max-w-sm">
@@ -195,7 +190,7 @@ export default function NetworkItemPage() {
             </div>
           )}
 
-          {data && <CustomNetworks networks={data} onNavigateCustomNetwork={navigateNetworkItemPath} />}
+          {data && <CustomNetworks networks={data.customNetworks} onNavigateCustomNetwork={navigateNetworkItemPath} />}
         </>
       )}
     </>

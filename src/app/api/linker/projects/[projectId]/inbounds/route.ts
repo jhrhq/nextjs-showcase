@@ -1,8 +1,8 @@
 import "server-only";
 import { NextResponse } from "next/server";
 import z from "zod";
+import { mockInboundData } from "@/domains/linker/db/mock";
 import { InboundDataSchema, targetUrlSchema } from "@/domains/linker/validations/inbound.validation";
-import { mockInboundData } from "@/lib/db/mock";
 
 export async function POST(request: Request) {
   const body = await request.json();

@@ -5,36 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import type { AnchorManager } from "@/domains/linker/types/anchor-manager.types";
 
-interface OverviewStatCardProps {
-  title: string;
-  icon: React.ReactNode;
-  value: string | number;
-  valueClassName?: string;
-  subtitle?: string;
-  badgeText?: string;
-}
-
-function OverviewStatCard({ title, icon, value, valueClassName = "", subtitle, badgeText }: OverviewStatCardProps) {
-  return (
-    <Card>
-      <CardHeader className="pb-3">
-        <CardDescription className="flex items-center gap-2">
-          {icon}
-          {title}
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent>
-        <div className={`text-3xl font-bold ${valueClassName}`}>{value}</div>
-
-        {subtitle && <p className="text-xs text-gray-500 mt-1">{subtitle}</p>}
-
-        {badgeText && <Badge className="mt-2">{badgeText}</Badge>}
-      </CardContent>
-    </Card>
-  );
-}
-
 export default function OverviewCard({ data }: { data: AnchorManager }) {
   const totalAnchorsValue = data.totalAnchors.toLocaleString();
   const uniqueAnchorsValue = data.uniqueAnchors.toLocaleString();
@@ -83,5 +53,35 @@ export default function OverviewCard({ data }: { data: AnchorManager }) {
         valueClassName="text-purple-600"
       />
     </div>
+  );
+}
+
+interface OverviewStatCardProps {
+  title: string;
+  icon: React.ReactNode;
+  value: string | number;
+  valueClassName?: string;
+  subtitle?: string;
+  badgeText?: string;
+}
+
+function OverviewStatCard({ title, icon, value, valueClassName = "", subtitle, badgeText }: OverviewStatCardProps) {
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <CardDescription className="flex items-center gap-2">
+          {icon}
+          {title}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <div className={`text-3xl font-bold ${valueClassName}`}>{value}</div>
+
+        {subtitle && <p className="text-xs text-gray-500 mt-1">{subtitle}</p>}
+
+        {badgeText && <Badge className="mt-2">{badgeText}</Badge>}
+      </CardContent>
+    </Card>
   );
 }
