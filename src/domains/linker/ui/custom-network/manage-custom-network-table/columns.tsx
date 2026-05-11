@@ -223,7 +223,7 @@ export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetwor
       const cfg = STATE_CFG[state] ?? STATE_CFG.Unlinked;
       return (
         <div className="flex items-center gap-1.5">
-          <span className={cn("size-2 rounded-full shrink-0", cfg.dot)} />
+          <span className={cn("size-1.5 rounded-full shrink-0", cfg.dot)} />
           <span className={cn("text-xs font-medium", cfg.text)}>{state}</span>
         </div>
       );

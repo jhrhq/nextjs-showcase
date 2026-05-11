@@ -16,6 +16,7 @@ import { db } from "../db/indexdb";
 import type {
   CreateCustomNetworkResponseSchemaValues,
   createCustomNetworkPayload,
+  UpdateCustomNetworkStatus,
 } from "../validations/custom-network.validation";
 import { linkerApi } from "./axios-instance";
 
@@ -106,8 +107,8 @@ export const projectsApi = {
   getCustomNetworkStructures: async (
     projectId: string
   ): Promise<{ projectId: string; customNetworks: CreateCustomNetworkResponseSchemaValues[] }> => {
-    // const cached = await db.customNetwork.get(projectId);
-    // if (cached) return cached;
+    const cached = await db.customNetworks.get(projectId);
+    if (cached) return cached;
 
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.CUSTOM_NETWORK}`);
     await db.customNetworks.put({ projectId, customNetworks: response.data.data });
@@ -125,6 +126,58 @@ export const projectsApi = {
     return response.data.data;
   },
 
+  // PATCH → IDB only (update one network inside the array by network id)
+  updateCustomNetworkStructure: async (data: UpdateCustomNetworkStatus) => {
+    return await db.transaction("rw", db.customNetworks, async () => {
+      const affected = await db.customNetworks
+        .where("projectId")
+        .equals(data.projectId)
+        .modify((record) => {
+          const network = record.customNetworks.find((n) => n.id === data.customNetworkId);
+          if (!network) return;
+
+          const collection = network.collections.find((c) => c.id === data.collectionId);
+          if (!collection) return;
+
+          const nested = collection.nestedData.find((n) => n.id === data.nestedId);
+          if (!nested) return;
+
+          nested.status = data.newStatus;
+          collection.state = deriveCollectionState(collection.nestedData);
+        });
+
+      if (affected === 0) throw new Error("Record not found");
+      return affected;
+    });
+  },
+
+  removeNestedStructure: async (projectId: string, networkId: string, collectionId: string, nestedId: string) => {
+    return await db.transaction("rw", db.customNetworks, async () => {
+      const affected = await db.customNetworks
+        .where("projectId")
+        .equals(projectId)
+        .modify((record) => {
+          const network = record.customNetworks.find((n) => n.id === networkId);
+          if (!network) return;
+
+          const collection = network.collections.find((c) => c.id === collectionId);
+          if (!collection) return;
+
+          // filter out the deleted item
+          const updatedNestedData = collection.nestedData.filter((n) => n.id !== nestedId);
+
+          // mutate in place — Dexie writes it back automatically
+          collection.nestedData = updatedNestedData;
+
+          // re-derive parent state after deletion
+          collection.state = deriveCollectionState(updatedNestedData);
+        });
+
+      if (affected === 0) throw new Error("Record not found");
+      return affected;
+    });
+  },
+
   /*
   getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.INBOUNDS}`);
@@ -132,3 +185,20 @@ export const projectsApi = {
   },
  */
 };
+
+// lib/services/custom-networks.service.ts
+
+import type {
+  CustomNetworkCollectionValues,
+  CustomNetworkNestedLinkValues,
+} from "@/domains/linker/validations/custom-network.validation";
+
+type CollectionState = CustomNetworkCollectionValues["state"];
+
+function deriveCollectionState(nestedData: CustomNetworkNestedLinkValues[]): CollectionState {
+  const statuses = nestedData.map((n) => n.status);
+
+  if (statuses.every((s) => s === "ACTIVE")) return "Fully Linked";
+  if (statuses.every((s) => s === "UNLINKED")) return "Not Started";
+  return "In Progress";
+}
