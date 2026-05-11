@@ -1,10 +1,14 @@
 import type { Row, Table } from "@tanstack/react-table";
+import { useParams } from "next/navigation";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { TableCell, TableRow } from "@/components/ui/table";
-import type {
-  CustomNetworkCollectionValues,
-  CustomNetworkNestedLinkValues,
+import { useUpdateCustomNetworkStructure } from "@/domains/linker/hooks/use-projects";
+import {
+  type CustomNetworkCollectionValues,
+  type CustomNetworkNestedLinkValues,
+  UpdateCustomNetworkStatusSchema,
 } from "@/domains/linker/validations/custom-network.validation";
 import { NestedStatusBadge } from "./columns";
 
@@ -14,8 +18,31 @@ interface ExpandedRowContentProps {
 }
 
 export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
+  const { projectId, customNetworkId } = useParams<{ projectId: string; customNetworkId: string }>();
   const globalFilter = (table.getState().globalFilter as string) ?? "";
   const statusFilter = table.getColumn("nestedStatus")?.getFilterValue() as string[];
+  const { mutate, isPending } = useUpdateCustomNetworkStructure(projectId, customNetworkId);
+  const [loadingId, setLoadingId] = React.useState<string | null>(null);
+
+  const handleStaus = (nestedId: string, status: CustomNetworkNestedLinkValues["status"]) => {
+    const res = UpdateCustomNetworkStatusSchema.safeParse({
+      projectId,
+      customNetworkId,
+      collectionId: row.id,
+      nestedId,
+      newStatus: status,
+    });
+
+    if (!res.success) return null;
+
+    setLoadingId(nestedId);
+
+    mutate(res.data, {
+      onSettled: () => {
+        setLoadingId(null);
+      },
+    });
+  };
 
   // 1. Synchronized Filtering Logic
   const filteredChildren = React.useMemo(() => {
@@ -35,25 +62,64 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
     return (
       <div className="flex items-center justify-end gap-1">
         {child.status === "UNLINKED" && (
-          <Button variant="link" size="sm" className="h-7 hover:no-underline text-xs px-2.5 font-bold text-blue-600">
-            Add Link
-          </Button>
+          <>
+            <Button
+              variant="link"
+              size="sm"
+              className="h-7 hover:no-underline text-xs px-2.5 font-semibold text-blue-600"
+            >
+              Add Link
+            </Button>
+            <Button
+              variant="link"
+              size="sm"
+              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold"
+            >
+              Remove
+            </Button>
+          </>
         )}
 
         {child.status === "STALE" && (
-          <Button variant="secondary" size="sm" className="h-7 bg-transparent border-none text-xs px-2.5 font-bold">
-            Active
-          </Button>
+          <>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="h-7 bg-transparent hover:bg-transparent  border-none gap-1 text-xs px-2.5 font-semibold"
+              disabled={isPending && loadingId === child.id}
+              onClick={() => handleStaus(child.id, "ACTIVE")}
+            >
+              {isPending && loadingId === child.id ? <Spinner /> : "Activate"}
+            </Button>
+            <Button
+              variant="link"
+              size="sm"
+              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold"
+            >
+              Remove
+            </Button>
+          </>
         )}
 
         {child.status === "ACTIVE" && (
-          <Button
-            variant="link"
-            size="sm"
-            className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-bold"
-          >
-            Remove
-          </Button>
+          <>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="h-7 bg-transparent hover:bg-transparent border-none gap-1 text-xs text-violet-500 px-2.5 font-semibold"
+              disabled={isPending && loadingId === child.id}
+              onClick={() => handleStaus(child.id, "STALE")}
+            >
+              {isPending && loadingId === child.id ? <Spinner /> : "Stale"}
+            </Button>
+            <Button
+              variant="link"
+              size="sm"
+              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold"
+            >
+              Remove
+            </Button>
+          </>
         )}
       </div>
     );

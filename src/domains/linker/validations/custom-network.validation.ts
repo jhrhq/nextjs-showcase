@@ -59,11 +59,22 @@ export const CreateCustomNetworkResponseSchema = z.object({
   collections: z.array(CustomNetworkCollectionSchema).min(1),
 });
 
+export const UpdateCustomNetworkStatusSchema = z.object({
+  projectId: z.uuid(),
+  customNetworkId: z.uuid(),
+  collectionId: z.uuid(),
+  nestedId: z.uuid(),
+  newStatus: StatusEnum,
+});
+export const DeleteCustomNetworkNestedSchema = UpdateCustomNetworkStatusSchema.omit({ newStatus: true });
+
 export type createCustomNetworkPayload = z.infer<typeof createCustomNetworkPayloadSchema>;
 
 export type CreateCustomNetworkFormValues = z.infer<typeof createCustomNetworkFormSchema>;
 export type CustomNetworkCollectionValues = z.infer<typeof CustomNetworkCollectionSchema>;
 export type CustomNetworkNestedLinkValues = z.infer<typeof CustomNetworkNestedLinkSchema>;
+export type UpdateCustomNetworkStatus = z.infer<typeof UpdateCustomNetworkStatusSchema>;
+export type DeleteCustomNetworkNested = z.infer<typeof DeleteCustomNetworkNestedSchema>;
 
 export type CreateCustomNetworkResponseSchemaValues = z.infer<typeof CreateCustomNetworkResponseSchema>;
 

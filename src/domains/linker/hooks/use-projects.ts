@@ -10,7 +10,7 @@ import type { CreateProjectInput, UpdateProjectAPIInput } from "@/domains/linker
 import { AUTH_CONFIG } from "../constants/auth.constants";
 import { db } from "../db/indexdb";
 import type { CreateCustomNetworkResponseSchemaValues } from "../ui/custom-network/custom-network-card";
-import type { createCustomNetworkPayload } from "../validations/custom-network.validation";
+import type { createCustomNetworkPayload, UpdateCustomNetworkStatus } from "../validations/custom-network.validation";
 import type { GenerateSentenceSuggestionsRequest, SentenceSelectionPayload } from "../validations/inbound.validation";
 
 export function useProjects() {
@@ -163,5 +163,14 @@ export function useCustomNetworkStructure(projectId: string, customNetworkId: st
     enabled: !!projectId && !!customNetworkId,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 5,
+  });
+}
+
+export function useUpdateCustomNetworkStructure(projectId: string, customNetworkId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: UpdateCustomNetworkStatus) => projectsApi.updateCustomNetworkStructure(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId, customNetworkId] }),
   });
 }
