@@ -90,10 +90,9 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
       customNetworkId,
       collectionId: row.id,
       nestedId,
-      newStatus: status,
+      status,
       anchor,
     });
-
     if (!res.success) return null;
 
     setLoadingId(nestedId);
@@ -128,6 +127,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
               variant="link"
               size="sm"
               className="h-7 hover:no-underline text-xs px-2.5 font-semibold text-blue-600"
+              disabled={isPending && loadingId === child.id}
               onClick={() => handleAddLink(child.id, "ACTIVE", "new added anchor")}
             >
               Add Link
@@ -143,7 +143,6 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
             </Button>
           </>
         )}
-
         {child.status === "STALE" && (
           <>
             <Button
@@ -166,7 +165,6 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
             </Button>
           </>
         )}
-
         {child.status === "ACTIVE" && (
           <>
             <Button

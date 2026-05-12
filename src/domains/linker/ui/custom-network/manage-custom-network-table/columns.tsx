@@ -180,52 +180,47 @@ export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetwor
       const unlinkedP = (unlinkedCount / total) * 100;
 
       return (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="w-36 cursor-help space-y-1.5">
-                {/* Segmented Bar */}
-                <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-slate-100 shadow-inner">
-                  <div
-                    style={{ width: `${activeP}%` }}
-                    className="bg-green-500 shadow-[inset_-1px_0_0_rgba(0,0,0,0.1)]"
-                  />
-                  <div
-                    style={{ width: `${staleP}%` }}
-                    className="bg-amber-400 shadow-[inset_-1px_0_0_rgba(0,0,0,0.1)]"
-                  />
-                  <div style={{ width: `${unlinkedP}%` }} className="bg-slate-300" />
-                </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="w-36 cursor-help space-y-1.5">
+              {/* Segmented Bar */}
+              <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-slate-100 shadow-inner">
+                <div
+                  style={{ width: `${activeP}%` }}
+                  className="bg-green-500 shadow-[inset_-1px_0_0_rgba(0,0,0,0.1)]"
+                />
+                <div style={{ width: `${staleP}%` }} className="bg-amber-400 shadow-[inset_-1px_0_0_rgba(0,0,0,0.1)]" />
+                <div style={{ width: `${unlinkedP}%` }} className="bg-slate-300" />
+              </div>
 
-                {/* Labels */}
-                <div className="flex justify-between items-center text-[10px] font-bold text-slate-500">
-                  <span className="tabular-nums">{total} Links</span>
-                  <div className="flex gap-1.5">
-                    {activeCount > 0 && <span className="text-green-600">{activeCount}A</span>}
-                    {staleCount > 0 && <span className="text-amber-600">{staleCount}S</span>}
-                    {unlinkedCount > 0 && <span className="text-slate-400">{unlinkedCount}U</span>}
-                  </div>
+              {/* Labels */}
+              <div className="flex justify-between items-center text-[10px] font-bold text-slate-500">
+                <span className="tabular-nums">{total} Links</span>
+                <div className="flex gap-1.5">
+                  {activeCount > 0 && <span className="text-green-600">{activeCount}A</span>}
+                  {staleCount > 0 && <span className="text-amber-600">{staleCount}S</span>}
+                  {unlinkedCount > 0 && <span className="text-slate-400">{unlinkedCount}U</span>}
                 </div>
               </div>
-            </TooltipTrigger>
-            <TooltipContent className="p-3 bg-slate-900 text-white border-none shadow-xl">
-              <div className="space-y-1 text-xs">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-green-500" />
-                  <span>{activeCount} Active Links</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-amber-400" />
-                  <span>{staleCount} Stale Links</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-slate-400" />
-                  <span>{unlinkedCount} Unlinked Links</span>
-                </div>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent className="p-3 bg-slate-900 text-white border-none shadow-xl">
+            <div className="space-y-1 text-xs">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-green-500" />
+                <span>{activeCount} Active Links</span>
               </div>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-amber-400" />
+                <span>{staleCount} Stale Links</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-slate-400" />
+                <span>{unlinkedCount} Unlinked Links</span>
+              </div>
+            </div>
+          </TooltipContent>
+        </Tooltip>
       );
     },
   },
