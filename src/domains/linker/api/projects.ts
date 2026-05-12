@@ -13,12 +13,14 @@ import type {
   UpdateProjectAPIInput,
 } from "@/domains/linker/validations/projects.validations";
 import { db } from "../db/indexdb";
-import type {
-  CreateCustomNetworkResponseSchemaValues,
-  createCustomNetworkPayload,
-  DeleteCustomNetworkNested,
-  UpdateCustomNetworkAddLink,
-  UpdateCustomNetworkStatus,
+import {
+  type CreateCustomNetworkResponseSchemaValues,
+  type createCustomNetworkPayload,
+  type DeleteCustomNetworkNested,
+  type DeleteCustomNetworkRow,
+  DeleteCustomNetworkRowSchema,
+  type UpdateCustomNetworkAddLink,
+  type UpdateCustomNetworkStatus,
 } from "../validations/custom-network.validation";
 import { linkerApi } from "./axios-instance";
 
@@ -158,6 +160,32 @@ export const projectsApi = {
     });
   },
 
+  removeStructureRow: async (data: DeleteCustomNetworkRow) => {
+    const result = await DeleteCustomNetworkRowSchema.safeParseAsync(data);
+
+    if (!result.success) {
+      throw new Error(formatZodErrors(result.error));
+    }
+
+    const validated = result.data;
+
+    return await db.transaction("rw", db.customNetworks, async () => {
+      const affected = await db.customNetworks
+        .where("projectId")
+        .equals(validated.projectId)
+        .modify((record) => {
+          const network = record.customNetworks.find((n) => n.id === validated.customNetworkId);
+
+          if (!network) return;
+
+          network.collections = network.collections.filter((c) => c.id !== validated.collectionId);
+        });
+
+      if (affected === 0) throw new Error("Record not found");
+
+      return affected;
+    });
+  },
   removeNestedStructure: async (data: DeleteCustomNetworkNested) => {
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
@@ -195,6 +223,7 @@ export const projectsApi = {
 
 // lib/services/custom-networks.service.ts
 
+import type { ZodError } from "zod";
 import type {
   CustomNetworkCollectionValues,
   CustomNetworkNestedLinkValues,
@@ -209,3 +238,12 @@ function deriveCollectionState(nestedData: CustomNetworkNestedLinkValues[]): Col
   if (statuses.every((s) => s === "UNLINKED")) return "Not Started";
   return "In Progress";
 }
+
+export const formatZodErrors = (error: ZodError) => {
+  return error.issues
+    .map((issue) => {
+      const field = issue.path.join(".");
+      return `${field}: missing or invalid\n`;
+    })
+    .join(", ");
+};
