@@ -10,7 +10,12 @@ import type { CreateProjectInput, UpdateProjectAPIInput } from "@/domains/linker
 import { AUTH_CONFIG } from "../constants/auth.constants";
 import { db } from "../db/indexdb";
 import type { CreateCustomNetworkResponseSchemaValues } from "../ui/custom-network/custom-network-card";
-import type { createCustomNetworkPayload, UpdateCustomNetworkStatus } from "../validations/custom-network.validation";
+import type {
+  createCustomNetworkPayload,
+  DeleteCustomNetworkNested,
+  UpdateCustomNetworkAddLink,
+  UpdateCustomNetworkStatus,
+} from "../validations/custom-network.validation";
 import type { GenerateSentenceSuggestionsRequest, SentenceSelectionPayload } from "../validations/inbound.validation";
 
 export function useProjects() {
@@ -170,7 +175,16 @@ export function useUpdateCustomNetworkStructure(projectId: string, customNetwork
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: UpdateCustomNetworkStatus) => projectsApi.updateCustomNetworkStructure(data),
+    mutationFn: (data: UpdateCustomNetworkStatus | UpdateCustomNetworkAddLink) =>
+      projectsApi.updateCustomNetworkStructure(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId, customNetworkId] }),
+  });
+}
+export function useRemoveCustomNetworkStructure(projectId: string, customNetworkId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: DeleteCustomNetworkNested) => projectsApi.removeNestedStructure(data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId, customNetworkId] }),
   });
 }

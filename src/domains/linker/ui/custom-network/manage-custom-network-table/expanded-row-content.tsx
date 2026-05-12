@@ -1,13 +1,26 @@
 import type { Row, Table } from "@tanstack/react-table";
 import { useParams } from "next/navigation";
 import React from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { useUpdateCustomNetworkStructure } from "@/domains/linker/hooks/use-projects";
+import { useRemoveCustomNetworkStructure, useUpdateCustomNetworkStructure } from "@/domains/linker/hooks/use-projects";
 import {
   type CustomNetworkCollectionValues,
   type CustomNetworkNestedLinkValues,
+  DeleteCustomNetworkNestedSchema,
+  type UpdateCustomNetworkAddLink,
+  UpdateCustomNetworkAddLinkSchema,
   UpdateCustomNetworkStatusSchema,
 } from "@/domains/linker/validations/custom-network.validation";
 import { NestedStatusBadge } from "./columns";
@@ -22,7 +35,31 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
   const globalFilter = (table.getState().globalFilter as string) ?? "";
   const statusFilter = table.getColumn("nestedStatus")?.getFilterValue() as string[];
   const { mutate, isPending } = useUpdateCustomNetworkStructure(projectId, customNetworkId);
+  const { mutate: deleteMutate, isPending: deleteIsPending } = useRemoveCustomNetworkStructure(
+    projectId,
+    customNetworkId
+  );
   const [loadingId, setLoadingId] = React.useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = React.useState<CustomNetworkNestedLinkValues | null>(null);
+
+  const handleDeleteConfirm = () => {
+    if (!deleteTarget) return;
+
+    const res = DeleteCustomNetworkNestedSchema.safeParse({
+      projectId,
+      customNetworkId,
+      collectionId: row.id,
+      nestedId: deleteTarget.id,
+    });
+
+    if (!res.success) return null;
+
+    deleteMutate(res.data, {
+      onSettled: () => {
+        setDeleteTarget(null);
+      },
+    });
+  };
 
   const handleStaus = (nestedId: string, status: CustomNetworkNestedLinkValues["status"]) => {
     const res = UpdateCustomNetworkStatusSchema.safeParse({
@@ -30,7 +67,31 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
       customNetworkId,
       collectionId: row.id,
       nestedId,
+      status,
+    });
+
+    if (!res.success) return null;
+
+    setLoadingId(nestedId);
+
+    mutate(res.data, {
+      onSettled: () => {
+        setLoadingId(null);
+      },
+    });
+  };
+  const handleAddLink = (
+    nestedId: string,
+    status: UpdateCustomNetworkAddLink["status"],
+    anchor: UpdateCustomNetworkAddLink["anchor"]
+  ) => {
+    const res = UpdateCustomNetworkAddLinkSchema.safeParse({
+      projectId,
+      customNetworkId,
+      collectionId: row.id,
+      nestedId,
       newStatus: status,
+      anchor,
     });
 
     if (!res.success) return null;
@@ -67,6 +128,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
               variant="link"
               size="sm"
               className="h-7 hover:no-underline text-xs px-2.5 font-semibold text-blue-600"
+              onClick={() => handleAddLink(child.id, "ACTIVE", "new added anchor")}
             >
               Add Link
             </Button>
@@ -74,8 +136,10 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
               variant="link"
               size="sm"
               className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold"
+              disabled={deleteIsPending && deleteTarget?.id === child.id}
+              onClick={() => setDeleteTarget(child)}
             >
-              Remove
+              {deleteIsPending && deleteTarget?.id === child.id ? <Spinner /> : "Remove"}
             </Button>
           </>
         )}
@@ -95,8 +159,10 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
               variant="link"
               size="sm"
               className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold"
+              disabled={deleteIsPending && deleteTarget?.id === child.id}
+              onClick={() => setDeleteTarget(child)}
             >
-              Remove
+              {deleteIsPending && deleteTarget?.id === child.id ? <Spinner /> : "Remove"}
             </Button>
           </>
         )}
@@ -116,8 +182,10 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
               variant="link"
               size="sm"
               className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold"
+              disabled={deleteIsPending && deleteTarget?.id === child.id}
+              onClick={() => setDeleteTarget(child)}
             >
-              Remove
+              {deleteIsPending && deleteTarget?.id === child.id ? <Spinner /> : "Remove"}
             </Button>
           </>
         )}
@@ -163,6 +231,11 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
                       <NestedStatusBadge status={child.status} />
                     </td>
                     <td className="px-4 py-3 text-right pr-6">{renderActions(child)}</td>
+                    <ConfirmDelete
+                      deleteTarget={deleteTarget}
+                      setDeleteTarget={setDeleteTarget}
+                      onDelete={handleDeleteConfirm}
+                    />
                   </tr>
                 ))
               ) : (
@@ -184,3 +257,37 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
     </TableRow>
   );
 };
+
+function ConfirmDelete({
+  deleteTarget,
+  setDeleteTarget,
+  onDelete,
+}: {
+  deleteTarget: CustomNetworkNestedLinkValues | null;
+  setDeleteTarget: (arg: null) => void;
+  onDelete: () => void;
+}) {
+  return (
+    <AlertDialog
+      open={!!deleteTarget}
+      onOpenChange={(open) => {
+        if (!open) setDeleteTarget(null);
+      }}
+    >
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Remove Link?</AlertDialogTitle>
+
+          <AlertDialogDescription>This action will remove the selected nested link.</AlertDialogDescription>
+        </AlertDialogHeader>
+
+        <AlertDialogFooter>
+          <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
+          <AlertDialogAction variant="destructive" onClick={onDelete}>
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
