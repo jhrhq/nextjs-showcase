@@ -15,8 +15,8 @@ export default function CreateCustomNetworkExcercise() {
     addedUrlsSet,
     onAddUrl,
   } = useUrlSyncOptions({
-    sidebarDebounceMs: 150,
-    parentDebounceMs: 200,
+    sidebarDebounceMs: 50,
+    parentDebounceMs: 50,
   });
 
   return (

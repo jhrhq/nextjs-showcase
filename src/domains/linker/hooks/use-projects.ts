@@ -20,6 +20,12 @@ import type {
 } from "../validations/custom-network.validation";
 import type { GenerateSentenceSuggestionsRequest, SentenceSelectionPayload } from "../validations/inbound.validation";
 
+/*
+ *TODO
+ * Add structured query queryKey
+ * make them type safe if possible
+ */
+
 export function useProjects() {
   const { isFetching, error, isError } = useQuery({
     queryKey: ["linker-projects"],
@@ -132,15 +138,11 @@ export function useSumbitCustomNetowrkUrls() {
   return useMutation({
     mutationKey: ["linker-custom-network-submit-urls"],
     mutationFn: (payload: createCustomNetworkPayload) => projectsApi.submitCustomNetworkUrls(payload),
-    onSuccess: (data: { data: CreateCustomNetworkResponseSchemaValues }) => {
-      queryClient.setQueryData(["linker-custom-network", data.data.projectId, data.data.id], data.data);
-      router.push(
-        `${AUTH_CONFIG.ROUTES.DASHBOARD}/${data.data.projectId}/${AUTH_CONFIG.API.CUSTOM_NETWORK}/${data.data.id}`
-      );
+    onSuccess: (data: CreateCustomNetworkResponseSchemaValues) => {
+      queryClient.invalidateQueries({ queryKey: ["linker-custom-network", data.projectId, data.id] });
+      router.push(`${AUTH_CONFIG.ROUTES.DASHBOARD}/${data.projectId}/${AUTH_CONFIG.API.CUSTOM_NETWORK}/${data.id}`);
 
       toast.success("Updated Successfully", {
-        description:
-          "Generated data is temporary and will be automatically removed after (5 minutes) upon page navigation or refresh.",
         position: "bottom-right",
         classNames: {
           content: "flex flex-col gap-2",

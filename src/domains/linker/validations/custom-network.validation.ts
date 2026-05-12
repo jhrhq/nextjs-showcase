@@ -28,18 +28,20 @@ export const createCustomNetworkPayloadSchema = createCustomNetworkFormSchema.ex
   projectId: z.uuid(),
 });
 
-export const StatusEnum = z.enum(["ACTIVE", "STALE", "UNLINKED"]);
-export const StateEnum = z.enum(["In Progress", "Fully Linked", "Not Started"]);
+export const CustomNetworkNestedStatusEnum = z.enum(["ACTIVE", "STALE", "UNLINKED"]);
+export const CustomNetworkStateEnum = z.enum(["In Progress", "Fully Linked", "Not Started"]);
 
-export const STATUS_OPTIONS = StatusEnum.options;
-export const STATE_OPTIONS = StateEnum.options;
+export type CustomNetworkNestedStatus = z.infer<typeof CustomNetworkNestedStatusEnum>;
+export type CustomNetworkCollectionState = z.infer<typeof CustomNetworkStateEnum>;
 
+export const STATUS_OPTIONS = CustomNetworkNestedStatusEnum.options;
+export const STATE_OPTIONS = CustomNetworkStateEnum.options;
 export const CustomNetworkNestedLinkSchema = z.object({
   id: z.uuid(),
   title: z.string(),
   url: z.url(),
   anchor: z.string(),
-  status: StatusEnum,
+  status: CustomNetworkNestedStatusEnum,
 });
 
 // 2. Parent Row Schema
@@ -47,7 +49,7 @@ export const CustomNetworkCollectionSchema = z.object({
   id: z.uuid(),
   url: z.url(),
   targetLinks: z.string(),
-  state: StateEnum,
+  state: CustomNetworkStateEnum,
   nestedData: z.array(CustomNetworkNestedLinkSchema),
 });
 
@@ -69,7 +71,7 @@ export const CustomNetworkCollectionNestedPayloadSchema = CustomNetworkCollectio
 });
 
 export const CustomNetworkNestedLinkStatusPayloadSchema = CustomNetworkCollectionNestedPayloadSchema.extend({
-  status: StatusEnum,
+  status: CustomNetworkNestedStatusEnum,
 });
 
 export const CustomNetworkNestedLinkPayloadSchema = CustomNetworkNestedLinkStatusPayloadSchema.extend({

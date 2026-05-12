@@ -23,6 +23,7 @@ import type {
   UpdateProjectAPIInput,
 } from "@/domains/linker/validations/projects.validations";
 import { db } from "../db/indexdb";
+import { buildNetworkFromUrls } from "../utils";
 import {
   type CreateCustomNetworkResponseSchemaValues,
   CustomNetworkCollectionNestedPayloadSchema,
@@ -31,8 +32,15 @@ import {
   CustomNetworkNestedLinkStatusPayloadSchema,
   CustomNetworkPayloadSchema,
   type createCustomNetworkPayload,
+  createCustomNetworkPayloadSchema,
 } from "../validations/custom-network.validation";
 import { linkerApi } from "./axios-instance";
+
+/*
+ *TODO
+ * refactor the whole projectsApi
+ * * break the projectsApi into different distinct parts
+ */
 
 export const projectsApi = {
   getAll: async (): Promise<ProjectDTO[]> => {
@@ -107,15 +115,42 @@ export const projectsApi = {
 
     return response.data;
   },
-  submitCustomNetworkUrls: async (
-    payload: createCustomNetworkPayload
-  ): Promise<{ success: true; data: CreateCustomNetworkResponseSchemaValues }> => {
-    const response = await linkerApi.post(
-      `${AUTH_CONFIG.API.PROJECTS}/${payload.projectId}/${AUTH_CONFIG.API.CUSTOM_NETWORK}`,
-      payload
-    );
 
-    return response.data;
+  submitCustomNetworkUrls: async (
+    formValues: createCustomNetworkPayload
+  ): Promise<CreateCustomNetworkResponseSchemaValues> => {
+    const result = await createCustomNetworkPayloadSchema.safeParseAsync(formValues);
+
+    if (!result.success) {
+      throw new Error(formatZodErrors(result.error));
+    }
+
+    const validated = result.data;
+
+    // build the structure client side
+    const newNetwork = buildNetworkFromUrls(validated);
+
+    await db.transaction("rw", db.customNetworks, async () => {
+      const existing = await db.customNetworks.get(validated.projectId);
+
+      if (existing) {
+        // projectId row exists — append new network to the array
+        await db.customNetworks
+          .where("projectId")
+          .equals(validated.projectId)
+          .modify((record) => {
+            record.customNetworks.push(newNetwork);
+          });
+      } else {
+        // first network for this project — create the row
+        await db.customNetworks.put({
+          projectId: validated.projectId,
+          customNetworks: [newNetwork],
+        });
+      }
+    });
+
+    return newNetwork;
   },
 
   getCustomNetworkStructures: async (
