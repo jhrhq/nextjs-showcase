@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldError } from "@/components/ui/field";
 import { Separator } from "@/components/ui/separator";
+import { Spinner } from "@/components/ui/spinner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CREATE_CUSTOM_NETWORK_FORM_DEFAULTS } from "@/domains/linker/constants/custom-network.constants";
 import { useSumbitCustomNetowrkUrls } from "@/domains/linker/hooks/use-projects";
@@ -250,13 +251,10 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
               >
                 Reset form
               </Button>
-              <Button type="submit" disabled={!canSubmit} className="gap-2 min-w-32">
-                {isSubmitting ? (
+              <Button type="submit" disabled={!canSubmit || submitUrls.isPending} className="gap-2 min-w-32">
+                {isSubmitting || submitUrls.isPending ? (
                   <>
-                    <span
-                      className="size-4 rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground animate-spin"
-                      aria-hidden="true"
-                    />
+                    <Spinner />
                     Saving…
                   </>
                 ) : isSubmitSuccessful ? (
