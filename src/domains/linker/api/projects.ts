@@ -27,6 +27,8 @@ import {
   type CreateCustomNetworkResponseSchemaValues,
   CustomNetworkCollectionNestedPayloadSchema,
   CustomNetworkCollectionPayloadSchema,
+  CustomNetworkNestedLinkPayloadSchema,
+  CustomNetworkNestedLinkStatusPayloadSchema,
   CustomNetworkPayloadSchema,
   type createCustomNetworkPayload,
 } from "../validations/custom-network.validation";
@@ -142,25 +144,45 @@ export const projectsApi = {
   updateCustomNetworkNestedLink: async (
     data: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues
   ) => {
+    let validated: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues;
+
+    // Validate with correct schema
+    if ("status" in data) {
+      const result = await CustomNetworkNestedLinkStatusPayloadSchema.safeParseAsync(data);
+
+      if (!result.success) {
+        throw new Error(formatZodErrors(result.error));
+      }
+
+      validated = result.data;
+    } else {
+      const result = await CustomNetworkNestedLinkPayloadSchema.safeParseAsync(data);
+
+      if (!result.success) {
+        throw new Error(formatZodErrors(result.error));
+      }
+
+      validated = result.data;
+    }
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
         .where("projectId")
         .equals(data.projectId)
         .modify((record) => {
-          const network = record.customNetworks.find((n) => n.id === data.customNetworkId);
+          const network = record.customNetworks.find((n) => n.id === validated.customNetworkId);
           if (!network) return;
 
-          const collection = network.collections.find((c) => c.id === data.collectionId);
+          const collection = network.collections.find((c) => c.id === validated.collectionId);
           if (!collection) return;
 
-          const nested = collection.nestedData.find((n) => n.id === data.nestedId);
+          const nested = collection.nestedData.find((n) => n.id === validated.nestedId);
           if (!nested) return;
 
-          if ("status" in data) {
-            nested.status = data.status;
+          if ("status" in validated) {
+            nested.status = validated.status;
           }
-          if ("anchor" in data) {
-            nested.anchor = data.anchor;
+          if ("anchor" in validated) {
+            nested.anchor = validated.anchor;
           }
           collection.state = deriveCollectionState(collection.nestedData);
         });
