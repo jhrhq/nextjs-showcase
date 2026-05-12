@@ -16,6 +16,8 @@ import { db } from "../db/indexdb";
 import type {
   CreateCustomNetworkResponseSchemaValues,
   createCustomNetworkPayload,
+  DeleteCustomNetworkNested,
+  UpdateCustomNetworkAddLink,
   UpdateCustomNetworkStatus,
 } from "../validations/custom-network.validation";
 import { linkerApi } from "./axios-instance";
@@ -127,7 +129,7 @@ export const projectsApi = {
   },
 
   // PATCH → IDB only (update one network inside the array by network id)
-  updateCustomNetworkStructure: async (data: UpdateCustomNetworkStatus) => {
+  updateCustomNetworkStructure: async (data: UpdateCustomNetworkStatus | UpdateCustomNetworkAddLink) => {
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
         .where("projectId")
@@ -142,7 +144,12 @@ export const projectsApi = {
           const nested = collection.nestedData.find((n) => n.id === data.nestedId);
           if (!nested) return;
 
-          nested.status = data.newStatus;
+          if ("status" in data) {
+            nested.status = data.status;
+          }
+          if ("anchor" in data) {
+            nested.anchor = data.anchor;
+          }
           collection.state = deriveCollectionState(collection.nestedData);
         });
 
@@ -151,20 +158,20 @@ export const projectsApi = {
     });
   },
 
-  removeNestedStructure: async (projectId: string, networkId: string, collectionId: string, nestedId: string) => {
+  removeNestedStructure: async (data: DeleteCustomNetworkNested) => {
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
         .where("projectId")
-        .equals(projectId)
+        .equals(data.projectId)
         .modify((record) => {
-          const network = record.customNetworks.find((n) => n.id === networkId);
+          const network = record.customNetworks.find((n) => n.id === data.customNetworkId);
           if (!network) return;
 
-          const collection = network.collections.find((c) => c.id === collectionId);
+          const collection = network.collections.find((c) => c.id === data.collectionId);
           if (!collection) return;
 
           // filter out the deleted item
-          const updatedNestedData = collection.nestedData.filter((n) => n.id !== nestedId);
+          const updatedNestedData = collection.nestedData.filter((n) => n.id !== data.nestedId);
 
           // mutate in place — Dexie writes it back automatically
           collection.nestedData = updatedNestedData;
