@@ -14,14 +14,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { useRemoveCustomNetworkStructure, useUpdateCustomNetworkStructure } from "@/domains/linker/hooks/use-projects";
 import {
+  useRemoveCustomNetworkCollectionNestedLink,
+  useUpdateCustomNetworkNestedLink,
+} from "@/domains/linker/hooks/use-projects";
+import {
+  CustomNetworkCollectionNestedPayloadSchema,
   type CustomNetworkCollectionValues,
+  CustomNetworkNestedLinkPayloadSchema,
+  type CustomNetworkNestedLinkPayloadValues,
+  CustomNetworkNestedLinkStatusPayloadSchema,
   type CustomNetworkNestedLinkValues,
-  DeleteCustomNetworkNestedSchema,
-  type UpdateCustomNetworkAddLink,
-  UpdateCustomNetworkAddLinkSchema,
-  UpdateCustomNetworkStatusSchema,
 } from "@/domains/linker/validations/custom-network.validation";
 import { NestedStatusBadge } from "./columns";
 
@@ -34,8 +37,8 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
   const { projectId, customNetworkId } = useParams<{ projectId: string; customNetworkId: string }>();
   const globalFilter = (table.getState().globalFilter as string) ?? "";
   const statusFilter = table.getColumn("nestedStatus")?.getFilterValue() as string[];
-  const { mutate, isPending } = useUpdateCustomNetworkStructure(projectId, customNetworkId);
-  const { mutate: deleteMutate, isPending: deleteIsPending } = useRemoveCustomNetworkStructure(
+  const { mutate, isPending } = useUpdateCustomNetworkNestedLink(projectId, customNetworkId);
+  const { mutate: deleteMutate, isPending: deleteIsPending } = useRemoveCustomNetworkCollectionNestedLink(
     projectId,
     customNetworkId
   );
@@ -45,7 +48,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
   const handleDeleteConfirm = () => {
     if (!deleteTarget) return;
 
-    const res = DeleteCustomNetworkNestedSchema.safeParse({
+    const res = CustomNetworkCollectionNestedPayloadSchema.safeParse({
       projectId,
       customNetworkId,
       collectionId: row.id,
@@ -62,7 +65,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
   };
 
   const handleStaus = (nestedId: string, status: CustomNetworkNestedLinkValues["status"]) => {
-    const res = UpdateCustomNetworkStatusSchema.safeParse({
+    const res = CustomNetworkNestedLinkStatusPayloadSchema.safeParse({
       projectId,
       customNetworkId,
       collectionId: row.id,
@@ -82,10 +85,10 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
   };
   const handleAddLink = (
     nestedId: string,
-    status: UpdateCustomNetworkAddLink["status"],
-    anchor: UpdateCustomNetworkAddLink["anchor"]
+    status: CustomNetworkNestedLinkPayloadValues["status"],
+    anchor: CustomNetworkNestedLinkPayloadValues["anchor"]
   ) => {
-    const res = UpdateCustomNetworkAddLinkSchema.safeParse({
+    const res = CustomNetworkNestedLinkPayloadSchema.safeParse({
       projectId,
       customNetworkId,
       collectionId: row.id,

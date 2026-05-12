@@ -1,6 +1,16 @@
+import type { ZodError } from "zod";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import type { AnchorManager } from "@/domains/linker/types/anchor-manager.types";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
+import type {
+  CustomNetworkCollectionNestedPayloadValues,
+  CustomNetworkCollectionPayloadValues,
+  CustomNetworkCollectionValues,
+  CustomNetworkNestedLinkPayloadValues,
+  CustomNetworkNestedLinkStatusPayloadValues,
+  CustomNetworkNestedLinkValues,
+  CustomNetworkPayloadValues,
+} from "@/domains/linker/validations/custom-network.validation";
 import type {
   GenerateSentenceSuggestionsRequest,
   InboundData,
@@ -15,12 +25,10 @@ import type {
 import { db } from "../db/indexdb";
 import {
   type CreateCustomNetworkResponseSchemaValues,
+  CustomNetworkCollectionNestedPayloadSchema,
+  CustomNetworkCollectionPayloadSchema,
+  CustomNetworkPayloadSchema,
   type createCustomNetworkPayload,
-  type DeleteCustomNetworkNested,
-  type DeleteCustomNetworkRow,
-  DeleteCustomNetworkRowSchema,
-  type UpdateCustomNetworkAddLink,
-  type UpdateCustomNetworkStatus,
 } from "../validations/custom-network.validation";
 import { linkerApi } from "./axios-instance";
 
@@ -131,7 +139,9 @@ export const projectsApi = {
   },
 
   // PATCH → IDB only (update one network inside the array by network id)
-  updateCustomNetworkStructure: async (data: UpdateCustomNetworkStatus | UpdateCustomNetworkAddLink) => {
+  updateCustomNetworkNestedLink: async (
+    data: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues
+  ) => {
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
         .where("projectId")
@@ -160,8 +170,29 @@ export const projectsApi = {
     });
   },
 
-  removeStructureRow: async (data: DeleteCustomNetworkRow) => {
-    const result = await DeleteCustomNetworkRowSchema.safeParseAsync(data);
+  removeCustomNetwork: async (data: CustomNetworkPayloadValues) => {
+    const result = await CustomNetworkPayloadSchema.safeParseAsync(data);
+
+    if (!result.success) {
+      throw new Error(formatZodErrors(result.error));
+    }
+
+    const validated = result.data;
+    return await db.transaction("rw", db.customNetworks, async () => {
+      const affected = await db.customNetworks
+        .where("projectId")
+        .equals(data.projectId)
+        .modify((record) => {
+          record.customNetworks = record.customNetworks.filter((n) => n.id !== validated.customNetworkId);
+        });
+
+      if (affected === 0) throw new Error("Record not found");
+      return affected;
+    });
+  },
+
+  removeCustomNetworkCollection: async (data: CustomNetworkCollectionPayloadValues) => {
+    const result = await CustomNetworkCollectionPayloadSchema.safeParseAsync(data);
 
     if (!result.success) {
       throw new Error(formatZodErrors(result.error));
@@ -186,20 +217,28 @@ export const projectsApi = {
       return affected;
     });
   },
-  removeNestedStructure: async (data: DeleteCustomNetworkNested) => {
+
+  removeCustomNetworkCollectionNestedLink: async (data: CustomNetworkCollectionNestedPayloadValues) => {
+    const result = await CustomNetworkCollectionNestedPayloadSchema.safeParseAsync(data);
+
+    if (!result.success) {
+      throw new Error(formatZodErrors(result.error));
+    }
+
+    const validated = result.data;
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
         .where("projectId")
         .equals(data.projectId)
         .modify((record) => {
-          const network = record.customNetworks.find((n) => n.id === data.customNetworkId);
+          const network = record.customNetworks.find((n) => n.id === validated.customNetworkId);
           if (!network) return;
 
-          const collection = network.collections.find((c) => c.id === data.collectionId);
+          const collection = network.collections.find((c) => c.id === validated.collectionId);
           if (!collection) return;
 
           // filter out the deleted item
-          const updatedNestedData = collection.nestedData.filter((n) => n.id !== data.nestedId);
+          const updatedNestedData = collection.nestedData.filter((n) => n.id !== validated.nestedId);
 
           // mutate in place — Dexie writes it back automatically
           collection.nestedData = updatedNestedData;
@@ -222,12 +261,6 @@ export const projectsApi = {
 };
 
 // lib/services/custom-networks.service.ts
-
-import type { ZodError } from "zod";
-import type {
-  CustomNetworkCollectionValues,
-  CustomNetworkNestedLinkValues,
-} from "@/domains/linker/validations/custom-network.validation";
 
 type CollectionState = CustomNetworkCollectionValues["state"];
 

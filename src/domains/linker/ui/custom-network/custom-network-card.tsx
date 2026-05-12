@@ -16,7 +16,9 @@ import {
   Network,
   Trash2,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useParams } from "next/navigation";
+import React, { useMemo } from "react";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,7 +32,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,6 +40,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { useRemoveCustomNetwork } from "../../hooks/use-projects";
+import { CustomNetworkPayloadSchema } from "../../validations/custom-network.validation";
 
 // 🔹 Exact type alias as requested
 export type CreateCustomNetworkResponseSchemaValues = {
@@ -185,14 +188,15 @@ function StatCell({ label, value, bg, labelCls, valueCls }: StatCellProps) {
 
 export interface CustomNetworkCardProps {
   network: CreateCustomNetworkResponseSchemaValues;
-  onDelete: (id: string) => void;
   onNavigateCustomNetwork: (customNetowrkId: string) => void;
   onViewLinks?: (network: CreateCustomNetworkResponseSchemaValues) => void;
 }
 
-export function CustomNetworkCard({ network, onDelete, onNavigateCustomNetwork, onViewLinks }: CustomNetworkCardProps) {
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [matrixOpen, setMatrixOpen] = useState(false); // Added missing state
+export function CustomNetworkCard({ network, onNavigateCustomNetwork, onViewLinks }: CustomNetworkCardProps) {
+  const { projectId } = useParams<{ projectId: string }>();
+  const { mutate, isPending } = useRemoveCustomNetwork(projectId);
+
+  const [open, setOpen] = React.useState(false);
 
   const metrics = useMemo(() => calcMetrics(network), [network]);
   const { pageCount, possible, built, remaining, completion } = metrics;
@@ -201,11 +205,28 @@ export function CustomNetworkCard({ network, onDelete, onNavigateCustomNetwork, 
 
   // Safe date fallback since `date` wasn't in the original schema
   const displayDate = network.date || new Date().toISOString();
+  const handleNavigate = () => {
+    onNavigateCustomNetwork(network.id);
+  };
 
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    const res = CustomNetworkPayloadSchema.safeParse({
+      projectId,
+      customNetworkId: network.id,
+    });
+    if (!res.success) return null;
+    mutate(res.data, {
+      onError: (error) => toast(error?.message),
+      onSettled: () => {
+        setOpen(false);
+      },
+    });
+  };
   return (
     <>
       <Card
-        onClick={() => onNavigateCustomNetwork(network.id)}
+        onClick={handleNavigate}
         className="relative w-full overflow-hidden @container grid grid-rows-[auto,1fr,auto] gap-4 rounded-none cursor-pointer border-border transition-all duration-150 hover:shadow-md active:scale-[0.995]"
       >
         <CardHeader className="px-5 pt-4 pb-3">
@@ -248,7 +269,7 @@ export function CustomNetworkCard({ network, onDelete, onNavigateCustomNetwork, 
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="text-xs gap-2 text-destructive focus:text-destructive cursor-pointer rounded-none"
-                    onClick={() => setDeleteOpen(true)}
+                    onClick={() => setOpen(true)}
                   >
                     <Trash2 className="size-3.5" />
                     Delete network
@@ -280,7 +301,10 @@ export function CustomNetworkCard({ network, onDelete, onNavigateCustomNetwork, 
             variant="ghost"
             size="sm"
             className={cn("text-xs font-semibold gap-1.5 px-3 h-8 border-0", cfg.btnFg, cfg.btnHoverBg)}
-            onClick={() => setMatrixOpen(true)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNavigate();
+            }}
           >
             <cfg.BtnIcon className="size-3.5 shrink-0" />
             {cfg.btnLabel}
@@ -289,7 +313,7 @@ export function CustomNetworkCard({ network, onDelete, onNavigateCustomNetwork, 
         </div>
       </Card>
 
-      <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+      <AlertDialog open={open} onOpenChange={setOpen}>
         <AlertDialogContent className="rounded-none">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-sm font-semibold">Delete "{network.collectionName}"?</AlertDialogTitle>
@@ -298,31 +322,15 @@ export function CustomNetworkCard({ network, onDelete, onNavigateCustomNetwork, 
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="rounded-none text-xs h-8">Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              className="rounded-none text-xs h-8 bg-destructive hover:bg-destructive/90"
-              onClick={() => onDelete(network.id)}
-            >
+            <AlertDialogCancel className="rounded-none text-xs h-8" disabled={isPending}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction variant="destructive" disabled={isPending} onClick={handleDelete}>
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-
-      <Dialog open={matrixOpen} onOpenChange={setMatrixOpen}>
-        <DialogContent className="sm:max-w-3xl rounded-none">
-          <DialogHeader>
-            <DialogTitle className="text-sm font-semibold">Link Matrix: {network.collectionName}</DialogTitle>
-            <DialogDescription className="text-xs text-muted-foreground">
-              Managing {pageCount} collections with {possible} potential connections.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="py-8 text-center text-sm text-muted-foreground">
-            {/* Replace with your actual matrix/table component */}
-            Matrix UI renders here using <code>network.collections</code>
-          </div>
-        </DialogContent>
-      </Dialog>
     </>
   );
 }
