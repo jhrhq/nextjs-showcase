@@ -298,7 +298,7 @@ export function CustomNetworkCard({ network, onNavigateCustomNetwork, onViewLink
         >
           <span className="text-xs text-muted-foreground tabular-nums">{completion}% complete</span>
           <Button
-            variant="ghost"
+            variant="ghost-normal"
             size="sm"
             className={cn("text-xs font-semibold gap-1.5 px-3 h-8 border-0", cfg.btnFg, cfg.btnHoverBg)}
             onClick={(e) => {

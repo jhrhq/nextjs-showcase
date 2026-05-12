@@ -117,7 +117,7 @@ function PageHeader({ viewMode, onViewModeChange }: PageHeaderProps) {
                 data-[state=off]:bg-transparent data-[state=off]:hover:bg-muted/50"
               aria-label={`Toggle ${mode === "empty" ? "empty state" : "network items"}`}
             >
-              {mode === "empty" ? "Empty State" : "With NetworkItems"}
+              {mode === "empty" ? "Create" : "Networks"}
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
@@ -142,20 +142,7 @@ export default function NetworkItemPage() {
   return (
     <>
       <PageHeader viewMode={viewMode} onViewModeChange={setViewMode} />
-      <div className="mb-8">
-        <h1 className="text-[28px] font-bold tracking-tight">
-          Your NetworkItems
-          {data && data.customNetworks.length > 0 && (
-            <span className="ms-3 text-base font-normal text-muted-foreground">
-              {data.customNetworks.length} cluster
-              {data.customNetworks.length !== 1 ? "s" : ""}
-            </span>
-          )}
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Organize URLs into networked clusters for powerful internal linking.
-        </p>
-      </div>
+
       {viewMode === "empty" ? (
         <div className="flex flex-col items-center pt-4">
           <EmptyIllustration />
@@ -169,6 +156,20 @@ export default function NetworkItemPage() {
         </div>
       ) : (
         <>
+          <div className="mb-8">
+            <h1 className="text-[28px] font-bold tracking-tight">
+              Your NetworkItems
+              {data && data.customNetworks.length > 0 && (
+                <span className="ms-3 text-base font-normal text-muted-foreground">
+                  {data.customNetworks.length} cluster
+                  {data.customNetworks.length !== 1 ? "s" : ""}
+                </span>
+              )}
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Organize URLs into networked clusters for powerful internal linking.
+            </p>
+          </div>
           {isFetching && (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 3 }).map((_, i) => (
