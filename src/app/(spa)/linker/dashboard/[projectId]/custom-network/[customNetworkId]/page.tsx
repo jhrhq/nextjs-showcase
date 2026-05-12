@@ -3,12 +3,10 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { useParams } from "next/navigation";
 import { db } from "@/domains/linker/db/indexdb";
-// import { useCustomNetworkStructure } from "@/domains/linker/hooks/use-projects";
 import InternalLinkManagement from "@/domains/linker/ui/custom-network/manage-custom-network-table/custom-network-table";
 
 export default function CreateCustomNetworkTable() {
   const { projectId, customNetworkId } = useParams<{ projectId: string; customNetworkId: string }>();
-  // const { data, isLoading } = useCustomNetworkStructure(projectId, customNetworkId);
   const data = useLiveQuery(() => db.customNetworks.get(projectId), [projectId]);
   const currentNetwork = data?.customNetworks.find((item) => item.id === customNetworkId);
 

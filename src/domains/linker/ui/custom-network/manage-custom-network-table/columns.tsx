@@ -132,14 +132,7 @@ export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetwor
     id: "expander",
     header: () => null,
     cell: ({ row }) => (
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={row.getToggleExpandedHandler()}
-        className="size-7 text-muted-foreground hover:text-foreground"
-      >
-        <ChevronRight className={cn("h-4 w-4 transition-transform", row.getIsExpanded() && "rotate-90")} />
-      </Button>
+      <ChevronRight className={cn("h-4 w-4 transition-transform", row.getIsExpanded() && "rotate-90")} />
     ),
   },
   {
@@ -308,7 +301,7 @@ function DeleteRow({ row }: { row: Row<CustomNetworkCollectionValues> }) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isPending} variant="outline">
+          <AlertDialogCancel disabled={isPending} variant="outline" onClick={(e) => e.stopPropagation()}>
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction disabled={isPending} variant="destructive" onClick={handleDeleteConfirm}>
