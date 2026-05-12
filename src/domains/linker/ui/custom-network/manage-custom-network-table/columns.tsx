@@ -1,13 +1,28 @@
-import type { ColumnDef, FilterFn } from "@tanstack/react-table";
-import { CheckCircle2, ChevronRight, ExternalLink, RefreshCw, Unlink } from "lucide-react";
-
+import type { ColumnDef, FilterFn, Row } from "@tanstack/react-table";
+import { CheckCircle2, ChevronRight, ExternalLink, RefreshCw, Trash2Icon, Unlink } from "lucide-react";
+import { useParams } from "next/navigation";
+import React from "react";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import type {
-  CustomNetworkCollectionValues,
-  CustomNetworkNestedLinkValues,
+import { useRemoveCustomNetworkRow } from "@/domains/linker/hooks/use-projects";
+import {
+  type CustomNetworkCollectionValues,
+  type CustomNetworkNestedLinkValues,
+  DeleteCustomNetworkRowSchema,
 } from "@/domains/linker/validations/custom-network.validation";
 import { fuzzyFilter, fuzzySort } from "@/infra/utils.tanstack-table";
 import { cn } from "@/lib/utils";
@@ -231,27 +246,81 @@ export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetwor
   },
   {
     id: "nestedStatus",
-    // Accessor extracts an array of statuses for the faceted unique values engine
     accessorFn: (row) => row.nestedData?.map((c) => c.status) ?? [],
-
-    // Applying the type-safe filter function
     filterFn: nestedStatusFilterFn,
-
-    // Metadata to help TanStack internal types if needed
     enableColumnFilter: true,
-    enableGlobalFilter: false, // Usually, you don't want the raw status array searchable via global search
+    enableGlobalFilter: false,
   },
   {
     id: "actions",
     enableSorting: false,
     enableColumnFilter: false,
-    header: () => <div className="text-right">Action</div>,
-    cell: () => (
-      <div className="flex items-center justify-end gap-2">
-        <Button variant="link" size="sm" className="h-7 text-xs text-primary hover:bg-primary/10 font-medium">
-          Mark Complete
-        </Button>
-      </div>
-    ),
+    header: "Action",
+    cell: ({ row }) => <DeleteRow row={row} />,
   },
 ];
+
+/*
+ * TODO
+ * refactor the useMuatations with onsuccess and onError toast with sonner
+ */
+function DeleteRow({ row }: { row: Row<CustomNetworkCollectionValues> }) {
+  const { projectId, customNetworkId } = useParams<{ projectId: string; customNetworkId: string }>();
+
+  const { mutate, isPending } = useRemoveCustomNetworkRow(projectId, customNetworkId);
+  const [open, setOpen] = React.useState(false);
+
+  const handleDeleteConfirm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    const res = DeleteCustomNetworkRowSchema.safeParse({
+      projectId,
+      customNetworkId,
+      collectionId: row.id,
+    });
+
+    if (!res.success) return null;
+    handleDeleteConfirm;
+
+    mutate(res.data, {
+      onError: (error) => toast(error?.message),
+      onSettled: () => {
+        setOpen(false);
+      },
+    });
+  };
+
+  return (
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
+        <Button
+          variant="destructive"
+          className="bg-transparent hover:bg-transparent text-rose-500"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          Delete
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+            <Trash2Icon />
+          </AlertDialogMedia>
+          <AlertDialogTitle>Delete Row?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This will permanently delete this Row. All nested data will also be deleted!
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={isPending} variant="outline">
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction disabled={isPending} variant="destructive" onClick={handleDeleteConfirm}>
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}

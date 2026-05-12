@@ -13,6 +13,7 @@ import type { CreateCustomNetworkResponseSchemaValues } from "../ui/custom-netwo
 import type {
   createCustomNetworkPayload,
   DeleteCustomNetworkNested,
+  DeleteCustomNetworkRow,
   UpdateCustomNetworkAddLink,
   UpdateCustomNetworkStatus,
 } from "../validations/custom-network.validation";
@@ -177,6 +178,14 @@ export function useUpdateCustomNetworkStructure(projectId: string, customNetwork
   return useMutation({
     mutationFn: (data: UpdateCustomNetworkStatus | UpdateCustomNetworkAddLink) =>
       projectsApi.updateCustomNetworkStructure(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId, customNetworkId] }),
+  });
+}
+export function useRemoveCustomNetworkRow(projectId: string, customNetworkId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: DeleteCustomNetworkRow) => projectsApi.removeStructureRow(data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId, customNetworkId] }),
   });
 }
