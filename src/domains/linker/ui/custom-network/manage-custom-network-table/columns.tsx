@@ -18,11 +18,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { useRemoveCustomNetworkRow } from "@/domains/linker/hooks/use-projects";
+import { useRemoveCustomNetworkCollection } from "@/domains/linker/hooks/use-projects";
 import {
+  CustomNetworkCollectionPayloadSchema,
   type CustomNetworkCollectionValues,
   type CustomNetworkNestedLinkValues,
-  DeleteCustomNetworkRowSchema,
 } from "@/domains/linker/validations/custom-network.validation";
 import { fuzzyFilter, fuzzySort } from "@/infra/utils.tanstack-table";
 import { cn } from "@/lib/utils";
@@ -251,24 +251,23 @@ export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetwor
 /*
  * TODO
  * refactor the useMuatations with onsuccess and onError toast with sonner
+ *
+ * refactor shcmema validation error with sonnar toast
  */
 function DeleteRow({ row }: { row: Row<CustomNetworkCollectionValues> }) {
   const { projectId, customNetworkId } = useParams<{ projectId: string; customNetworkId: string }>();
 
-  const { mutate, isPending } = useRemoveCustomNetworkRow(projectId, customNetworkId);
+  const { mutate, isPending } = useRemoveCustomNetworkCollection(projectId, customNetworkId);
   const [open, setOpen] = React.useState(false);
 
   const handleDeleteConfirm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
-    const res = DeleteCustomNetworkRowSchema.safeParse({
+    const res = CustomNetworkCollectionPayloadSchema.safeParse({
       projectId,
       customNetworkId,
-      collectionId: row.id,
+      collectionId: row.original.id,
     });
-
     if (!res.success) return null;
-    handleDeleteConfirm;
-
     mutate(res.data, {
       onError: (error) => toast(error?.message),
       onSettled: () => {

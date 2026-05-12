@@ -11,11 +11,12 @@ import { AUTH_CONFIG } from "../constants/auth.constants";
 import { db } from "../db/indexdb";
 import type { CreateCustomNetworkResponseSchemaValues } from "../ui/custom-network/custom-network-card";
 import type {
+  CustomNetworkCollectionNestedPayloadValues,
+  CustomNetworkCollectionPayloadValues,
+  CustomNetworkNestedLinkPayloadValues,
+  CustomNetworkNestedLinkStatusPayloadValues,
+  CustomNetworkPayloadValues,
   createCustomNetworkPayload,
-  DeleteCustomNetworkNested,
-  DeleteCustomNetworkRow,
-  UpdateCustomNetworkAddLink,
-  UpdateCustomNetworkStatus,
 } from "../validations/custom-network.validation";
 import type { GenerateSentenceSuggestionsRequest, SentenceSelectionPayload } from "../validations/inbound.validation";
 
@@ -172,28 +173,39 @@ export function useCustomNetworkStructure(projectId: string, customNetworkId: st
   });
 }
 
-export function useUpdateCustomNetworkStructure(projectId: string, customNetworkId: string) {
+export function useUpdateCustomNetworkNestedLink(projectId: string, customNetworkId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: UpdateCustomNetworkStatus | UpdateCustomNetworkAddLink) =>
-      projectsApi.updateCustomNetworkStructure(data),
+    mutationFn: (data: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues) =>
+      projectsApi.updateCustomNetworkNestedLink(data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId, customNetworkId] }),
   });
 }
-export function useRemoveCustomNetworkRow(projectId: string, customNetworkId: string) {
+
+export function useRemoveCustomNetwork(projectId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: DeleteCustomNetworkRow) => projectsApi.removeStructureRow(data),
+    mutationFn: (data: CustomNetworkPayloadValues) => projectsApi.removeCustomNetwork(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId] }),
+  });
+}
+
+export function useRemoveCustomNetworkCollection(projectId: string, customNetworkId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CustomNetworkCollectionPayloadValues) => projectsApi.removeCustomNetworkCollection(data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId, customNetworkId] }),
   });
 }
-export function useRemoveCustomNetworkStructure(projectId: string, customNetworkId: string) {
+export function useRemoveCustomNetworkCollectionNestedLink(projectId: string, customNetworkId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: DeleteCustomNetworkNested) => projectsApi.removeNestedStructure(data),
+    mutationFn: (data: CustomNetworkCollectionNestedPayloadValues) =>
+      projectsApi.removeCustomNetworkCollectionNestedLink(data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId, customNetworkId] }),
   });
 }

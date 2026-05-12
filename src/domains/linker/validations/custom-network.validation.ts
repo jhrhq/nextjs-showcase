@@ -59,29 +59,35 @@ export const CreateCustomNetworkResponseSchema = z.object({
   collections: z.array(CustomNetworkCollectionSchema).min(1),
 });
 
-export const DeleteCustomNetworkRowSchema = z.object({
+export const CustomNetworkPayloadSchema = z.object({
   projectId: z.uuid(),
   customNetworkId: z.uuid(),
-  collectionId: z.uuid(),
 });
-export const DeleteCustomNetworkNestedSchema = DeleteCustomNetworkRowSchema.extend({ nestedId: z.uuid() });
+export const CustomNetworkCollectionPayloadSchema = CustomNetworkPayloadSchema.extend({ collectionId: z.uuid() });
+export const CustomNetworkCollectionNestedPayloadSchema = CustomNetworkCollectionPayloadSchema.extend({
+  nestedId: z.uuid(),
+});
 
-export const UpdateCustomNetworkStatusSchema = DeleteCustomNetworkNestedSchema.extend({ status: StatusEnum });
+export const CustomNetworkNestedLinkStatusPayloadSchema = CustomNetworkCollectionNestedPayloadSchema.extend({
+  status: StatusEnum,
+});
 
-export const UpdateCustomNetworkAddLinkSchema = UpdateCustomNetworkStatusSchema.extend({
+export const CustomNetworkNestedLinkPayloadSchema = CustomNetworkNestedLinkStatusPayloadSchema.extend({
   anchor: z.string(),
 });
+
+export type CreateCustomNetworkResponseSchemaValues = z.infer<typeof CreateCustomNetworkResponseSchema>;
 
 export type createCustomNetworkPayload = z.infer<typeof createCustomNetworkPayloadSchema>;
 
 export type CreateCustomNetworkFormValues = z.infer<typeof createCustomNetworkFormSchema>;
 export type CustomNetworkCollectionValues = z.infer<typeof CustomNetworkCollectionSchema>;
 export type CustomNetworkNestedLinkValues = z.infer<typeof CustomNetworkNestedLinkSchema>;
-export type DeleteCustomNetworkRow = z.infer<typeof DeleteCustomNetworkRowSchema>;
-export type DeleteCustomNetworkNested = z.infer<typeof DeleteCustomNetworkNestedSchema>;
-export type UpdateCustomNetworkStatus = z.infer<typeof UpdateCustomNetworkStatusSchema>;
-export type UpdateCustomNetworkAddLink = z.infer<typeof UpdateCustomNetworkAddLinkSchema>;
-
-export type CreateCustomNetworkResponseSchemaValues = z.infer<typeof CreateCustomNetworkResponseSchema>;
+// remove payloads
+export type CustomNetworkPayloadValues = z.infer<typeof CustomNetworkPayloadSchema>;
+export type CustomNetworkCollectionPayloadValues = z.infer<typeof CustomNetworkCollectionPayloadSchema>;
+export type CustomNetworkCollectionNestedPayloadValues = z.infer<typeof CustomNetworkCollectionNestedPayloadSchema>;
+export type CustomNetworkNestedLinkStatusPayloadValues = z.infer<typeof CustomNetworkNestedLinkStatusPayloadSchema>;
+export type CustomNetworkNestedLinkPayloadValues = z.infer<typeof CustomNetworkNestedLinkPayloadSchema>;
 
 export type AllCustomNetworkDataType = Record<string, CreateCustomNetworkResponseSchemaValues>;
