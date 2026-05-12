@@ -147,8 +147,8 @@ export const projectsApi = {
     let validated: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues;
 
     // Validate with correct schema
-    if ("status" in data) {
-      const result = await CustomNetworkNestedLinkStatusPayloadSchema.safeParseAsync(data);
+    if ("anchor" in data) {
+      const result = await CustomNetworkNestedLinkPayloadSchema.safeParseAsync(data);
 
       if (!result.success) {
         throw new Error(formatZodErrors(result.error));
@@ -156,7 +156,7 @@ export const projectsApi = {
 
       validated = result.data;
     } else {
-      const result = await CustomNetworkNestedLinkPayloadSchema.safeParseAsync(data);
+      const result = await CustomNetworkNestedLinkStatusPayloadSchema.safeParseAsync(data);
 
       if (!result.success) {
         throw new Error(formatZodErrors(result.error));
