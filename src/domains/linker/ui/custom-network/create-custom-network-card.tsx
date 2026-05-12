@@ -10,7 +10,7 @@ interface CreateCustomNetworkCardProps {
 }
 
 const HINTS = [
-  { dot: "bg-emerald-500", text: "Set a hub URL" },
+  { dot: "bg-emerald-500", text: "Add a collection name" },
   { dot: "bg-blue-500", text: "Add related pages" },
   { dot: "bg-violet-500", text: "Auto-link your content" },
 ] as const;
@@ -37,7 +37,7 @@ export default function CreateCustomNetworkCard({ onClick, isEmpty }: CreateCust
       </div>
 
       <p className="text-[15px] font-semibold mb-1.5 transition-colors group-hover:text-primary">
-        Create New CustomNetwork
+        Create New Custom Network
       </p>
 
       <p className="text-sm text-muted-foreground leading-relaxed max-w-47.5">
