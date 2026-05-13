@@ -1,8 +1,9 @@
 "use client";
-import { Check, ChevronRight, Copy, Edit2, Loader2, SendHorizontal } from "lucide-react";
+import { Check, ChevronRight, Copy, Edit2, FileText, Loader2, SendHorizontal } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGenerateSentenceSuggestions, useSumbitSentence } from "@/domains/linker/hooks/use-projects";
 import { MiniTipTapEditorPanel } from "@/domains/linker/ui/tip-tap-editor/mini-tiptap-editor-panel";
@@ -19,9 +20,8 @@ export function SentenceList({
   item: InboundSuggestions;
   payload: GenerateSentenceSuggestionsRequest;
 }) {
-  const { data, isLoading } = useGenerateSentenceSuggestions(payload);
+  const { data, isLoading, isError, error, refetch } = useGenerateSentenceSuggestions(payload);
   const [sentSentences, setSentSentences] = React.useState<Set<string>>(new Set());
-
   const handleSentSentences = (id: string) => {
     setSentSentences((prev) => {
       const next = new Set(prev);
@@ -39,10 +39,34 @@ export function SentenceList({
       </div>
     );
   }
+  if (isError) {
+    return (
+      <div className="p-4 border border-destructive/50 bg-destructive/10 rounded-md">
+        <p className="text-sm text-destructive mb-2">
+          {error instanceof Error ? error.message : "Failed to load suggestions"}
+        </p>
+        <Button onClick={() => refetch()} className="text-xs font-medium">
+          Try again
+        </Button>
+      </div>
+    );
+  }
+  if (!data || (data && data.length === 0)) {
+    return (
+      <Empty>
+        <EmptyHeader className="flex-row">
+          <EmptyMedia variant="icon">
+            <FileText />
+          </EmptyMedia>
+          <EmptyTitle>No Suggestions Found</EmptyTitle>
+        </EmptyHeader>
+      </Empty>
+    );
+  }
 
   return (
     <>
-      {data?.data.map((sentence) => (
+      {data.map((sentence) => (
         <SentenceItem
           key={sentence.id}
           sentence={sentence}

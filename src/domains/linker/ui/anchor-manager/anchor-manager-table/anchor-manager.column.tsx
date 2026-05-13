@@ -94,7 +94,7 @@ export const anchorColumns: ColumnDef<Anchor>[] = [
       const anchorType = getValue() as string;
       const colorSet = COLOR_MAP[anchorType] || { bg: "bg-gray-100", text: "text-gray-700" };
 
-      return <Badge className={cn(colorSet.bg, colorSet.text)}>{anchorType}</Badge>;
+      return <Badge className={cn(colorSet.bg, colorSet.text, "rounded-md")}>{anchorType}</Badge>;
     },
   },
 ];

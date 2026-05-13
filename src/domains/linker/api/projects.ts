@@ -11,11 +11,14 @@ import type {
   CustomNetworkNestedLinkValues,
   CustomNetworkPayloadValues,
 } from "@/domains/linker/validations/custom-network.validation";
-import type {
-  GenerateSentenceSuggestionsRequest,
-  InboundData,
-  SentenceSelectionPayload,
-  SentenceSuggestions,
+import {
+  type GenerateSentenceSuggestionsRequest,
+  type InboundData,
+  type SentenceSelectionPayload,
+  SentenceSubmissionPayloadSchema,
+  SentenceSuggestionPayloadSchema,
+  SentenceSuggestionSchema,
+  type SentenceSuggestions,
 } from "@/domains/linker/validations/inbound.validation";
 import type {
   CreateProjectInput,
@@ -23,6 +26,7 @@ import type {
   UpdateProjectAPIInput,
 } from "@/domains/linker/validations/projects.validations";
 import { db } from "../db/indexdb";
+import { mockSentenceSuggestions } from "../db/mock";
 import { buildNetworkFromUrls } from "../utils";
 import {
   type CreateCustomNetworkResponseSchemaValues,
@@ -96,24 +100,33 @@ export const projectsApi = {
     });
     return response.data;
   },
-  generateSentenceSuggestions: async (
-    payload: GenerateSentenceSuggestionsRequest
-  ): Promise<{ success: true; data: SentenceSuggestions }> => {
-    const response = await linkerApi.post(
-      `${AUTH_CONFIG.API.PROJECTS}/${payload.projectId}/${AUTH_CONFIG.API.SENTENCES}`,
-      payload
-    );
 
-    return response.data;
+  generateSentenceSuggestions: async (payload: GenerateSentenceSuggestionsRequest): Promise<SentenceSuggestions> => {
+    const validationResult = await SentenceSuggestionPayloadSchema.safeParseAsync(payload);
+
+    if (!validationResult.success) {
+      throw new Error(formatZodErrors(validationResult.error));
+    }
+
+    const raw = mockSentenceSuggestions[Math.floor(Math.random() * mockSentenceSuggestions.length)] ?? [];
+
+    const dataValidation = await SentenceSuggestionSchema.safeParseAsync(raw);
+
+    if (!dataValidation.success) {
+      throw new Error(formatZodErrors(dataValidation.error));
+    }
+
+    return dataValidation.data ?? [];
   },
 
-  submitSentence: async (payload: SentenceSelectionPayload): Promise<{ success: true; data: SentenceSuggestions }> => {
-    const response = await linkerApi.put(
-      `${AUTH_CONFIG.API.PROJECTS}/${payload.projectId}/${AUTH_CONFIG.API.SENTENCES}`,
-      payload
-    );
+  submitSentence: async (payload: SentenceSelectionPayload): Promise<SentenceSelectionPayload> => {
+    const result = await SentenceSubmissionPayloadSchema.safeParseAsync(payload);
 
-    return response.data;
+    if (!result.success) {
+      throw new Error(formatZodErrors(result.error));
+    }
+
+    return result.data;
   },
 
   submitCustomNetworkUrls: async (
@@ -155,7 +168,10 @@ export const projectsApi = {
 
   getCustomNetworkStructures: async (
     projectId: string
-  ): Promise<{ projectId: string; customNetworks: CreateCustomNetworkResponseSchemaValues[] }> => {
+  ): Promise<{
+    projectId: string;
+    customNetworks: CreateCustomNetworkResponseSchemaValues[];
+  }> => {
     const cached = await db.customNetworks.get(projectId);
     if (cached) return cached;
 
@@ -333,7 +349,7 @@ export const formatZodErrors = (error: ZodError) => {
   return error.issues
     .map((issue) => {
       const field = issue.path.join(".");
-      return `${field}: missing or invalid\n`;
+      return `${field}: missing or invalid`;
     })
     .join(", ");
 };

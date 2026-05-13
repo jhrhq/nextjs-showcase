@@ -9,8 +9,7 @@ import {
 import { InboundResultsAccordion } from "./Inbound-results-accordion";
 
 export default function InboundTarget() {
-  const params = useParams();
-  const projectId = params.id as string;
+  const { projectId } = useParams<{ projectId: string }>();
 
   const [submittedUrl, setSubmittedUrl] = React.useState<string | null>(null);
   const formRef = React.useRef<TargetUrlFormHandle>(null);
@@ -22,7 +21,7 @@ export default function InboundTarget() {
   };
 
   const handleSidebarPostSelect = React.useCallback(async (url: string) => {
-    const submitted = await formRef.current?.submitWithUrl(url);
+    const submitted = formRef.current?.submitWithUrl(url);
 
     if (!submitted) {
       alert(`Sidebar URL failed validation: ${url}`);

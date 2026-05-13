@@ -49,8 +49,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const { postId } = validationResult.data;
-  const raw = mockSentenceSuggestions[postId] ?? [];
+  // const { postId } = validationResult.data;
+  const raw = mockSentenceSuggestions[Math.floor(Math.random() * mockSentenceSuggestions.length)] ?? [];
 
   const dataValidation = SentenceSuggestionSchema.safeParse(raw);
 

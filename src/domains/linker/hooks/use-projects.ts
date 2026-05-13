@@ -106,6 +106,7 @@ export function useSubmitInboundUrl() {
       projectsApi.generateInboundSuggestions(projectId, url),
   });
 }
+
 export function useGenerateSentenceSuggestions(payload: GenerateSentenceSuggestionsRequest, { enabled = true } = {}) {
   const queryClient = useQueryClient();
   const prefetch = React.useCallback(() => {
