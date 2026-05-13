@@ -497,8 +497,8 @@ export const mockInboundData: InboundData = {
     },
   ],
 };
-export const mockSentenceSuggestions: Record<string, SentenceSuggestions> = {
-  "7c4e9a2d-1b3f-4e5a-8c9d-0f1a2b3c4d5e": [
+export const mockSentenceSuggestions: SentenceSuggestions[] = [
+  [
     {
       id: "d1d0a7f0-3c62-4b63-bc18-2a1f3f3a1b11",
       text: "We've outlined the most common reasons why your Bissell cleaner might be catching on your carpet.",
@@ -520,8 +520,7 @@ export const mockSentenceSuggestions: Record<string, SentenceSuggestions> = {
       text: "If you're using ultra-plush carpets, that may be why your Bissell vacuum is failing to clean smoothly.",
     },
   ],
-
-  "d3c4f1e2-b5a6-4789-8c7d-6e5f4a3b2c1d": [
+  [
     {
       id: "6d73c63b-cc91-4f3a-b8f1-29a61e24c216",
       text: "Regular maintenance of your ProHeat 2X extends its lifespan significantly.",
@@ -543,8 +542,7 @@ export const mockSentenceSuggestions: Record<string, SentenceSuggestions> = {
       text: "Always rinse the clean water tank before refilling to avoid detergent residue accumulation.",
     },
   ],
-
-  "31db3632-dd6d-4707-b092-ac1f3fda3b33": [
+  [
     {
       id: "5df7c1e5-7c32-41a0-8a2b-6dcd77e60221",
       text: "The CrossWave handles hard floors and area rugs while the Symphony focuses purely on steam cleaning.",
@@ -566,8 +564,7 @@ export const mockSentenceSuggestions: Record<string, SentenceSuggestions> = {
       text: "CrossWave's self-cleaning cycle is a standout feature that keeps the brush roll odor-free.",
     },
   ],
-
-  "c3d4a1b2-e5f6-4890-abcd-ef1234567890": [
+  [
     {
       id: "6c1b0d4a-ec0e-4e91-b4f0-1e3b9c21d026",
       text: "Residue is often caused by using too much cleaning solution in the water tank.",
@@ -589,8 +586,7 @@ export const mockSentenceSuggestions: Record<string, SentenceSuggestions> = {
       text: "Switching to Bissell's own cleaning formula reduces incompatibility residue by up to 40%.",
     },
   ],
-
-  "d4e5b2c3-f6a7-4901-bcde-f12345678901": [
+  [
     {
       id: "9b1a9f8c-3a32-4b5c-9f34-7b3e7d6d9a31",
       text: "Loss of suction is most frequently caused by a full or improperly seated dirty water tank.",
@@ -612,8 +608,7 @@ export const mockSentenceSuggestions: Record<string, SentenceSuggestions> = {
       text: "Never operate the unit without the clean water tank seated — it disrupts the internal airflow path.",
     },
   ],
-
-  "e5f6c3d4-a7b8-4012-bdef-012345678902": [
+  [
     {
       id: "8e6041f9-12e3-4a1a-a9c6-9c2bdf0a3e36",
       text: "Persistent odors are almost always sourced from a dirty water tank that wasn't emptied promptly.",
@@ -635,8 +630,7 @@ export const mockSentenceSuggestions: Record<string, SentenceSuggestions> = {
       text: "If odor persists after cleaning, the foam filter may need replacement rather than rinsing.",
     },
   ],
-
-  "f6a7d4e5-b8c9-4123-befa-123456789003": [
+  [
     {
       id: "1c2bed3a-5a1f-4e9b-8a12-9f3a6e1d1141",
       text: "Streak marks on hard floors typically indicate either too much solution or a worn brush strip.",
@@ -658,4 +652,4 @@ export const mockSentenceSuggestions: Record<string, SentenceSuggestions> = {
       text: "Buff out existing streaks with a dry microfiber cloth immediately after the cleaning pass.",
     },
   ],
-};
+];
