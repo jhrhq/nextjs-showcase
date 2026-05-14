@@ -18,7 +18,7 @@ import type {
   CustomNetworkPayloadValues,
   createCustomNetworkPayload,
 } from "../validations/custom-network.validation";
-import type { GenerateSentenceSuggestionsRequest, SentenceSelectionPayload } from "../validations/inbound.validation";
+import type { SentenceSelectionPayload, SuggestedSentencesPayloadValues } from "../validations/inbound.validation";
 
 /*
  *TODO
@@ -107,25 +107,26 @@ export function useSubmitInboundUrl() {
   });
 }
 
-export function useGenerateSentenceSuggestions(payload: GenerateSentenceSuggestionsRequest, { enabled = true } = {}) {
+export function useGetSuggestedSentences(payload: SuggestedSentencesPayloadValues, { enabled = true } = {}) {
   const queryClient = useQueryClient();
   const prefetch = React.useCallback(() => {
     queryClient.prefetchQuery({
       queryKey: ["linker-inbound-sentence-suggestions", payload],
-      queryFn: () => projectsApi.generateSentenceSuggestions(payload),
+      queryFn: () => projectsApi.getSuggestedSentences(payload),
       staleTime: 60_000,
     });
   }, [payload, queryClient.prefetchQuery]);
 
   const query = useQuery({
     queryKey: ["linker-inbound-sentence-suggestions"],
-    queryFn: () => projectsApi.generateSentenceSuggestions(payload),
+    queryFn: () => projectsApi.getSuggestedSentences(payload),
     staleTime: 60_000,
     enabled,
   });
 
   return { ...query, prefetch };
 }
+
 export function useSumbitSentence() {
   return useMutation({
     mutationKey: ["linker-inbound-sentence-submit"],

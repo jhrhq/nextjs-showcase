@@ -4,7 +4,7 @@ import type { SiteReport } from "@/domains/linker/types/site-report.types";
 import type {
   InboundPost,
   InboundSuggestions,
-  SentenceSuggestions,
+  SuggestedSentences,
 } from "@/domains/linker/validations/inbound.validation";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 import type { CreateCustomNetworkResponseSchemaValues } from "../validations/custom-network.validation";
@@ -14,7 +14,7 @@ export type AnchorManagerRecord = AnchorManager & { projectId: string };
 
 export type SentenceSuggestionRecord = {
   targetId: string;
-  sentences: SentenceSuggestions;
+  sentences: SuggestedSentences;
 };
 
 export type CustomNetworkRecord = {
