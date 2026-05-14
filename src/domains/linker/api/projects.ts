@@ -12,13 +12,13 @@ import type {
   CustomNetworkPayloadValues,
 } from "@/domains/linker/validations/custom-network.validation";
 import {
-  type GenerateSentenceSuggestionsRequest,
   type InboundData,
   type SentenceSelectionPayload,
   SentenceSubmissionPayloadSchema,
   SentenceSuggestionPayloadSchema,
-  SentenceSuggestionSchema,
-  type SentenceSuggestions,
+  SuggestedSentenceSchema,
+  type SuggestedSentences,
+  type SuggestedSentencesPayloadValues,
 } from "@/domains/linker/validations/inbound.validation";
 import type {
   CreateProjectInput,
@@ -101,7 +101,7 @@ export const projectsApi = {
     return response.data;
   },
 
-  generateSentenceSuggestions: async (payload: GenerateSentenceSuggestionsRequest): Promise<SentenceSuggestions> => {
+  getSuggestedSentences: async (payload: SuggestedSentencesPayloadValues): Promise<SuggestedSentences> => {
     const validationResult = await SentenceSuggestionPayloadSchema.safeParseAsync(payload);
 
     if (!validationResult.success) {
@@ -110,7 +110,7 @@ export const projectsApi = {
 
     const raw = mockSentenceSuggestions[Math.floor(Math.random() * mockSentenceSuggestions.length)] ?? [];
 
-    const dataValidation = await SentenceSuggestionSchema.safeParseAsync(raw);
+    const dataValidation = await SuggestedSentenceSchema.safeParseAsync(raw);
 
     if (!dataValidation.success) {
       throw new Error(formatZodErrors(dataValidation.error));

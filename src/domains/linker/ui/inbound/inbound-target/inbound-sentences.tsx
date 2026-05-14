@@ -5,22 +5,22 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGenerateSentenceSuggestions, useSumbitSentence } from "@/domains/linker/hooks/use-projects";
+import { useGetSuggestedSentences, useSumbitSentence } from "@/domains/linker/hooks/use-projects";
 import { MiniTipTapEditorPanel } from "@/domains/linker/ui/tip-tap-editor/mini-tiptap-editor-panel";
 import type {
-  GenerateSentenceSuggestionsRequest,
   InboundSuggestions,
+  SuggestedSentencesPayloadValues,
 } from "@/domains/linker/validations/inbound.validation";
 import { CopyClipboard } from "@/ui/shared/copy-to-clipboard";
 
 export function SentenceList({
-  // item,
+  item,
   payload,
 }: {
   item: InboundSuggestions;
-  payload: GenerateSentenceSuggestionsRequest;
+  payload: SuggestedSentencesPayloadValues;
 }) {
-  const { data, isLoading, isError, error, refetch } = useGenerateSentenceSuggestions(payload);
+  const { data, isLoading, isError, error, refetch } = useGetSuggestedSentences(payload);
   const [sentSentences, setSentSentences] = React.useState<Set<string>>(new Set());
   const handleSentSentences = (id: string) => {
     setSentSentences((prev) => {
@@ -70,6 +70,7 @@ export function SentenceList({
         <SentenceItem
           key={sentence.id}
           sentence={sentence}
+          predefinedUrl={item.url}
           payload={payload}
           onSentSentences={handleSentSentences}
           isSent={sentSentences.has(sentence.id)}
@@ -80,7 +81,7 @@ export function SentenceList({
 }
 
 type SentenceItemProps = {
-  payload: GenerateSentenceSuggestionsRequest;
+  payload: SuggestedSentencesPayloadValues;
   sentence: { id: string; text: string };
   predefinedUrl?: string;
   isSent: boolean;

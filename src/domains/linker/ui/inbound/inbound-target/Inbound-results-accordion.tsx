@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGenerateSentenceSuggestions } from "@/domains/linker/hooks/use-projects";
+import { useGetSuggestedSentences } from "@/domains/linker/hooks/use-projects";
 import { SentenceList } from "@/domains/linker/ui/inbound/inbound-target/inbound-sentences";
 import type { InboundSuggestions } from "@/domains/linker/validations/inbound.validation";
 
@@ -151,7 +151,7 @@ function LinkAccordionItem({ item }: { item: InboundSuggestions }) {
     [projectId, item.id, item._postId]
   );
 
-  const { prefetch } = useGenerateSentenceSuggestions(payload, { enabled: false });
+  const { prefetch } = useGetSuggestedSentences(payload, { enabled: false });
 
   return (
     <AccordionItem key={item.id} value={item.id} className="border-0  animate-in fade-in duration-200">

@@ -6,7 +6,7 @@ import { verifyAccessToken } from "@/domains/linker/services/auth/jwt.service";
 import {
   SentenceSubmissionPayloadSchema,
   SentenceSuggestionPayloadSchema,
-  SentenceSuggestionSchema,
+  SuggestedSentenceSchema,
 } from "@/domains/linker/validations/inbound.validation";
 
 // Inbound suggestion sentences
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
   // const { postId } = validationResult.data;
   const raw = mockSentenceSuggestions[Math.floor(Math.random() * mockSentenceSuggestions.length)] ?? [];
 
-  const dataValidation = SentenceSuggestionSchema.safeParse(raw);
+  const dataValidation = SuggestedSentenceSchema.safeParse(raw);
 
   if (!dataValidation.success) {
     return NextResponse.json(

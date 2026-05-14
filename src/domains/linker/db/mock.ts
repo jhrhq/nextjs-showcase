@@ -1,7 +1,7 @@
 import { hash } from "bcryptjs";
 import type { AnchorManager } from "@/domains/linker/types/anchor-manager.types";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
-import type { InboundData, SentenceSuggestions } from "@/domains/linker/validations/inbound.validation";
+import type { InboundData, SuggestedSentences } from "@/domains/linker/validations/inbound.validation";
 import { type ProjectDTO, projectSchema } from "@/domains/linker/validations/projects.validations";
 
 export type MockUser = {
@@ -497,7 +497,7 @@ export const mockInboundData: InboundData = {
     },
   ],
 };
-export const mockSentenceSuggestions: SentenceSuggestions[] = [
+export const mockSentenceSuggestions: SuggestedSentences[] = [
   [
     {
       id: "d1d0a7f0-3c62-4b63-bc18-2a1f3f3a1b11",
