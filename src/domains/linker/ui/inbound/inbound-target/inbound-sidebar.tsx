@@ -1,11 +1,14 @@
 "use client";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useLiveQuery } from "dexie-react-hooks";
 import { ExternalLink, Loader2 } from "lucide-react";
+import { useParams } from "next/navigation";
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
+import { db } from "@/domains/linker/db/indexdb";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -37,7 +40,7 @@ const ALL_SIDEBAR_POSTS = Array.from({ length: 40 }, (_, i) => {
   return {
     id: i + 1,
     title: titles[i % 10],
-    slug: `https://cleaningtuts.com/${slugs[i % 10]}/`,
+    slug: `${slugs[i % 10]}/`,
   };
 });
 async function fetchSidebarPage({ pageParam = 1 }) {
@@ -50,6 +53,10 @@ async function fetchSidebarPage({ pageParam = 1 }) {
 }
 
 export function InboundSidebar({ onSelectUrl }: { onSelectUrl: (url: string) => void }) {
+  const { projectId } = useParams<{ projectId: string }>();
+  const project = useLiveQuery(() => db.projects.get(projectId), [projectId]);
+  const projectDomain = project?.domain ?? "https://example.com";
+
   const loaderRef = React.useRef<HTMLDivElement | null>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
@@ -104,7 +111,7 @@ export function InboundSidebar({ onSelectUrl }: { onSelectUrl: (url: string) => 
               <Card
                 key={post.id}
                 className="cursor-pointer hover:border-primary"
-                onClick={() => onSelectUrl(post.slug)}
+                onClick={() => onSelectUrl(`${projectDomain}/${post.slug}`)}
               >
                 <CardContent className="p-3 space-y-1">
                   <div className="flex justify-between">
