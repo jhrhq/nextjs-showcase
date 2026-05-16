@@ -13,12 +13,14 @@ import type {
 } from "@/domains/linker/validations/custom-network.validation";
 import {
   type InboundData,
+  InboundDataSchema,
   type SentenceSelectionPayload,
   SentenceSubmissionPayloadSchema,
   SentenceSuggestionPayloadSchema,
   SuggestedSentenceSchema,
   type SuggestedSentences,
   type SuggestedSentencesPayloadValues,
+  targetUrlSchema,
 } from "@/domains/linker/validations/inbound.validation";
 import type {
   CreateProjectInput,
@@ -26,7 +28,7 @@ import type {
   UpdateProjectAPIInput,
 } from "@/domains/linker/validations/projects.validations";
 import { db } from "../db/indexdb";
-import { mockSentenceSuggestions } from "../db/mock";
+import { mockInboundData, mockSentenceSuggestions } from "../db/mock";
 import { buildNetworkFromUrls } from "../utils";
 import {
   type CreateCustomNetworkResponseSchemaValues,
@@ -94,11 +96,20 @@ export const projectsApi = {
     return response.data;
   },
 
-  generateInboundSuggestions: async (projectId: string, url: string): Promise<{ success: true; data: InboundData }> => {
-    const response = await linkerApi.post(`${AUTH_CONFIG.API.PROJECTS}/${projectId}/${AUTH_CONFIG.API.INBOUNDS}`, {
-      url,
-    });
-    return response.data;
+  getInboundSuggestions: async (url: string): Promise<InboundData> => {
+    const validationResult = await targetUrlSchema.safeParseAsync({ url });
+
+    if (!validationResult.success) {
+      throw new Error(formatZodErrors(validationResult.error));
+    }
+
+    const validated = await InboundDataSchema.safeParseAsync(mockInboundData);
+
+    if (!validated.success) {
+      throw new Error(formatZodErrors(validated.error));
+    }
+
+    return validated.data;
   },
 
   getSuggestedSentences: async (payload: SuggestedSentencesPayloadValues): Promise<SuggestedSentences> => {
