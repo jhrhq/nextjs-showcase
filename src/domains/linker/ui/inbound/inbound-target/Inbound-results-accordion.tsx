@@ -76,7 +76,7 @@ export function InboundResultsAccordion({ url, isLoading, data }: InboundResults
         <section className="space-y-2">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-semibold">⭐ Recommended</h3>
-            <Badge variant="secondary" className="text-xs">
+            <Badge variant="secondary" className="text-xs rounded-full px-1.5">
               {recommended.length}
             </Badge>
           </div>

@@ -1,5 +1,6 @@
 import { useParams } from "next/navigation";
 import React from "react";
+import { toast } from "sonner";
 import { useSubmitInboundUrl } from "@/domains/linker/hooks/use-projects";
 import { InboundSidebar } from "@/domains/linker/ui/inbound/inbound-target/inbound-sidebar";
 import {
@@ -17,14 +18,14 @@ export default function InboundTarget() {
   const { mutate, data, isPending } = useSubmitInboundUrl();
 
   const handleFormSubmit = (url: string) => {
-    mutate({ projectId, url }, { onSuccess: (data) => setSubmittedUrl(data.data.post.url) });
+    mutate({ projectId, url }, { onSuccess: (data) => setSubmittedUrl(data.post.url) });
   };
 
   const handleSidebarPostSelect = React.useCallback(async (url: string) => {
     const submitted = formRef.current?.submitWithUrl(url);
 
     if (!submitted) {
-      alert(`Sidebar URL failed validation: ${url}`);
+      toast(`Sidebar URL failed validation: ${url}`);
     }
   }, []);
 
@@ -40,7 +41,7 @@ export default function InboundTarget() {
 
         <InboundTargetForm ref={formRef} onSubmit={handleFormSubmit} isLoading={isPending} />
 
-        <InboundResultsAccordion url={submittedUrl} isLoading={isPending} data={data?.data?.suggestions} />
+        <InboundResultsAccordion url={submittedUrl} isLoading={isPending} data={data?.suggestions} />
       </div>
 
       <aside
