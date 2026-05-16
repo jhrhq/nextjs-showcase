@@ -4,7 +4,7 @@ import { Loader2, SearchX, Wifi } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Tooltip } from "@/components/ui/tooltip";
 import { UrlCard } from "./url-card";
 import { useInfiniteUrls } from "./use-infinite-urls";
 
@@ -63,7 +63,7 @@ export function UrlSidebar({ addedUrls, onAddUrl }: UrlSidebarProps) {
     useInfiniteUrls();
 
   return (
-    <TooltipProvider delayDuration={200}>
+    <Tooltip delayDuration={200}>
       {/*
         Sticky container — the parent <aside> must NOT have overflow-hidden.
         height = 100vh, flex column so header stays fixed and list scrolls.
@@ -122,6 +122,6 @@ export function UrlSidebar({ addedUrls, onAddUrl }: UrlSidebarProps) {
           {hasMore && !isFetchingMore && <div ref={sentinelRef} className="h-1" aria-hidden="true" />}
         </div>
       </div>
-    </TooltipProvider>
+    </Tooltip>
   );
 }
