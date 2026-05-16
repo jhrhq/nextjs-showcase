@@ -102,8 +102,7 @@ export function useAnchorManager(projectId: string) {
 export function useSubmitInboundUrl() {
   return useMutation({
     mutationKey: ["linker-inbound-url"],
-    mutationFn: ({ projectId, url }: { projectId: string; url: string }) =>
-      projectsApi.generateInboundSuggestions(projectId, url),
+    mutationFn: ({ url }: { projectId: string; url: string }) => projectsApi.getInboundSuggestions(url),
   });
 }
 
