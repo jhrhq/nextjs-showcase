@@ -34,7 +34,7 @@ export const InboundTargetForm = React.forwardRef<TargetUrlFormHandle, TargetUrl
   React.useImperativeHandle(ref, () => ({
     async submitWithUrl(url: string) {
       form.setValue("url", url);
-
+      InboundTargetForm;
       const isValid = await form.trigger("url");
 
       if (!isValid) return false;
@@ -66,7 +66,7 @@ export const InboundTargetForm = React.forwardRef<TargetUrlFormHandle, TargetUrl
           {/* General Error Alert */}
           <FormError error={form.formState.errors.root?.message} />
           <Field orientation="horizontal">
-            <Button form="signin" type="submit">
+            <Button form="signin" type="submit" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Spinner />

@@ -20,7 +20,8 @@ import {
   SuggestedSentenceSchema,
   type SuggestedSentences,
   type SuggestedSentencesPayloadValues,
-  targetUrlSchema,
+  TargetUrlPayloadSchema,
+  type TargetUrlPayloadValues,
 } from "@/domains/linker/validations/inbound.validation";
 import type {
   CreateProjectInput,
@@ -28,7 +29,7 @@ import type {
   UpdateProjectAPIInput,
 } from "@/domains/linker/validations/projects.validations";
 import { db } from "../db/indexdb";
-import { mockInboundData, mockSentenceSuggestions } from "../db/mock";
+import { getMockInboundData, mockSentenceSuggestions } from "../db/mock";
 import { buildNetworkFromUrls } from "../utils";
 import {
   type CreateCustomNetworkResponseSchemaValues,
@@ -96,12 +97,14 @@ export const projectsApi = {
     return response.data;
   },
 
-  getInboundSuggestions: async (url: string): Promise<InboundData> => {
-    const validationResult = await targetUrlSchema.safeParseAsync({ url });
+  getInboundSuggestions: async (payload: TargetUrlPayloadValues): Promise<InboundData> => {
+    const validationResult = await TargetUrlPayloadSchema.safeParseAsync(payload);
 
     if (!validationResult.success) {
       throw new Error(formatZodErrors(validationResult.error));
     }
+
+    const mockInboundData = await getMockInboundData(payload);
 
     const validated = await InboundDataSchema.safeParseAsync(mockInboundData);
 

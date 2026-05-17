@@ -3,6 +3,10 @@ import { z } from "zod";
 export const targetUrlSchema = z.object({
   url: z.url("Must be a valid URL"),
 });
+export const TargetUrlPayloadSchema = z.object({
+  url: z.url("Must be a valid URL"),
+  projectId: z.uuid(),
+});
 
 export const PostSchema = z.object({
   id: z.uuid(),
@@ -57,6 +61,7 @@ export const SentenceSubmissionPayloadSchema = SentenceSuggestionPayloadSchema.e
 export type InboundData = z.infer<typeof InboundDataSchema>;
 
 export type TargetUrlFormValues = z.infer<typeof targetUrlSchema>;
+export type TargetUrlPayloadValues = z.infer<typeof TargetUrlPayloadSchema>;
 
 export type SuggestedSentencesPayloadValues = z.infer<typeof SentenceSuggestionPayloadSchema>;
 export type SuggestedSentences = z.infer<typeof SuggestedSentenceSchema>;

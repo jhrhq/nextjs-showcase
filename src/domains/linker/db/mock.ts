@@ -424,79 +424,6 @@ export const mockAnchorManager: AnchorManager = {
   ],
 };
 
-export const mockInboundData: InboundData = {
-  post: {
-    id: "1b2c3d4e-5f6a-4b7c-9d8e-0f1a2b3c4d6e",
-    title: "How to Build Scalable Microservices with Node.js",
-    url: "https://example.com/blog/scalable-microservices-nodejs",
-    language: "en",
-    postType: "blog",
-    category: "[58]",
-    projectId: "3c4d5e6f-7a8b-4c9d-9e0f-1a2b3c4d5e6f",
-  },
-  suggestions: [
-    {
-      id: "f1a2b3c4-d5e6-4789-8c7d-6e5f4a3b2c1d",
-      title: "Understanding Event-Driven Architecture",
-      url: "https://example.com/blog/event-driven-architecture",
-      language: "en",
-      postType: "blog",
-      category: "[58]",
-      _postId: "9d8c7b6a-5e4f-4a3b-9c2d-1e0f2a3b4c5d",
-      score: 95,
-    },
-    {
-      id: "8b9c0d1e-2f3a-4b5c-8d7e-8f9a0b1c2d3e",
-      title: "Scaling Applications with Kubernetes",
-      url: "https://example.com/blog/scaling-with-kubernetes",
-      language: "en",
-      postType: "tutorial",
-      category: "[58]",
-      _postId: "a1b2c3d4-e5f6-4789-9a8b-7c6d5e4f3a2b",
-      score: 91,
-    },
-    {
-      id: "4e5f6a7b-8c9d-4e1f-ba3b-4c5d6e7f8a9b",
-      title: "Best Practices for REST API Design",
-      url: "https://example.com/blog/rest-api-best-practices",
-      language: "en",
-      postType: "guide",
-      category: "[58]",
-      _postId: "5f4e3d2c-1b6a-4987-8c9d-0a1b2c3d4e5f",
-      score: 88,
-    },
-    {
-      id: "c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f",
-      title: "Introduction to Distributed Systems",
-      url: "https://example.com/blog/distributed-systems-intro",
-      language: "en",
-      postType: "article",
-      category: "[58]",
-      _postId: "6b5a4d3c-2e1f-4a8b-9c7d-5e4f3a2b1c0d",
-      score: 85,
-    },
-    {
-      id: "01234567-89ab-4cde-af01-23456789abcd",
-      title: "Monitoring and Logging in Microservices",
-      url: "https://example.com/blog/monitoring-logging-microservices",
-      language: "en",
-      postType: "blog",
-      category: "[58]",
-      _postId: "7d6c5b4a-3e2f-4a1b-9c8d-6f5e4d3c2b1a",
-      score: 83,
-    },
-    {
-      id: "fedcba98-7654-4321-b012-3456789abcde",
-      title: "Container Orchestration Best Practices",
-      url: "https://example.com/blog/container-orchestration-best-practices",
-      language: "en",
-      postType: "guide",
-      category: "[58]",
-      _postId: "e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b",
-      score: 80,
-    },
-  ],
-};
 export const mockSentenceSuggestions: SuggestedSentences[] = [
   [
     {
@@ -653,3 +580,99 @@ export const mockSentenceSuggestions: SuggestedSentences[] = [
     },
   ],
 ];
+
+export const getMockInboundData = async (payload: { url: string; projectId: string }): Promise<InboundData> => {
+  const topics = [
+    {
+      slug: "event-driven-architecture",
+      title: "Understanding Event-Driven Architecture",
+      type: "blog",
+    },
+    {
+      slug: "scaling-with-kubernetes",
+      title: "Scaling Applications with Kubernetes",
+      type: "tutorial",
+    },
+    {
+      slug: "rest-api-best-practices",
+      title: "Best Practices for REST API Design",
+      type: "guide",
+    },
+    {
+      slug: "distributed-systems-intro",
+      title: "Introduction to Distributed Systems",
+      type: "article",
+    },
+    {
+      slug: "monitoring-logging-microservices",
+      title: "Monitoring and Logging in Microservices",
+      type: "blog",
+    },
+    {
+      slug: "container-orchestration-best-practices",
+      title: "Container Orchestration Best Practices",
+      type: "guide",
+    },
+    {
+      slug: "graphql-vs-rest",
+      title: "GraphQL vs REST: Choosing the Right API",
+      type: "article",
+    },
+    {
+      slug: "redis-caching-strategies",
+      title: "Redis Caching Strategies for High Traffic Apps",
+      type: "tutorial",
+    },
+    {
+      slug: "docker-security-checklist",
+      title: "Docker Security Checklist for Production",
+      type: "guide",
+    },
+  ];
+
+  const randomId = () => crypto.randomUUID();
+
+  const randomScore = (min = 70, max = 99) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+  const parsedUrl = new URL(payload.url);
+
+  const domain = parsedUrl.host;
+
+  // /blog/scalable-microservices-nodejs
+  const pathname = parsedUrl.pathname;
+
+  const slug = pathname.split("/").filter(Boolean).at(-1) ?? "untitled-post";
+
+  const title = slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  const createUrl = (suggestionSlug: string) => `https://${domain}/${suggestionSlug}`;
+
+  const shuffledTopics = [...topics].sort(() => Math.random() - 0.5);
+  await new Promise((resolve) => setTimeout(resolve, 800));
+
+  return {
+    post: {
+      id: randomId(),
+      title,
+      url: payload.url,
+      language: "en",
+      postType: "blog",
+      category: "[58]",
+      projectId: payload.projectId,
+    },
+
+    suggestions: shuffledTopics.slice(0, 6).map((item) => ({
+      id: randomId(),
+      title: item.title,
+      url: createUrl(item.slug),
+      language: "en",
+      postType: item.type,
+      category: "[58]",
+      _postId: randomId(),
+      score: randomScore(),
+    })),
+  };
+};
