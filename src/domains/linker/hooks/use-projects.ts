@@ -158,14 +158,11 @@ export function useSumbitCustomNetowrkUrls() {
 }
 
 export function useCustomNetworkStructures(projectId: string) {
-  const { isFetching } = useQuery({
+  return useQuery({
     queryKey: ["linker-custom-networks", projectId],
     queryFn: () => projectsApi.getCustomNetworkStructures(projectId),
     enabled: !!projectId,
   });
-
-  const data = useLiveQuery(() => db.customNetworks.get(projectId), [projectId]);
-  return { data, isFetching: data === undefined || isFetching };
 }
 export function useCustomNetworkStructure(projectId: string, customNetworkId: string) {
   return useQuery({
