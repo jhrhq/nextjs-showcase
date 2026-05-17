@@ -37,12 +37,15 @@ export function useProjects() {
   return { projects: projects ?? [], isFetching, error, isError };
 }
 
-export function useProject(id: string) {
-  return useQuery({
-    queryKey: ["linker-project", id],
-    queryFn: () => projectsApi.getById(id),
-    enabled: !!id,
-  });
+export function useProject(projectId: string) {
+  const projects = useLiveQuery(() => db.projects.toArray(), []);
+
+  const project = projects?.find((p) => p.id === projectId);
+
+  return {
+    project,
+    isPending: projects === undefined,
+  };
 }
 
 export function useCreateProject() {
@@ -80,23 +83,21 @@ export function useDeleteProject() {
 }
 
 export function useSiteReport(projectId: string) {
-  const { isFetching } = useQuery({
+  return useQuery({
     queryKey: ["linker-site-report", projectId],
     queryFn: () => projectsApi.getSiteReport(projectId),
     enabled: !!projectId,
   });
-  const siteReport = useLiveQuery(() => db.siteReports.get(projectId), [projectId]);
-  return { siteReport, isFetching: siteReport === undefined || isFetching };
 }
 
 export function useAnchorManager(projectId: string) {
-  const { isFetching } = useQuery({
+  return useQuery({
     queryKey: ["linker-anchor-manager", projectId],
     queryFn: () => projectsApi.getAnchorManager(projectId),
     enabled: !!projectId,
   });
-  const anchorData = useLiveQuery(() => db.anchorManagers.get(projectId), [projectId]);
-  return { anchorData, isFetching: anchorData === undefined || isFetching };
+  // const anchorData = useLiveQuery(() => db.anchorManagers.get(projectId), [projectId]);
+  // return { anchorData, isFetching: anchorData === undefined || isFetching, isError, error };
 }
 
 export function useSubmitInboundUrl() {
