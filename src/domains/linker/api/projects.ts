@@ -1,4 +1,4 @@
-import type { ZodError } from "zod";
+import { type ZodError, z } from "zod";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import type { AnchorManager } from "@/domains/linker/types/anchor-manager.types";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
@@ -23,13 +23,15 @@ import {
   TargetUrlPayloadSchema,
   type TargetUrlPayloadValues,
 } from "@/domains/linker/validations/inbound.validation";
-import type {
-  CreateProjectInput,
-  ProjectDTO,
-  UpdateProjectAPIInput,
+import {
+  type CreateProjectInput,
+  createProjectSchema,
+  type ProjectDTO,
+  type UpdateProjectAPIInput,
+  updateProjectApiSchema,
 } from "@/domains/linker/validations/projects.validations";
 import { db } from "../db/indexdb";
-import { getMockInboundData, mockSentenceSuggestions } from "../db/mock";
+import { getMockInboundData, mockProjects, mockSentenceSuggestions } from "../db/mock";
 import { buildNetworkFromUrls } from "../utils";
 import {
   type CreateCustomNetworkResponseSchemaValues,
@@ -52,30 +54,76 @@ import { linkerApi } from "./axios-instance";
 export const projectsApi = {
   getAll: async (): Promise<ProjectDTO[]> => {
     const count = await db.projects.count();
-    if (count > 0) {
-      return db.projects.toArray();
-    }
-    const response = await linkerApi.get(AUTH_CONFIG.API.PROJECTS);
-    await db.projects.bulkPut(response.data.projects);
-    return response.data.projects;
+    if (count > 0) return db.projects.toArray();
+    await db.projects.bulkPut(mockProjects);
+    return mockProjects;
   },
+
   getById: async (projectId: string): Promise<ProjectDTO> => {
-    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}`);
-    return response.data;
+    const cached = await db.projects.get(projectId);
+    if (cached) return cached;
+    const project = mockProjects.find((p) => p.id === projectId);
+    if (!project) throw new Error("Project not found");
+    await db.projects.put(project);
+    return project;
   },
+
   create: async (data: CreateProjectInput): Promise<ProjectDTO> => {
-    const response = await linkerApi.post(AUTH_CONFIG.API.PROJECTS, data);
-    return response.data;
+    const validationResult = createProjectSchema.safeParse(data);
+    if (!validationResult.success) {
+      const validationErrors = z.flattenError(validationResult.error);
+      throw Object.assign(new Error("Please check your input and try again"), {
+        code: "VALIDATION_ERROR",
+        errors: validationErrors.fieldErrors as Record<string, string[]>,
+      });
+    }
+
+    const newProject: ProjectDTO = {
+      id: crypto.randomUUID(),
+      name: validationResult.data.name,
+      domain: validationResult.data.domain,
+      description: validationResult.data.description,
+      status: "pending" as const,
+      totalLinks: 0,
+      totalCustomNetworks: 0,
+      lastCrawled: null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    await db.projects.put(newProject);
+    return newProject;
   },
+
   update: async (data: UpdateProjectAPIInput): Promise<ProjectDTO> => {
-    const response = await linkerApi.put(`${AUTH_CONFIG.API.PROJECTS}`, data);
-    return response.data;
+    const validationResult = updateProjectApiSchema.safeParse(data);
+    if (!validationResult.success) {
+      const validationErrors = z.flattenError(validationResult.error);
+      throw Object.assign(new Error("Please check your input and try again"), {
+        code: "VALIDATION_ERROR",
+        errors: validationErrors.fieldErrors as Record<string, string[]>,
+      });
+    }
+
+    const existing = await db.projects.get(validationResult.data.projectId);
+    if (!existing) throw Object.assign(new Error("Project not found"), { code: "NOT_FOUND" });
+
+    const updated: ProjectDTO = {
+      ...existing,
+      ...validationResult.data,
+      updatedAt: new Date().toISOString(),
+    };
+
+    await db.projects.put(updated);
+    return updated;
   },
+
   delete: async (projectId: string): Promise<void> => {
-    await linkerApi.delete(`${AUTH_CONFIG.API.PROJECTS}/${projectId}`);
+    const existing = await db.projects.get(projectId);
+    if (!existing) throw Object.assign(new Error("Project not found"), { code: "NOT_FOUND" });
+    await db.projects.delete(projectId);
   },
 };
-
 export const siteReportApi = {
   getSiteReport: async (projectId: string): Promise<SiteReport> => {
     const cached = await db.siteReports.get(projectId);
