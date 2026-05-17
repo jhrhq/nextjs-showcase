@@ -4,15 +4,18 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { useProjects } from "@/domains/linker/hooks/use-projects";
+import { QueryErrorState } from "@/domains/linker/query-error-state";
 import type { ProjectStatus } from "@/domains/linker/types/project.types";
 import { DeleteProjectDialog } from "@/domains/linker/ui/dashboard/delete-project-dialog";
+import { ProjectsEmpty } from "@/domains/linker/ui/dashboard/project-empty";
 import { ProjectGrid } from "@/domains/linker/ui/dashboard/project-grid";
 import { ProjectsHeader } from "@/domains/linker/ui/dashboard/project-header";
+import { ProjectsListSkeleton } from "@/domains/linker/ui/dashboard/project-list-skeleton";
 
 export type SortOrder = "none" | "asc" | "desc";
 
 export default function DashboardPage() {
-  const { isFetching, isError, error, projects } = useProjects();
+  const query = useProjects();
   const router = useRouter();
 
   const [deleteId, setDeleteId] = React.useState<string | null>(null);
@@ -20,7 +23,7 @@ export default function DashboardPage() {
   const [sort, setSort] = React.useState<SortOrder>("none");
 
   const visibleProjects = React.useMemo(() => {
-    let tabData = tab === "all" ? projects : projects?.filter((p) => p.status === tab);
+    let tabData = tab === "all" ? query.data : query.data?.filter((p) => p.status === tab);
 
     if (sort !== "none") {
       tabData = tabData?.slice().sort((a, b) => {
@@ -29,7 +32,7 @@ export default function DashboardPage() {
     }
 
     return tabData;
-  }, [projects, sort, tab]);
+  }, [query.data, sort, tab]);
 
   function handleEdit(projectId: string) {
     router.push(`${AUTH_CONFIG.ROUTES.DASHBOARD}/${projectId}/${AUTH_CONFIG.ROUTES.SETTINGS}`);
@@ -39,14 +42,15 @@ export default function DashboardPage() {
     setDeleteId(id);
   }
 
-  if (isFetching) return "Loading...";
-
-  if (isError) {
-    return <div className="text-red-600">{(error as Error).message || "Something went wrong"}</div>;
+  if (query.isLoading) {
+    return <ProjectsListSkeleton />;
+  }
+  if (query.isError) {
+    return <QueryErrorState query={query} />;
   }
 
-  if (!projects?.length) {
-    return <div className="text-muted-foreground">No projects found</div>;
+  if (!query.data || query.data.length === 0) {
+    return <ProjectsEmpty />;
   }
 
   return (
@@ -56,7 +60,7 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-semibold">Projects List</h1>
           <p className="text-sm text-muted-foreground">Here is a list of projects that you have created</p>
         </div>
-        <ProjectsHeader projects={projects} tab={tab} sort={sort} onTabChange={setTab} onSortChange={setSort} />
+        <ProjectsHeader projects={query.data} tab={tab} sort={sort} onTabChange={setTab} onSortChange={setSort} />
         {visibleProjects && <ProjectGrid projects={visibleProjects} onEdit={handleEdit} onDelete={handleDelete} />}
       </main>
       {/* <GihubPagination /> */}

@@ -36,6 +36,7 @@ export function DeleteProjectDialog({ open, onConfirm, projectId, onCancel }: De
               if (!projectId) return;
               mutate(projectId);
             }}
+            variant="destructive"
           >
             Delete
           </AlertDialogAction>

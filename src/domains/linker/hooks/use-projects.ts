@@ -37,12 +37,10 @@ import type {
  */
 
 export function useProjects() {
-  const { isFetching, error, isError } = useQuery({
+  return useQuery({
     queryKey: ["linker-projects"],
     queryFn: projectsApi.getAll,
   });
-  const projects = useLiveQuery(() => db.projects.toArray(), []);
-  return { projects: projects ?? [], isFetching, error, isError };
 }
 
 export function useProject(projectId: string) {
