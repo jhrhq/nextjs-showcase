@@ -18,7 +18,11 @@ import type {
   CustomNetworkPayloadValues,
   createCustomNetworkPayload,
 } from "../validations/custom-network.validation";
-import type { SentenceSelectionPayload, SuggestedSentencesPayloadValues } from "../validations/inbound.validation";
+import type {
+  SentenceSelectionPayload,
+  SuggestedSentencesPayloadValues,
+  TargetUrlPayloadValues,
+} from "../validations/inbound.validation";
 
 /*
  *TODO
@@ -103,7 +107,7 @@ export function useAnchorManager(projectId: string) {
 export function useSubmitInboundUrl() {
   return useMutation({
     mutationKey: ["linker-inbound-url"],
-    mutationFn: ({ url }: { projectId: string; url: string }) => projectsApi.getInboundSuggestions(url),
+    mutationFn: (payload: TargetUrlPayloadValues) => projectsApi.getInboundSuggestions(payload),
   });
 }
 
