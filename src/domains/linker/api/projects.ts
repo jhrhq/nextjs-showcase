@@ -1,5 +1,4 @@
 import { type ZodError, z } from "zod";
-import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import type { AnchorManager } from "@/domains/linker/types/anchor-manager.types";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
 import type {
@@ -31,8 +30,14 @@ import {
   updateProjectApiSchema,
 } from "@/domains/linker/validations/projects.validations";
 import { db } from "../db/indexdb";
-import { getMockInboundData, mockProjects, mockSentenceSuggestions } from "../db/mock";
-import { buildNetworkFromUrls } from "../utils";
+import {
+  getMockInboundData,
+  mockAnchorManager,
+  mockProjects,
+  mockSentenceSuggestions,
+  mockSiteReports,
+} from "../db/mock";
+import { ALL_CUSTOM_NETWORK_DATA_ARRAY } from "../ui/custom-network/manage-custom-network-table/data";
 import {
   type CreateCustomNetworkResponseSchemaValues,
   CustomNetworkCollectionNestedPayloadSchema,
@@ -42,8 +47,8 @@ import {
   CustomNetworkPayloadSchema,
   type createCustomNetworkPayload,
   createCustomNetworkPayloadSchema,
+  STATUS_OPTIONS,
 } from "../validations/custom-network.validation";
-import { linkerApi } from "./axios-instance";
 
 /*
  *TODO
@@ -124,13 +129,16 @@ export const projectsApi = {
     await db.projects.delete(projectId);
   },
 };
+
 export const siteReportApi = {
   getSiteReport: async (projectId: string): Promise<SiteReport> => {
     const cached = await db.siteReports.get(projectId);
     if (cached) return cached;
-    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.SITE_REPORT}`);
-    await db.siteReports.put({ projectId, ...response.data });
-    return response.data;
+
+    if (!mockSiteReports) throw new Error("Site report not found");
+
+    await db.siteReports.put({ projectId, ...mockSiteReports });
+    return mockSiteReports;
   },
 };
 
@@ -138,9 +146,11 @@ export const anchorManagerApi = {
   getAnchorManager: async (projectId: string): Promise<AnchorManager> => {
     const cached = await db.anchorManagers.get(projectId);
     if (cached) return cached;
-    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}/${AUTH_CONFIG.API.ANCHOR_MANAGER}`);
-    await db.anchorManagers.put({ projectId, ...response.data });
-    return response.data;
+
+    if (!mockAnchorManager) throw new Error("Anchor manager not found");
+
+    await db.anchorManagers.put({ projectId, ...mockAnchorManager });
+    return mockAnchorManager;
   },
 };
 
@@ -178,6 +188,19 @@ export const inboundApi = {
   },
 };
 
+const calculateState = (nested: { status: "ACTIVE" | "STALE" | "UNLINKED" }[]) => {
+  const allUnlinked = nested.every((n) => n.status === "UNLINKED");
+  if (allUnlinked) return "Unlinked";
+
+  const allStale = nested.every((n) => n.status === "STALE");
+  if (allStale) return "Fully Linked";
+
+  const hasUnlinked = nested.some((n) => n.status === "UNLINKED");
+  if (hasUnlinked) return "In Progress";
+
+  return "Fully Linked";
+};
+
 export const customNetworkApi = {
   submitCustomNetworkUrls: async (
     formValues: createCustomNetworkPayload
@@ -186,8 +209,36 @@ export const customNetworkApi = {
     if (!result.success) {
       throw new Error(formatZodErrors(result.error));
     }
+
     const validated = result.data;
-    const newNetwork = buildNetworkFromUrls(validated);
+    const allSubmittedUrls = validated.urls.map((u) => u.url);
+
+    const collections = validated.urls.map((parentItem) => {
+      const otherUrls = allSubmittedUrls.filter((u) => u !== parentItem.url);
+      const nestedData = otherUrls.map((otherUrl) => ({
+        id: crypto.randomUUID(),
+        title: "Internal Cross-Link",
+        url: otherUrl,
+        anchor: "related content",
+        status: STATUS_OPTIONS[Math.floor(Math.random() * STATUS_OPTIONS.length)],
+      }));
+
+      return {
+        id: crypto.randomUUID(),
+        url: parentItem.url,
+        targetLinks: `${nestedData.filter((n) => n.status === "ACTIVE").length}/${nestedData.length}`,
+        state: calculateState(nestedData) as "In Progress" | "Fully Linked" | "Not Started",
+        nestedData,
+      };
+    });
+
+    const newNetwork: CreateCustomNetworkResponseSchemaValues = {
+      id: crypto.randomUUID(),
+      projectId: validated.projectId,
+      collectionName: validated.collectionName,
+      collections,
+    };
+
     await db.transaction("rw", db.customNetworks, async () => {
       const existing = await db.customNetworks.get(validated.projectId);
       if (existing) {
@@ -204,43 +255,51 @@ export const customNetworkApi = {
         });
       }
     });
+
     return newNetwork;
   },
+
   getCustomNetworkStructures: async (
     projectId: string
   ): Promise<{ projectId: string; customNetworks: CreateCustomNetworkResponseSchemaValues[] }> => {
     const cached = await db.customNetworks.get(projectId);
     if (cached) return cached;
-    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.CUSTOM_NETWORK}`);
-    await db.customNetworks.put({ projectId, customNetworks: response.data.data });
-    return response.data.data;
+
+    const seeded = ALL_CUSTOM_NETWORK_DATA_ARRAY.filter((n) => n.projectId === projectId);
+    await db.customNetworks.put({ projectId, customNetworks: seeded });
+    return { projectId, customNetworks: seeded };
   },
+
   getCustomNetworkStructure: async (
     projectId: string,
     customNetworkId: string
   ): Promise<CreateCustomNetworkResponseSchemaValues> => {
-    const response = await linkerApi.get(
-      `${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.CUSTOM_NETWORK}/${customNetworkId}`
-    );
-    return response.data.data;
+    const cached = await db.customNetworks.get(projectId);
+    if (cached) {
+      const network = cached.customNetworks.find((n) => n.id === customNetworkId);
+      if (network) return network;
+    }
+
+    const network = ALL_CUSTOM_NETWORK_DATA_ARRAY.find((n) => n.projectId === projectId && n.id === customNetworkId);
+    if (!network) throw new Error("Custom network not found");
+    return network;
   },
+
   updateCustomNetworkNestedLink: async (
     data: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues
   ) => {
     let validated: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues;
+
     if ("anchor" in data) {
       const result = await CustomNetworkNestedLinkPayloadSchema.safeParseAsync(data);
-      if (!result.success) {
-        throw new Error(formatZodErrors(result.error));
-      }
+      if (!result.success) throw new Error(formatZodErrors(result.error));
       validated = result.data;
     } else {
       const result = await CustomNetworkNestedLinkStatusPayloadSchema.safeParseAsync(data);
-      if (!result.success) {
-        throw new Error(formatZodErrors(result.error));
-      }
+      if (!result.success) throw new Error(formatZodErrors(result.error));
       validated = result.data;
     }
+
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
         .where("projectId")
@@ -252,24 +311,21 @@ export const customNetworkApi = {
           if (!collection) return;
           const nested = collection.nestedData.find((n) => n.id === validated.nestedId);
           if (!nested) return;
-          if ("status" in validated) {
-            nested.status = validated.status;
-          }
-          if ("anchor" in validated) {
-            nested.anchor = validated.anchor;
-          }
+          if ("status" in validated) nested.status = validated.status;
+          if ("anchor" in validated) nested.anchor = validated.anchor;
           collection.state = deriveCollectionState(collection.nestedData);
         });
+
       if (affected === 0) throw new Error("Record not found");
       return affected;
     });
   },
+
   removeCustomNetwork: async (data: CustomNetworkPayloadValues) => {
     const result = await CustomNetworkPayloadSchema.safeParseAsync(data);
-    if (!result.success) {
-      throw new Error(formatZodErrors(result.error));
-    }
+    if (!result.success) throw new Error(formatZodErrors(result.error));
     const validated = result.data;
+
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
         .where("projectId")
@@ -277,16 +333,17 @@ export const customNetworkApi = {
         .modify((record) => {
           record.customNetworks = record.customNetworks.filter((n) => n.id !== validated.customNetworkId);
         });
+
       if (affected === 0) throw new Error("Record not found");
       return affected;
     });
   },
+
   removeCustomNetworkCollection: async (data: CustomNetworkCollectionPayloadValues) => {
     const result = await CustomNetworkCollectionPayloadSchema.safeParseAsync(data);
-    if (!result.success) {
-      throw new Error(formatZodErrors(result.error));
-    }
+    if (!result.success) throw new Error(formatZodErrors(result.error));
     const validated = result.data;
+
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
         .where("projectId")
@@ -296,16 +353,17 @@ export const customNetworkApi = {
           if (!network) return;
           network.collections = network.collections.filter((c) => c.id !== validated.collectionId);
         });
+
       if (affected === 0) throw new Error("Record not found");
       return affected;
     });
   },
+
   removeCustomNetworkCollectionNestedLink: async (data: CustomNetworkCollectionNestedPayloadValues) => {
     const result = await CustomNetworkCollectionNestedPayloadSchema.safeParseAsync(data);
-    if (!result.success) {
-      throw new Error(formatZodErrors(result.error));
-    }
+    if (!result.success) throw new Error(formatZodErrors(result.error));
     const validated = result.data;
+
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
         .where("projectId")
@@ -319,12 +377,12 @@ export const customNetworkApi = {
           collection.nestedData = updatedNestedData;
           collection.state = deriveCollectionState(updatedNestedData);
         });
+
       if (affected === 0) throw new Error("Record not found");
       return affected;
     });
   },
 };
-
 type CollectionState = CustomNetworkCollectionValues["state"];
 
 function deriveCollectionState(nestedData: CustomNetworkNestedLinkValues[]): CollectionState {
