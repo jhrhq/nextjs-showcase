@@ -52,7 +52,6 @@ import { linkerApi } from "./axios-instance";
 export const projectsApi = {
   getAll: async (): Promise<ProjectDTO[]> => {
     const count = await db.projects.count();
-
     if (count > 0) {
       return db.projects.toArray();
     }
@@ -60,35 +59,34 @@ export const projectsApi = {
     await db.projects.bulkPut(response.data.projects);
     return response.data.projects;
   },
-
   getById: async (projectId: string): Promise<ProjectDTO> => {
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}`);
     return response.data;
   },
-
   create: async (data: CreateProjectInput): Promise<ProjectDTO> => {
     const response = await linkerApi.post(AUTH_CONFIG.API.PROJECTS, data);
     return response.data;
   },
-
   update: async (data: UpdateProjectAPIInput): Promise<ProjectDTO> => {
     const response = await linkerApi.put(`${AUTH_CONFIG.API.PROJECTS}`, data);
     return response.data;
   },
-
   delete: async (projectId: string): Promise<void> => {
     await linkerApi.delete(`${AUTH_CONFIG.API.PROJECTS}/${projectId}`);
   },
+};
 
+export const siteReportApi = {
   getSiteReport: async (projectId: string): Promise<SiteReport> => {
     const cached = await db.siteReports.get(projectId);
     if (cached) return cached;
-
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.SITE_REPORT}`);
     await db.siteReports.put({ projectId, ...response.data });
     return response.data;
   },
+};
 
+export const anchorManagerApi = {
   getAnchorManager: async (projectId: string): Promise<AnchorManager> => {
     const cached = await db.anchorManagers.get(projectId);
     if (cached) return cached;
@@ -96,72 +94,55 @@ export const projectsApi = {
     await db.anchorManagers.put({ projectId, ...response.data });
     return response.data;
   },
+};
 
+export const inboundApi = {
   getInboundSuggestions: async (payload: TargetUrlPayloadValues): Promise<InboundData> => {
     const validationResult = await TargetUrlPayloadSchema.safeParseAsync(payload);
-
     if (!validationResult.success) {
       throw new Error(formatZodErrors(validationResult.error));
     }
-
     const mockInboundData = await getMockInboundData(payload);
-
     const validated = await InboundDataSchema.safeParseAsync(mockInboundData);
-
     if (!validated.success) {
       throw new Error(formatZodErrors(validated.error));
     }
-
     return validated.data;
   },
-
   getSuggestedSentences: async (payload: SuggestedSentencesPayloadValues): Promise<SuggestedSentences> => {
     const validationResult = await SentenceSuggestionPayloadSchema.safeParseAsync(payload);
-
     if (!validationResult.success) {
       throw new Error(formatZodErrors(validationResult.error));
     }
-
     const raw = mockSentenceSuggestions[Math.floor(Math.random() * mockSentenceSuggestions.length)] ?? [];
-
     const dataValidation = await SuggestedSentenceSchema.safeParseAsync(raw);
-
     if (!dataValidation.success) {
       throw new Error(formatZodErrors(dataValidation.error));
     }
-
     return dataValidation.data ?? [];
   },
-
   submitSentence: async (payload: SentenceSelectionPayload): Promise<SentenceSelectionPayload> => {
     const result = await SentenceSubmissionPayloadSchema.safeParseAsync(payload);
-
     if (!result.success) {
       throw new Error(formatZodErrors(result.error));
     }
-
     return result.data;
   },
+};
 
+export const customNetworkApi = {
   submitCustomNetworkUrls: async (
     formValues: createCustomNetworkPayload
   ): Promise<CreateCustomNetworkResponseSchemaValues> => {
     const result = await createCustomNetworkPayloadSchema.safeParseAsync(formValues);
-
     if (!result.success) {
       throw new Error(formatZodErrors(result.error));
     }
-
     const validated = result.data;
-
-    // build the structure client side
     const newNetwork = buildNetworkFromUrls(validated);
-
     await db.transaction("rw", db.customNetworks, async () => {
       const existing = await db.customNetworks.get(validated.projectId);
-
       if (existing) {
-        // projectId row exists — append new network to the array
         await db.customNetworks
           .where("projectId")
           .equals(validated.projectId)
@@ -169,32 +150,23 @@ export const projectsApi = {
             record.customNetworks.push(newNetwork);
           });
       } else {
-        // first network for this project — create the row
         await db.customNetworks.put({
           projectId: validated.projectId,
           customNetworks: [newNetwork],
         });
       }
     });
-
     return newNetwork;
   },
-
   getCustomNetworkStructures: async (
     projectId: string
-  ): Promise<{
-    projectId: string;
-    customNetworks: CreateCustomNetworkResponseSchemaValues[];
-  }> => {
+  ): Promise<{ projectId: string; customNetworks: CreateCustomNetworkResponseSchemaValues[] }> => {
     const cached = await db.customNetworks.get(projectId);
     if (cached) return cached;
-
     const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.CUSTOM_NETWORK}`);
     await db.customNetworks.put({ projectId, customNetworks: response.data.data });
-
     return response.data.data;
   },
-
   getCustomNetworkStructure: async (
     projectId: string,
     customNetworkId: string
@@ -204,29 +176,21 @@ export const projectsApi = {
     );
     return response.data.data;
   },
-
-  // PATCH → IDB only (update one network inside the array by network id)
   updateCustomNetworkNestedLink: async (
     data: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues
   ) => {
     let validated: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues;
-
-    // Validate with correct schema
     if ("anchor" in data) {
       const result = await CustomNetworkNestedLinkPayloadSchema.safeParseAsync(data);
-
       if (!result.success) {
         throw new Error(formatZodErrors(result.error));
       }
-
       validated = result.data;
     } else {
       const result = await CustomNetworkNestedLinkStatusPayloadSchema.safeParseAsync(data);
-
       if (!result.success) {
         throw new Error(formatZodErrors(result.error));
       }
-
       validated = result.data;
     }
     return await db.transaction("rw", db.customNetworks, async () => {
@@ -236,13 +200,10 @@ export const projectsApi = {
         .modify((record) => {
           const network = record.customNetworks.find((n) => n.id === validated.customNetworkId);
           if (!network) return;
-
           const collection = network.collections.find((c) => c.id === validated.collectionId);
           if (!collection) return;
-
           const nested = collection.nestedData.find((n) => n.id === validated.nestedId);
           if (!nested) return;
-
           if ("status" in validated) {
             nested.status = validated.status;
           }
@@ -251,19 +212,15 @@ export const projectsApi = {
           }
           collection.state = deriveCollectionState(collection.nestedData);
         });
-
       if (affected === 0) throw new Error("Record not found");
       return affected;
     });
   },
-
   removeCustomNetwork: async (data: CustomNetworkPayloadValues) => {
     const result = await CustomNetworkPayloadSchema.safeParseAsync(data);
-
     if (!result.success) {
       throw new Error(formatZodErrors(result.error));
     }
-
     const validated = result.data;
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
@@ -272,46 +229,34 @@ export const projectsApi = {
         .modify((record) => {
           record.customNetworks = record.customNetworks.filter((n) => n.id !== validated.customNetworkId);
         });
-
       if (affected === 0) throw new Error("Record not found");
       return affected;
     });
   },
-
   removeCustomNetworkCollection: async (data: CustomNetworkCollectionPayloadValues) => {
     const result = await CustomNetworkCollectionPayloadSchema.safeParseAsync(data);
-
     if (!result.success) {
       throw new Error(formatZodErrors(result.error));
     }
-
     const validated = result.data;
-
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
         .where("projectId")
         .equals(validated.projectId)
         .modify((record) => {
           const network = record.customNetworks.find((n) => n.id === validated.customNetworkId);
-
           if (!network) return;
-
           network.collections = network.collections.filter((c) => c.id !== validated.collectionId);
         });
-
       if (affected === 0) throw new Error("Record not found");
-
       return affected;
     });
   },
-
   removeCustomNetworkCollectionNestedLink: async (data: CustomNetworkCollectionNestedPayloadValues) => {
     const result = await CustomNetworkCollectionNestedPayloadSchema.safeParseAsync(data);
-
     if (!result.success) {
       throw new Error(formatZodErrors(result.error));
     }
-
     const validated = result.data;
     return await db.transaction("rw", db.customNetworks, async () => {
       const affected = await db.customNetworks
@@ -320,34 +265,17 @@ export const projectsApi = {
         .modify((record) => {
           const network = record.customNetworks.find((n) => n.id === validated.customNetworkId);
           if (!network) return;
-
           const collection = network.collections.find((c) => c.id === validated.collectionId);
           if (!collection) return;
-
-          // filter out the deleted item
           const updatedNestedData = collection.nestedData.filter((n) => n.id !== validated.nestedId);
-
-          // mutate in place — Dexie writes it back automatically
           collection.nestedData = updatedNestedData;
-
-          // re-derive parent state after deletion
           collection.state = deriveCollectionState(updatedNestedData);
         });
-
       if (affected === 0) throw new Error("Record not found");
       return affected;
     });
   },
-
-  /*
-  getInboundLinks: async (projectId: string): Promise<InboundLink[]> => {
-    const response = await linkerApi.get(`${AUTH_CONFIG.API.PROJECTS}/${projectId}${AUTH_CONFIG.API.INBOUNDS}`);
-    return response.data;
-  },
- */
 };
-
-// lib/services/custom-networks.service.ts
 
 type CollectionState = CustomNetworkCollectionValues["state"];
 
