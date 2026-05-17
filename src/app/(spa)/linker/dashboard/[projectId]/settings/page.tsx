@@ -1,10 +1,12 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { useDeleteProject, useProjects, useUpdateProject } from "@/domains/linker/hooks/use-projects";
+import { QueryErrorState } from "@/domains/linker/query-error-state";
+import { ProjectsEmpty } from "@/domains/linker/ui/dashboard/project-empty";
+import { ProjectsListSkeleton } from "@/domains/linker/ui/dashboard/project-list-skeleton";
 import {
   SettingsDetails,
   SettingsGeneral,
@@ -18,8 +20,8 @@ export default function ProjectSettingsPage() {
   const router = useRouter();
   const projectId = params.projectId as string;
 
-  const { projects, isFetching: isLoading } = useProjects();
-  const project = projects?.find((p) => p.id === projectId);
+  const query = useProjects();
+  const project = query.data?.find((p) => p.id === projectId);
   const udpateProject = useUpdateProject(projectId);
   const deleteProject = useDeleteProject();
 
@@ -45,20 +47,15 @@ export default function ProjectSettingsPage() {
     });
   }
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <Loader2 className="size-8 animate-spin text-blue-600" />
-      </div>
-    );
+  if (query.isLoading) {
+    return <ProjectsListSkeleton />;
+  }
+  if (query.isError) {
+    return <QueryErrorState query={query} />;
   }
 
-  if (!project) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <p className="text-gray-600">Project not found</p>
-      </div>
-    );
+  if (!query.data || query.data.length === 0 || !project) {
+    return <ProjectsEmpty />;
   }
 
   return (
