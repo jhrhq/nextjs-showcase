@@ -23,7 +23,7 @@ export default function OverveiwStatsSection({ report }: { report: SiteReport })
         title="Internal Links"
         value={report.totalInternalLinks}
         valueClassName="text-green-600"
-        footer={`${internalLinkRate}% of total`}
+        footer={`${internalLinkRate.toFixed(1)}% of total`}
       />
 
       <StatsCard
@@ -31,7 +31,7 @@ export default function OverveiwStatsSection({ report }: { report: SiteReport })
         title="External Links"
         value={report.totalExternalLinks}
         valueClassName="text-purple-600"
-        footer={`${externalLinkRate}% of total`}
+        footer={`${externalLinkRate.toFixed(1)}% of total`}
       />
     </div>
   );
