@@ -5,6 +5,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
+
 import {
   anchorManagerApi,
   customNetworkApi,
@@ -30,15 +31,55 @@ import type {
   TargetUrlPayloadValues,
 } from "../validations/inbound.validation";
 
-/*
- *TODO
- * Add structured query queryKey
- * make them type safe if possible
+// ==========================================
+// QUERY KEY FACTORY
+// ==========================================
+/**
+ * Senior Note: Hierarchical design based on project containment.
+ * Everything except the top-level projects list is safely nested under a projectId.
  */
+export const linkerKeys = {
+  // Global projects list (not inside a project context yet)
+  projects: {
+    list: () => ["projects", "list"] as const,
+  },
 
+  // Scope containing everything happening INSIDE a selected project
+  project: (projectId: string) => {
+    const base = ["project", projectId] as const;
+
+    return {
+      all: () => base,
+      detail: () => [...base, "detail"] as const,
+
+      siteReports: {
+        detail: () => [...base, "site-reports"] as const,
+      },
+
+      anchorManagers: {
+        detail: () => [...base, "anchor-managers"] as const,
+      },
+
+      inbound: {
+        sentenceSuggestions: (payload: SuggestedSentencesPayloadValues) =>
+          [...base, "inbound", "suggestions", payload] as const,
+      },
+
+      customNetworks: {
+        all: () => [...base, "custom-networks"] as const,
+        list: () => [...base, "custom-networks", "list"] as const,
+        detail: (customNetworkId: string) => [...base, "custom-networks", "detail", customNetworkId] as const,
+      },
+    };
+  },
+};
+
+// ==========================================
+// PROJECT HOOKS
+// ==========================================
 export function useProjects() {
   return useQuery({
-    queryKey: ["linker-projects"],
+    queryKey: linkerKeys.projects.list(),
     queryFn: projectsApi.getAll,
   });
 }
@@ -57,7 +98,7 @@ export function useCreateProject() {
   return useMutation({
     mutationFn: (data: CreateProjectInput) => projectsApi.create(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["linker-projects"] });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.projects.list() });
     },
   });
 }
@@ -67,8 +108,8 @@ export function useUpdateProject(id: string) {
   return useMutation({
     mutationFn: (data: UpdateProjectAPIInput) => projectsApi.update(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["linker-projects"] });
-      queryClient.invalidateQueries({ queryKey: ["linker-project", id] });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.projects.list() });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(id).detail() });
     },
   });
 }
@@ -76,16 +117,21 @@ export function useUpdateProject(id: string) {
 export function useDeleteProject() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => projectsApi.delete(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["linker-projects"] });
+    mutationFn: (projectId: string) => projectsApi.delete(projectId),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: linkerKeys.projects.list() });
+      // Senior Touch: Wipes out the entire sub-tree for this specific project instantly
+      queryClient.removeQueries({ queryKey: linkerKeys.project(variables).all() });
     },
   });
 }
 
+// ==========================================
+// SITE REPORT & ANCHOR HOOKS
+// ==========================================
 export function useSiteReport(projectId: string) {
   return useQuery({
-    queryKey: ["linker-site-report", projectId],
+    queryKey: linkerKeys.project(projectId).siteReports.detail(),
     queryFn: () => siteReportApi.getSiteReport(projectId),
     enabled: !!projectId,
   });
@@ -93,31 +139,35 @@ export function useSiteReport(projectId: string) {
 
 export function useAnchorManager(projectId: string) {
   return useQuery({
-    queryKey: ["linker-anchor-manager", projectId],
+    queryKey: linkerKeys.project(projectId).anchorManagers.detail(),
     queryFn: () => anchorManagerApi.getAnchorManager(projectId),
     enabled: !!projectId,
   });
 }
 
+// ==========================================
+// INBOUND HOOKS
+// ==========================================
 export function useSubmitInboundUrl() {
   return useMutation({
-    mutationKey: ["linker-inbound-url"],
     mutationFn: (payload: TargetUrlPayloadValues) => inboundApi.getInboundSuggestions(payload),
   });
 }
 
 export function useGetSuggestedSentences(payload: SuggestedSentencesPayloadValues, { enabled = true } = {}) {
   const queryClient = useQueryClient();
+
   const prefetch = React.useCallback(() => {
+    // Note: Assuming payload contains your projectId context here to evaluate the root
     queryClient.prefetchQuery({
-      queryKey: ["linker-inbound-sentence-suggestions", payload],
+      queryKey: linkerKeys.project(payload.projectId).inbound.sentenceSuggestions(payload),
       queryFn: () => inboundApi.getSuggestedSentences(payload),
       staleTime: 60_000,
     });
-  }, [payload, queryClient.prefetchQuery]);
+  }, [payload, queryClient]);
 
   const query = useQuery({
-    queryKey: ["linker-inbound-sentence-suggestions"],
+    queryKey: linkerKeys.project(payload.projectId).inbound.sentenceSuggestions(payload),
     queryFn: () => inboundApi.getSuggestedSentences(payload),
     staleTime: 60_000,
     enabled,
@@ -128,28 +178,29 @@ export function useGetSuggestedSentences(payload: SuggestedSentencesPayloadValue
 
 export function useSumbitSentence() {
   return useMutation({
-    mutationKey: ["linker-inbound-sentence-submit"],
     mutationFn: (payload: SentenceSelectionPayload) => inboundApi.submitSentence(payload),
   });
 }
 
+// ==========================================
+// CUSTOM NETWORK HOOKS
+// ==========================================
 export function useSumbitCustomNetowrkUrls() {
   const router = useRouter();
   const queryClient = useQueryClient();
+
   return useMutation({
-    mutationKey: ["linker-custom-network-submit-urls"],
     mutationFn: (payload: createCustomNetworkPayload) => customNetworkApi.submitCustomNetworkUrls(payload),
     onSuccess: (data: CreateCustomNetworkResponseSchemaValues) => {
-      queryClient.invalidateQueries({ queryKey: ["linker-custom-network", data.projectId, data.id] });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(data.projectId).customNetworks.list() });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(data.projectId).customNetworks.detail(data.id) });
+
       router.push(`${AUTH_CONFIG.ROUTES.DASHBOARD}/${data.projectId}/${AUTH_CONFIG.API.CUSTOM_NETWORK}/${data.id}`);
+
       toast.success("Updated Successfully", {
         position: "bottom-right",
-        classNames: {
-          content: "flex flex-col gap-2",
-        },
-        style: {
-          "--border-radius": "calc(var(--radius) + 4px)",
-        } as React.CSSProperties,
+        classNames: { content: "flex flex-col gap-2" },
+        style: { "--border-radius": "calc(var(--radius) + 4px)" } as React.CSSProperties,
       });
     },
   });
@@ -157,7 +208,7 @@ export function useSumbitCustomNetowrkUrls() {
 
 export function useCustomNetworks(projectId: string) {
   return useQuery({
-    queryKey: ["linker-custom-networks", projectId],
+    queryKey: linkerKeys.project(projectId).customNetworks.list(),
     queryFn: () => customNetworkApi.getCustomNetworks(projectId),
     enabled: !!projectId,
   });
@@ -165,7 +216,7 @@ export function useCustomNetworks(projectId: string) {
 
 export function useCustomNetwork(projectId: string, customNetworkId: string) {
   return useQuery({
-    queryKey: ["linker-custom-networks", projectId, customNetworkId],
+    queryKey: linkerKeys.project(projectId).customNetworks.detail(customNetworkId),
     queryFn: () => customNetworkApi.getCustomNetwork(projectId, customNetworkId),
     enabled: !!projectId && !!customNetworkId,
     staleTime: 1000 * 60 * 5,
@@ -178,8 +229,10 @@ export function useUpdateCustomNetworkNestedLink(projectId: string, customNetwor
   return useMutation({
     mutationFn: (data: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues) =>
       customNetworkApi.updateCustomNetworkNestedLink(data),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["linker-custom-networks", projectId, customNetworkId] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.list() });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.detail(customNetworkId) });
+    },
   });
 }
 
@@ -187,7 +240,10 @@ export function useRemoveCustomNetwork(projectId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: CustomNetworkPayloadValues) => customNetworkApi.removeCustomNetwork(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-networks", projectId] }),
+    onSuccess: () => {
+      // Invalidate everything custom-network related to this project context safely
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.all() });
+    },
   });
 }
 
@@ -195,8 +251,10 @@ export function useRemoveCustomNetworkCollection(projectId: string, customNetwor
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: CustomNetworkCollectionPayloadValues) => customNetworkApi.removeCustomNetworkCollection(data),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["linker-custom-networks", projectId, customNetworkId] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.list() });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.detail(customNetworkId) });
+    },
   });
 }
 
@@ -205,7 +263,9 @@ export function useRemoveCustomNetworkCollectionNestedLink(projectId: string, cu
   return useMutation({
     mutationFn: (data: CustomNetworkCollectionNestedPayloadValues) =>
       customNetworkApi.removeCustomNetworkCollectionNestedLink(data),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["linker-custom-networks", projectId, customNetworkId] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.list() });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.detail(customNetworkId) });
+    },
   });
 }
