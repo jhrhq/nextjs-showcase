@@ -2,6 +2,7 @@ import { Calendar, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import {
   DropdownMenu,
@@ -46,8 +47,10 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
           <div className="flex items-center justify-between">
             <ProjectStatusBadge status={project.status} />
             <DropdownMenu>
-              <DropdownMenuTrigger>
-                <MoreHorizontal className="size-4 text-muted-foreground" />
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost">
+                  <MoreHorizontal className="size-4 text-muted-foreground" />
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem className="font-medium text-slate-600" onClick={handleEdit}>
