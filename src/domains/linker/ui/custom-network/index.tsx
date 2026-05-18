@@ -8,10 +8,8 @@ import { useState } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 import { AUTH_CONFIG } from "../../constants/auth.constants";
-import { useCustomNetworkStructures } from "../../hooks/use-projects";
-
+import { useCustomNetworks } from "../../hooks/use-projects";
 import { QueryErrorState } from "../../query-error-state";
-
 import CreateNetworkItemCard from "./create-custom-network-card";
 import CustomNetworkSkeletonPage from "./custom-network-skeleton-page";
 import CustomNetworks from "./custom-networks";
@@ -148,7 +146,7 @@ export default function NetworkItemPage() {
     projectId: string;
   }>();
 
-  const query = useCustomNetworkStructures(projectId);
+  const query = useCustomNetworks(projectId);
 
   const [viewMode, setViewMode] = useState<ViewMode>("filled");
 

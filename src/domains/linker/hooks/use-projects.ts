@@ -155,18 +155,18 @@ export function useSumbitCustomNetowrkUrls() {
   });
 }
 
-export function useCustomNetworkStructures(projectId: string) {
+export function useCustomNetworks(projectId: string) {
   return useQuery({
     queryKey: ["linker-custom-networks", projectId],
-    queryFn: () => customNetworkApi.getCustomNetworkStructures(projectId),
+    queryFn: () => customNetworkApi.getCustomNetworks(projectId),
     enabled: !!projectId,
   });
 }
 
-export function useCustomNetworkStructure(projectId: string, customNetworkId: string) {
+export function useCustomNetwork(projectId: string, customNetworkId: string) {
   return useQuery({
-    queryKey: ["linker-custom-network", projectId, customNetworkId],
-    queryFn: () => customNetworkApi.getCustomNetworkStructure(projectId, customNetworkId),
+    queryKey: ["linker-custom-networks", projectId, customNetworkId],
+    queryFn: () => customNetworkApi.getCustomNetwork(projectId, customNetworkId),
     enabled: !!projectId && !!customNetworkId,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 5,
@@ -178,7 +178,8 @@ export function useUpdateCustomNetworkNestedLink(projectId: string, customNetwor
   return useMutation({
     mutationFn: (data: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues) =>
       customNetworkApi.updateCustomNetworkNestedLink(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId, customNetworkId] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["linker-custom-networks", projectId, customNetworkId] }),
   });
 }
 
@@ -186,7 +187,7 @@ export function useRemoveCustomNetwork(projectId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: CustomNetworkPayloadValues) => customNetworkApi.removeCustomNetwork(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-networks", projectId] }),
   });
 }
 
@@ -194,7 +195,8 @@ export function useRemoveCustomNetworkCollection(projectId: string, customNetwor
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: CustomNetworkCollectionPayloadValues) => customNetworkApi.removeCustomNetworkCollection(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId, customNetworkId] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["linker-custom-networks", projectId, customNetworkId] }),
   });
 }
 
@@ -203,6 +205,7 @@ export function useRemoveCustomNetworkCollectionNestedLink(projectId: string, cu
   return useMutation({
     mutationFn: (data: CustomNetworkCollectionNestedPayloadValues) =>
       customNetworkApi.removeCustomNetworkCollectionNestedLink(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["linker-custom-network", projectId, customNetworkId] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["linker-custom-networks", projectId, customNetworkId] }),
   });
 }
