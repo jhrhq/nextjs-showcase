@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
-import { useProjects } from "@/domains/linker/hooks/use-projects";
+import { useDeleteProject, useProjects } from "@/domains/linker/hooks/use-projects";
 import { QueryErrorState } from "@/domains/linker/query-error-state";
 import type { ProjectStatus } from "@/domains/linker/types/project.types";
 import { DeleteProjectDialog } from "@/domains/linker/ui/dashboard/delete-project-dialog";
@@ -11,14 +11,16 @@ import { ProjectsEmpty } from "@/domains/linker/ui/dashboard/project-empty";
 import { ProjectGrid } from "@/domains/linker/ui/dashboard/project-grid";
 import { ProjectsHeader } from "@/domains/linker/ui/dashboard/project-header";
 import { ProjectsListSkeleton } from "@/domains/linker/ui/dashboard/project-list-skeleton";
+import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 
 export type SortOrder = "none" | "asc" | "desc";
 
 export default function DashboardPage() {
   const query = useProjects();
+  const deleteMutation = useDeleteProject();
   const router = useRouter();
 
-  const [deleteId, setDeleteId] = React.useState<string | null>(null);
+  const [projectToDelete, setProjectToDelete] = React.useState<ProjectDTO | null>(null);
   const [tab, setTab] = React.useState<"all" | ProjectStatus>("all");
   const [sort, setSort] = React.useState<SortOrder>("none");
 
@@ -38,8 +40,8 @@ export default function DashboardPage() {
     router.push(`${AUTH_CONFIG.ROUTES.DASHBOARD}/${projectId}/${AUTH_CONFIG.ROUTES.SETTINGS}`);
   }
 
-  function handleDelete(id: string) {
-    setDeleteId(id);
+  function handleDelete(project: ProjectDTO) {
+    setProjectToDelete(project);
   }
 
   if (query.isLoading) {
@@ -63,16 +65,18 @@ export default function DashboardPage() {
         <ProjectsHeader projects={query.data} tab={tab} sort={sort} onTabChange={setTab} onSortChange={setSort} />
         {visibleProjects && <ProjectGrid projects={visibleProjects} onEdit={handleEdit} onDelete={handleDelete} />}
       </main>
-      {/* <GihubPagination /> */}
+
       <DeleteProjectDialog
-        open={!!deleteId}
-        onCancel={() => setDeleteId(null)}
-        onConfirm={() => {
-          if (!deleteId) return;
-          // alert(`delete project ${deleteId}`);
-          // setDeleteId(null);
+        isOpen={projectToDelete !== null}
+        onClose={() => setProjectToDelete(null)}
+        projectName={projectToDelete?.name || ""}
+        onDelete={() => {
+          if (projectToDelete) {
+            deleteMutation.mutate(projectToDelete.id, { onSuccess: () => setProjectToDelete(null) });
+          }
         }}
-        projectId={deleteId}
+        isPending={deleteMutation.isPending}
+        error={deleteMutation.error}
       />
     </>
   );

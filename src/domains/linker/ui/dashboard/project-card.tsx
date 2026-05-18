@@ -16,7 +16,7 @@ import type { ProjectDTO } from "@/domains/linker/validations/projects.validatio
 type ProjectCardProps = {
   project: ProjectDTO;
   onEdit: (projectId: string) => void;
-  onDelete: (projectId: string) => void;
+  onDelete: (project: ProjectDTO) => void;
 };
 
 export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
@@ -31,7 +31,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
   function handleDelete(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     e.preventDefault();
     e.stopPropagation();
-    onDelete(id);
+    onDelete(project);
   }
 
   const navigatePath =
