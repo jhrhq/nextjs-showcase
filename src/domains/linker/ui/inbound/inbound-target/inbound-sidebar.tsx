@@ -43,6 +43,7 @@ const ALL_SIDEBAR_POSTS = Array.from({ length: 40 }, (_, i) => {
     slug: `${slugs[i % 10]}/`,
   };
 });
+
 async function fetchSidebarPage({ pageParam = 1 }) {
   await sleep(700);
   const PER_PAGE = 8;
@@ -65,7 +66,6 @@ export function InboundSidebar({ onSelectUrl }: { onSelectUrl: (url: string) => 
     getNextPageParam: (last) => last.nextPage,
     initialPageParam: 1,
   });
-
   const posts = data?.pages.flatMap((p) => p.items) ?? [];
 
   const onIntersect = React.useCallback(

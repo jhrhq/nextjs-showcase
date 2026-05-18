@@ -1,12 +1,13 @@
 "use client";
 
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { Loader2, SearchX, Wifi } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip } from "@/components/ui/tooltip";
+import { fetchMockUrls } from "./mock-urls";
 import { UrlCard } from "./url-card";
-import { useInfiniteUrls } from "./use-infinite-urls";
 
 // ── Loading skeleton ───────────────────────────────────────────────────────
 
@@ -59,8 +60,37 @@ interface UrlSidebarProps {
 
 // ── Sidebar ───
 export function UrlSidebar({ addedUrls, onAddUrl }: UrlSidebarProps) {
-  const { urls, isLoading, isFetchingMore, hasMore, totalCount, error, search, setSearch, sentinelRef } =
-    useInfiniteUrls();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } = useInfiniteQuery({
+    queryKey: ["sidebar-posts"],
+    queryFn: fetchMockUrls,
+    getNextPageParam: (last) => last.nextPage,
+    initialPageParam: 1,
+  });
+  const loaderRef = React.useRef<HTMLDivElement | null>(null);
+
+  const posts = data?.pages.flatMap((p) => p.items) ?? [];
+  const totalPosts = data?.pages[0].total ?? 0;
+
+  const onIntersect = React.useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    },
+    [fetchNextPage, hasNextPage]
+  );
+
+  React.useEffect(() => {
+    const el = loaderRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(onIntersect, {
+      threshold: 0.1,
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [onIntersect]);
 
   return (
     <Tooltip delayDuration={200}>
@@ -74,18 +104,18 @@ export function UrlSidebar({ addedUrls, onAddUrl }: UrlSidebarProps) {
           <div className="flex items-baseline justify-between gap-2">
             <h2 className="text-sm font-semibold">Browse URLs</h2>
             {!isLoading && (
-              <span className="text-[11px] text-muted-foreground tabular-nums">{totalCount} available</span>
+              <span className="text-[11px] text-muted-foreground tabular-nums">{totalPosts} available</span>
             )}
           </div>
 
-          <Input
+          {/*<Input
             type="search"
             placeholder="Search by name, domain, category…"
             defaultValue={search}
             onChange={(e) => setSearch(e.target.value)}
             className="h-8 text-sm"
             aria-label="Search URLs"
-          />
+          /> */}
         </div>
 
         <Separator />
@@ -95,12 +125,12 @@ export function UrlSidebar({ addedUrls, onAddUrl }: UrlSidebarProps) {
           {/* Initial loading skeletons */}
           {isLoading && Array.from({ length: 6 }).map((_, i) => <CardSkeleton key={i} />)}
 
-          {!isLoading && error && <ErrorState message={error} />}
+          {!isLoading && error && <ErrorState message={error.message} />}
 
-          {!isLoading && !error && urls.length === 0 && <EmptyState search={search} />}
+          {!isLoading && !error && posts.length === 0 && <EmptyState search={""} />}
 
           {!isLoading &&
-            urls.map((item) => (
+            posts.map((item) => (
               <UrlCard
                 key={item.id}
                 item={item}
@@ -109,17 +139,17 @@ export function UrlSidebar({ addedUrls, onAddUrl }: UrlSidebarProps) {
               />
             ))}
 
-          {isFetchingMore && (
+          {isFetchingNextPage && (
             <div className="flex justify-center py-3">
               <Loader2 className="size-4 animate-spin text-muted-foreground" aria-label="Loading more URLs" />
             </div>
           )}
 
-          {!isLoading && !hasMore && urls.length > 0 && (
-            <p className="text-center text-[11px] text-muted-foreground py-3">All {totalCount} URLs loaded</p>
+          {!isLoading && !hasNextPage && posts.length > 0 && (
+            <p className="text-center text-[11px] text-muted-foreground py-3">All {totalPosts} URLs loaded</p>
           )}
 
-          {hasMore && !isFetchingMore && <div ref={sentinelRef} className="h-1" aria-hidden="true" />}
+          {hasNextPage && !isFetchingNextPage && <div ref={loaderRef} className="h-1" aria-hidden="true" />}
         </div>
       </div>
     </Tooltip>
