@@ -520,36 +520,15 @@ export const ALL_MOCK_URLS: SidebarUrl[] = [
   },
 ];
 
-export const PAGE_SIZE = 12;
+export const PER_PAGE = 12;
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /** Simulate a paginated API call with a network delay */
-export async function fetchMockUrls(
-  page: number,
-  search: string
-): Promise<{
-  data: SidebarUrl[];
-  nextPage: number | null;
-  totalCount: number;
-}> {
-  await new Promise<void>((resolve) => setTimeout(resolve, 450));
-
-  const filtered = search.trim()
-    ? ALL_MOCK_URLS.filter(
-        (u) =>
-          u.title.toLowerCase().includes(search.toLowerCase()) ||
-          u.domain.toLowerCase().includes(search.toLowerCase()) ||
-          u.category.toLowerCase().includes(search.toLowerCase()) ||
-          u.description.toLowerCase().includes(search.toLowerCase())
-      )
-    : ALL_MOCK_URLS;
-
-  const start = (page - 1) * PAGE_SIZE;
-  const end = start + PAGE_SIZE;
-  const slice = filtered.slice(start, end);
-
-  return {
-    data: slice,
-    nextPage: end < filtered.length ? page + 1 : null,
-    totalCount: filtered.length,
-  };
+export async function fetchMockUrls({ pageParam = 1 }) {
+  await sleep(700);
+  const start = (pageParam - 1) * PER_PAGE;
+  const items = ALL_MOCK_URLS.slice(start, start + PER_PAGE);
+  const nextPage = start + PER_PAGE < ALL_MOCK_URLS.length ? pageParam + 1 : undefined;
+  return { items, nextPage, total: ALL_MOCK_URLS.length };
 }
