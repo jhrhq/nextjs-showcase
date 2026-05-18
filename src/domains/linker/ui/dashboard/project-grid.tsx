@@ -4,7 +4,7 @@ import type { ProjectDTO } from "@/domains/linker/validations/projects.validatio
 type ProjectGridProps = {
   projects: ProjectDTO[];
   onEdit: (projectId: string) => void;
-  onDelete: (projectId: string) => void;
+  onDelete: (project: ProjectDTO) => void;
 };
 export function ProjectGrid({ projects, onEdit, onDelete }: ProjectGridProps) {
   return (
