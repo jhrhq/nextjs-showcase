@@ -1,24 +1,18 @@
-import { AlertTriangle, Loader2, Trash2 } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { ProjectStatusBadge } from "@/domains/linker/ui/dashboard/project-card";
 import ProjectUpdateForm from "@/domains/linker/ui/settings/project-update-form";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
+import { AUTH_CONFIG } from "../../constants/auth.constants";
+import { useDeleteProject } from "../../hooks/use-projects";
+import { DeleteProjectDialog } from "../dashboard/delete-project-dialog";
 
 type SettingsGeneralProps = {
   project: ProjectDTO;
@@ -175,13 +169,23 @@ export function SettingsUsage({ project }: SettingsUsageProps) {
 
 type SettingsProjectDeleteProps = {
   project: ProjectDTO;
-  onDelete: () => void;
-  isLoading: boolean;
 };
 
-export function SettingsProjectDelete({ project, onDelete, isLoading }: SettingsProjectDeleteProps) {
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
-  const [deleteConfirmText, setDeleteConfirmText] = React.useState("");
+export function SettingsProjectDelete({ project }: SettingsProjectDeleteProps) {
+  const router = useRouter();
+  const deleteMutation = useDeleteProject();
+  const [projectToDelete, setProjectToDelete] = React.useState<ProjectDTO | null>(null);
+
+  function handleDelete() {
+    if (projectToDelete) {
+      deleteMutation.mutate(project.id, {
+        onSuccess: () => {
+          setProjectToDelete(null);
+          router.push(`${AUTH_CONFIG.ROUTES.DASHBOARD}`);
+        },
+      });
+    }
+  }
 
   return (
     <Card className="border-red-200">
@@ -197,50 +201,17 @@ export function SettingsProjectDelete({ project, onDelete, isLoading }: Settings
             reports. This action cannot be undone.
           </AlertDescription>
         </Alert>
-
-        <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-          <DialogTrigger asChild>
-            <Button variant="destructive">
-              <Trash2 className="mr-2 size-4" />
-              Delete Project
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Delete Project</DialogTitle>
-              <DialogDescription>
-                This action cannot be undone. This will permanently delete the project and remove all associated data.
-              </DialogDescription>
-            </DialogHeader>
-
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label>
-                  Type <span className="font-bold">{project.name}</span> to confirm
-                </Label>
-                <Input
-                  value={deleteConfirmText}
-                  onChange={(e) => setDeleteConfirmText(e.target.value)}
-                  placeholder={project.name}
-                />
-              </div>
-            </div>
-
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button
-                variant="destructive"
-                onClick={onDelete}
-                disabled={deleteConfirmText !== project.name || isLoading}
-              >
-                {isLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
-                Delete Project
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <Button variant={"destructive"} onClick={() => setProjectToDelete(project)}>
+          Delete
+        </Button>
+        <DeleteProjectDialog
+          isOpen={projectToDelete !== null}
+          onClose={() => setProjectToDelete(null)}
+          projectName={projectToDelete?.name || ""}
+          onDelete={handleDelete}
+          isPending={deleteMutation.isPending}
+          error={deleteMutation.error}
+        />
       </CardContent>
     </Card>
   );

@@ -1,9 +1,8 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { toast } from "sonner";
-import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
-import { useDeleteProject, useProjects, useUpdateProject } from "@/domains/linker/hooks/use-projects";
+import { useProjects, useUpdateProject } from "@/domains/linker/hooks/use-projects";
 import { QueryErrorState } from "@/domains/linker/query-error-state";
 import { ProjectsEmpty } from "@/domains/linker/ui/dashboard/project-empty";
 import { ProjectsListSkeleton } from "@/domains/linker/ui/dashboard/project-list-skeleton";
@@ -17,13 +16,11 @@ import {
 
 export default function ProjectSettingsPage() {
   const params = useParams();
-  const router = useRouter();
   const projectId = params.projectId as string;
 
   const query = useProjects();
   const project = query.data?.find((p) => p.id === projectId);
   const udpateProject = useUpdateProject(projectId);
-  const deleteProject = useDeleteProject();
 
   async function handleStatusToggle(checked: boolean) {
     try {
@@ -37,14 +34,6 @@ export default function ProjectSettingsPage() {
     } catch (error) {
       console.error("API call failed:", error);
     }
-  }
-
-  function handleDelete() {
-    deleteProject.mutate(projectId, {
-      onSuccess: () => {
-        router.push(`${AUTH_CONFIG.ROUTES.DASHBOARD}`);
-      },
-    });
   }
 
   if (query.isLoading) {
@@ -77,7 +66,7 @@ export default function ProjectSettingsPage() {
 
       <SettingsUsage project={project} />
 
-      <SettingsProjectDelete project={project} onDelete={handleDelete} isLoading={deleteProject.isPending} />
+      <SettingsProjectDelete project={project} />
     </div>
   );
 }
