@@ -50,12 +50,6 @@ import {
   STATUS_OPTIONS,
 } from "../validations/custom-network.validation";
 
-/*
- *TODO
- * refactor the whole projectsApi
- * * break the projectsApi into different distinct parts
- */
-
 export const projectsApi = {
   getAll: async (): Promise<ProjectDTO[]> => {
     const count = await db.projects.count();

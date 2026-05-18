@@ -14,6 +14,13 @@ function makeQueryClient() {
         retry: 0,
       },
     },
+    // mutationCache: new MutationCache({
+    //   onError: (error) => {
+    //     if (error) {
+    //       toast(error.message);
+    //     }
+    //   },
+    // }),
   });
 }
 
