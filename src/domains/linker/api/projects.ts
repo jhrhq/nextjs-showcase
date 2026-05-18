@@ -259,18 +259,19 @@ export const customNetworkApi = {
     return newNetwork;
   },
 
-  getCustomNetworkStructures: async (
+  getCustomNetworks: async (
     projectId: string
   ): Promise<{ projectId: string; customNetworks: CreateCustomNetworkResponseSchemaValues[] }> => {
     const cached = await db.customNetworks.get(projectId);
-    if (cached) return cached;
 
-    const seeded = ALL_CUSTOM_NETWORK_DATA_ARRAY.filter((n) => n.projectId === projectId);
+    if (cached && cached.customNetworks.length > 0) return cached;
+
+    const seeded = ALL_CUSTOM_NETWORK_DATA_ARRAY;
     await db.customNetworks.put({ projectId, customNetworks: seeded });
     return { projectId, customNetworks: seeded };
   },
 
-  getCustomNetworkStructure: async (
+  getCustomNetwork: async (
     projectId: string,
     customNetworkId: string
   ): Promise<CreateCustomNetworkResponseSchemaValues> => {

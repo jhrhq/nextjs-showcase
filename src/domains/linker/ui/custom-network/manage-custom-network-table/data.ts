@@ -6,8 +6,8 @@ import type {
 } from "@/domains/linker/validations/custom-network.validation";
 
 export const CUSTOM_NETWORK_DATA: CreateCustomNetworkResponseSchemaValues = {
-  projectId: "f509859c-94e3-4712-a63a-b4fba9139fa6", // Validated
-  id: "6e28848d-718e-49b0-9b62-1777264870f4", // Validated
+  projectId: "f509859c-94e3-4712-a63a-b4fba9139fa6",
+  id: "6e28848d-718e-49b0-9b62-1777264870f4",
   collectionName: "Test Collection",
   collections: [
     {
