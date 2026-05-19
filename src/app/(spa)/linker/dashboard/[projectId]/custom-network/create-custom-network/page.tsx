@@ -1,3 +1,4 @@
+"use client";
 import CreateCustomNetwork from "@/domains/linker/ui/custom-network/create-custom-network";
 
 export default function CreateCustomNetworkPage() {

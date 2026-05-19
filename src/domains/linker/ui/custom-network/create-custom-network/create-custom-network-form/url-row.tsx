@@ -15,6 +15,7 @@
  *
  *   Typing in row 3 → only row 3 re-renders. Rows 1, 2, 4, 5 are skipped.
  */
+"use client";
 
 import { Link2, Trash2 } from "lucide-react";
 import * as React from "react";

@@ -1,3 +1,5 @@
+"use client";
+
 export type UrlCategory = "Design" | "Dev Tools" | "AI" | "Documentation" | "News" | "Cloud" | "Analytics";
 
 export type SidebarUrl = {

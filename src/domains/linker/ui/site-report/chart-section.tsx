@@ -1,3 +1,5 @@
+"use client";
+
 import type { PieDatum, SiteReport } from "@/domains/linker/types/site-report.types";
 import { CategoryBarChart, LinksDistributionPieChart } from "@/domains/linker/ui/site-report/chart-card";
 

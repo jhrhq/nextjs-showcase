@@ -1,3 +1,5 @@
+"use client";
+
 import type { CreateCustomNetworkResponseSchemaValues } from "@/domains/linker/validations/custom-network.validation";
 import { RegistryDataTable } from "./data-table";
 

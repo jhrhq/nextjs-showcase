@@ -1,3 +1,5 @@
+"use client";
+
 import {
   type Column,
   type ColumnFiltersState,

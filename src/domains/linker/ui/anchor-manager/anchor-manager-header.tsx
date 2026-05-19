@@ -1,3 +1,4 @@
+"use client";
 export default function AnchorManagerHeader({ projectName }: { projectName: string }) {
   return (
     <div>

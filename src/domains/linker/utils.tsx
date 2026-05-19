@@ -1,3 +1,5 @@
+"use client";
+
 import { AlertCircle, CheckCircle2, XCircle } from "lucide-react";
 import {
   type CreateCustomNetworkResponseSchemaValues,

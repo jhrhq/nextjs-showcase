@@ -1,3 +1,5 @@
+"use client";
+
 import { ProjectCard } from "@/domains/linker/ui/dashboard/project-card";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 

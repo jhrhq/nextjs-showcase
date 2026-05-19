@@ -1,3 +1,5 @@
+"use client";
+
 import type { ColumnDef } from "@tanstack/react-table";
 import { Progress } from "@/components/ui/progress";
 import type { PerformanceResource } from "@/domains/linker/types/site-report.types";

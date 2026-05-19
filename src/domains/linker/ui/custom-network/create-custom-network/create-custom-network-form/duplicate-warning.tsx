@@ -4,6 +4,7 @@
  * Amber warning banner shown below the URL list when duplicates exist.
  * Wrapped in React.memo — only re-renders when `count` changes.
  */
+"use client";
 
 import { TriangleAlert } from "lucide-react";
 import * as React from "react";

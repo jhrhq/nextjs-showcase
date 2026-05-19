@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
 import LinkMetricItem from "@/domains/linker/ui/site-report/link-metric-card";

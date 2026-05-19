@@ -1,3 +1,4 @@
+"use client";
 type IndexingSummaryProps = {
   indexed: number;
   total: number;

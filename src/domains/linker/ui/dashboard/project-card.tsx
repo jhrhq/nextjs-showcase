@@ -1,3 +1,5 @@
+"use client";
+
 import { Calendar, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import type React from "react";

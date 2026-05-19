@@ -1,3 +1,5 @@
+"use client";
+
 import type { ColumnDef } from "@tanstack/react-table";
 import type { TechnicalSeoMetric } from "@/domains/linker/types/site-report.types";
 import { getStatusIcon } from "@/domains/linker/utils";
