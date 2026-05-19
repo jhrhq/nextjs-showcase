@@ -5,6 +5,7 @@
  * Wrapped in React.memo so it only re-renders when the counts change —
  * not when unrelated parts of the form re-render.
  */
+"use client";
 
 import * as React from "react";
 import { Badge } from "@/components/ui/badge";

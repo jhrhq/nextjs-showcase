@@ -1,3 +1,5 @@
+"use client";
+
 import type { Row, Table } from "@tanstack/react-table";
 import { BarChart2, ExternalLink, Link2, Search } from "lucide-react";
 import * as React from "react";

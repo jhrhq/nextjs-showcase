@@ -1,3 +1,4 @@
+"use client";
 type EmptyStateProps = {
   message?: string;
 };

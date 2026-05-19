@@ -1,3 +1,5 @@
+"use client";
+
 import type { Row, Table } from "@tanstack/react-table";
 import { useParams } from "next/navigation";
 import React from "react";

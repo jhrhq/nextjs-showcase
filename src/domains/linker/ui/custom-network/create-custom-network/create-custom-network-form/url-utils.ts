@@ -1,3 +1,5 @@
+"use client";
+
 import type { UrlFieldMeta, UrlFieldStatus } from "@/domains/linker/types/custom-network.types";
 import type { CreateCustomNetworkFormValues } from "@/domains/linker/validations/custom-network.validation";
 

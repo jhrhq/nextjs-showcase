@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useNormalizedSet } from "@/domains/linker/hooks/use-normalized-url-set";
 import { useDeboucedValue } from "@/hooks/shared/use-debounced-hook";

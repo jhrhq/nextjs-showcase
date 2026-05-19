@@ -1,3 +1,4 @@
+"use client";
 import { ExternalLink, FileText, Link2 } from "lucide-react";
 import type { SiteReport } from "@/domains/linker/types/site-report.types";
 import { StatsCard } from "@/domains/linker/ui/site-report/stats-card";

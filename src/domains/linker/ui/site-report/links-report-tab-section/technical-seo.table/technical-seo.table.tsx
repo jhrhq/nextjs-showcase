@@ -1,3 +1,5 @@
+"use client";
+
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { TechnicalSeoMetric } from "@/domains/linker/types/site-report.types";

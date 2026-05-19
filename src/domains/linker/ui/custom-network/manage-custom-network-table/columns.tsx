@@ -1,3 +1,5 @@
+"use client";
+
 import type { ColumnDef, FilterFn, Row } from "@tanstack/react-table";
 import { CheckCircle2, ChevronRight, ExternalLink, RefreshCw, Trash2Icon, Unlink } from "lucide-react";
 import { useParams } from "next/navigation";

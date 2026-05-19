@@ -1,3 +1,4 @@
+"use client";
 export default function ReportHeader({ projectName, generatedDate }: { projectName: string; generatedDate: string }) {
   return (
     <div>
