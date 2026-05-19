@@ -135,48 +135,47 @@ const STAGE_CONFIG: Record<Stage, StageConfig> = {
     StatusIcon: CircleDashed,
     BtnIcon: Network,
     btnLabel: "Start Connecting Links",
-    badgeBg: "bg-slate-100",
-    badgeFg: "text-slate-600",
-    btnFg: "text-slate-700",
-    btnHoverBg: "hover:bg-slate-100",
-    statBg: "bg-slate-50",
-    statFg: "text-slate-500",
-    statHighBg: "bg-slate-100",
-    statHighFg: "text-slate-800",
-    progressBar: "[&>div]:bg-slate-400",
+    badgeBg: "bg-slate-100 dark:bg-slate-800",
+    badgeFg: "text-slate-600 dark:text-slate-300",
+    btnFg: "text-slate-700 dark:text-slate-200",
+    btnHoverBg: "hover:bg-slate-100 dark:hover:bg-slate-800",
+    statBg: "bg-slate-50 dark:bg-slate-900/50",
+    statFg: "text-slate-500 dark:text-slate-400",
+    statHighBg: "bg-slate-100 dark:bg-slate-800",
+    statHighFg: "text-slate-800 dark:text-slate-100",
+    progressBar: "[&>div]:bg-slate-400 dark:[&>div]:bg-slate-600",
   },
   progress: {
     label: "In Progress",
     StatusIcon: Loader,
     BtnIcon: Link2,
     btnLabel: "Continue Connecting Links",
-    badgeBg: "bg-amber-100",
-    badgeFg: "text-amber-700",
-    btnFg: "text-amber-600",
-    btnHoverBg: "hover:bg-amber-50",
-    statBg: "bg-amber-50",
-    statFg: "text-amber-600",
-    statHighBg: "bg-amber-100",
-    statHighFg: "text-amber-800",
-    progressBar: "[&>div]:bg-amber-400",
+    badgeBg: "bg-amber-100 dark:bg-amber-950/40",
+    badgeFg: "text-amber-700 dark:text-amber-400",
+    btnFg: "text-amber-600 dark:text-amber-400",
+    btnHoverBg: "hover:bg-amber-50 dark:hover:bg-amber-950/30",
+    statBg: "bg-amber-50 dark:bg-amber-950/20",
+    statFg: "text-amber-600 dark:text-amber-400",
+    statHighBg: "bg-amber-100 dark:bg-amber-950/50",
+    statHighFg: "text-amber-800 dark:text-amber-200",
+    progressBar: "[&>div]:bg-amber-400 dark:[&>div]:bg-amber-500",
   },
   complete: {
     label: "Fully Connected",
     StatusIcon: CircleCheckBig,
     BtnIcon: CheckCircle2,
     btnLabel: "Manage Internal Links",
-    badgeBg: "bg-emerald-100",
-    badgeFg: "text-emerald-700",
-    btnFg: "text-emerald-700",
-    btnHoverBg: "hover:bg-emerald-50",
-    statBg: "bg-emerald-50",
-    statFg: "text-emerald-600",
-    statHighBg: "bg-emerald-100",
-    statHighFg: "text-emerald-800",
-    progressBar: "[&>div]:bg-emerald-500",
+    badgeBg: "bg-emerald-100 dark:bg-emerald-950/40",
+    badgeFg: "text-emerald-700 dark:text-emerald-400",
+    btnFg: "text-emerald-700 dark:text-emerald-400",
+    btnHoverBg: "hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
+    statBg: "bg-emerald-50 dark:bg-emerald-950/20",
+    statFg: "text-emerald-600 dark:text-emerald-400",
+    statHighBg: "bg-emerald-100 dark:bg-emerald-950/50",
+    statHighFg: "text-emerald-800 dark:text-emerald-200",
+    progressBar: "[&>div]:bg-emerald-500 dark:[&>div]:bg-emerald-400",
   },
 };
-
 function StatCell({ label, value, bg, labelCls, valueCls }: StatCellProps) {
   return (
     <div className={cn("flex flex-col items-center justify-center gap-0.5 p-2 flex-1", bg)}>
@@ -268,7 +267,8 @@ export function CustomNetworkCard({ network, onNavigateCustomNetwork, onViewLink
                     View links
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    className="text-xs gap-2 text-destructive focus:text-destructive cursor-pointer rounded-none"
+                    className="text-xs gap-2 dark:data-[variant=destructive]:text-rose-400 dark:data-[variant=destructive]:[&_svg]:text-rose-400"
+                    variant="destructive"
                     onClick={() => setOpen(true)}
                   >
                     <Trash2 className="size-3.5" />
@@ -325,7 +325,12 @@ export function CustomNetworkCard({ network, onNavigateCustomNetwork, onViewLink
             <AlertDialogCancel className="rounded-none text-xs h-8" disabled={isPending}>
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction variant="destructive" disabled={isPending} onClick={handleDelete}>
+            <AlertDialogAction
+              variant="destructive"
+              className="dark:data-[variant=destructive]:text-rose-400 dark:data-[variant=destructive]:[&_svg]:text-rose-400"
+              disabled={isPending}
+              onClick={handleDelete}
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>

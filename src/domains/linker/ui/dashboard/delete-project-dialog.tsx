@@ -54,9 +54,7 @@ export function DeleteProjectDialog({
     >
       <AlertDialogContent className="sm:max-w-106.25">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-xl font-semibold text-destructive">
-            Are you absolutely sure?
-          </AlertDialogTitle>
+          <AlertDialogTitle className="text-xl font-semibold text-rose-500">Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription className="text-muted-foreground mt-2">
             This will permanently delete the project{" "}
             <span className="font-semibold text-foreground">"{projectName}"</span>.
@@ -93,7 +91,7 @@ export function DeleteProjectDialog({
             variant="destructive"
             onClick={handleConfirmDelete}
             disabled={!isConfirmed || isPending}
-            className="gap-2"
+            className="gap-2 dark:text-rose-500"
           >
             {isPending ? (
               <>

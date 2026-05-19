@@ -1,5 +1,3 @@
-"use client";
-
 import type { SidebarUrl } from "./sidebar-url";
 
 export const ALL_MOCK_URLS: SidebarUrl[] = [

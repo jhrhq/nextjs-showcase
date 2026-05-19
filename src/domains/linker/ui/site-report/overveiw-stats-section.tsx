@@ -15,7 +15,7 @@ export default function OverveiwStatsSection({ report }: { report: SiteReport })
         icon={<Link2 />}
         title="Total Links"
         value={report.totalLinks}
-        valueClassName="text-blue-600"
+        valueClassName="text-blue-600 dark:text-blue-200"
         footer="All links found"
       />
 

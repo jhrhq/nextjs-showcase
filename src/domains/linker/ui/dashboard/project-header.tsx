@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, ChevronDown, Moon, SlidersHorizontal } from "lucide-react";
+import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import type { SortOrder } from "@/app/(spa)/linker/dashboard/page";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +29,7 @@ import type { ProjectStatus } from "@/domains/linker/types/project.types";
 import { CreateProjectDialog } from "@/domains/linker/ui/dashboard/create-project-dialog";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 import { cn } from "@/lib/utils";
+import { ModeToggle } from "@/ui/shared/theme-toggle";
 
 export function Topbar() {
   return (
@@ -50,12 +51,7 @@ export function Topbar() {
       </div>
 
       <div className="flex items-center gap-4">
-        <Button size="icon" variant="ghost">
-          <Moon />
-        </Button>
-        <Button size="icon" variant="ghost">
-          <Bell />
-        </Button>
+        <ModeToggle />
 
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center gap-2">
@@ -92,7 +88,7 @@ export function ProjectsHeader({ projects, tab, sort, onTabChange, onSortChange 
     inactive: projects.filter((p) => p.status === "inactive").length,
   };
   return (
-    <div className="flex items-center justify-between px-6 h-16 bg-white">
+    <div className="flex items-center justify-between  h-16 border-y">
       <ProjectsTabs value={tab} counts={counts} onChange={onTabChange} />
       <div className="flex gap-2">
         <ProjectsFilterSort sort={sort} onSortChange={onSortChange} />
@@ -119,7 +115,7 @@ export function ProjectsTabs({ value, counts, onChange }: ProjectTabProps) {
             key={k}
             value={k}
             className={cn(
-              "rounded-none p-0 data-[state=active]:text-primary data-[state=active]:border-b-primary data-[state=active]:border-b-2 font-medium text-base h-16 capitalize"
+              "rounded-none p-0 px-2 data-[state=active]:text-primary data-[state=active]:border-b-primary data-[state=active]:border-b-2 data-[state=active]:bg-primary/10 font-medium text-base h-16 capitalize"
             )}
           >
             {k}

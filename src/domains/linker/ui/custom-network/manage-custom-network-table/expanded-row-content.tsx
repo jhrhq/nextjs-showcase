@@ -140,7 +140,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
             <Button
               variant="link"
               size="sm"
-              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold"
+              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive dark:text-rose-800 dark:hover:text-rose-900 hover:no-underline font-semibold"
               disabled={deleteIsPending && deleteTarget?.id === child.id}
               onClick={() => setDeleteTarget(child)}
             >
@@ -162,7 +162,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
             <Button
               variant="link"
               size="sm"
-              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold"
+              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold dark:text-rose-800 dark:hover:text-rose-900"
               disabled={deleteIsPending && deleteTarget?.id === child.id}
               onClick={() => setDeleteTarget(child)}
             >
@@ -184,7 +184,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
             <Button
               variant="link"
               size="sm"
-              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold"
+              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold dark:text-rose-800 dark:hover:text-rose-900"
               disabled={deleteIsPending && deleteTarget?.id === child.id}
               onClick={() => setDeleteTarget(child)}
             >
@@ -197,21 +197,21 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
   };
 
   return (
-    <TableRow className="bg-slate-50/30 border-none hover:bg-slate-50/30">
-      <TableCell colSpan={row.getVisibleCells().length} className="p-4">
-        <div className="border border-slate-200 bg-white shadow-sm overflow-hidden">
+    <TableRow>
+      <TableCell colSpan={row.getVisibleCells().length}>
+        <div className="border  shadow-sm overflow-hidden rounded-md">
           {/* Sub-Header */}
-          <div className="flex items-center justify-between border-b bg-slate-50/50 px-4 py-2">
-            <div className="text-[10px] font-bold uppercase text-blue-600 flex items-center gap-2">
+          <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/40 px-4 py-2">
+            <div className="text-[10px] font-bold uppercase text-blue-600 dark:text-blue-400 flex items-center gap-2">
               <span className="text-xs">🔗</span> Target Links for {row.original.url}
             </div>
-            <span className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-100 font-mono">
+            <span className="text-[10px] bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full border border-blue-100 dark:border-blue-900/50 font-mono">
               Showing {filteredChildren.length} of {row.original.nestedData?.length ?? 0}
             </span>
           </div>
 
           <table className="w-full text-left">
-            <thead className="bg-slate-50/50 text-[10px] uppercase text-slate-400 border-b">
+            <thead className="bg-zinc-50/50 dark:bg-zinc-950/20 text-[10px] uppercase text-zinc-400 dark:text-zinc-500 border-b border-zinc-200 dark:border-zinc-800">
               <tr>
                 <th className="px-4 py-2 font-semibold">Page Title & URL</th>
                 <th className="px-4 py-2 font-semibold">Anchor Text</th>
@@ -219,15 +219,18 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
                 <th className="px-4 py-2 text-right font-semibold pr-6">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
               {filteredChildren.length > 0 ? (
                 filteredChildren.map((child) => (
-                  <tr key={child.id} className="text-sm group/child hover:bg-slate-50/80 transition-colors">
+                  <tr
+                    key={child.id}
+                    className="text-sm group/child hover:bg-zinc-50/80 dark:hover:bg-zinc-800/50 transition-colors"
+                  >
                     <td className="px-4 py-3">
-                      <div className="font-bold text-slate-800">{child.title}</div>
-                      <div className="text-xs text-blue-500 truncate max-w-50">{child.url}</div>
+                      <div className="font-bold text-zinc-800 dark:text-zinc-200">{child.title}</div>
+                      <div className="text-xs text-blue-500 dark:text-blue-400 truncate max-w-50">{child.url}</div>
                     </td>
-                    <td className="px-4 py-3 text-slate-500 italic text-xs">
+                    <td className="px-4 py-3 text-zinc-500 dark:text-zinc-400 italic text-xs">
                       {child.anchor ? `"${child.anchor}"` : "—"}
                     </td>
                     <td className="px-4 py-3">
@@ -246,7 +249,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
                   <td colSpan={4} className="p-12 text-center">
                     <div className="flex flex-col items-center gap-2">
                       <span className="text-2xl opacity-50">🔍</span>
-                      <p className="text-xs text-slate-400 font-medium">
+                      <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium">
                         No links in this row match your current filters.
                       </p>
                     </div>

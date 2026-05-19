@@ -59,20 +59,20 @@ const STATUS_CONFIG = {
   ACTIVE: {
     label: "Active",
     Icon: CheckCircle2,
-    cls: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    iconCls: "size-3 text-emerald-500",
+    cls: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/50",
+    iconCls: "size-3 text-emerald-500 dark:text-emerald-400",
   },
   STALE: {
     label: "Stale",
     Icon: RefreshCw,
-    cls: "bg-indigo-50  text-indigo-700  border-indigo-200",
-    iconCls: "size-3 text-indigo-500",
+    cls: "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-900/50",
+    iconCls: "size-3 text-indigo-500 dark:text-indigo-400",
   },
   UNLINKED: {
     label: "Unlinked",
     Icon: Unlink,
-    cls: "bg-gray-50 text-gray-700 border-gray-200",
-    iconCls: "size-3 text-gray-500",
+    cls: "bg-gray-50 text-gray-700 border-gray-200 dark:bg-slate-900 dark:text-slate-400 dark:border-slate-800",
+    iconCls: "size-3 text-gray-500 dark:text-slate-400",
   },
 } as const;
 type StatusType = keyof typeof STATUS_CONFIG;
@@ -86,7 +86,7 @@ export const NestedStatusBadge = ({ status }: { status: StatusType }) => {
       <Tooltip>
         <TooltipTrigger asChild>
           <div
-            className={cn("inline-flex items-center gap-1.5 text-[11px] font-semibold px-2 py-1 rounded-md", cfg.cls)}
+            className={cn("inline-flex items-center gap-1.5 text-[11px] font-semibold px-2 py-1 rounded-md ", cfg.cls)}
           >
             <Icon size={14} className={cfg.iconCls} />
             <span>{cfg.label}</span>

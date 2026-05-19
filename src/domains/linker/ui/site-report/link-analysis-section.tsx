@@ -28,29 +28,29 @@ export function LinkAnalysisSection({ report }: { report: SiteReport }) {
           <CardContent>
             <div className="space-y-4">
               <LinkHealthItem
-                icon={<CheckCircle2 className="size-5 text-green-600" />}
+                icon={<CheckCircle2 className="size-5 text-emerald-600 dark:text-emerald-400" />}
                 label="Active Links"
                 value={report.linkMetrics.activeLinks}
-                bgClass="bg-green-50"
-                textClass="text-green-900"
+                bgClass="bg-emerald-500/10 dark:bg-emerald-500/10 border border-emerald-500/20 text-emerald-900 dark:text-emerald-300"
+                textClass="text-zinc-900 dark:text-zinc-100"
               />
 
               <LinkHealthItem
-                icon={<XCircle className="size-5 text-red-600" />}
+                icon={<XCircle className="size-5 text-rose-600 dark:text-rose-400" />}
                 label="Broken Links"
                 value={report.linkMetrics.brokenLinks}
-                bgClass="bg-red-50"
-                textClass="text-red-900"
+                bgClass="bg-rose-500/10 dark:bg-rose-500/5 border border-rose-500/20 text-rose-900 dark:text-rose-300"
+                textClass="text-zinc-900 dark:text-zinc-100"
                 badgeVariant="destructive"
               />
 
               <LinkHealthItem
-                icon={<AlertCircle className="size-5 text-yellow-600" />}
+                icon={<AlertCircle className="size-5 text-amber-600 dark:text-amber-400" />}
                 label="Redirects"
                 value={report.linkMetrics.redirects}
-                bgClass="bg-yellow-50"
-                textClass="text-yellow-900"
-                badgeVariant="secondary"
+                bgClass="bg-amber-500/10 dark:bg-amber-500/10 border border-amber-500/20 text-amber-900 dark:text-amber-300"
+                textClass="text-zinc-900 dark:text-zinc-100"
+                badgeVariant="yellow-lighter"
               />
             </div>
           </CardContent>
@@ -81,7 +81,33 @@ type LinkHealthItemProps = {
   value: number;
   bgClass: string;
   textClass: string;
-  badgeVariant?: "default" | "secondary" | "destructive";
+  badgeVariant?:
+    | "default"
+    | "secondary"
+    | "destructive"
+    | "link"
+    | "default-lighter"
+    | "default-lighter-rounded"
+    | "outline"
+    | "ghost"
+    | "destructive-lighter"
+    | "destructive-lighter-rounded"
+    | "inactive"
+    | "inactive-rounded"
+    | "pending"
+    | "pending-rounded"
+    | "teal-lighter"
+    | "teal-lighter-rounded"
+    | "purple-lighter"
+    | "purple-lighter-rounded"
+    | "orange-lighter"
+    | "orange-lighter-rounded"
+    | "green-lighter"
+    | "green-lighter-rounded"
+    | "yellow-lighter"
+    | "yellow-lighter-rounded"
+    | "new"
+    | "new-rounded";
 };
 
 export function LinkHealthItem({

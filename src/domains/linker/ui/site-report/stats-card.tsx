@@ -11,7 +11,13 @@ type StatsCardProps = {
   footer?: ReactNode | string;
 };
 
-export function StatsCard({ icon, title, value, valueClassName = "text-slate-900", footer }: StatsCardProps) {
+export function StatsCard({
+  icon,
+  title,
+  value,
+  valueClassName = "text-zinc-900 dark:text-zinc-200",
+  footer,
+}: StatsCardProps) {
   return (
     <Card>
       <CardHeader className="pb-3">
@@ -26,7 +32,7 @@ export function StatsCard({ icon, title, value, valueClassName = "text-slate-900
           {typeof value === "number" ? value.toLocaleString() : value}
         </div>
 
-        {footer && <div className="text-xs text-slate-500 mt-1">{footer}</div>}
+        {footer && <div className="text-xs text-zinc-500 dark:text-zinc-200 mt-1">{footer}</div>}
       </CardContent>
     </Card>
   );
