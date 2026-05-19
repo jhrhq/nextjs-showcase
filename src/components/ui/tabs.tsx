@@ -52,9 +52,35 @@ function TabsTrigger({ className, ...props }: React.ComponentProps<typeof TabsPr
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        "cursor-pointer group relative py-4 px-6 text-sm font-medium outline-none text-slate-600 [state=active]:text-primary rounded-none border-0 flex-none inline-block [state=active]:bottom-0 border-b-2 border-b-transparent data-[state=active]:border-primary  data-[state=active]:border-primary[state-active]:border-b-2 data-[state=active]:border-b-2 data-[state=active]:text-primary gap-1.5 border-transparent group-data-[variant=line]/tabs-list:data-active:shadow-none [&_svg:not([class*='size-'])]:size-4 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring hover:text-foreground dark:text-muted-foreground dark:hover:text-foreground h-[calc(100%-1px)] items-center justify-center whitespace-nowrap transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent dark:group-data-[variant=line]/tabs-list:data-active:border-transparent dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent",
-        "data-active:bg-background dark:data-active:text-foreground dark:data-active:border-input dark:data-active:bg-input/30 data-active:text-foreground",
-        "after:bg-foreground after:absolute after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:-bottom-1.25 group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
+        // Base Layout & Sizing
+        "relative flex-none inline-flex items-center justify-center h-[calc(100%-1px)] py-4 px-6 gap-1.5 text-sm font-medium whitespace-nowrap cursor-pointer transition-all rounded-none outline-none border-0 border-b-2 border-transparent disabled:pointer-events-none disabled:opacity-50 group",
+
+        // Orientation handling
+        "group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start",
+
+        // SVGs inside tabs
+        "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+
+        // Focus states
+        "focus-visible:outline-1 focus-visible:outline-ring focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
+
+        // Active Underline Line Indicator (the "after:" pseudo element)
+        "after:absolute after:opacity-0 after:transition-opacity after:bg-foreground",
+        "group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:-bottom-1.25 group-data-[orientation=horizontal]/tabs:after:h-0.5",
+        "group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5",
+        "group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100",
+
+        // Light Mode Colors & Interactions
+        "text-zinc-600 hover:text-foreground",
+        "data-[state=active]:text-primary data-[state=active]:border-primary data-[state=active]:bg-background data-[state=active]:shadow-none",
+        "group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent",
+
+        // Dark Mode Colors & Interactions (Zinc Palette)
+        "dark:text-zinc-400 dark:hover:text-zinc-50",
+        "dark:data-[state=active]:text-zinc-50 dark:data-[state=active]:bg-zinc-900/40 dark:data-[state=active]:border-zinc-700",
+        "dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent",
+        "dark:after:bg-zinc-50",
+
         className
       )}
       {...props}

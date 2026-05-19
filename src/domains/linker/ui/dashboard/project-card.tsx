@@ -44,21 +44,24 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
 
   return (
     <Link href={navigatePath}>
-      <Card className="rounded-none shadow-sm">
+      <Card className="rounded-none shadow-sm dark:bg-zinc-900/40 dark:border-zinc-800 hover:dark:border-zinc-700 transition-colors">
         <CardHeader className="space-y-4">
           <div className="flex items-center justify-between">
             <ProjectStatusBadge status={project.status} />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost">
-                  <MoreHorizontal className="size-4 text-muted-foreground" />
+                <Button variant="ghost" size="icon" className="h-8 w-8 dark:hover:bg-zinc-800">
+                  <MoreHorizontal className="size-4 text-muted-foreground dark:text-zinc-400" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem className="font-medium text-slate-600" onClick={handleEdit}>
+              <DropdownMenuContent align="end" className="dark:bg-zinc-900 dark:border-zinc-800">
+                <DropdownMenuItem className="font-medium text-zinc-600 dark:text-zinc-300" onClick={handleEdit}>
                   Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem className=" font-medium text-red-500" onClick={handleDelete}>
+                <DropdownMenuItem
+                  className="font-medium text-red-500 dark:text-red-400 dark:focus:text-red-400"
+                  onClick={handleDelete}
+                >
                   Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -66,29 +69,33 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
           </div>
 
           <div className="space-y-1">
-            <h3 className="text-base font-semibold capitalize">{project.name}</h3>
-            <p className="text-sm text-muted-foreground">
+            <h3 className="text-base font-semibold capitalize text-zinc-900 dark:text-zinc-50">{project.name}</h3>
+            <p className="text-sm text-muted-foreground dark:text-zinc-400">
               {project.description?.slice(0, 39)}
               {project.description && project.description?.length > 39 && "..."}
             </p>
           </div>
 
-          <div className="flex items-center gap-3 bg-muted/40 p-3">
-            <div className="flex size-8 items-center justify-center bg-white">
-              <span className="text-xs font-semibold">{project.name.slice(0, 2).toUpperCase()}</span>
+          <div className="flex items-center gap-3 bg-muted/40 dark:bg-zinc-800/40 p-3 border border-transparent dark:border-zinc-800/60 ">
+            <div className="flex size-8 items-center justify-center bg-white dark:bg-zinc-950 border dark:border-zinc-800 shadow-sm ">
+              <span className="text-xs font-semibold text-zinc-900 dark:text-zinc-50">
+                {project.name.slice(0, 2).toUpperCase()}
+              </span>
             </div>
             <div className="text-sm">
-              <p className="font-medium">{project.name}</p>
-              <p className="text-xs text-muted-foreground">{project.domain}</p>
+              <p className="font-medium text-zinc-900 dark:text-zinc-200">{project.name}</p>
+              <p className="text-xs text-muted-foreground dark:text-zinc-400">{project.domain}</p>
             </div>
           </div>
         </CardHeader>
 
-        <CardFooter className="flex items-center justify-between pt-4">
-          <div className="flex font-medium text-slate-600">Total Links: {project.totalLinks}</div>
-
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Calendar />
+        <CardFooter className="flex items-center justify-between pt-4 border-t dark:border-zinc-800/60">
+          <div className="flex font-medium text-zinc-600 dark:text-zinc-300 text-sm">
+            Total Links:{" "}
+            <span className="font-semibold ml-1 text-zinc-900 dark:text-zinc-50">{project.totalLinks}</span>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-muted-foreground dark:text-zinc-400">
+            <Calendar className="size-3.5" />
             <span>
               {new Date(project.updatedAt).toLocaleDateString("en-GB", {
                 day: "2-digit",
@@ -104,7 +111,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
 }
 
 const projectStatusVariant: ProjectStatusVariant = {
-  active: "default-lighter",
+  active: "default",
   inactive: "inactive",
   pending: "pending",
 };

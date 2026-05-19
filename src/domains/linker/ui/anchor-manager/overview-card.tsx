@@ -26,7 +26,7 @@ export default function OverviewCard({ data }: { data: AnchorManager }) {
         icon={<Link2 className="size-4" />}
         value={totalAnchorsValue}
         subtitle="Across all pages"
-        valueClassName="text-gray-900"
+        valueClassName="text-gray-900 dark:text-gray-300"
       />
 
       <OverviewStatCard

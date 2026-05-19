@@ -19,19 +19,15 @@ export default function ExpandablecellDataTable<TData>({
   emptyMessage = "No results found.",
 }: DataTableProps<TData>) {
   return (
-    <div className="border border-slate-200 bg-white shadow-sm overflow-hidden">
+    <div className="border shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
         <Table className="w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <React.Fragment key={headerGroup.id}>
-                <TableRow className="border-b border-slate-200 bg-slate-50">
+                <TableRow className="border-b">
                   {headerGroup.headers.map((header) => (
-                    <TableHead
-                      key={header.id}
-                      className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider"
-                      style={{ width: header.getSize() }}
-                    >
+                    <TableHead key={header.id} style={{ width: header.getSize() }}>
                       {header.isPlaceholder ? null : (
                         <div className="flex items-center gap-2">
                           <div
@@ -62,7 +58,7 @@ export default function ExpandablecellDataTable<TData>({
                 </TableRow>
 
                 {/* Filter row */}
-                <TableRow className="border-b border-slate-200 bg-slate-50">
+                <TableRow>
                   {headerGroup.headers.map((header) => (
                     <TableHead key={header.id} className="px-4 py-2">
                       {header.column.getCanFilter() ? <ColumnFilter column={header.column} table={table} /> : null}
@@ -80,13 +76,9 @@ export default function ExpandablecellDataTable<TData>({
                 return (
                   <React.Fragment key={row.id}>
                     {/* Main row */}
-                    <TableRow className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
+                    <TableRow>
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell
-                          key={cell.id}
-                          className="px-4 py-3 text-sm text-slate-900"
-                          style={{ width: cell.column.getSize() }}
-                        >
+                        <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </TableCell>
                       ))}
@@ -94,10 +86,10 @@ export default function ExpandablecellDataTable<TData>({
 
                     {/* Expanded row - full width */}
                     {expandedContent && (
-                      <TableRow className="border-b border-slate-200 bg-slate-50">
+                      <TableRow>
                         <TableCell colSpan={row.getVisibleCells().length} className="px-4 py-3">
-                          <div className="p-3 bg-white border border-slate-200 text-sm">
-                            <div className="text-xs text-slate-500 mb-2 font-medium uppercase">
+                          <div className="p-3 border text-sm">
+                            <div className="text-xs mb-2 font-medium uppercase">
                               Expanded value: {expandedContent.columnId}
                             </div>
                             {expandedContent.content}
@@ -110,10 +102,7 @@ export default function ExpandablecellDataTable<TData>({
               })
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={table.getAllColumns().length}
-                  className="px-4 py-8 text-center text-sm text-slate-500"
-                >
+                <TableCell colSpan={table.getAllColumns().length} className="px-4 py-8 text-center text-sm">
                   {emptyMessage}
                 </TableCell>
               </TableRow>

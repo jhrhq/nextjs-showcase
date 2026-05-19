@@ -1,5 +1,3 @@
-"use client";
-
 import { z } from "zod";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 

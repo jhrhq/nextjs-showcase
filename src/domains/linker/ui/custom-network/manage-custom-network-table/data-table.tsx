@@ -147,13 +147,13 @@ export function RegistryDataTable({ data }: { data: CustomNetworkCollectionValue
       />
 
       {/* THE TABLE */}
-      <div className=" border bg-white shadow-sm">
+      <div className=" border shadow-sm">
         <Table>
-          <TableHeader className="bg-slate-50">
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="text-[10px] font-bold uppercase text-slate-400">
+                  <TableHead key={header.id} className="text-[10px] font-bold uppercase">
                     <SortableHeader column={header.column}>
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </SortableHeader>
@@ -165,18 +165,13 @@ export function RegistryDataTable({ data }: { data: CustomNetworkCollectionValue
           <TableBody>
             {table.getRowModel().rows.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length} className="text-center py-16 text-muted-foreground text-sm">
-                  No results match your filters.
-                </TableCell>
+                <TableCell colSpan={columns.length}>No results match your filters.</TableCell>
               </TableRow>
             ) : (
               table.getRowModel().rows.map((row) => {
                 return (
                   <React.Fragment key={row.id}>
-                    <TableRow
-                      className="group cursor-pointer border-b transition-colors hover:bg-slate-50/50"
-                      onClick={row.getCanExpand() ? row.getToggleExpandedHandler() : undefined}
-                    >
+                    <TableRow onClick={row.getCanExpand() ? row.getToggleExpandedHandler() : undefined}>
                       {row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id} className="p-4">
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
