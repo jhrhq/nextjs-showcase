@@ -4,14 +4,6 @@ import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import type { SortOrder } from "@/app/(spa)/linker/dashboard/page";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -30,24 +22,17 @@ import { CreateProjectDialog } from "@/domains/linker/ui/dashboard/create-projec
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/ui/shared/theme-toggle";
+import LinkerSBreadcrumbs from "../linker-bread-crumb";
 
 export function Topbar() {
   return (
     <header className="flex sticky top-0 z-50   items-center justify-between border-b bg-background px-6 py-3">
       <div className="flex items-center gap-2 px-3">
         <SidebarTrigger />
-        <Separator orientation="vertical" className="mr-2 h-4" />
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator className="hidden md:block" />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <div className="flex items-center">
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <LinkerSBreadcrumbs />
+        </div>
       </div>
 
       <div className="flex items-center gap-4">
