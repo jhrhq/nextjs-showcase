@@ -67,7 +67,7 @@ export const linkerKeys = {
 
       customNetworks: {
         all: () => [...base, "custom-networks"] as const,
-        list: () => [...base, "custom-networks", "list"] as const,
+        // list: () => [...base, "custom-networks", "list"] as const,
         detail: (customNetworkId: string) => [...base, "custom-networks", "detail", customNetworkId] as const,
       },
     };
@@ -192,7 +192,7 @@ export function useSumbitCustomNetowrkUrls() {
   return useMutation({
     mutationFn: (payload: createCustomNetworkPayload) => customNetworkApi.submitCustomNetworkUrls(payload),
     onSuccess: (data: CreateCustomNetworkResponseSchemaValues) => {
-      queryClient.invalidateQueries({ queryKey: linkerKeys.project(data.projectId).customNetworks.list() });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(data.projectId).customNetworks.all() });
       queryClient.invalidateQueries({ queryKey: linkerKeys.project(data.projectId).customNetworks.detail(data.id) });
 
       router.push(`${AUTH_CONFIG.ROUTES.DASHBOARD}/${data.projectId}/${AUTH_CONFIG.API.CUSTOM_NETWORK}/${data.id}`);
@@ -208,7 +208,7 @@ export function useSumbitCustomNetowrkUrls() {
 
 export function useCustomNetworks(projectId: string) {
   return useQuery({
-    queryKey: linkerKeys.project(projectId).customNetworks.list(),
+    queryKey: linkerKeys.project(projectId).customNetworks.all(),
     queryFn: () => customNetworkApi.getCustomNetworks(projectId),
     enabled: !!projectId,
   });
@@ -230,7 +230,7 @@ export function useUpdateCustomNetworkNestedLink(projectId: string, customNetwor
     mutationFn: (data: CustomNetworkNestedLinkStatusPayloadValues | CustomNetworkNestedLinkPayloadValues) =>
       customNetworkApi.updateCustomNetworkNestedLink(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.list() });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.all() });
       queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.detail(customNetworkId) });
     },
   });
@@ -252,7 +252,7 @@ export function useRemoveCustomNetworkCollection(projectId: string, customNetwor
   return useMutation({
     mutationFn: (data: CustomNetworkCollectionPayloadValues) => customNetworkApi.removeCustomNetworkCollection(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.list() });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.all() });
       queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.detail(customNetworkId) });
     },
   });
@@ -264,7 +264,7 @@ export function useRemoveCustomNetworkCollectionNestedLink(projectId: string, cu
     mutationFn: (data: CustomNetworkCollectionNestedPayloadValues) =>
       customNetworkApi.removeCustomNetworkCollectionNestedLink(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.list() });
+      queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.all() });
       queryClient.invalidateQueries({ queryKey: linkerKeys.project(projectId).customNetworks.detail(customNetworkId) });
     },
   });
