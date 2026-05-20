@@ -27,7 +27,7 @@ export default function InternalLinkManagement({ data }: { data: CreateCustomNet
     <div className="min-h-screen">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-blue-400 tracking-tight mb-2">Internal Link Management</h1>
+        <h1 className="text-3xl font-bold text-blue-400 tracking-tight mb-2">{data.collectionName}</h1>
         <p className="text-sm text-slate-400 max-w-xl leading-relaxed">
           Manage interconnected page relationships to strengthen site structure, and improve SEO performance.
         </p>
