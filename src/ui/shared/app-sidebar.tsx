@@ -1,11 +1,12 @@
 "use client";
 
-import { AudioWaveform, Command, GalleryVerticalEnd, Settings2 } from "lucide-react";
+import { AudioWaveform, Command, GalleryVerticalEnd, Projector, Settings2 } from "lucide-react";
 import type * as React from "react";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import { NavMain } from "@/ui/shared/nav-main";
 import { NavUser } from "@/ui/shared/nav-user";
+import { NavProjects } from "./nav-projects";
 import { TeamSwitcher } from "./team-switcher";
 
 // This is sample data.
@@ -44,6 +45,13 @@ const data = {
       ],
     },
   ],
+  projects: [
+    {
+      name: "Projects",
+      url: `${AUTH_CONFIG.ROUTES.DASHBOARD}`,
+      icon: Projector,
+    },
+  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -53,8 +61,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher />
       </SidebarHeader>
       <SidebarContent>
+        <NavProjects projects={data.projects} />
         <NavMain items={data.navMain} />
-        {/*<NavProjects projects={data.projects} />*/}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
