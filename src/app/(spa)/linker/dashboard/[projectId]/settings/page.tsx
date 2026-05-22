@@ -12,7 +12,7 @@ import {
   SettingsGeneralStatus,
   SettingsProjectDelete,
   SettingsUsage,
-} from "@/domains/linker/ui/settings";
+} from "@/domains/linker/ui/project-settings";
 
 export default function ProjectSettingsPage() {
   const params = useParams();

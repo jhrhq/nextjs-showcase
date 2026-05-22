@@ -1,14 +1,12 @@
 "use client";
 
-import { ChevronDown, SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 import type { SortOrder } from "@/app/(spa)/linker/dashboard/page";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
@@ -21,6 +19,7 @@ import type { ProjectStatus } from "@/domains/linker/types/project.types";
 import { CreateProjectDialog } from "@/domains/linker/ui/dashboard/create-project-dialog";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 import { cn } from "@/lib/utils";
+import { NavUser } from "@/ui/shared/nav-user";
 import { ModeToggle } from "@/ui/shared/theme-toggle";
 import LinkerSBreadcrumbs from "../linker-bread-crumb";
 
@@ -38,20 +37,13 @@ export function Topbar() {
       <div className="flex items-center gap-4">
         <ModeToggle />
 
-        <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-2">
-            <Avatar className="size-8">
-              <AvatarImage />
-              <AvatarFallback>C</AvatarFallback>
-            </Avatar>
-            <span className="text-sm font-medium">Columbus</span>
-            <ChevronDown />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <NavUser
+          user={{
+            name: "mock user",
+            email: "m@example.com",
+          }}
+          side="bottom"
+        />
       </div>
     </header>
   );
