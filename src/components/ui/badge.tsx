@@ -25,9 +25,9 @@ const badgeVariants = cva(
         inactive: "bg-muted text-muted-foreground border border-border",
         "inactive-rounded": "bg-muted text-muted-foreground border border-border py-1 px-3 rounded-full",
 
-        pending: "bg-yellow-light text-yellow-dark",
-        "pending-rounded": "bg-yellow-light text-yellow-dark py-1 px-3 rounded-full",
-        // TEAL
+        pending: "bg-yellow-light text-yellow-dark dark:bg-yellow-950/40 dark:text-yellow-400",
+        "pending-rounded":
+          "bg-yellow-light text-yellow-dark py-1 px-3 rounded-full dark:bg-yellow-950/50 dark:text-yellow-400 dark:border dark:border-yellow-900/30", // TEAL
         "teal-lighter": "bg-teal-lighter text-teal-light",
         "teal-lighter-rounded": "bg-teal-lighter text-teal-light py-1 px-3 rounded-full",
 
@@ -46,8 +46,9 @@ const badgeVariants = cva(
         // YELLOW
         "yellow-lighter": "bg-yellow-light text-yellow-dark",
         "yellow-lighter-rounded": "bg-yellow-light text-yellow-dark py-1 px-3 rounded-full",
-        new: " bg-teal-100 text-teal-800",
-        "new-rounded": "bg-teal-100 text-teal-800 py-1 px-3 rounded-full",
+        new: "bg-teal-100 text-teal-800 dark:bg-teal-950/40 dark:text-teal-400",
+        "new-rounded":
+          "bg-teal-100 text-teal-800 py-1 px-3 rounded-full dark:bg-teal-950/50 dark:text-teal-400 dark:border dark:border-teal-900/30",
       },
     },
     defaultVariants: {
