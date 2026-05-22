@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { ProjectStatusBadge } from "@/domains/linker/ui/dashboard/project-card";
-import ProjectUpdateForm from "@/domains/linker/ui/settings/project-update-form";
+import ProjectUpdateForm from "@/domains/linker/ui/project-settings/project-update-form";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
 import { useDeleteProject } from "../../hooks/use-projects";
