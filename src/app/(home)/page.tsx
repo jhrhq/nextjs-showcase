@@ -3,6 +3,7 @@ import type React from "react";
 import type { SVGProps } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ModeToggle } from "@/ui/shared/theme-toggle";
 
 interface ProjectItem {
   id: string;
@@ -56,35 +57,36 @@ const projects: ProjectItem[] = [
 
 export default function DeveloperShowcaseHome() {
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 antialiased font-sans">
+    <div className="min-h-screen bg-background text-foreground antialiased font-sans transition-colors duration-200">
       {/* Universal Global Header */}
-      <header className="border-b border-zinc-800/60 bg-[#09090b]/80 backdrop-blur-md sticky top-0 z-50">
+      <header className="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Code2 className="h-4 w-4 text-emerald-500" />
-            <span className="font-semibold text-sm tracking-tight text-zinc-200">Portfolio & Showcase</span>
+            <Code2 className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
+            <span className="font-semibold text-sm tracking-tight">Portfolio & Showcase</span>
           </div>
 
-          <nav className="flex items-center gap-5 text-xs font-medium text-zinc-400">
-            <a href="#work" className="hover:text-zinc-200 transition-colors">
+          <nav className="flex items-center gap-5 text-xs font-medium text-muted-foreground">
+            <ModeToggle />
+            <a href="#work" className="hover:text-foreground transition-colors">
               My Work
             </a>
-            <a href="/blog" className="hover:text-zinc-200 transition-colors">
+            <a href="/blog" className="hover:text-foreground transition-colors">
               Blog
             </a>
             <a
               href="https://github.com"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-zinc-200 transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center"
             >
               <GitHubIcon className="size-4" />
             </a>
             <a
-              href="https://github.com"
+              href="https://linkedin.com"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-zinc-200 transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center"
             >
               <LinkedInIcon className="size-4" />
             </a>
@@ -96,8 +98,8 @@ export default function DeveloperShowcaseHome() {
       <main className="max-w-5xl mx-auto px-4 py-16 sm:py-24">
         {/* Simple, No-Fluff Hero Section */}
         <section className="max-w-2xl mb-16 space-y-3">
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-100">Hey, I'm a Web Developer</h1>
-          <p className="text-zinc-400 text-sm sm:text-base leading-relaxed font-normal">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Hey, I'm a Web Developer</h1>
+          <p className="text-muted-foreground text-sm sm:text-base leading-relaxed font-normal">
             Welcome to my personal site. Here, I showcase simplified versions of real-life SaaS applications I've worked
             on, along with my side projects, technical UI components, and personal blog posts.
           </p>
@@ -105,9 +107,11 @@ export default function DeveloperShowcaseHome() {
 
         {/* Showcase Grid */}
         <section id="work" className="space-y-6">
-          <div className="flex items-center gap-2 border-b border-zinc-800/80 pb-3">
-            <FolderGit2 className="h-4 w-4 text-zinc-500" />
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">Projects & Components</h2>
+          <div className="flex items-center gap-2 border-b border-border pb-3">
+            <FolderGit2 className="h-4 w-4 text-muted-foreground" />
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+              Projects & Components
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -116,23 +120,21 @@ export default function DeveloperShowcaseHome() {
               return (
                 <Card
                   key={project.id}
-                  className="bg-[#121214] border-zinc-800 flex flex-col justify-between transition-colors hover:border-zinc-700 shadow-lg"
+                  className="bg-card border-border flex flex-col justify-between transition-all hover:border-muted-foreground/40 shadow-sm hover:shadow-md"
                 >
                   <CardHeader className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className="p-2 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300">
+                      <div className="p-2 rounded-md bg-muted border border-border text-muted-foreground">
                         <Icon className="h-4 w-4" />
                       </div>
-                      <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 uppercase tracking-wider">
+                      <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-muted border border-border text-muted-foreground uppercase tracking-wider">
                         {project.categoryLabel}
                       </span>
                     </div>
 
                     <div className="space-y-1">
-                      <CardTitle className="text-base font-bold text-zinc-200 tracking-tight">
-                        {project.title}
-                      </CardTitle>
-                      <CardDescription className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-normal">
+                      <CardTitle className="text-base font-bold tracking-tight">{project.title}</CardTitle>
+                      <CardDescription className="text-muted-foreground text-xs sm:text-sm leading-relaxed font-normal">
                         {project.description}
                       </CardDescription>
                     </div>
@@ -143,7 +145,7 @@ export default function DeveloperShowcaseHome() {
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-850"
+                          className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-muted text-muted-foreground border border-border/40"
                         >
                           {tag}
                         </span>
@@ -157,8 +159,8 @@ export default function DeveloperShowcaseHome() {
                       variant={project.isFeatured ? "default" : "secondary"}
                       className={`w-full text-xs font-medium h-9 ${
                         project.isFeatured
-                          ? "bg-emerald-600 hover:bg-emerald-500 text-white"
-                          : "bg-zinc-900 hover:bg-zinc-850 text-zinc-300 border border-zinc-800"
+                          ? "bg-emerald-600 hover:bg-emerald-500 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white"
+                          : "bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-border"
                       }`}
                     >
                       <a href={project.href} className="flex items-center justify-center gap-1">
@@ -176,25 +178,22 @@ export default function DeveloperShowcaseHome() {
     </div>
   );
 }
+
 interface LinkedInIconProps extends SVGProps<SVGSVGElement> {
   size?: number | string;
   altTitle?: string;
 }
 
-const LinkedInIcon = ({ size = 24, altTitle = "LinkedIn Profile", className = "", ...props }: LinkedInIconProps) => {
+const LinkedInIcon = ({ size = 16, altTitle = "LinkedIn Profile", className = "", ...props }: LinkedInIconProps) => {
   return (
     <svg
-      xmlns="http://w3.org"
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
       viewBox="0 0 24 24"
       role="img"
       aria-label={altTitle}
-      /*
-        fill-current inherits text colors dynamically.
-        text-foreground binds it to Shadcn's light/dark system.
-      */
-      className={`fill-current text-foreground ${className}`}
+      className={`fill-current text-muted-foreground hover:text-foreground transition-colors ${className}`}
       {...props}
     >
       <title>{altTitle}</title>
@@ -202,25 +201,22 @@ const LinkedInIcon = ({ size = 24, altTitle = "LinkedIn Profile", className = ""
     </svg>
   );
 };
+
 interface GitHubIconProps extends SVGProps<SVGSVGElement> {
   size?: number | string;
   altTitle?: string;
 }
 
-const GitHubIcon = ({ size = 24, altTitle = "GitHub Profile", className = "", ...props }: GitHubIconProps) => {
+const GitHubIcon = ({ size = 16, altTitle = "GitHub Profile", className = "", ...props }: GitHubIconProps) => {
   return (
     <svg
-      xmlns="http://w3.org"
+      xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
       viewBox="0 0 24 24"
       role="img"
       aria-label={altTitle}
-      /*
-        fill-current makes the SVG inherit text colors.
-        text-foreground targets Shadcn's theme variables.
-      */
-      className={`fill-current text-foreground ${className}`}
+      className={`fill-current text-muted-foreground hover:text-foreground transition-colors ${className}`}
       {...props}
     >
       <title>{altTitle}</title>
