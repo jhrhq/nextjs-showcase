@@ -1,12 +1,14 @@
 "use client";
 
 import { ArrowRight, ArrowUpRight, BarChart3, Key, Mail, Target } from "lucide-react";
+import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface MockRow {
   url: string;
@@ -229,6 +231,138 @@ export default function Portfolio() {
         </div>
       </section>
 
+      <section id="browserFeature" className="py-26">
+        <div className="max-w-5xl mx-auto px-8">
+          <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
+            <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-[#f0f0f2] mb-3.5">
+              Featured Project
+            </h2>
+            <p className="text-[0.95rem] text-[#888892] max-w-[480px] leading-relaxed">
+              A production SaaS application I architected and built from scratch as the sole frontend engineer.
+            </p>
+          </div>
+
+          <Card className="mt-12 bg-white/[0.03] border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 transition-colors duration-300 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none">
+            <div className="absolute top-0 inset-x-0 h-[1px] bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent" />
+
+            <div>
+              <div className="inline-block font-mono text-[0.69rem] text-[#00d4a8] bg-[#00d4a8]/5 border border-[#00d4a8]/20 px-2.5 py-1 rounded mb-4">
+                Production SaaS · Solo Frontend Engineer
+              </div>
+              <h3 className="font-display text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-1.5">LinkBoss</h3>
+              <div className="font-mono text-[0.8rem] text-[#00d4a8] mb-5">app.linkboss.io</div>
+              <p className="text-[0.92rem] text-[#888892] leading-relaxed mb-6">
+                An internal linking automation platform built for SEO professionals. I designed and built the entire
+                frontend from scratch — complex data tables, real-time workflows, multi-step onboarding flows, and a
+                component system that scales across thousands of link operations per session. Shipped to production as a
+                solo engineer.
+              </p>
+
+              <div className="flex gap-2 flex-wrap mb-7">
+                {STACK.map((t) => (
+                  <span
+                    key={t}
+                    className="font-mono text-[0.7rem] text-[#888892] bg-white/[0.04] border border-white/5 px-2 py-1 rounded"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  asChild
+                  className="text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/25 hover:bg-[#00d4a8]/15 px-4 rounded-[7px] shadow-none"
+                >
+                  <a href="https://app.linkboss.io" target="_blank" rel="noreferrer">
+                    Live App <ArrowUpRight className="size-3.5 ml-1" />
+                  </a>
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  asChild
+                  className="text-[#f0f0f2] bg-transparent border-white/5 hover:border-white/15 hover:bg-white/[0.06] px-4 rounded-[7px] shadow-none"
+                >
+                  <a href="https://linkboss.io" target="_blank" rel="noreferrer">
+                    Product Site
+                  </a>
+                </Button>
+              </div>
+            </div>
+
+            <MockBrowserFeaturesTools />
+          </Card>
+        </div>
+      </section>
+      <section id="browserFeature" className="py-26">
+        <div className="max-w-5xl mx-auto px-8">
+          <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
+            <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-[#f0f0f2] mb-3.5">
+              Featured Project
+            </h2>
+            <p className="text-[0.95rem] text-[#888892] max-w-[480px] leading-relaxed">
+              A production SaaS application I architected and built from scratch as the sole frontend engineer.
+            </p>
+          </div>
+
+          <Card className="mt-12 bg-white/[0.03] border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 transition-colors duration-300 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none">
+            <div className="absolute top-0 inset-x-0 h-[1px] bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent" />
+
+            <div>
+              <div className="inline-block font-mono text-[0.69rem] text-[#00d4a8] bg-[#00d4a8]/5 border border-[#00d4a8]/20 px-2.5 py-1 rounded mb-4">
+                Production SaaS · Solo Frontend Engineer
+              </div>
+              <h3 className="font-display text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-1.5">LinkBoss</h3>
+              <div className="font-mono text-[0.8rem] text-[#00d4a8] mb-5">app.linkboss.io</div>
+              <p className="text-[0.92rem] text-[#888892] leading-relaxed mb-6">
+                An internal linking automation platform built for SEO professionals. I designed and built the entire
+                frontend from scratch — complex data tables, real-time workflows, multi-step onboarding flows, and a
+                component system that scales across thousands of link operations per session. Shipped to production as a
+                solo engineer.
+              </p>
+
+              <div className="flex gap-2 flex-wrap mb-7">
+                {STACK.map((t) => (
+                  <span
+                    key={t}
+                    className="font-mono text-[0.7rem] text-[#888892] bg-white/[0.04] border border-white/5 px-2 py-1 rounded"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  asChild
+                  className="text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/25 hover:bg-[#00d4a8]/15 px-4 rounded-[7px] shadow-none"
+                >
+                  <a href="https://app.linkboss.io" target="_blank" rel="noreferrer">
+                    Live App <ArrowUpRight className="size-3.5 ml-1" />
+                  </a>
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  asChild
+                  className="text-[#f0f0f2] bg-transparent border-white/5 hover:border-white/15 hover:bg-white/[0.06] px-4 rounded-[7px] shadow-none"
+                >
+                  <a href="https://linkboss.io" target="_blank" rel="noreferrer">
+                    Product Site
+                  </a>
+                </Button>
+              </div>
+            </div>
+
+            <MockBrowserDashboard />
+          </Card>
+        </div>
+      </section>
       <section id="work" className="py-26">
         <div className="max-w-5xl mx-auto px-8">
           <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
@@ -475,6 +609,277 @@ export default function Portfolio() {
           </div>
         </div>
       </footer>
+    </div>
+  );
+}
+
+// Mock Data from your layout
+const projects = [
+  {
+    id: "1",
+    title: "TechCorp Website",
+    description: "Main corporate website",
+    url: "techcorp.com",
+    status: "active",
+    totalLinks: 1250,
+    date: "20 May 26",
+  },
+  {
+    id: "2",
+    title: "Portfolio Site",
+    description: "Personal portfolio website",
+    url: "johndesigner.com",
+    status: "pending",
+    totalLinks: 45,
+    date: "20 May 26",
+  },
+  {
+    id: "3",
+    title: "Blog Platform",
+    description: "Content publishing site",
+    url: "myblog.com",
+    status: "inactive",
+    totalLinks: 890,
+    date: "20 May 26",
+  },
+];
+
+function MockBrowserDashboard() {
+  const [filter, setFilter] = useState("all");
+
+  const filteredProjects = projects.filter((project) => filter === "all" || project.status === filter);
+
+  const getStatusBadge = (status: string) => {
+    const styles = {
+      active: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+      pending: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+      inactive: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20",
+    };
+    return styles[status as keyof typeof styles] || "";
+  };
+
+  return (
+    <div className="w-full max-w-4xl mx-auto rounded-xl border border-zinc-800 bg-zinc-950/50 backdrop-blur-md overflow-hidden shadow-2xl">
+      {/* Browser Top Bar */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800 bg-zinc-900/40">
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-rose-500/80" />
+          <div className="w-3 h-3 rounded-full bg-amber-500/80" />
+          <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
+        </div>
+        <div className="text-xs font-mono text-zinc-500 select-none">app.linkboss.io / projects</div>
+        <div className="w-12" /> {/* Visual spacer */}
+      </div>
+
+      {/* Browser Viewport Content */}
+      <div className="p-6 space-y-6 min-h-[480px]">
+        {/* Dashboard Header */}
+        <div className="space-y-1">
+          <h2 className="text-xl font-semibold tracking-tight text-zinc-100">Projects List</h2>
+        </div>
+
+        {/* Toolbar Controls */}
+        <div className="flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center border-b border-zinc-900 pb-4">
+          <Tabs defaultValue="all" onValueChange={setFilter} className="w-full sm:w-auto">
+            <TabsList className="bg-zinc-900/60 border border-zinc-800/80 p-0.5 h-9">
+              <TabsTrigger
+                value="all"
+                className="text-xs px-3 data-[state=active]:bg-zinc-800 data-[state=active]:text-zinc-100"
+              >
+                All{" "}
+                <span className="ml-1.5 px-1.5 py-0.5 text-[10px] bg-zinc-800 text-zinc-400 rounded-md border border-zinc-700/50">
+                  {projects.length}
+                </span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="active"
+                className="text-xs px-3 data-[state=active]:bg-zinc-800 data-[state=active]:text-zinc-100"
+              >
+                Active{" "}
+                <span className="ml-1.5 px-1.5 py-0.5 text-[10px] bg-zinc-800 text-emerald-400 rounded-md border border-zinc-700/50">
+                  {projects.filter((p) => p.status === "active").length}
+                </span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="pending"
+                className="text-xs px-3 data-[state=active]:bg-zinc-800 data-[state=active]:text-zinc-100"
+              >
+                Pending{" "}
+                <span className="ml-1.5 px-1.5 py-0.5 text-[10px] bg-zinc-800 text-amber-400 rounded-md border border-zinc-700/50">
+                  {projects.filter((p) => p.status === "pending").length}
+                </span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="inactive"
+                className="text-xs px-3 data-[state=active]:bg-zinc-800 data-[state=active]:text-zinc-100"
+              >
+                Inactive{" "}
+                <span className="ml-1.5 px-1.5 py-0.5 text-[10px] bg-zinc-800 text-zinc-400 rounded-md border border-zinc-700/50">
+                  {projects.filter((p) => p.status === "inactive").length}
+                </span>
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+
+        <MotionConfig transition={{ duration: 1 }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Card className="border-zinc-800/80 bg-zinc-900/20 hover:bg-zinc-900/40 transition-colors duration-200 shadow-sm relative group overflow-hidden">
+                    <CardHeader className="p-4 pb-2 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <Badge
+                          variant="outline"
+                          className={cn(
+                            "capitalize font-mono text-[10px] px-2 py-0.5 tracking-wide rounded",
+                            getStatusBadge(project.status)
+                          )}
+                        >
+                          {project.status}
+                        </Badge>
+                        <span className="text-sm font-bold tracking-tight text-zinc-500 hover:text-zinc-300">•••</span>
+                      </div>
+                      <div className="space-y-1">
+                        <CardTitle className="text-sm font-medium text-zinc-200">{project.title}</CardTitle>
+                        <CardDescription className="text-[11px] text-zinc-400/90">
+                          {project.description}
+                        </CardDescription>
+                      </div>
+                    </CardHeader>
+                  </Card>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        </MotionConfig>
+      </div>
+    </div>
+  );
+}
+
+import { Activity, Layers, LogIn, Sliders } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+// Feature list data extracted from your image
+const features = [
+  {
+    id: "inbounds",
+    title: "Inbounds",
+    description: "Analyze and manage inbound links for your project.",
+    icon: LogIn,
+    iconColor: "text-emerald-500",
+    iconBg: "bg-emerald-500/10",
+    isNew: false,
+  },
+  {
+    id: "custom-network",
+    title: "Custom Network",
+    description: "Create and manage content custom networks for better site structure.",
+    icon: Layers,
+    iconColor: "text-green-500",
+    iconBg: "bg-green-500/10",
+    isNew: false,
+  },
+  {
+    id: "anchor-manager",
+    title: "Anchor Manager",
+    description: "Generate detailed reports on internal and external links.",
+    icon: Sliders,
+    iconColor: "text-amber-500",
+    iconBg: "bg-amber-500/10",
+    isNew: true,
+  },
+  {
+    id: "site-report",
+    title: "Site Report",
+    description: "Run comprehensive audits on your site performance.",
+    icon: Activity,
+    iconColor: "text-purple-500",
+    iconBg: "bg-purple-500/10",
+    isNew: false,
+  },
+];
+
+// Container animation variants for clean staggered rendering
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 260, damping: 20 } },
+};
+
+function MockBrowserFeaturesTools() {
+  return (
+    <div className="w-full max-w-4xl mx-auto rounded-xl border border-zinc-800 bg-zinc-950/50 backdrop-blur-md overflow-hidden shadow-2xl">
+      {/* Browser Top Bar */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800 bg-zinc-900/40">
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-rose-500/80" />
+          <div className="w-3 h-3 rounded-full bg-amber-500/80" />
+          <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
+        </div>
+        <div className="text-xs font-mono text-zinc-500 select-none">app.linkboss.io / tools</div>
+        <div className="w-12" />
+      </div>
+      {/* Browser Viewport Content */}
+      <div className="p-6 min-h-[400px] flex flex-col justify-center">
+        <div className="space-y-1 mb-6">
+          <h2 className="text-xl font-semibold tracking-tight text-zinc-100">Tools</h2>
+        </div>
+        {/* Responsive feature grid layout */}
+
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2  gap-4"
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+        >
+          {features.map((feature) => {
+            const IconComponent = feature.icon;
+
+            return (
+              <motion.div
+                key={feature.id}
+                variants={cardVariants}
+                whileHover={{ y: -4, transition: { duration: 0.15 } }}
+                className="h-full"
+              >
+                <Card className="h-full border-zinc-800/80 bg-zinc-900/20 hover:bg-zinc-900/40 hover:border-zinc-700/60 transition-colors duration-200 shadow-sm relative group overflow-hidden cursor-pointer select-none">
+                  <div className=" flex items-center gap-2 px-2">
+                    {/* Top row containing Icon and Optional "New" Badge */}
+                    <div className="flex items-center justify-between">
+                      <div className={cn("p-1 rounded-lg border border-zinc-800/20", feature.iconBg)}>
+                        <IconComponent className={cn("size-3", feature.iconColor)} />
+                      </div>
+                    </div>
+                    {/* Text content elements */}
+                    <CardTitle className="text-xs font-medium text-zinc-200 tracking-tight group-hover:text-zinc-100 transition-colors">
+                      {feature.title}
+                    </CardTitle>{" "}
+                  </div>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </div>
     </div>
   );
 }
