@@ -4,6 +4,7 @@ import type { SVGProps } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ModeToggle } from "@/ui/shared/theme-toggle";
+import PortfolioPage from "./test-page";
 
 interface ProjectItem {
   id: string;
@@ -57,125 +58,128 @@ const projects: ProjectItem[] = [
 
 export default function DeveloperShowcaseHome() {
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased font-sans transition-colors duration-200">
-      {/* Universal Global Header */}
-      <header className="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Code2 className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
-            <span className="font-semibold text-sm tracking-tight">Portfolio & Showcase</span>
+    <>
+      <PortfolioPage />
+      <div className="min-h-screen bg-background text-foreground antialiased font-sans transition-colors duration-200">
+        {/* Universal Global Header */}
+        <header className="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-50">
+          <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Code2 className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
+              <span className="font-semibold text-sm tracking-tight">Portfolio & Showcase</span>
+            </div>
+
+            <nav className="flex items-center gap-5 text-xs font-medium text-muted-foreground">
+              <ModeToggle />
+              <a href="#work" className="hover:text-foreground transition-colors">
+                My Work
+              </a>
+              <a href="/blog" className="hover:text-foreground transition-colors">
+                Blog
+              </a>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center"
+              >
+                <GitHubIcon className="size-4" />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center"
+              >
+                <LinkedInIcon className="size-4" />
+              </a>
+            </nav>
           </div>
+        </header>
 
-          <nav className="flex items-center gap-5 text-xs font-medium text-muted-foreground">
-            <ModeToggle />
-            <a href="#work" className="hover:text-foreground transition-colors">
-              My Work
-            </a>
-            <a href="/blog" className="hover:text-foreground transition-colors">
-              Blog
-            </a>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center"
-            >
-              <GitHubIcon className="size-4" />
-            </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center"
-            >
-              <LinkedInIcon className="size-4" />
-            </a>
-          </nav>
-        </div>
-      </header>
+        {/* Main Grid */}
+        <main className="max-w-5xl mx-auto px-4 py-16 sm:py-24">
+          {/* Simple, No-Fluff Hero Section */}
+          <section className="max-w-2xl mb-16 space-y-3">
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Hey, I'm a Web Developer</h1>
+            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed font-normal">
+              Welcome to my personal site. Here, I showcase simplified versions of real-life SaaS applications I've
+              worked on, along with my side projects, technical UI components, and personal blog posts.
+            </p>
+          </section>
 
-      {/* Main Grid */}
-      <main className="max-w-5xl mx-auto px-4 py-16 sm:py-24">
-        {/* Simple, No-Fluff Hero Section */}
-        <section className="max-w-2xl mb-16 space-y-3">
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Hey, I'm a Web Developer</h1>
-          <p className="text-muted-foreground text-sm sm:text-base leading-relaxed font-normal">
-            Welcome to my personal site. Here, I showcase simplified versions of real-life SaaS applications I've worked
-            on, along with my side projects, technical UI components, and personal blog posts.
-          </p>
-        </section>
+          {/* Showcase Grid */}
+          <section id="work" className="space-y-6">
+            <div className="flex items-center gap-2 border-b border-border pb-3">
+              <FolderGit2 className="h-4 w-4 text-muted-foreground" />
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Projects & Components
+              </h2>
+            </div>
 
-        {/* Showcase Grid */}
-        <section id="work" className="space-y-6">
-          <div className="flex items-center gap-2 border-b border-border pb-3">
-            <FolderGit2 className="h-4 w-4 text-muted-foreground" />
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              Projects & Components
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {projects.map((project) => {
-              const Icon = project.icon;
-              return (
-                <Card
-                  key={project.id}
-                  className="bg-card border-border flex flex-col justify-between transition-all hover:border-muted-foreground/40 shadow-sm hover:shadow-md"
-                >
-                  <CardHeader className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="p-2 rounded-md bg-muted border border-border text-muted-foreground">
-                        <Icon className="h-4 w-4" />
-                      </div>
-                      <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-muted border border-border text-muted-foreground uppercase tracking-wider">
-                        {project.categoryLabel}
-                      </span>
-                    </div>
-
-                    <div className="space-y-1">
-                      <CardTitle className="text-base font-bold tracking-tight">{project.title}</CardTitle>
-                      <CardDescription className="text-muted-foreground text-xs sm:text-sm leading-relaxed font-normal">
-                        {project.description}
-                      </CardDescription>
-                    </div>
-                  </CardHeader>
-
-                  <CardContent className="pt-0">
-                    <div className="flex flex-wrap gap-1">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-muted text-muted-foreground border border-border/40"
-                        >
-                          {tag}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {projects.map((project) => {
+                const Icon = project.icon;
+                return (
+                  <Card
+                    key={project.id}
+                    className="bg-card border-border flex flex-col justify-between transition-all hover:border-muted-foreground/40 shadow-sm hover:shadow-md"
+                  >
+                    <CardHeader className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="p-2 rounded-md bg-muted border border-border text-muted-foreground">
+                          <Icon className="h-4 w-4" />
+                        </div>
+                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-muted border border-border text-muted-foreground uppercase tracking-wider">
+                          {project.categoryLabel}
                         </span>
-                      ))}
-                    </div>
-                  </CardContent>
+                      </div>
 
-                  <CardFooter className="pt-0">
-                    <Button
-                      asChild
-                      variant={project.isFeatured ? "default" : "secondary"}
-                      className={`w-full text-xs font-medium h-9 ${
-                        project.isFeatured
-                          ? "bg-emerald-600 hover:bg-emerald-500 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white"
-                          : "bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-border"
-                      }`}
-                    >
-                      <a href={project.href} className="flex items-center justify-center gap-1">
-                        {project.actionText}
-                        <ArrowUpRight className="h-3.5 w-3.5 opacity-80" />
-                      </a>
-                    </Button>
-                  </CardFooter>
-                </Card>
-              );
-            })}
-          </div>
-        </section>
-      </main>
-    </div>
+                      <div className="space-y-1">
+                        <CardTitle className="text-base font-bold tracking-tight">{project.title}</CardTitle>
+                        <CardDescription className="text-muted-foreground text-xs sm:text-sm leading-relaxed font-normal">
+                          {project.description}
+                        </CardDescription>
+                      </div>
+                    </CardHeader>
+
+                    <CardContent className="pt-0">
+                      <div className="flex flex-wrap gap-1">
+                        {project.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-muted text-muted-foreground border border-border/40"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </CardContent>
+
+                    <CardFooter className="pt-0">
+                      <Button
+                        asChild
+                        variant={project.isFeatured ? "default" : "secondary"}
+                        className={`w-full text-xs font-medium h-9 ${
+                          project.isFeatured
+                            ? "bg-emerald-600 hover:bg-emerald-500 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white"
+                            : "bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-border"
+                        }`}
+                      >
+                        <a href={project.href} className="flex items-center justify-center gap-1">
+                          {project.actionText}
+                          <ArrowUpRight className="h-3.5 w-3.5 opacity-80" />
+                        </a>
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                );
+              })}
+            </div>
+          </section>
+        </main>
+      </div>
+    </>
   );
 }
 
