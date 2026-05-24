@@ -4,6 +4,7 @@ import type { SVGProps } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ModeToggle } from "@/ui/shared/theme-toggle";
+import Portfolio from "./claude-test";
 import PortfolioPage from "./test-page";
 
 interface ProjectItem {
@@ -59,6 +60,7 @@ const projects: ProjectItem[] = [
 export default function DeveloperShowcaseHome() {
   return (
     <>
+      <Portfolio />
       <PortfolioPage />
       <div className="min-h-screen bg-background text-foreground antialiased font-sans transition-colors duration-200">
         {/* Universal Global Header */}

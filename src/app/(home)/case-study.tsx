@@ -38,7 +38,7 @@ export default function LinkBossCaseStudy() {
       {/* ================= HERO ================= */}
       <section className="relative py-24 md:py-32 overflow-hidden">
         {/* glow */}
-        <div className="pointer-events-none absolute right-[-200px] top-[-200px] h-[500px] w-[500px] rounded-full bg-violet-500/25 blur-[140px]" />
+        <div className="pointer-events-none absolute -right-50 -top-50 h-125 w-125 rounded-full bg-violet-500/25 blur-[140px]" />
 
         <div className="mx-auto max-w-5xl px-6">
           <motion.div initial="hidden" animate="show" variants={stagger}>
