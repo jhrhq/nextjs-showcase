@@ -1,15 +1,44 @@
 "use client";
 
 import { ArrowRight, ArrowUpRight, BarChart3, Key, Mail, Target } from "lucide-react";
+import type React from "react";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
-const STACK = ["React", "TypeScript", "shadcn/ui", "Zustand", "TanStack Query", "TanStack Table", "Tailwind CSS"];
+interface MockRow {
+  url: string;
+  status: string;
+  cls: string;
+  links: string;
+  score: string;
+}
 
-const MOCK_ROWS = [
+interface ProjectItem {
+  icon: React.ReactNode;
+  name: string;
+  desc: string;
+  tech: string;
+}
+
+interface SkillItem {
+  name: string;
+  note: string;
+}
+
+const STACK: string[] = [
+  "React",
+  "TypeScript",
+  "shadcn/ui",
+  "Zustand",
+  "TanStack Query",
+  "TanStack Table",
+  "Tailwind CSS",
+];
+
+const MOCK_ROWS: MockRow[] = [
   {
     url: "/blog/seo-guide",
     status: "Active",
@@ -40,7 +69,7 @@ const MOCK_ROWS = [
   },
 ];
 
-const PROJECTS = [
+const PROJECTS: ProjectItem[] = [
   {
     icon: <BarChart3 className="size-5 text-[#00d4a8]" />,
     name: "DataBoard",
@@ -61,7 +90,7 @@ const PROJECTS = [
   },
 ];
 
-const SKILLS = [
+const SKILLS: SkillItem[] = [
   { name: "React & Next.js", note: "App Router, SSR, RSC" },
   { name: "TypeScript", note: "strict mode, generics" },
   { name: "State Management", note: "Zustand, TanStack Query" },
@@ -71,21 +100,29 @@ const SKILLS = [
 ];
 
 export default function Portfolio() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState<boolean>(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
 
     const io = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add("opacity-100", "translate-y-0");
-        }),
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add("opacity-100", "translate-y-0");
+          }
+        }
+      },
       { threshold: 0.12 }
     );
 
-    document.querySelectorAll(".rv").forEach((el) => io.observe(el));
+    const elements = document.querySelectorAll(".rv");
+    for (const el of elements) {
+      io.observe(el);
+    }
 
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -93,45 +130,48 @@ export default function Portfolio() {
     };
   }, []);
 
-  const scrollTo = (id: string) => {
+  const scrollTo = (id: string): void => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <div className="min-h-screen bg-[#080809] text-[#f0f0f2] font-sans antialiased selection:bg-[#00d4a8]/30 selection:text-white">
-      {/* ── NAVBAR ─────────────────────────────── */}
       <nav
         className={`fixed top-0 inset-x-0 z-50 h-15 flex items-center border-b border-white/5 transition-colors duration-300 ${scrolled ? "bg-[#080809]/92 backdrop-blur-xl" : "bg-[#080809]/75 backdrop-blur-xl"}`}
       >
         <div className="max-w-5xl mx-auto w-full px-8 flex items-center justify-between">
-          <div
-            className="font-display font-extrabold text-[1.05rem] tracking-tight cursor-pointer"
+          <button
+            type="button"
+            className="font-display font-extrabold text-[1.05rem] tracking-tight cursor-pointer bg-transparent border-none p-0 text-left text-inherit"
             onClick={() => scrollTo("hero")}
           >
             dev<span className="text-[#00d4a8]">.</span>
-          </div>
+          </button>
           <div className="flex items-center gap-9">
             <button
-              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer"
+              type="button"
+              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("work")}
             >
               Work
             </button>
             <button
-              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer"
+              type="button"
+              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("projects")}
             >
               Projects
             </button>
             <button
-              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer"
+              type="button"
+              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("about")}
             >
               About
             </button>
             <Button
               size="sm"
-              className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold text-sm rounded-[7px] cursor-pointer"
+              className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold text-sm rounded-[7px] cursor-pointer shadow-none"
               onClick={() => scrollTo("contact")}
             >
               Contact
@@ -140,12 +180,9 @@ export default function Portfolio() {
         </div>
       </nav>
 
-      {/* ── HERO ──────────────────────────────── */}
       <section id="hero" className="min-h-screen flex flex-col justify-center pt-15 relative overflow-hidden">
-        {/* Grid Overlay */}
         <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_40%,transparent_100%)]" />
-        {/* Glow Effects */}
-        <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-170 h-110 pointer-events-none bg-[radial-gradient(ellipse,rgba(0,212,168,0.07)_0%,transparent_68%)]" />
+        <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-[680px] h-[440px] pointer-events-none bg-[radial-gradient(ellipse,rgba(0,212,168,0.07)_0%,transparent_68%)]" />
 
         <div className="max-w-5xl mx-auto w-full px-8 relative z-10">
           <Badge className="inline-flex items-center gap-2 font-mono text-[0.72rem] text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/20 hover:bg-[#00d4a8]/10 px-3 py-1 rounded-full mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -161,26 +198,17 @@ export default function Portfolio() {
             <span className="text-[#00d4a8]">SaaS frontends.</span>
           </h1>
 
-          <p className="text-[1.08rem] text-[#888892] max-w-130 leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-4 delay-150 duration-500">
+          <p className="text-[1.08rem] text-[#888892] max-w-[520px] leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-4 delay-150 duration-500">
             Frontend engineer specializing in React, TypeScript, and modern UI systems. I turn complex product ideas
             into clean, scalable interfaces — solo or on a team.
           </p>
 
           <div className="flex gap-3.5 flex-wrap mb-16 animate-in fade-in slide-in-from-bottom-4 delay-200 duration-500">
             <Button
-              className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8] hover:scale-[1.01] hover:shadow-[0_10px_28px_rgba(0,212,168,0.25)] transition-all font-semibold px-5 py-6 rounded-lg text-sm cursor-pointer"
+              className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8] hover:scale-[1.01] hover:shadow-[0_10px_28px_rgba(0,212,168,0.25)] transition-all font-semibold px-5 py-6 rounded-lg text-sm cursor-pointer shadow-none"
               onClick={() => scrollTo("work")}
             >
               View Projects <ArrowRight className="size-4 ml-1.5" />
-            </Button>
-            <Button
-              variant="outline"
-              asChild
-              className="bg-white/5 border-white/5 hover:border-white/15 hover:bg-white/10 text-[#f0f0f2] px-5 py-6 rounded-lg text-sm"
-            >
-              <a href="https://github.com" target="_blank" rel="noreferrer">
-                GitHub <ArrowUpRight className="size-4 ml-1.5" />
-              </a>
             </Button>
           </div>
 
@@ -201,26 +229,20 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ── SELECTED WORK ─────────────────────── */}
       <section id="work" className="py-26">
         <div className="max-w-5xl mx-auto px-8">
           <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
-            <div className="font-mono text-[0.72rem] text-[#00d4a8] tracking-[0.08em] uppercase mb-2.5">
-              "//" selected work
-            </div>
             <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-[#f0f0f2] mb-3.5">
               Featured Project
             </h2>
-            <p className="text-[0.95rem] text-[#888892] max-w-120 leading-relaxed">
+            <p className="text-[0.95rem] text-[#888892] max-w-[480px] leading-relaxed">
               A production SaaS application I architected and built from scratch as the sole frontend engineer.
             </p>
           </div>
 
-          <Card className="mt-12 bg-white/3 border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 transition-colors duration-300 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75">
-            {/* Top Border Accent Line using v4 dynamic linear token syntax */}
-            <div className="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent" />
+          <Card className="mt-12 bg-white/[0.03] border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 transition-colors duration-300 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none">
+            <div className="absolute top-0 inset-x-0 h-[1px] bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent" />
 
-            {/* Description Column */}
             <div>
               <div className="inline-block font-mono text-[0.69rem] text-[#00d4a8] bg-[#00d4a8]/5 border border-[#00d4a8]/20 px-2.5 py-1 rounded mb-4">
                 Production SaaS · Solo Frontend Engineer
@@ -238,7 +260,7 @@ export default function Portfolio() {
                 {STACK.map((t) => (
                   <span
                     key={t}
-                    className="font-mono text-[0.7rem] text-[#888892] bg-white/4 border border-white/5 px-2 py-1 rounded"
+                    className="font-mono text-[0.7rem] text-[#888892] bg-white/[0.04] border border-white/5 px-2 py-1 rounded"
                   >
                     {t}
                   </span>
@@ -250,7 +272,7 @@ export default function Portfolio() {
                   size="sm"
                   variant="outline"
                   asChild
-                  className="text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/25 hover:bg-[#00d4a8]/15 px-4 rounded-[7px]"
+                  className="text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/25 hover:bg-[#00d4a8]/15 px-4 rounded-[7px] shadow-none"
                 >
                   <a href="https://app.linkboss.io" target="_blank" rel="noreferrer">
                     Live App <ArrowUpRight className="size-3.5 ml-1" />
@@ -260,7 +282,7 @@ export default function Portfolio() {
                   size="sm"
                   variant="outline"
                   asChild
-                  className="text-[#f0f0f2] bg-transparent border-white/5 hover:border-white/15 hover:bg-white/6 px-4 rounded-[7px]"
+                  className="text-[#f0f0f2] bg-transparent border-white/5 hover:border-white/15 hover:bg-white/[0.06] px-4 rounded-[7px] shadow-none"
                 >
                   <a href="https://linkboss.io" target="_blank" rel="noreferrer">
                     Product Site
@@ -269,9 +291,8 @@ export default function Portfolio() {
               </div>
             </div>
 
-            {/* Mockup Column */}
-            <div className="bg-white/2 border border-white/5 rounded-[14px] overflow-hidden font-mono text-sm">
-              <div className="bg-white/4 border-b border-white/5 px-4 py-3 flex items-center gap-2">
+            <div className="bg-white/[0.02] border border-white/5 rounded-[14px] overflow-hidden font-mono text-sm">
+              <div className="bg-white/[0.04] border-b border-white/5 px-4 py-3 flex items-center gap-2">
                 <div className="size-2 rounded-full bg-[#ff5f57]" />
                 <div className="size-2 rounded-full bg-[#febc2e]" />
                 <div className="size-2 rounded-full bg-[#28c840]" />
@@ -285,7 +306,6 @@ export default function Portfolio() {
                   </span>
                 </div>
 
-                {/* Table Header using v4 implicit arbitrary tracking definitions */}
                 <div className="grid grid-cols-[1.6fr_1fr_1fr_1fr] gap-2 mb-2">
                   {["Page URL", "Status", "Links", "Score"].map((h) => (
                     <div key={h} className="text-[0.62rem] text-[#44444e] px-2.5 py-1.5">
@@ -294,10 +314,9 @@ export default function Portfolio() {
                   ))}
                 </div>
 
-                {/* Table Rows */}
-                {MOCK_ROWS.map((r, i) => (
-                  <div key={i} className="grid grid-cols-[1.6fr_1fr_1fr_1fr] gap-2 mb-2 items-center">
-                    <div className="bg-white/4 border border-white/5 rounded-[5px] px-2.5 py-1.5 text-[0.68rem] text-[#888892] truncate">
+                {MOCK_ROWS.map((r) => (
+                  <div key={r.url} className="grid grid-cols-[1.6fr_1fr_1fr_1fr] gap-2 mb-2 items-center">
+                    <div className="bg-white/[0.04] border border-white/5 rounded-[5px] px-2.5 py-1.5 text-[0.68rem] text-[#888892] truncate">
                       {r.url}
                     </div>
                     <div
@@ -314,13 +333,15 @@ export default function Portfolio() {
                   </div>
                 ))}
 
-                {/* Progress Area */}
                 <div className="mt-3.5 bg-[#00d4a8]/5 border border-[#00d4a8]/15 rounded-lg p-3">
                   <div className="flex justify-between mb-1.5 text-[0.66rem]">
                     <span className="text-[#44444e]">Overall link health</span>
                     <span className="text-[#00d4a8] font-bold">82 / 100</span>
                   </div>
-                  <Progress value={82} className="h-[3px] bg-white/[0.06]" />
+                  <Progress
+                    value={82}
+                    className="h-[3px] bg-white/[0.06] w-full relative overflow-hidden rounded-full"
+                  />
                 </div>
               </CardContent>
             </div>
@@ -328,21 +349,17 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ── OTHER PROJECTS ─────────────────────── */}
       <section id="projects" className="py-4">
         <div className="max-w-5xl mx-auto px-8">
           <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
-            <div className="font-mono text-[0.72rem] text-[#00d4a8] tracking-[0.08em] uppercase mb-2.5">
-              // more work
-            </div>
             <h2 className="font-display text-3xl font-bold tracking-tight text-[#f0f0f2]">Other Projects</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
-            {PROJECTS.map((p, i) => (
+            {PROJECTS.map((p) => (
               <Card
                 key={p.name}
-                className="bg-white/[0.03] border-white/5 rounded-[14px] p-7 cursor-pointer transition-all duration-300 group hover:border-white/20 hover:bg-white/[0.06] hover:-translate-y-1 flex flex-col rv opacity-0 translate-y-6 transition-all duration-700 ease-out"
+                className="bg-white/[0.03] border-white/5 rounded-[14px] p-7 cursor-pointer transition-all duration-300 group hover:border-white/20 hover:bg-white/[0.06] hover:-translate-y-1 flex flex-col rv opacity-0 translate-y-6 transition-all duration-700 ease-out shadow-none"
               >
                 <div className="size-[42px] rounded-lg text-lg bg-[#00d4a8]/5 border border-[#00d4a8]/20 flex items-center justify-center mb-4">
                   {p.icon}
@@ -359,13 +376,9 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ── ABOUT ─────────────────────────────── */}
       <section id="about" className="py-26">
         <div className="max-w-5xl mx-auto px-8">
           <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
-            <div className="font-mono text-[0.72rem] text-[#00d4a8] tracking-[0.08em] uppercase mb-2.5">
-              // about me
-            </div>
             <h2 className="font-display text-3xl font-bold tracking-tight text-[#f0f0f2]">Who I Am</h2>
           </div>
 
@@ -405,52 +418,27 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ── CONTACT ───────────────────────────── */}
       <section id="contact" className="py-26">
         <div className="max-w-5xl mx-auto px-8">
           <div className="relative overflow-hidden bg-white/[0.03] border border-white/5 rounded-[22px] py-18 px-8 text-center rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
-            {/* Structural Layout with Native linear modifiers */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[340px] h-[1px] bg-linear-to-r from-transparent via-[#00d4a8] to-transparent opacity-70" />
             <div className="absolute -top-[60px] left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-[radial-gradient(ellipse,rgba(0,212,168,0.07),transparent_70%)] pointer-events-none" />
 
             <div className="relative z-10">
-              <div className="font-mono text-[0.72rem] text-[#00d4a8] tracking-[0.08em] uppercase mb-4">
-                // get in touch
-              </div>
               <h2 className="font-display text-4xl md:text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-4">
                 Let's build something.
               </h2>
-              <p className="text-[#888892] max-w-195 mx-auto text-[0.95rem] leading-relaxed mb-9">
+              <p className="text-[#888892] max-w-[380px] mx-auto text-[0.95rem] leading-relaxed mb-9">
                 Open to frontend roles, contract projects, and interesting product challenges.
               </p>
 
               <div className="flex gap-3.5 justify-center flex-wrap">
                 <Button
-                  className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold px-5 rounded-lg cursor-pointer"
+                  className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold px-5 rounded-lg cursor-pointer shadow-none"
                   asChild
                 >
                   <a href="mailto:hello@example.com">
                     <Mail className="size-4 mr-2" /> hello@example.com <ArrowRight className="size-3.5 ml-1.5" />
-                  </a>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="bg-white/5 border-white/5 hover:border-white/15 hover:bg-white/10 text-[#f0f0f2] px-4 rounded-lg cursor-pointer"
-                  asChild
-                >
-                  <a href="https://linkedin.com" target="_blank" rel="noreferrer">
-                    {/*<Linkedin className="size-4 mr-2" />*/}
-                    LinkedIn
-                  </a>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="bg-white/5 border-white/5 hover:border-white/15 hover:bg-white/10 text-[#f0f0f2] px-4 rounded-lg cursor-pointer"
-                  asChild
-                >
-                  <a href="https://github.com" target="_blank" rel="noreferrer">
-                    {/*<Github className="size-4 mr-2" />*/}
-                    GitHub
                   </a>
                 </Button>
               </div>
@@ -459,25 +447,27 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ── FOOTER ────────────────────────────── */}
       <footer className="border-t border-white/5 py-7">
         <div className="max-w-5xl mx-auto px-8 flex justify-between items-center">
           <div className="font-mono text-[0.72rem] text-[#44444e]">© 2026 — Built with Next.js & Tailwind CSS</div>
           <div className="flex gap-6">
             <button
-              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer"
+              type="button"
+              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("work")}
             >
               Work
             </button>
             <button
-              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer"
+              type="button"
+              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("projects")}
             >
               Projects
             </button>
             <button
-              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer"
+              type="button"
+              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("contact")}
             >
               Contact
