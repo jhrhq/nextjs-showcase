@@ -1,23 +1,25 @@
+// biome-ignore-all lint/a11y/useKeyWithClickEvents: button rules
+// biome-ignore-all lint/a11y/noStaticElementInteractions: button rules
 "use client";
-
-import { Activity, ArrowRight, ArrowUpRight, BarChart3, Key, Layers, LogIn, Mail, Sliders, Target } from "lucide-react";
-import { AnimatePresence, MotionConfig, motion, type Variants } from "motion/react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  BarChart3,
+  ChevronDown,
+  ChevronUp,
+  ExternalLink,
+  Key,
+  Mail,
+  Search,
+  SlidersHorizontal,
+  Target,
+} from "lucide-react";
 import type React from "react";
 import { type SVGProps, useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-
-interface MockRow {
-  url: string;
-  status: string;
-  cls: string;
-  links: string;
-  score: string;
-}
 
 interface ProjectItem {
   icon: React.ReactNode;
@@ -31,6 +33,25 @@ interface SkillItem {
   note: string;
 }
 
+// Exhaustive status definition for child row nodes
+type LinkStatus = "Active" | "Stale" | "Pending Delete";
+
+interface ChildRow {
+  title: string;
+  path: string;
+  anchor: string;
+  status: LinkStatus;
+}
+
+interface ParentRow {
+  parentUrl: string;
+  linksCount: string;
+  badgeType: string;
+  healthScore: number;
+  stateLabel: string;
+  children: ChildRow[];
+}
+
 const STACK: string[] = [
   "React",
   "TypeScript",
@@ -41,52 +62,21 @@ const STACK: string[] = [
   "Tailwind CSS",
 ];
 
-const MOCK_ROWS: MockRow[] = [
-  {
-    url: "/blog/seo-guide",
-    status: "Active",
-    cls: "text-emerald-400 bg-emerald-500/5 border-emerald-500/20",
-    links: "14",
-    score: "94",
-  },
-  {
-    url: "/features/analytics",
-    status: "Active",
-    cls: "text-emerald-400 bg-emerald-500/5 border-emerald-500/20",
-    links: "9",
-    score: "88",
-  },
-  {
-    url: "/pricing",
-    status: "Review",
-    cls: "text-amber-400 bg-amber-500/5 border-amber-500/25",
-    links: "3",
-    score: "62",
-  },
-  {
-    url: "/about",
-    status: "Active",
-    cls: "text-emerald-400 bg-emerald-500/5 border-emerald-500/20",
-    links: "6",
-    score: "79",
-  },
-];
-
 const PROJECTS: ProjectItem[] = [
   {
-    icon: <BarChart3 className="size-5 text-[#00d4a8]" />,
+    icon: <BarChart3 className={cn("size-5 text-[#00d4a8]")} />,
     name: "DataBoard",
     desc: "Real-time analytics dashboard with virtual-scrolled tables, custom chart components, and multi-format CSV/JSON export.",
     tech: "React · TanStack Table · Recharts",
   },
   {
-    icon: <Target className="size-5 text-[#00d4a8]" />,
+    icon: <Target className={cn("size-5 text-[#00d4a8]")} />,
     name: "Taskr",
     desc: "Kanban-style project tool with optimistic drag-and-drop, label filtering, and real-time multi-user state sync.",
     tech: "Next.js · Zustand · dnd-kit",
   },
   {
-    icon: <Key className="size-5 text-[#00d4a8]" />,
+    icon: <Key className={cn("size-5 text-[#00d4a8]")} />,
     name: "AuthKit UI",
     desc: "Headless auth component library — 12 composable components, full a11y, dark/light theme tokens, and TypeScript generics.",
     tech: "React · TypeScript · Radix UI",
@@ -138,43 +128,60 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080809] text-[#f0f0f2] font-sans antialiased selection:bg-[#00d4a8]/30 selection:text-white">
+    <div
+      className={cn(
+        "min-h-screen bg-[#080809] text-[#f0f0f2] font-sans antialiased selection:bg-[#00d4a8]/30 selection:text-white"
+      )}
+    >
       <nav
-        className={`fixed top-0 inset-x-0 z-50 h-15 flex items-center border-b border-white/5 transition-colors duration-300 ${scrolled ? "bg-[#080809]/92 backdrop-blur-xl" : "bg-[#080809]/75 backdrop-blur-xl"}`}
+        className={cn(
+          "fixed top-0 inset-x-0 z-50 h-15 flex items-center border-b border-white/5 transition-colors duration-300",
+          scrolled ? "bg-[#080809]/92 backdrop-blur-xl" : "bg-[#080809]/75 backdrop-blur-xl"
+        )}
       >
-        <div className="max-w-5xl mx-auto w-full px-8 flex items-center justify-between">
+        <div className={cn("max-w-5xl mx-auto w-full px-8 flex items-center justify-between")}>
           <button
             type="button"
-            className="font-display font-extrabold text-[1.05rem] tracking-tight cursor-pointer bg-transparent border-none p-0 text-left text-inherit"
+            className={cn(
+              "font-display font-extrabold text-[1.05rem] tracking-tight cursor-pointer bg-transparent border-none p-0 text-left text-inherit"
+            )}
             onClick={() => scrollTo("hero")}
           >
-            dev<span className="text-[#00d4a8]">.</span>
+            dev<span className={cn("text-[#00d4a8]")}>.</span>
           </button>
-          <div className="flex items-center gap-9">
+          <div className={cn("flex items-center gap-9")}>
             <button
               type="button"
-              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
+              className={cn(
+                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
+              )}
               onClick={() => scrollTo("work")}
             >
               Work
             </button>
             <button
               type="button"
-              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
+              className={cn(
+                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
+              )}
               onClick={() => scrollTo("projects")}
             >
               Projects
             </button>
             <button
               type="button"
-              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
+              className={cn(
+                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
+              )}
               onClick={() => scrollTo("about")}
             >
               About
             </button>
             <Button
               size="sm"
-              className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold text-sm rounded-[7px] cursor-pointer shadow-none"
+              className={cn(
+                "bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold text-sm rounded-[7px] cursor-pointer shadow-none"
+              )}
               onClick={() => scrollTo("contact")}
             >
               Contact
@@ -183,328 +190,191 @@ export default function PortfolioPage() {
         </div>
       </nav>
 
-      <section id="hero" className="min-h-screen flex flex-col justify-center pt-15 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_40%,transparent_100%)]" />
-        <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-[680px] h-[440px] pointer-events-none bg-[radial-gradient(ellipse,rgba(0,212,168,0.07)_0%,transparent_68%)]" />
-
-        <div className="max-w-5xl mx-auto w-full px-8 relative z-10">
-          <Badge className="inline-flex items-center gap-2 font-mono text-[0.72rem] text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/20 hover:bg-[#00d4a8]/10 px-3 py-1 rounded-full mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <span className="size-1.5 rounded-full bg-[#00d4a8] animate-pulse" />
-            Available for work
+      <section id="hero" className={cn("min-h-screen flex flex-col justify-center pt-15 relative overflow-hidden")}>
+        <div
+          className={cn(
+            "absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_40%,transparent_100%)]"
+          )}
+        />
+        <div
+          className={cn(
+            "absolute top-[18%] left-1/2 -translate-x-1/2 w-[680px] h-[440px] pointer-events-none bg-[radial-gradient(ellipse,rgba(0,212,168,0.07)_0%,transparent_68%)]"
+          )}
+        />
+        <div className={cn("max-w-5xl mx-auto w-full px-8 relative z-10")}>
+          <Badge
+            className={cn(
+              "inline-flex items-center gap-2 font-mono text-[0.72rem] text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/20 hover:bg-[#00d4a8]/10 px-3 py-1 rounded-full mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
+            )}
+          >
+            <span className={cn("size-1.5 rounded-full bg-[#00d4a8] animate-pulse")} /> Available for work
           </Badge>
-
-          <h1 className="font-display text-5xl md:text-7xl lg:text-[5.8rem] font-extrabold leading-[1.03] tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 delay-75 duration-500">
-            Complete
-            <br />
-            <span className="text-[#44444e]">frontend execution for</span>
-            <br />
-            <span className="text-[#00d4a8]">the web.</span>
+          <h1
+            className={cn(
+              "font-display text-5xl md:text-7xl lg:text-[5.8rem] font-extrabold leading-[1.03] tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 delay-75 duration-500"
+            )}
+          >
+            I build <br /> <span className={cn("text-[#44444e]")}>production-grade</span> <br />{" "}
+            <span className={cn("text-[#00d4a8]")}>web apps.</span>
           </h1>
-
-          <p className="text-[1.08rem] text-[#888892] max-w-[500px] leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-4 delay-150 duration-500">
+          <p
+            className={cn(
+              "text-[1.08rem] text-[#888892] max-w-[500px] leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-4 delay-150 duration-500"
+            )}
+          >
             I build high-performance products from scratch. Over the past 3 years, I single-handedly managed the full
-            frontend lifecycle, API integrations, and performance of a live commercial SaaS platform. From dashboards to
-            e-commerce, I handle everything from setup to deployment.
+            frontend lifecycle, API integrations, and performance of a live commercial SaaS platform.
           </p>
-
-          <div className="flex gap-3.5 flex-wrap mb-16 animate-in fade-in slide-in-from-bottom-4 delay-200 duration-500">
+          <div
+            className={cn(
+              "flex gap-3.5 flex-wrap mb-16 animate-in fade-in slide-in-from-bottom-4 delay-200 duration-500"
+            )}
+          >
             <Button
-              className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8] hover:scale-[1.01] hover:shadow-[0_10px_28px_rgba(0,212,168,0.25)] transition-all font-semibold px-5 py-6 rounded-lg text-sm cursor-pointer shadow-none"
+              className={cn(
+                "bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8] hover:scale-[1.01] hover:shadow-[0_10px_28px_rgba(0,212,168,0.25)] transition-all font-semibold px-5 py-6 rounded-lg text-sm cursor-pointer shadow-none"
+              )}
               onClick={() => scrollTo("work")}
             >
-              View Projects <ArrowRight className="size-4 ml-1.5" />
+              View Projects <ArrowRight className={cn("size-4 ml-1.5")} />
             </Button>
           </div>
-
-          <div className="flex gap-14 border-t border-white/5 pt-8 animate-in fade-in slide-in-from-bottom-4 delay-300 duration-500">
+          <div
+            className={cn(
+              "flex gap-14 border-t border-white/5 pt-8 animate-in fade-in slide-in-from-bottom-4 delay-300 duration-500"
+            )}
+          >
             <div>
-              <div className="font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]">3</div>
-              <div className="text-[0.78rem] text-[#44444e] mt-1 font-mono">Years building products</div>
+              <div className={cn("font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]")}>3</div>
+              <div className={cn("text-[0.78rem] text-[#44444e] mt-1 font-mono")}>Years building products</div>
             </div>
             <div>
-              <div className="font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]">1</div>
-              <div className="text-[0.78rem] text-[#44444e] mt-1 font-mono">Production SaaS shipped</div>
+              <div className={cn("font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]")}>1</div>
+              <div className={cn("text-[0.78rem] text-[#44444e] mt-1 font-mono")}>Production SaaS shipped</div>
             </div>
             <div>
-              <div className="font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]">Solo</div>
-              <div className="text-[0.78rem] text-[#44444e] mt-1 font-mono">Frontend architect</div>
+              <div className={cn("font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]")}>Solo</div>
+              <div className={cn("text-[0.78rem] text-[#44444e] mt-1 font-mono")}>Frontend architect</div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="browserFeature" className="py-26">
-        <div className="max-w-5xl mx-auto px-8">
-          <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
-            <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-[#f0f0f2] mb-3.5">
-              Featured Project
+      <section id="work" className={cn("py-26")}>
+        <div className={cn("max-w-5xl mx-auto px-8")}>
+          <div className={cn("rv opacity-0 translate-y-6 transition-all duration-700 ease-out")}>
+            <h2 className={cn("font-display text-3xl md:text-4xl font-bold tracking-tight text-[#f0f0f2] mb-3.5")}>
+              Commercial Work
             </h2>
-            <p className="text-[0.95rem] text-[#888892] max-w-[480px] leading-relaxed">
-              A production SaaS application I architected and built from scratch as the sole frontend engineer.
+            <p className={cn("text-[0.95rem] text-[#888892] max-w-[480px] leading-relaxed")}>
+              A production SaaS application I single-handedly architected and built during my 3 years at Zventures.
             </p>
           </div>
-
-          <Card className="mt-12 bg-white/[0.03] border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 transition-colors duration-300 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none">
-            <div className="absolute top-0 inset-x-0 h-[1px] bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent" />
-
+          <Card
+            className={cn(
+              "mt-12 bg-white/[0.03] border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 transition-colors duration-300 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none"
+            )}
+          >
+            <div
+              className={cn(
+                "absolute top-0 inset-x-0 h-[1px] bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent"
+              )}
+            />
             <div>
-              <div className="inline-block font-mono text-[0.69rem] text-[#00d4a8] bg-[#00d4a8]/5 border border-[#00d4a8]/20 px-2.5 py-1 rounded mb-4">
-                Production SaaS · Solo Frontend Engineer
+              <div
+                className={cn(
+                  "inline-block font-mono text-[0.69rem] text-[#00d4a8] bg-[#00d4a8]/5 border border-[#00d4a8]/20 px-2.5 py-1 rounded mb-4"
+                )}
+              >
+                Full Frontend Lifecycle · Solo Execution
               </div>
-              <h3 className="font-display text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-1.5">LinkBoss</h3>
-              <div className="font-mono text-[0.8rem] text-[#00d4a8] mb-5">app.linkboss.io</div>
-              <p className="text-[0.92rem] text-[#888892] leading-relaxed mb-6">
-                An internal linking automation platform built for SEO professionals. I designed and built the entire
-                frontend from scratch — complex data tables, real-time workflows, multi-step onboarding flows, and a
-                component system that scales across thousands of link operations per session. Shipped to production as a
-                solo engineer.
+              <h3 className={cn("font-display text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-1.5")}>
+                LinkBoss
+              </h3>
+              <div className={cn("font-mono text-[0.8rem] text-[#00d4a8] mb-5")}>
+                <a href="https://linkboss.io" target="_blank" rel="noreferrer" className={cn("hover:underline")}>
+                  linkboss.io
+                </a>
+              </div>
+              <p className={cn("text-[0.92rem] text-[#888892] leading-relaxed mb-6")}>
+                An AI-powered SEO internal linking SaaS built for massive site audits and link automation. As the sole
+                frontend developer, I spent 3 years architecting and maintaining the entire application interface. I
+                engineered high-performance asynchronous data views, multi-site dashboards, and bulk execution modules
+                capable of handling thousands of link variations without UI bottlenecks.
               </p>
-
-              <div className="flex gap-2 flex-wrap mb-7">
+              <div className={cn("flex gap-2 flex-wrap mb-7")}>
                 {STACK.map((t) => (
                   <span
                     key={t}
-                    className="font-mono text-[0.7rem] text-[#888892] bg-white/[0.04] border border-white/5 px-2 py-1 rounded"
+                    className={cn(
+                      "font-mono text-[0.7rem] text-[#888892] bg-white/[0.04] border border-white/5 px-2 py-1 rounded"
+                    )}
                   >
                     {t}
                   </span>
                 ))}
               </div>
-
-              <div className="flex gap-3">
+              <div className={cn("flex gap-3 flex-wrap")}>
                 <Button
                   size="sm"
                   variant="outline"
                   asChild
-                  className="text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/25 hover:bg-[#00d4a8]/15 px-4 rounded-[7px] shadow-none"
+                  className={cn(
+                    "text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/25 hover:bg-[#00d4a8]/15 px-4 rounded-[7px] shadow-none cursor-pointer"
+                  )}
                 >
                   <a href="https://app.linkboss.io" target="_blank" rel="noreferrer">
-                    Live App <ArrowUpRight className="size-3.5 ml-1" />
+                    Live App <ArrowUpRight className={cn("size-3.5 ml-1")} />
                   </a>
                 </Button>
                 <Button
                   size="sm"
                   variant="outline"
                   asChild
-                  className="text-[#f0f0f2] bg-transparent border-white/5 hover:border-white/15 hover:bg-white/[0.06] px-4 rounded-[7px] shadow-none"
+                  className={cn(
+                    "text-[#f0f0f2] bg-white/[0.02] border-white/5 hover:border-white/15 hover:bg-white/[0.06] px-4 rounded-[7px] shadow-none cursor-pointer"
+                  )}
                 >
-                  <a href="https://linkboss.io" target="_blank" rel="noreferrer">
-                    Product Site
+                  <a href="https://your-demo-subdomain.vercel.app" target="_blank" rel="noreferrer">
+                    Architecture Demo <ExternalLink className={cn("size-3.5 ml-1.5")} />
                   </a>
                 </Button>
               </div>
             </div>
-
-            <MockBrowserFeaturesTools />
-          </Card>
-        </div>
-      </section>
-      <section id="browserFeature" className="py-26">
-        <div className="max-w-5xl mx-auto px-8">
-          <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
-            <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-[#f0f0f2] mb-3.5">
-              Featured Project
-            </h2>
-            <p className="text-[0.95rem] text-[#888892] max-w-[480px] leading-relaxed">
-              A production SaaS application I architected and built from scratch as the sole frontend engineer.
-            </p>
-          </div>
-
-          <Card className="mt-12 bg-white/[0.03] border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 transition-colors duration-300 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none">
-            <div className="absolute top-0 inset-x-0 h-[1px] bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent" />
-
-            <div>
-              <div className="inline-block font-mono text-[0.69rem] text-[#00d4a8] bg-[#00d4a8]/5 border border-[#00d4a8]/20 px-2.5 py-1 rounded mb-4">
-                Production SaaS · Solo Frontend Engineer
-              </div>
-              <h3 className="font-display text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-1.5">LinkBoss</h3>
-              <div className="font-mono text-[0.8rem] text-[#00d4a8] mb-5">app.linkboss.io</div>
-              <p className="text-[0.92rem] text-[#888892] leading-relaxed mb-6">
-                An internal linking automation platform built for SEO professionals. I designed and built the entire
-                frontend from scratch — complex data tables, real-time workflows, multi-step onboarding flows, and a
-                component system that scales across thousands of link operations per session. Shipped to production as a
-                solo engineer.
-              </p>
-
-              <div className="flex gap-2 flex-wrap mb-7">
-                {STACK.map((t) => (
-                  <span
-                    key={t}
-                    className="font-mono text-[0.7rem] text-[#888892] bg-white/[0.04] border border-white/5 px-2 py-1 rounded"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex gap-3">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  asChild
-                  className="text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/25 hover:bg-[#00d4a8]/15 px-4 rounded-[7px] shadow-none"
-                >
-                  <a href="https://app.linkboss.io" target="_blank" rel="noreferrer">
-                    Live App <ArrowUpRight className="size-3.5 ml-1" />
-                  </a>
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  asChild
-                  className="text-[#f0f0f2] bg-transparent border-white/5 hover:border-white/15 hover:bg-white/[0.06] px-4 rounded-[7px] shadow-none"
-                >
-                  <a href="https://linkboss.io" target="_blank" rel="noreferrer">
-                    Product Site
-                  </a>
-                </Button>
-              </div>
-            </div>
-
-            <MockBrowserDashboard />
-          </Card>
-        </div>
-      </section>
-      <section id="work" className="py-26">
-        <div className="max-w-5xl mx-auto px-8">
-          <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
-            <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-[#f0f0f2] mb-3.5">
-              Featured Project
-            </h2>
-            <p className="text-[0.95rem] text-[#888892] max-w-[480px] leading-relaxed">
-              A production SaaS application I architected and built from scratch as the sole frontend engineer.
-            </p>
-          </div>
-
-          <Card className="mt-12 bg-white/[0.03] border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 transition-colors duration-300 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none">
-            <div className="absolute top-0 inset-x-0 h-[1px] bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent" />
-
-            <div>
-              <div className="inline-block font-mono text-[0.69rem] text-[#00d4a8] bg-[#00d4a8]/5 border border-[#00d4a8]/20 px-2.5 py-1 rounded mb-4">
-                Production SaaS · Solo Frontend Engineer
-              </div>
-              <h3 className="font-display text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-1.5">LinkBoss</h3>
-              <div className="font-mono text-[0.8rem] text-[#00d4a8] mb-5">app.linkboss.io</div>
-              <p className="text-[0.92rem] text-[#888892] leading-relaxed mb-6">
-                An internal linking automation platform built for SEO professionals. I designed and built the entire
-                frontend from scratch — complex data tables, real-time workflows, multi-step onboarding flows, and a
-                component system that scales across thousands of link operations per session. Shipped to production as a
-                solo engineer.
-              </p>
-
-              <div className="flex gap-2 flex-wrap mb-7">
-                {STACK.map((t) => (
-                  <span
-                    key={t}
-                    className="font-mono text-[0.7rem] text-[#888892] bg-white/[0.04] border border-white/5 px-2 py-1 rounded"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex gap-3">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  asChild
-                  className="text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/25 hover:bg-[#00d4a8]/15 px-4 rounded-[7px] shadow-none"
-                >
-                  <a href="https://app.linkboss.io" target="_blank" rel="noreferrer">
-                    Live App <ArrowUpRight className="size-3.5 ml-1" />
-                  </a>
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  asChild
-                  className="text-[#f0f0f2] bg-transparent border-white/5 hover:border-white/15 hover:bg-white/[0.06] px-4 rounded-[7px] shadow-none"
-                >
-                  <a href="https://linkboss.io" target="_blank" rel="noreferrer">
-                    Product Site
-                  </a>
-                </Button>
-              </div>
-            </div>
-
-            <div className="bg-white/[0.02] border border-white/5 rounded-[14px] overflow-hidden font-mono text-sm">
-              <div className="bg-white/[0.04] border-b border-white/5 px-4 py-3 flex items-center gap-2">
-                <div className="size-2 rounded-full bg-[#ff5f57]" />
-                <div className="size-2 rounded-full bg-[#febc2e]" />
-                <div className="size-2 rounded-full bg-[#28c840]" />
-                <div className="flex-1 text-center text-[0.68rem] text-[#44444e]">app.linkboss.io / dashboard</div>
-              </div>
-              <CardContent className="p-4 pt-4">
-                <div className="flex justify-between items-center mb-3.5">
-                  <span className="font-display text-[0.82rem] font-bold text-[#f0f0f2]">Internal Links</span>
-                  <span className="text-[0.68rem] text-[#00d4a8] bg-[#00d4a8]/5 border border-[#00d4a8]/20 px-2 py-1 rounded-[5px] cursor-default">
-                    + Add Links
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-[1.6fr_1fr_1fr_1fr] gap-2 mb-2">
-                  {["Page URL", "Status", "Links", "Score"].map((h) => (
-                    <div key={h} className="text-[0.62rem] text-[#44444e] px-2.5 py-1.5">
-                      {h}
-                    </div>
-                  ))}
-                </div>
-
-                {MOCK_ROWS.map((r) => (
-                  <div key={r.url} className="grid grid-cols-[1.6fr_1fr_1fr_1fr] gap-2 mb-2 items-center">
-                    <div className="bg-white/[0.04] border border-white/5 rounded-[5px] px-2.5 py-1.5 text-[0.68rem] text-[#888892] truncate">
-                      {r.url}
-                    </div>
-                    <div
-                      className={`border rounded-[5px] px-2.5 py-1.5 text-[0.68rem] font-medium text-center ${r.cls}`}
-                    >
-                      {r.status}
-                    </div>
-                    <div className="bg-[#00d4a8]/5 border border-[#00d4a8]/20 text-[#00d4a8] rounded-[5px] px-2.5 py-1.5 text-[0.68rem] text-center">
-                      {r.links} links
-                    </div>
-                    <div className="bg-white/[0.04] border border-white/5 rounded-[5px] px-2.5 py-1.5 text-[0.68rem] text-[#888892] text-center">
-                      {r.score}
-                    </div>
-                  </div>
-                ))}
-
-                <div className="mt-3.5 bg-[#00d4a8]/5 border border-[#00d4a8]/15 rounded-lg p-3">
-                  <div className="flex justify-between mb-1.5 text-[0.66rem]">
-                    <span className="text-[#44444e]">Overall link health</span>
-                    <span className="text-[#00d4a8] font-bold">82 / 100</span>
-                  </div>
-                  <Progress
-                    value={82}
-                    className="h-[3px] bg-white/[0.06] w-full relative overflow-hidden rounded-full"
-                  />
-                </div>
-              </CardContent>
-            </div>
+            <FeaturedNetworkMatrix />
           </Card>
         </div>
       </section>
 
-      <section id="projects" className="py-4">
-        <div className="max-w-5xl mx-auto px-8">
-          <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
-            <h2 className="font-display text-3xl font-bold tracking-tight text-[#f0f0f2]">Other Projects</h2>
+      <section id="projects" className={cn("py-4")}>
+        <div className={cn("max-w-5xl mx-auto px-8")}>
+          <div className={cn("rv opacity-0 translate-y-6 transition-all duration-700 ease-out")}>
+            <h2 className={cn("font-display text-3xl font-bold tracking-tight text-[#f0f0f2]")}>Other Projects</h2>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
+          <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12")}>
             {PROJECTS.map((p) => (
               <Card
                 key={p.name}
-                className="bg-white/[0.03] border-white/5 rounded-[14px] p-7 cursor-pointer transition-all duration-300 group hover:border-white/20 hover:bg-white/[0.06] hover:-translate-y-1 flex flex-col rv opacity-0 translate-y-6 transition-all duration-700 ease-out shadow-none"
+                className={cn(
+                  "bg-white/[0.03] border-white/5 rounded-[14px] p-7 cursor-pointer transition-all duration-300 group hover:border-white/20 hover:bg-white/[0.06] hover:-translate-y-1 flex flex-col rv opacity-0 translate-y-6 transition-all duration-700 ease-out shadow-none"
+                )}
               >
-                <div className="size-[42px] rounded-lg text-lg bg-[#00d4a8]/5 border border-[#00d4a8]/20 flex items-center justify-center mb-4">
+                <div
+                  className={cn(
+                    "size-[42px] rounded-lg text-lg bg-[#00d4a8]/5 border border-[#00d4a8]/20 flex items-center justify-center mb-4"
+                  )}
+                >
                   {p.icon}
                 </div>
-                <h3 className="font-display text-lg font-bold tracking-tight text-[#f0f0f2] mb-1.5">{p.name}</h3>
-                <p className="text-[0.84rem] text-[#888892] leading-relaxed flex-1 mb-4">{p.desc}</p>
-                <div className="flex justify-between items-center pt-2">
-                  <span className="font-mono text-[0.68rem] text-[#44444e]">{p.tech}</span>
-                  <ArrowUpRight className="size-4 text-[#44444e] transition-transform duration-200 group-hover:text-[#00d4a8] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <h3 className={cn("font-display text-lg font-bold tracking-tight text-[#f0f0f2] mb-1.5")}>{p.name}</h3>
+                <p className={cn("text-[0.84rem] text-[#888892] leading-relaxed flex-1 mb-4")}>{p.desc}</p>
+                <div className={cn("flex justify-between items-center pt-2")}>
+                  <span className={cn("font-mono text-[0.68rem] text-[#44444e]")}>{p.tech}</span>
+                  <ArrowUpRight
+                    className={cn(
+                      "size-4 text-[#44444e] transition-transform duration-200 group-hover:text-[#00d4a8] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    )}
+                  />
                 </div>
               </Card>
             ))}
@@ -512,41 +382,49 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section id="about" className="py-26">
-        <div className="max-w-5xl mx-auto px-8">
-          <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
-            <h2 className="font-display text-3xl font-bold tracking-tight text-[#f0f0f2]">Who I Am</h2>
+      <section id="about" className={cn("py-26")}>
+        <div className={cn("max-w-5xl mx-auto px-8")}>
+          <div className={cn("rv opacity-0 translate-y-6 transition-all duration-700 ease-out")}>
+            <h2 className={cn("font-display text-3xl font-bold tracking-tight text-[#f0f0f2]")}>Who I Am</h2>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-[4.5rem] mt-12 items-start">
-            <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 space-y-5">
-              <p className="text-[0.93rem] text-[#888892] leading-relaxed">
+          <div className={cn("grid grid-cols-1 lg:grid-cols-2 gap-[4.5rem] mt-12 items-start")}>
+            <div className={cn("rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 space-y-5")}>
+              <p className={cn("text-[0.93rem] text-[#888892] leading-relaxed")}>
                 I'm a frontend engineer who cares deeply about what gets shipped. I've built production SaaS
                 applications from zero to launch — not just feature work, but full architecture decisions, design system
                 creation, and performance optimization.
               </p>
-              <p className="text-[0.93rem] text-[#888892] leading-relaxed">
+              <p className={cn("text-[0.93rem] text-[#888892] leading-relaxed")}>
                 Working solo on LinkBoss taught me how to think at a system level: how to structure state for complex
                 data flows, how to keep large tables fast, and how to build UI that handles real-world edge cases, not
                 just the happy path.
               </p>
-              <p className="text-[0.93rem] text-[#888892] leading-relaxed">
+              <p className={cn("text-[0.93rem] text-[#888892] leading-relaxed")}>
                 I default to React and TypeScript, reach for the right abstraction for each problem, and care about
                 performance, accessibility, and developer experience in equal measure.
               </p>
             </div>
-
-            <div className="flex flex-col gap-2.5 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-150">
+            <div
+              className={cn(
+                "flex flex-col gap-2.5 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-150"
+              )}
+            >
               {SKILLS.map((s) => (
                 <div
                   key={s.name}
-                  className="flex justify-between items-center px-4 py-3 bg-white/[0.03] border border-white/5 rounded-lg text-sm hover:border-white/15 transition-colors duration-200 group"
+                  className={cn(
+                    "flex justify-between items-center px-4 py-3 bg-white/[0.03] border border-white/5 rounded-lg text-sm hover:border-white/15 transition-colors duration-200 group"
+                  )}
                 >
-                  <div className="flex items-center gap-2.5 text-[#888892] group-hover:text-[#f0f0f2] transition-colors">
-                    <span className="size-1.5 rounded-full bg-[#00d4a8]" />
+                  <div
+                    className={cn(
+                      "flex items-center gap-2.5 text-[#888892] group-hover:text-[#f0f0f2] transition-colors"
+                    )}
+                  >
+                    <span className={cn("size-1.5 rounded-full bg-[#00d4a8]")} />
                     <span>{s.name}</span>
                   </div>
-                  <span className="font-mono text-[0.69rem] text-[#44444e]">{s.note}</span>
+                  <span className={cn("font-mono text-[0.69rem] text-[#44444e]")}>{s.note}</span>
                 </div>
               ))}
             </div>
@@ -554,27 +432,42 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section id="contact" className="py-26">
-        <div className="max-w-5xl mx-auto px-8">
-          <div className="relative overflow-hidden bg-white/[0.03] border border-white/5 rounded-[22px] py-18 px-8 text-center rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[340px] h-[1px] bg-linear-to-r from-transparent via-[#00d4a8] to-transparent opacity-70" />
-            <div className="absolute -top-[60px] left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-[radial-gradient(ellipse,rgba(0,212,168,0.07),transparent_70%)] pointer-events-none" />
-
-            <div className="relative z-10">
-              <h2 className="font-display text-4xl md:text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-4">
+      <section id="contact" className={cn("py-26")}>
+        <div className={cn("max-w-5xl mx-auto px-8")}>
+          <div
+            className={cn(
+              "relative overflow-hidden bg-white/[0.03] border border-white/5 rounded-[22px] py-18 px-8 text-center rv opacity-0 translate-y-6 transition-all duration-700 ease-out"
+            )}
+          >
+            <div
+              className={cn(
+                "absolute top-0 left-1/2 -translate-x-1/2 w-[340px] h-[1px] bg-linear-to-r from-transparent via-[#00d4a8] to-transparent opacity-70"
+              )}
+            />
+            <div
+              className={cn(
+                "absolute -top-[60px] left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-[radial-gradient(ellipse,rgba(0,212,168,0.07),transparent_70%)] pointer-events-none"
+              )}
+            />
+            <div className={cn("relative z-10")}>
+              <h2
+                className={cn("font-display text-4xl md:text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-4")}
+              >
                 Let's build something.
               </h2>
-              <p className="text-[#888892] max-w-[380px] mx-auto text-[0.95rem] leading-relaxed mb-9">
+              <p className={cn("text-[#888892] max-w-[380px] mx-auto text-[0.95rem] leading-relaxed mb-9")}>
                 Open to frontend roles, contract projects, and interesting product challenges.
               </p>
-
-              <div className="flex gap-3.5 justify-center flex-wrap">
+              <div className={cn("flex gap-3.5 justify-center flex-wrap")}>
                 <Button
-                  className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold px-5 rounded-lg cursor-pointer shadow-none"
+                  className={cn(
+                    "bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold px-5 rounded-lg cursor-pointer shadow-none"
+                  )}
                   asChild
                 >
                   <a href="mailto:hello@example.com">
-                    <Mail className="size-4 mr-2" /> hello@example.com <ArrowRight className="size-3.5 ml-1.5" />
+                    <Mail className={cn("size-4 mr-2")} /> hello@example.com{" "}
+                    <ArrowRight className={cn("size-3.5 ml-1.5")} />
                   </a>
                 </Button>
               </div>
@@ -583,303 +476,44 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <footer className="border-t border-white/5 py-7">
-        <div className="max-w-5xl mx-auto px-8 flex justify-between items-center">
-          <div className="font-mono text-[0.72rem] text-[#44444e]">© 2026 — Built with Next.js & Tailwind CSS</div>
-          <div className="flex gap-6">
+      <footer className={cn("border-t border-white/5 py-7")}>
+        <div className={cn("max-w-5xl mx-auto px-8 flex justify-between items-center")}>
+          <div className={cn("font-mono text-[0.72rem] text-[#44444e]")}>
+            © 2026 — Built with Next.js & Tailwind CSS
+          </div>
+          <div className={cn("flex gap-6")}>
             <button
               type="button"
-              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
+              className={cn(
+                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
+              )}
               onClick={() => scrollTo("work")}
             >
               Work
             </button>
             <button
               type="button"
-              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
+              className={cn(
+                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
+              )}
               onClick={() => scrollTo("projects")}
             >
               Projects
             </button>
             <button
               type="button"
-              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
+              className={cn(
+                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
+              )}
               onClick={() => scrollTo("contact")}
             >
               Contact
             </button>
           </div>
-          <LinkedInIcon /> <GitHubIcon />
+          <LinkedInIcon />
+          <GitHubIcon />
         </div>
       </footer>
-    </div>
-  );
-}
-
-// Mock Data from your layout
-const projects = [
-  {
-    id: "1",
-    title: "TechCorp Website",
-    description: "Main corporate website",
-    url: "techcorp.com",
-    status: "active",
-    totalLinks: 1250,
-    date: "20 May 26",
-  },
-  {
-    id: "2",
-    title: "Portfolio Site",
-    description: "Personal portfolio website",
-    url: "johndesigner.com",
-    status: "pending",
-    totalLinks: 45,
-    date: "20 May 26",
-  },
-  {
-    id: "3",
-    title: "Blog Platform",
-    description: "Content publishing site",
-    url: "myblog.com",
-    status: "inactive",
-    totalLinks: 890,
-    date: "20 May 26",
-  },
-];
-
-function MockBrowserDashboard() {
-  const [filter, setFilter] = useState("all");
-
-  const filteredProjects = projects.filter((project) => filter === "all" || project.status === filter);
-
-  const getStatusBadge = (status: string) => {
-    const styles = {
-      active: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-      pending: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-      inactive: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20",
-    };
-    return styles[status as keyof typeof styles] || "";
-  };
-
-  return (
-    <div className="w-full max-w-4xl mx-auto rounded-xl border border-zinc-800 bg-zinc-950/50 backdrop-blur-md overflow-hidden shadow-2xl">
-      {/* Browser Top Bar */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800 bg-zinc-900/40">
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-rose-500/80" />
-          <div className="w-3 h-3 rounded-full bg-amber-500/80" />
-          <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-        </div>
-        <div className="text-xs font-mono text-zinc-500 select-none">app.linkboss.io / projects</div>
-        <div className="w-12" /> {/* Visual spacer */}
-      </div>
-
-      {/* Browser Viewport Content */}
-      <div className="p-6 space-y-6 min-h-[480px]">
-        {/* Dashboard Header */}
-        <div className="space-y-1">
-          <h2 className="text-xl font-semibold tracking-tight text-zinc-100">Projects List</h2>
-        </div>
-
-        {/* Toolbar Controls */}
-        <div className="flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center border-b border-zinc-900 pb-4">
-          <Tabs defaultValue="all" onValueChange={setFilter} className="w-full sm:w-auto">
-            <TabsList className="bg-zinc-900/60 border border-zinc-800/80 p-0.5 h-9">
-              <TabsTrigger
-                value="all"
-                className="text-xs px-3 data-[state=active]:bg-zinc-800 data-[state=active]:text-zinc-100"
-              >
-                All{" "}
-                <span className="ml-1.5 px-1.5 py-0.5 text-[10px] bg-zinc-800 text-zinc-400 rounded-md border border-zinc-700/50">
-                  {projects.length}
-                </span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="active"
-                className="text-xs px-3 data-[state=active]:bg-zinc-800 data-[state=active]:text-zinc-100"
-              >
-                Active{" "}
-                <span className="ml-1.5 px-1.5 py-0.5 text-[10px] bg-zinc-800 text-emerald-400 rounded-md border border-zinc-700/50">
-                  {projects.filter((p) => p.status === "active").length}
-                </span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="pending"
-                className="text-xs px-3 data-[state=active]:bg-zinc-800 data-[state=active]:text-zinc-100"
-              >
-                Pending{" "}
-                <span className="ml-1.5 px-1.5 py-0.5 text-[10px] bg-zinc-800 text-amber-400 rounded-md border border-zinc-700/50">
-                  {projects.filter((p) => p.status === "pending").length}
-                </span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="inactive"
-                className="text-xs px-3 data-[state=active]:bg-zinc-800 data-[state=active]:text-zinc-100"
-              >
-                Inactive{" "}
-                <span className="ml-1.5 px-1.5 py-0.5 text-[10px] bg-zinc-800 text-zinc-400 rounded-md border border-zinc-700/50">
-                  {projects.filter((p) => p.status === "inactive").length}
-                </span>
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-
-        <MotionConfig transition={{ duration: 1 }}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project) => (
-                <motion.div
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Card className="border-zinc-800/80 bg-zinc-900/20 hover:bg-zinc-900/40 transition-colors duration-200 shadow-sm relative group overflow-hidden">
-                    <CardHeader className="p-4 pb-2 space-y-3">
-                      <div className="flex items-center justify-between">
-                        <Badge
-                          variant="outline"
-                          className={cn(
-                            "capitalize font-mono text-[10px] px-2 py-0.5 tracking-wide rounded",
-                            getStatusBadge(project.status)
-                          )}
-                        >
-                          {project.status}
-                        </Badge>
-                        <span className="text-sm font-bold tracking-tight text-zinc-500 hover:text-zinc-300">•••</span>
-                      </div>
-                      <div className="space-y-1">
-                        <CardTitle className="text-sm font-medium text-zinc-200">{project.title}</CardTitle>
-                        <CardDescription className="text-[11px] text-zinc-400/90">
-                          {project.description}
-                        </CardDescription>
-                      </div>
-                    </CardHeader>
-                  </Card>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        </MotionConfig>
-      </div>
-    </div>
-  );
-}
-
-// Feature list data extracted from your image
-const features = [
-  {
-    id: "inbounds",
-    title: "Inbounds",
-    description: "Analyze and manage inbound links for your project.",
-    icon: LogIn,
-    iconColor: "text-emerald-500",
-    iconBg: "bg-emerald-500/10",
-    isNew: false,
-  },
-  {
-    id: "custom-network",
-    title: "Custom Network",
-    description: "Create and manage content custom networks for better site structure.",
-    icon: Layers,
-    iconColor: "text-green-500",
-    iconBg: "bg-green-500/10",
-    isNew: false,
-  },
-  {
-    id: "anchor-manager",
-    title: "Anchor Manager",
-    description: "Generate detailed reports on internal and external links.",
-    icon: Sliders,
-    iconColor: "text-amber-500",
-    iconBg: "bg-amber-500/10",
-    isNew: true,
-  },
-  {
-    id: "site-report",
-    title: "Site Report",
-    description: "Run comprehensive audits on your site performance.",
-    icon: Activity,
-    iconColor: "text-purple-500",
-    iconBg: "bg-purple-500/10",
-    isNew: false,
-  },
-];
-
-// Container animation variants for clean staggered rendering
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 260, damping: 20 } },
-};
-
-function MockBrowserFeaturesTools() {
-  return (
-    <div className="w-full max-w-4xl mx-auto rounded-xl border border-zinc-800 bg-zinc-950/50 backdrop-blur-md overflow-hidden shadow-2xl">
-      {/* Browser Top Bar */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800 bg-zinc-900/40">
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-rose-500/80" />
-          <div className="w-3 h-3 rounded-full bg-amber-500/80" />
-          <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-        </div>
-        <div className="text-xs font-mono text-zinc-500 select-none">app.linkboss.io / tools</div>
-        <div className="w-12" />
-      </div>
-      {/* Browser Viewport Content */}
-      <div className="p-6 min-h-[400px] flex flex-col justify-center">
-        <div className="space-y-1 mb-6">
-          <h2 className="text-xl font-semibold tracking-tight text-zinc-100">Tools</h2>
-        </div>
-        {/* Responsive feature grid layout */}
-
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2  gap-4"
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-        >
-          {features.map((feature) => {
-            const IconComponent = feature.icon;
-
-            return (
-              <motion.div
-                key={feature.id}
-                variants={cardVariants}
-                whileHover={{ y: -4, transition: { duration: 0.15 } }}
-                className="h-full"
-              >
-                <Card className="h-full border-zinc-800/80 bg-zinc-900/20 hover:bg-zinc-900/40 hover:border-zinc-700/60 transition-colors duration-200 shadow-sm relative group overflow-hidden cursor-pointer select-none">
-                  <div className=" flex items-center gap-2 px-2">
-                    {/* Top row containing Icon and Optional "New" Badge */}
-                    <div className="flex items-center justify-between">
-                      <div className={cn("p-1 rounded-lg border border-zinc-800/20", feature.iconBg)}>
-                        <IconComponent className={cn("size-3", feature.iconColor)} />
-                      </div>
-                    </div>
-                    {/* Text content elements */}
-                    <CardTitle className="text-xs font-medium text-zinc-200 tracking-tight group-hover:text-zinc-100 transition-colors">
-                      {feature.title}
-                    </CardTitle>{" "}
-                  </div>
-                </Card>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </div>
     </div>
   );
 }
@@ -898,7 +532,7 @@ const LinkedInIcon = ({ size = 16, altTitle = "LinkedIn Profile", className = ""
       viewBox="0 0 24 24"
       role="img"
       aria-label={altTitle}
-      className={`fill-current text-muted-foreground hover:text-foreground transition-colors ${className}`}
+      className={cn("fill-current text-muted-foreground hover:text-foreground transition-colors", className)}
       {...props}
     >
       <title>{altTitle}</title>
@@ -921,7 +555,7 @@ const GitHubIcon = ({ size = 16, altTitle = "GitHub Profile", className = "", ..
       viewBox="0 0 24 24"
       role="img"
       aria-label={altTitle}
-      className={`fill-current text-muted-foreground hover:text-foreground transition-colors ${className}`}
+      className={cn("fill-current text-muted-foreground hover:text-foreground transition-colors", className)}
       {...props}
     >
       <title>{altTitle}</title>
@@ -929,3 +563,282 @@ const GitHubIcon = ({ size = 16, altTitle = "GitHub Profile", className = "", ..
     </svg>
   );
 };
+
+export function FeaturedNetworkMatrix() {
+  const [expandedRows, setExpandedRows] = useState<Record<number, boolean>>({ 0: true });
+
+  interface KpiItem {
+    title: string;
+    count: string;
+    border: string;
+    bg: string;
+  }
+
+  const kpis: KpiItem[] = [
+    { title: "TOTAL NODES", count: "6", border: "border-t-blue-500", bg: "bg-blue-500/5" },
+    { title: "FULLY LINKED", count: "6", border: "border-t-emerald-500", bg: "bg-emerald-500/5" },
+    { title: "IN PROGRESS", count: "0", border: "border-t-amber-500", bg: "bg-amber-500/5" },
+    { title: "NOT STARTED", count: "0", border: "border-t-rose-500", bg: "bg-rose-500/5" },
+  ];
+
+  const structuralData: ParentRow[] = [
+    {
+      parentUrl: "/about/company-overview",
+      linksCount: "3 Links",
+      badgeType: "3A",
+      healthScore: 65,
+      stateLabel: "Review Needed",
+      children: [
+        {
+          title: "Enterprise Security",
+          path: "/products/enterprise-security",
+          anchor: "our security products",
+          status: "Active",
+        },
+        {
+          title: "Financial Services",
+          path: "/solutions/financial-services",
+          anchor: "financial solutions overview",
+          status: "Stale",
+        },
+        {
+          title: "API Reference",
+          path: "/docs/api-reference-v3",
+          anchor: "developer resources",
+          status: "Pending Delete",
+        },
+      ],
+    },
+  ];
+
+  const toggleRow = (index: number): void => {
+    setExpandedRows((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
+
+  const getStatusStyles = (status: LinkStatus): string => {
+    switch (status) {
+      case "Active":
+        return "bg-emerald-500/5 border-emerald-500/10 text-emerald-400";
+      case "Stale":
+        return "bg-amber-500/5 border-amber-500/10 text-amber-400";
+      case "Pending Delete":
+        return "bg-rose-500/5 border-rose-500/10 text-rose-400";
+      default:
+        return "bg-white/5 border-white/10 text-[#888892]";
+    }
+  };
+
+  const getProgressBarColor = (score: number): string => {
+    if (score === 100) return "bg-emerald-500";
+    if (score >= 50) return "bg-amber-500";
+    return "bg-rose-500";
+  };
+
+  return (
+    <div
+      className={cn(
+        "w-full bg-[#090a0d] border border-white/5 rounded-xl overflow-hidden shadow-2xl font-sans text-[0.76rem] text-[#888892] select-none animate-in fade-in duration-500"
+      )}
+    >
+      <div className={cn("flex items-center justify-between px-5 py-3 bg-white/[0.01] border-b border-white/5")}>
+        <div className={cn("flex items-center gap-2")}>
+          <div className={cn("flex gap-1.5")}>
+            <span className={cn("size-2 rounded-full bg-white/5")} />
+            <span className={cn("size-2 rounded-full bg-white/5")} />
+          </div>
+          <span className={cn("font-mono text-[0.66rem] text-[#44444e] ml-2")}>
+            Linker / Dashboard / Custom Network
+          </span>
+        </div>
+      </div>
+
+      <div className={cn("p-6 space-y-5")}>
+        <div className={cn("grid grid-cols-2 lg:grid-cols-4 gap-3")}>
+          {kpis.map((kpi, idx) => (
+            <div
+              key={idx}
+              className={cn("p-2 bg-white/1 border border-white/5 border-t-2 rounded-md", kpi.border, kpi.bg)}
+            >
+              <div className={cn("text-[0.5rem] text-[#44444e] tracking-wider font-bold")}>{kpi.title}</div>
+              <div className={cn("font-extrabold text-[#f0f0f2] tracking-tight text-xs mt-1")}>{kpi.count}</div>
+            </div>
+          ))}
+        </div>
+
+        <div
+          className={cn(
+            "flex flex-col sm:flex-row gap-2 items-center justify-between bg-white/0.5 border border-white/5 px-2 py-1 rounded"
+          )}
+        >
+          <div className={cn("relative w-full sm:w-64")}>
+            <Search className={cn("absolute left-2.5 top-2 size-2 text-[#44444e]")} />
+            <input
+              disabled
+              placeholder="Filter pages..."
+              className={cn(
+                "w-full h-4 bg-[#0d0e12] border border-white/5 rounded pl-8 pr-3 py-1 text-[0.7rem] text-[#44444e] focus:outline-hidden"
+              )}
+            />
+          </div>
+          <div className={cn("flex gap-1.5 w-full sm:w-auto justify-end font-mono text-[0.64rem]")}>
+            <Button
+              className={cn(
+                "flex h-4 items-center gap-1 bg-white/2 border border-white/5 px-2 py-1 rounded text-[#44444e] text-[.5rem]"
+              )}
+            >
+              <SlidersHorizontal className={cn("size-1.5")} /> State
+            </Button>
+            <Button
+              className={cn("bg-white/2 h-4 border border-white/5 px-2 py-1 rounded text-[#44444e] text-[.5rem]")}
+            >
+              Collapse All
+            </Button>
+          </div>
+        </div>
+
+        <div className={cn("border border-white/5 rounded-lg overflow-hidden bg-[#0d0e12]/40")}>
+          <div
+            className={cn(
+              "grid grid-cols-[40px_1fr_120px_110px] items-center px-4 py-2.5 bg-white/1 border-b border-white/5 text-[0.65rem] font-bold uppercase tracking-wider text-[#44444e]"
+            )}
+          >
+            <div />
+            <div>Page URL</div>
+            <div>Link Composition</div>
+            <div className={cn("text-right")}>State</div>
+          </div>
+
+          <div className={cn("divide-y divide-white/3")}>
+            {structuralData.map((row, idx) => {
+              const isExpanded = !!expandedRows[idx];
+              return (
+                <div
+                  key={idx}
+                  className={cn(
+                    "bg-white/[0.002] cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-[#00d4a8]"
+                  )}
+                  onClick={() => toggleRow(idx)}
+                >
+                  <div
+                    className={cn(
+                      "grid grid-cols-[40px_1fr_120px_110px] items-center px-4 py-3.5 hover:bg-white/1 transition-colors"
+                    )}
+                  >
+                    {isExpanded ? (
+                      <ChevronUp className={cn("size-3 text-[#00d4a8]")} />
+                    ) : (
+                      <ChevronDown className={cn("size-3")} />
+                    )}
+                    <div className={cn("flex items-center gap-1 text-blue-400 font-mono text-[0.72rem] truncate pr-4")}>
+                      {row.parentUrl}
+                      <ArrowUpRight className={cn("size-3 text-[#44444e] shrink-0")} />
+                    </div>
+
+                    <div className={cn("pr-4")}>
+                      <div className={cn("w-full h-1.5 bg-white/5 rounded-full overflow-hidden")}>
+                        <div
+                          className={cn("h-full rounded-full", getProgressBarColor(row.healthScore))}
+                          style={{ width: `${row.healthScore}%` }}
+                        />
+                      </div>
+                      <div className={cn("flex justify-between text-[0.58rem] text-[#44444e] mt-1 font-mono")}>
+                        <span>{row.linksCount}</span>
+                        <span className={cn(row.healthScore === 100 ? "text-[#00d4a8]" : "text-amber-400")}>
+                          {row.badgeType}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div
+                      className={cn(
+                        "flex items-center gap-1.5 justify-end font-medium text-[0.72rem]",
+                        row.healthScore === 100 ? "text-[#00d4a8]" : "text-amber-400"
+                      )}
+                    >
+                      <span
+                        className={cn("size-1 rounded-full", row.healthScore === 100 ? "bg-[#00d4a8]" : "bg-amber-400")}
+                      />
+                      {row.stateLabel}
+                    </div>
+                  </div>
+
+                  {isExpanded && (
+                    <div
+                      className={cn(
+                        "px-5 pb-5 pt-1 bg-black/10 border-t border-white/[0.02] animate-in fade-in slide-in-from-top-1 duration-200"
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          "bg-[#111319] border border-white/5 rounded-t-md px-3.5 py-2 text-[0.64rem] font-mono tracking-wider font-semibold text-blue-400/90 uppercase flex items-center gap-1.5"
+                        )}
+                      >
+                        <BarChart3 className={cn("size-3 text-[#00d4a8]")} /> Target links for {row.parentUrl}
+                      </div>
+
+                      <div
+                        className={cn("border-x border-b border-white/5 bg-[#08090d]/60 rounded-b-md overflow-hidden")}
+                      >
+                        <div
+                          className={cn(
+                            "grid grid-cols-[1.2fr_1fr_100px] px-4 py-2 text-[0.62rem] uppercase tracking-wider text-[#44444e] font-bold border-b border-white/5 bg-white/[0.005]"
+                          )}
+                        >
+                          <div>Page Title & Path</div>
+                          <div>Anchor Text</div>
+                          <div className={cn("text-right")}>Status</div>
+                        </div>
+
+                        <div className={cn("divide-y divide-white/[0.02]")}>
+                          {row.children.map((child, cIdx) => (
+                            <div
+                              key={cIdx}
+                              className={cn(
+                                "grid grid-cols-[1.2fr_1fr_100px] px-4 py-3 items-center hover:bg-white/[0.005] transition-colors"
+                              )}
+                            >
+                              <div className={cn("truncate pr-3")}>
+                                <div className={cn("text-[#f0f0f2] font-medium tracking-tight text-[0.72rem] mb-0.5")}>
+                                  {child.title}
+                                </div>
+                                <div className={cn("text-blue-400/70 font-mono text-[0.66rem] truncate")}>
+                                  {child.path}
+                                </div>
+                              </div>
+                              <div className={cn("text-[#888892] italic font-serif text-[0.74rem] truncate pr-2")}>
+                                "{child.anchor}"
+                              </div>
+                              <div className={cn("text-right")}>
+                                <span
+                                  className={cn(
+                                    "inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-medium border",
+                                    getStatusStyles(child.status)
+                                  )}
+                                >
+                                  {child.status}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={cn(
+          "px-5 py-2.5 bg-white/[0.002] border-t border-white/5 flex justify-between items-center text-[0.64rem] font-mono text-[#44444e]"
+        )}
+      >
+        <div>Rows mapped: 6 pages indexed</div>
+        <div>DOM View: Virtual Grid Context Layer</div>
+      </div>
+    </div>
+  );
+}
