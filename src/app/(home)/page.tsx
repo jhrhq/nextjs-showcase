@@ -194,16 +194,17 @@ export default function PortfolioPage() {
           </Badge>
 
           <h1 className="font-display text-5xl md:text-7xl lg:text-[5.8rem] font-extrabold leading-[1.03] tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 delay-75 duration-500">
-            I build
+            Complete
             <br />
-            <span className="text-[#44444e]">production-grade</span>
+            <span className="text-[#44444e]">frontend execution for</span>
             <br />
-            <span className="text-[#00d4a8]">SaaS frontends.</span>
+            <span className="text-[#00d4a8]">the web.</span>
           </h1>
 
-          <p className="text-[1.08rem] text-[#888892] max-w-[520px] leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-4 delay-150 duration-500">
-            Frontend engineer specializing in React, TypeScript, and modern UI systems. I turn complex product ideas
-            into clean, scalable interfaces — solo or on a team.
+          <p className="text-[1.08rem] text-[#888892] max-w-[500px] leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-4 delay-150 duration-500">
+            I build high-performance products from scratch. Over the past 3 years, I single-handedly managed the full
+            frontend lifecycle, API integrations, and performance of a live commercial SaaS platform. From dashboards to
+            e-commerce, I handle everything from setup to deployment.
           </p>
 
           <div className="flex gap-3.5 flex-wrap mb-16 animate-in fade-in slide-in-from-bottom-4 delay-200 duration-500">
@@ -217,7 +218,7 @@ export default function PortfolioPage() {
 
           <div className="flex gap-14 border-t border-white/5 pt-8 animate-in fade-in slide-in-from-bottom-4 delay-300 duration-500">
             <div>
-              <div className="font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]">2+</div>
+              <div className="font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]">3</div>
               <div className="text-[0.78rem] text-[#44444e] mt-1 font-mono">Years building products</div>
             </div>
             <div>
