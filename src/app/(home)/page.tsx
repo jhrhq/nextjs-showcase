@@ -64,19 +64,19 @@ const STACK: string[] = [
 
 const PROJECTS: ProjectItem[] = [
   {
-    icon: <BarChart3 className={cn("size-5 text-[#00d4a8]")} />,
+    icon: <BarChart3 className="size-5 text-[#00d4a8]" />,
     name: "DataBoard",
     desc: "Real-time analytics dashboard with virtual-scrolled tables, custom chart components, and multi-format CSV/JSON export.",
     tech: "React · TanStack Table · Recharts",
   },
   {
-    icon: <Target className={cn("size-5 text-[#00d4a8]")} />,
+    icon: <Target className="size-5 text-[#00d4a8]" />,
     name: "Taskr",
     desc: "Kanban-style project tool with optimistic drag-and-drop, label filtering, and real-time multi-user state sync.",
     tech: "Next.js · Zustand · dnd-kit",
   },
   {
-    icon: <Key className={cn("size-5 text-[#00d4a8]")} />,
+    icon: <Key className="size-5 text-[#00d4a8]" />,
     name: "AuthKit UI",
     desc: "Headless auth component library — 12 composable components, full a11y, dark/light theme tokens, and TypeScript generics.",
     tech: "React · TypeScript · Radix UI",
@@ -128,60 +128,46 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div
-      className={cn(
-        "min-h-screen bg-[#080809] text-[#f0f0f2] font-sans antialiased selection:bg-[#00d4a8]/30 selection:text-white"
-      )}
-    >
+    <div className="min-h-screen bg-[#080809] text-[#f0f0f2] font-sans antialiased selection:bg-[#00d4a8]/30 selection:text-white">
       <nav
         className={cn(
           "fixed top-0 inset-x-0 z-50 h-15 flex items-center border-b border-white/5 transition-all duration-700",
           scrolled ? "bg-[#080809]/92 backdrop-blur-xl" : "bg-[#080809]/75 backdrop-blur-xl"
         )}
       >
-        <div className={cn("max-w-5xl mx-auto w-full px-8 flex items-center justify-between")}>
+        <div className="max-w-5xl mx-auto w-full px-8 flex items-center justify-between">
           <button
             type="button"
-            className={cn(
-              "font-display font-extrabold text-[1.05rem] tracking-tight cursor-pointer bg-transparent border-none p-0 text-left text-inherit"
-            )}
+            className="font-display font-extrabold text-[1.05rem] tracking-tight cursor-pointer bg-transparent border-none p-0 text-left text-inherit"
             onClick={() => scrollTo("hero")}
           >
-            dev<span className={cn("text-[#00d4a8]")}>.</span>
+            dev<span className="text-[#00d4a8]">.</span>
           </button>
-          <div className={cn("flex items-center gap-9")}>
+          <div className="flex items-center gap-9">
             <button
               type="button"
-              className={cn(
-                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
-              )}
+              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("work")}
             >
               Work
             </button>
             <button
               type="button"
-              className={cn(
-                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
-              )}
+              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("projects")}
             >
               Projects
             </button>
             <button
               type="button"
-              className={cn(
-                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
-              )}
+              className="text-sm text-[#888892] hover:text-[#f0f0f2] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("about")}
             >
               About
             </button>
             <Button
               size="sm"
-              className={cn(
-                "bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold text-sm rounded-[7px] cursor-pointer shadow-none"
-              )}
+              className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold text-sm rounded-[7px] cursor-pointer shadow-none"
               onClick={() => scrollTo("contact")}
             >
               Contact
@@ -190,155 +176,105 @@ export default function PortfolioPage() {
         </div>
       </nav>
 
-      <section id="hero" className={cn("min-h-screen flex flex-col justify-center pt-15 relative overflow-hidden")}>
-        <div
-          className={cn(
-            "absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-size-[64px_64px] mask-[radial-gradient(ellipse_80%_80%_at_50%_50%,black_40%,transparent_100%)]"
-          )}
-        />
-        <div
-          className={cn(
-            "absolute top-[18%] left-1/2 -translate-x-1/2 w-170 h-110 pointer-events-none bg-[radial-gradient(ellipse,rgba(0,212,168,0.07)_0%,transparent_68%)]"
-          )}
-        />
-        <div className={cn("max-w-5xl mx-auto w-full px-8 relative z-10")}>
-          <Badge
-            className={cn(
-              "inline-flex items-center gap-2 font-mono text-[0.72rem] text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/20 hover:bg-[#00d4a8]/10 px-3 py-1 rounded-full mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
-            )}
-          >
-            <span className={cn("size-1.5 rounded-full bg-[#00d4a8] animate-pulse")} />
+      <section id="hero" className="min-h-screen flex flex-col justify-center pt-15 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-size-[64px_64px] mask-[radial-gradient(ellipse_80%_80%_at_50%_50%,black_40%,transparent_100%)]" />
+        <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-170 h-110 pointer-events-none bg-[radial-gradient(ellipse,rgba(0,212,168,0.07)_0%,transparent_68%)]" />
+        <div className="max-w-5xl mx-auto w-full px-8 relative z-10">
+          <Badge className="inline-flex items-center gap-2 font-mono text-[0.72rem] text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/20 hover:bg-[#00d4a8]/10 px-3 py-1 rounded-full mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <span className="size-1.5 rounded-full bg-[#00d4a8] animate-pulse" />
             Available for work
           </Badge>
-          <h1
-            className={cn(
-              "font-display text-5xl md:text-7xl lg:text-[5.8rem] font-extrabold leading-[1.03] tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 delay-75 duration-500"
-            )}
-          >
+          <h1 className="font-display text-5xl md:text-7xl lg:text-[5.8rem] font-extrabold leading-[1.03] tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 delay-75 duration-500">
             I build <br />
-            <span className={cn("text-[#44444e]")}>production-grade</span>
-            <br /> <span className={cn("text-[#00d4a8]")}>web apps.</span>
+            <span className="text-[#44444e]">production-grade</span>
+            <br /> <span className="text-[#00d4a8]">web apps.</span>
           </h1>
-          <p
-            className={cn(
-              "text-[1.08rem] text-[#888892] max-w-125 leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-4 delay-150 duration-500"
-            )}
-          >
+          <p className="text-[1.08rem] text-[#888892] max-w-125 leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-4 delay-150 duration-500">
             I build high-performance products from scratch. Over the past 3 years, I single-handedly managed the full
             frontend lifecycle, API integrations, and performance of a live commercial SaaS platform.
           </p>
-          <div
-            className={cn(
-              "flex gap-3.5 flex-wrap mb-16 animate-in fade-in slide-in-from-bottom-4 delay-200 duration-500"
-            )}
-          >
+          <div className="flex gap-3.5 flex-wrap mb-16 animate-in fade-in slide-in-from-bottom-4 delay-200 duration-500">
             <Button
-              className={cn(
-                "bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8] hover:scale-[1.01] hover:shadow-[0_10px_28px_rgba(0,212,168,0.25)] transition-all font-semibold px-5 py-6 rounded-lg text-sm cursor-pointer shadow-none"
-              )}
+              className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8] hover:scale-[1.01] hover:shadow-[0_10px_28px_rgba(0,212,168,0.25)] transition-all font-semibold px-5 py-6 rounded-lg text-sm cursor-pointer shadow-none"
               onClick={() => scrollTo("work")}
             >
-              View Projects <ArrowRight className={cn("size-4 ml-1.5")} />
+              View Projects <ArrowRight className="size-4 ml-1.5" />
             </Button>
           </div>
-          <div
-            className={cn(
-              "flex gap-14 border-t border-white/5 pt-8 animate-in fade-in slide-in-from-bottom-4 delay-300 duration-500"
-            )}
-          >
+          <div className="flex gap-14 border-t border-white/5 pt-8 animate-in fade-in slide-in-from-bottom-4 delay-300 duration-500">
             <div>
-              <div className={cn("font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]")}>3</div>
-              <div className={cn("text-[0.78rem] text-[#44444e] mt-1 font-mono")}>Years building products</div>
+              <div className="font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]">3</div>
+              <div className="text-[0.78rem] text-[#44444e] mt-1 font-mono">Years building products</div>
             </div>
             <div>
-              <div className={cn("font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]")}>1</div>
-              <div className={cn("text-[0.78rem] text-[#44444e] mt-1 font-mono")}>Production SaaS shipped</div>
+              <div className="font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]">1</div>
+              <div className="text-[0.78rem] text-[#44444e] mt-1 font-mono">Production SaaS shipped</div>
             </div>
             <div>
-              <div className={cn("font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]")}>Solo</div>
-              <div className={cn("text-[0.78rem] text-[#44444e] mt-1 font-mono")}>Frontend architect</div>
+              <div className="font-display text-3xl font-extrabold tracking-tight text-[#f0f0f2]">Solo</div>
+              <div className="text-[0.78rem] text-[#44444e] mt-1 font-mono">Frontend architect</div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="work" className={cn("py-26")}>
-        <div className={cn("max-w-5xl mx-auto px-8")}>
-          <div className={cn("rv opacity-0 translate-y-6 transition-all duration-700 ease-out")}>
-            <h2 className={cn("font-display text-3xl md:text-4xl font-bold tracking-tight text-[#f0f0f2] mb-3.5")}>
+      <section id="work" className="py-26">
+        <div className="max-w-5xl mx-auto px-8">
+          <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
+            <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-[#f0f0f2] mb-3.5">
               Commercial Work
             </h2>
-            <p className={cn("text-[0.95rem] text-[#888892] max-w-1 rv20 leading-relaxed")}>
+            <p className="text-[0.95rem] text-[#888892] max-w-120 leading-relaxed">
               A production SaaS application I single-handedly architected and built during my 3 years at Zventures.
             </p>
           </div>
-          <Card
-            className={cn(
-              "mt-12 bg-white/3 border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none"
-            )}
-          >
-            <div
-              className={cn(
-                "absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent"
-              )}
-            />
+          <Card className="mt-12 bg-white/3 border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none">
+            <div className="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent" />
             <div>
-              <div
-                className={cn(
-                  "inline-block font-mono text-[0.69rem] text-[#00d4a8] bg-[#00d4a8]/5 border border-[#00d4a8]/20 px-2.5 py-1 rounded mb-4"
-                )}
-              >
+              <div className="inline-block font-mono text-[0.69rem] text-[#00d4a8] bg-[#00d4a8]/5 border border-[#00d4a8]/20 px-2.5 py-1 rounded mb-4">
                 Full Frontend Lifecycle · Solo Execution
               </div>
-              <h3 className={cn("font-display text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-1.5")}>
-                LinkBoss
-              </h3>
-              <div className={cn("font-mono text-[0.8rem] text-[#00d4a8] mb-5")}>
-                <a href="https://linkboss.io" target="_blank" rel="noreferrer" className={cn("hover:underline")}>
+              <h3 className="font-display text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-1.5">LinkBoss</h3>
+              <div className="font-mono text-[0.8rem] text-[#00d4a8] mb-5">
+                <a href="https://linkboss.io" target="_blank" rel="noreferrer" className="hover:underline">
                   linkboss.io
                 </a>
               </div>
-              <p className={cn("text-[0.92rem] text-[#888892] leading-relaxed mb-6")}>
+              <p className="text-[0.92rem] text-[#888892] leading-relaxed mb-6">
                 An AI-powered SEO internal linking SaaS built for massive site audits and link automation. As the sole
                 frontend developer, I spent 3 years architecting and maintaining the entire application interface. I
                 engineered high-performance asynchronous data views, multi-site dashboards, and bulk execution modules
                 capable of handling thousands of link variations without UI bottlenecks.
               </p>
-              <div className={cn("flex gap-2 flex-wrap mb-7")}>
+              <div className="flex gap-2 flex-wrap mb-7">
                 {STACK.map((t) => (
                   <span
                     key={t}
-                    className={cn(
-                      "font-mono text-[0.7rem] text-[#888892] bg-white/4 border border-white/5 px-2 py-1 rounded"
-                    )}
+                    className="font-mono text-[0.7rem] text-[#888892] bg-white/4 border border-white/5 px-2 py-1 rounded"
                   >
                     {t}
                   </span>
                 ))}
               </div>
-              <div className={cn("flex gap-3 flex-wrap")}>
+              <div className="flex gap-3 flex-wrap">
                 <Button
                   size="sm"
                   variant="outline"
                   asChild
-                  className={cn(
-                    "text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/25 hover:bg-[#00d4a8]/15 px-4 rounded-[7px] shadow-none cursor-pointer"
-                  )}
+                  className="text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/25 hover:bg-[#00d4a8]/15 px-4 rounded-[7px] shadow-none cursor-pointer"
                 >
                   <a href="https://app.linkboss.io" target="_blank" rel="noreferrer">
-                    Live App <ArrowUpRight className={cn("size-3.5 ml-1")} />
+                    Live App <ArrowUpRight className="size-3.5 ml-1" />
                   </a>
                 </Button>
                 <Button
                   size="sm"
                   variant="outline"
                   asChild
-                  className={cn(
-                    "text-[#f0f0f2] bg-white/2 border-white/5 hover:border-white/15 hover:bg-white/6 px-4 rounded-[7px] shadow-none cursor-pointer"
-                  )}
+                  className="text-[#f0f0f2] bg-white/2 border-white/5 hover:border-white/15 hover:bg-white/6 px-4 rounded-[7px] shadow-none cursor-pointer"
                 >
                   <a href="https://your-demo-subdomain.vercel.app" target="_blank" rel="noreferrer">
-                    Architecture Demo <ExternalLink className={cn("size-3.5 ml-1.5")} />
+                    Architecture Demo <ExternalLink className="size-3.5 ml-1.5" />
                   </a>
                 </Button>
               </div>
@@ -348,35 +284,25 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section id="projects" className={cn("py-4")}>
-        <div className={cn("max-w-5xl mx-auto px-8")}>
-          <div className={cn("rv opacity-0 translate-y-6 transition-all duration-700 ease-out")}>
-            <h2 className={cn("font-display text-3xl font-bold tracking-tight text-[#f0f0f2]")}>Other Projects</h2>
+      <section id="projects" className="py-4">
+        <div className="max-w-5xl mx-auto px-8">
+          <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
+            <h2 className="font-display text-3xl font-bold tracking-tight text-[#f0f0f2]">Other Projects</h2>
           </div>
-          <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12")}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
             {PROJECTS.map((p) => (
               <Card
                 key={p.name}
-                className={cn(
-                  "bg-white/3 border-white/5 rounded-[14px] p-7 cursor-pointer group hover:border-white/20 hover:bg-white/6 hover:-translate-y-1 flex flex-col rv opacity-0 translate-y-6 transition-all duration-700 ease-out shadow-none"
-                )}
+                className="bg-white/3 border-white/5 rounded-[14px] p-7 cursor-pointer group hover:border-white/20 hover:bg-white/6 hover:-translate-y-1 flex flex-col rv opacity-0 translate-y-6 transition-all duration-700 ease-out shadow-none"
               >
-                <div
-                  className={cn(
-                    "size-105 rounded-lg text-lg bg-[#00d4a8]/5 border border-[#00d4a8]/20 flex items-center justify-center mb-4"
-                  )}
-                >
+                <div className="size-10.5 rounded-lg text-lg bg-[#00d4a8]/5 border border-[#00d4a8]/20 flex items-center justify-center mb-4">
                   {p.icon}
                 </div>
-                <h3 className={cn("font-display text-lg font-bold tracking-tight text-[#f0f0f2] mb-1.5")}>{p.name}</h3>
-                <p className={cn("text-[0.84rem] text-[#888892] leading-relaxed flex-1 mb-4")}>{p.desc}</p>
-                <div className={cn("flex justify-between items-center pt-2")}>
-                  <span className={cn("font-mono text-[0.68rem] text-[#44444e]")}>{p.tech}</span>
-                  <ArrowUpRight
-                    className={cn(
-                      "size-4 text-[#44444e] transition-transform duration-200 group-hover:text-[#00d4a8] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    )}
-                  />
+                <h3 className="font-display text-lg font-bold tracking-tight text-[#f0f0f2] mb-1.5">{p.name}</h3>
+                <p className="text-[0.84rem] text-[#888892] leading-relaxed flex-1 mb-4">{p.desc}</p>
+                <div className="flex justify-between items-center pt-2">
+                  <span className="font-mono text-[0.68rem] text-[#44444e]">{p.tech}</span>
+                  <ArrowUpRight className="size-4 text-[#44444e] transition-transform duration-200 group-hover:text-[#00d4a8] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </Card>
             ))}
@@ -384,49 +310,39 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section id="about" className={cn("py-26")}>
-        <div className={cn("max-w-5xl mx-auto px-8")}>
-          <div className={cn("rv opacity-0 translate-y-6 transition-all duration-700 ease-out")}>
-            <h2 className={cn("font-display text-3xl font-bold tracking-tight text-[#f0f0f2]")}>Who I Am</h2>
+      <section id="about" className="py-26">
+        <div className="max-w-5xl mx-auto px-8">
+          <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
+            <h2 className="font-display text-3xl font-bold tracking-tight text-[#f0f0f2]">Who I Am</h2>
           </div>
-          <div className={cn("grid grid-cols-1 lg:grid-cols-2 gap-18 mt-12 items-start")}>
-            <div className={cn("rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 space-y-5")}>
-              <p className={cn("text-[0.93rem] text-[#888892] leading-relaxed")}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-18 mt-12 items-start">
+            <div className="rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 space-y-5">
+              <p className="text-[0.93rem] text-[#888892] leading-relaxed">
                 I'm a frontend engineer who cares deeply about what gets shipped. I've built production SaaS
                 applications from zero to launch — not just feature work, but full architecture decisions, design system
                 creation, and performance optimization.
               </p>
-              <p className={cn("text-[0.93rem] text-[#888892] leading-relaxed")}>
+              <p className="text-[0.93rem] text-[#888892] leading-relaxed">
                 Working solo on LinkBoss taught me how to think at a system level: how to structure state for complex
                 data flows, how to keep large tables fast, and how to build UI that handles real-world edge cases, not
                 just the happy path.
               </p>
-              <p className={cn("text-[0.93rem] text-[#888892] leading-relaxed")}>
+              <p className="text-[0.93rem] text-[#888892] leading-relaxed">
                 I default to React and TypeScript, reach for the right abstraction for each problem, and care about
                 performance, accessibility, and developer experience in equal measure.
               </p>
             </div>
-            <div
-              className={cn(
-                "flex flex-col gap-2.5 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-150"
-              )}
-            >
+            <div className="flex flex-col gap-2.5 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-150">
               {SKILLS.map((s) => (
                 <div
                   key={s.name}
-                  className={cn(
-                    "flex justify-between items-center px-4 py-3 bg-white/3 border border-white/5 rounded-lg text-sm hover:border-white/15 transition-all duration-700 group"
-                  )}
+                  className="flex justify-between items-center px-4 py-3 bg-white/3 border border-white/5 rounded-lg text-sm hover:border-white/15 transition-all duration-700 group"
                 >
-                  <div
-                    className={cn(
-                      "flex items-center gap-2.5 text-[#888892] group-hover:text-[#f0f0f2] transition-all duration-700"
-                    )}
-                  >
-                    <span className={cn("size-1.5 rounded-full bg-[#00d4a8]")} />
+                  <div className="flex items-center gap-2.5 text-[#888892] group-hover:text-[#f0f0f2] transition-all duration-700">
+                    <span className="size-1.5 rounded-full bg-[#00d4a8]" />
                     <span>{s.name}</span>
                   </div>
-                  <span className={cn("font-mono text-[0.69rem] text-[#44444e]")}>{s.note}</span>
+                  <span className="font-mono text-[0.69rem] text-[#44444e]">{s.note}</span>
                 </div>
               ))}
             </div>
@@ -434,42 +350,26 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section id="contact" className={cn("py-26")}>
-        <div className={cn("max-w-5xl mx-auto px-8")}>
-          <div
-            className={cn(
-              "relative overflow-hidden bg-white/3 border border-white/5 rounded-[22px] py-18 px-8 text-center rv opacity-0 translate-y-6 transition-all duration-700 ease-out"
-            )}
-          >
-            <div
-              className={cn(
-                "absolute top-0 left-1/2 -translate-x-1/2 w-85 h-px bg-linear-to-r from-transparent via-[#00d4a8] to-transparent opacity-70"
-              )}
-            />
-            <div
-              className={cn(
-                "absolute -top-15 left-1/2 -translate-x-1/2 w-100 -top-[60px]h-50 bg-[radial-gradient(ellipse,rgba(0,212,168,0.07),transparent_70%)] pointer-events-none"
-              )}
-            />
-            <div className={cn("relative z-10")}>
-              <h2
-                className={cn("font-display text-4xl md:text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-4")}
-              >
+      <section id="contact" className="py-26">
+        <div className="max-w-5xl mx-auto px-8">
+          <div className="relative overflow-hidden bg-white/3 border border-white/5 rounded-[22px] py-18 px-8 text-center rv opacity-0 translate-y-6 transition-all duration-700 ease-out">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-85 h-px bg-linear-to-r from-transparent via-[#00d4a8] to-transparent opacity-70" />
+            <div className="absolute -top-15 left-1/2 -translate-x-1/2 w-100 h-50 bg-[radial-gradient(ellipse,rgba(0,212,168,0.07),transparent_70%)] pointer-events-none" />
+            <div className="relative z-10">
+              <h2 className="font-display text-4xl md:text-5xl font-extrabold tracking-tighter text-[#f0f0f2] mb-4">
                 Let's build something.
               </h2>
-              <p className={cn("text-[#888892] max-w-95 mx-auto text-[0.95rem] leading-relaxed mb-9")}>
+              <p className="text-[#888892] max-w-95 mx-auto text-[0.95rem] leading-relaxed mb-9">
                 Open to frontend roles, contract projects, and interesting product challenges.
               </p>
-              <div className={cn("flex gap-3.5 justify-center flex-wrap")}>
+              <div className="flex gap-3.5 justify-center flex-wrap">
                 <Button
-                  className={cn(
-                    "bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold px-5 rounded-lg cursor-pointer shadow-none"
-                  )}
+                  className="bg-[#00d4a8] text-[#05100e] hover:bg-[#00d4a8]/85 font-semibold px-5 rounded-lg cursor-pointer shadow-none"
                   asChild
                 >
                   <a href="mailto:hello@example.com">
-                    <Mail className={cn("size-4 mr-2")} />
-                    jhr.haq@gmail.com <ArrowRight className={cn("size-3.5 ml-1.5")} />
+                    <Mail className="size-4 mr-2" />
+                    jhr.haq@gmail.com <ArrowRight className="size-3.5 ml-1.5" />
                   </a>
                 </Button>
               </div>
@@ -478,35 +378,27 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <footer className={cn("border-t border-white/5 py-7")}>
-        <div className={cn("max-w-5xl mx-auto px-8 flex justify-between items-center")}>
-          <div className={cn("font-mono text-[0.72rem] text-[#44444e]")}>
-            © 2026 — Built with Next.js & Tailwind CSS
-          </div>
-          <div className={cn("flex gap-6")}>
+      <footer className="border-t border-white/5 py-7">
+        <div className="max-w-5xl mx-auto px-8 flex justify-between items-center">
+          <div className="font-mono text-[0.72rem] text-[#44444e]">© 2026 — Built with Next.js & Tailwind CSS</div>
+          <div className="flex gap-6">
             <button
               type="button"
-              className={cn(
-                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
-              )}
+              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("work")}
             >
               Work
             </button>
             <button
               type="button"
-              className={cn(
-                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
-              )}
+              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("projects")}
             >
               Projects
             </button>
             <button
               type="button"
-              className={cn(
-                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
-              )}
+              className="text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               onClick={() => scrollTo("contact")}
             >
               Contact
@@ -637,69 +529,51 @@ export function FeaturedNetworkMatrix() {
   };
 
   return (
-    <div
-      className={cn(
-        "w-full bg-[#090a0d] border border-white/5 rounded-xl overflow-hidden shadow-2xl font-sans text-[0.76rem] text-[#888892] select-none animate-in fade-in duration-500"
-      )}
-    >
-      <div className={cn("flex items-center justify-between px-5 py-3 bg-white/1 border-b border-white/5")}>
-        <div className={cn("flex items-center gap-2")}>
-          <div className={cn("flex gap-1.5")}>
-            <span className={cn("size-2 rounded-full bg-white/5")} />
-            <span className={cn("size-2 rounded-full bg-white/5")} />
+    <div className="w-full bg-[#090a0d] border border-white/5 rounded-xl overflow-hidden shadow-2xl font-sans text-[0.76rem] text-[#888892] select-none animate-in fade-in duration-500">
+      <div className="flex items-center justify-between px-5 py-3 bg-white/1 border-b border-white/5">
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1.5">
+            <span className="size-2 rounded-full bg-white/5" />
+            <span className="size-2 rounded-full bg-white/5" />
           </div>
-          <span className={cn("font-mono text-[0.66rem] text-[#44444e] ml-2")}>
-            Linker / Dashboard / Custom Network
-          </span>
+          <span className="font-mono text-[0.66rem] text-[#44444e] ml-2">Linker / Dashboard / Custom Network</span>
         </div>
       </div>
 
-      <div className={cn("p-6 space-y-5")}>
-        <div className={cn("grid grid-cols-2 lg:grid-cols-4 gap-3")}>
+      <div className="p-6 space-y-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {kpis.map((kpi, idx) => (
             <div
               key={idx}
               className={cn("p-2 bg-white/1 border border-white/5 border-t-2 rounded-md", kpi.border, kpi.bg)}
             >
-              <div className={cn("text-[0.5rem] text-[#44444e] tracking-wider font-bold")}>{kpi.title}</div>
-              <div className={cn("font-extrabold text-[#f0f0f2] tracking-tight text-xs mt-1")}>{kpi.count}</div>
+              <div className="text-[0.5rem] text-[#44444e] tracking-wider font-bold">{kpi.title}</div>
+              <div className="font-extrabold text-[#f0f0f2] tracking-tight text-xs mt-1">{kpi.count}</div>
             </div>
           ))}
         </div>
 
-        <div
-          className={cn(
-            "flex flex-col sm:flex-row gap-2 items-center justify-between bg-white/0.5 border border-white/5 px-2 py-1 rounded"
-          )}
-        >
-          <div className={cn("relative w-full sm:w-64")}>
-            <Search className={cn("absolute left-2.5 top-2 size-2 text-[#44444e]")} />
+        <div className="flex flex-col sm:flex-row gap-2 items-center justify-between bg-white/0.5 border border-white/5 px-2 py-1 rounded">
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-2.5 top-2 size-2 text-[#44444e]" />
             <input
               disabled
               placeholder="Filter pages..."
-              className={cn(
-                "w-full h-4 bg-[#0d0e12] border border-white/5 rounded pl-8 pr-3 py-1 text-[0.7rem] text-[#44444e] focus:outline-hidden"
-              )}
+              className="w-full h-4 bg-[#0d0e12] border border-white/5 rounded pl-8 pr-3 py-1 text-[0.7rem] text-[#44444e] focus:outline-hidden"
             />
           </div>
-          <div className={cn("flex gap-1.5 w-full sm:w-auto justify-end font-mono text-[0.64rem]")}>
-            <Button
-              className={cn(
-                "flex h-4 items-center gap-1 bg-white/2 border border-white/5 px-2 py-1 rounded text-[#44444e] text-[.5rem]"
-              )}
-            >
-              <SlidersHorizontal className={cn("size-1.5")} />
+          <div className="flex gap-1.5 w-full sm:w-auto justify-end font-mono text-[0.64rem]">
+            <Button className="flex h-4 items-center gap-1 bg-white/2 border border-white/5 px-2 py-1 rounded text-[#44444e] text-[.5rem]">
+              <SlidersHorizontal className="size-1.5" />
               State
             </Button>
-            <Button
-              className={cn("bg-white/2 h-4 border border-white/5 px-2 py-1 rounded text-[#44444e] text-[.5rem]")}
-            >
+            <Button className="bg-white/2 h-4 border border-white/5 px-2 py-1 rounded text-[#44444e] text-[.5rem]">
               Collapse All
             </Button>
           </div>
         </div>
 
-        <div className={cn("border border-white/5 rounded-lg overflow-hidden bg-[#0d0e12]/40")}>
+        <div className="border border-white/5 rounded-lg overflow-hidden bg-[#0d0e12]/40">
           <div
             className={cn(
               "grid grid-cols-[40px_1fr_120px_110px] items-center px-4 py-2.5 bg-white/1 border-b border-white/5 text-[0.65rem] font-bold uppercase tracking-wider text-[#44444e]"
@@ -708,41 +582,31 @@ export function FeaturedNetworkMatrix() {
             <div />
             <div>Page URL</div>
             <div>Link Composition</div>
-            <div className={cn("text-right")}>State</div>
+            <div className="text-right">State</div>
           </div>
-          <div className={cn("divide-y divide-white/3")}>
+          <div className="divide-y divide-white/3">
             {structuralData.map((row, idx) => {
               const isExpanded = !!expandedRows[idx];
               return (
                 <div
                   key={idx}
-                  className={cn(
-                    "bg-white/0.2 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-[#00d4a8]"
-                  )}
+                  className="bg-white/0.2 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-[#00d4a8]"
                   onClick={() => toggleRow(idx)}
                 >
-                  <div
-                    className={cn(
-                      "grid grid-cols-[40px_1fr_120px_110px] items-center px-4 py-3.5 hover:bg-white/1 transition-all duration-700"
-                    )}
-                  >
-                    {isExpanded ? (
-                      <ChevronUp className={cn("size-3 text-[#00d4a8]")} />
-                    ) : (
-                      <ChevronDown className={cn("size-3")} />
-                    )}
-                    <div className={cn("flex items-center gap-1 text-blue-400 font-mono text-[0.72rem] truncate pr-4")}>
+                  <div className="grid grid-cols-[40px_1fr_120px_110px] items-center px-4 py-3.5 hover:bg-white/1 transition-all duration-700">
+                    {isExpanded ? <ChevronUp className="size-3 text-[#00d4a8]" /> : <ChevronDown className="size-3" />}
+                    <div className="flex items-center gap-1 text-blue-400 font-mono text-[0.72rem] truncate pr-4">
                       {row.parentUrl}
-                      <ArrowUpRight className={cn("size-3 text-[#44444e] shrink-0")} />
+                      <ArrowUpRight className="size-3 text-[#44444e] shrink-0" />
                     </div>
-                    <div className={cn("pr-4")}>
-                      <div className={cn("w-full h-1.5 bg-white/5 rounded-full overflow-hidden")}>
+                    <div className="pr-4">
+                      <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                         <div
                           className={cn("h-full rounded-full", getProgressBarColor(row.healthScore))}
                           style={{ width: `${row.healthScore}%` }}
                         />
                       </div>
-                      <div className={cn("flex justify-between text-[0.58rem] text-[#44444e] mt-1 font-mono")}>
+                      <div className="flex justify-between text-[0.58rem] text-[#44444e] mt-1 font-mono">
                         <span>{row.linksCount}</span>
                         <span className={cn(row.healthScore === 100 ? "text-[#00d4a8]" : "text-amber-400")}>
                           {row.badgeType}
@@ -762,32 +626,18 @@ export function FeaturedNetworkMatrix() {
                     </div>
                   </div>
                   {isExpanded && (
-                    <div
-                      className={cn(
-                        "px-5 pb-5 pt-1 bg-black/10 border-t border-white/0.2 animate-in fade-in slide-in-from-top-1 duration-200"
-                      )}
-                    >
-                      <div
-                        className={cn(
-                          "bg-[#111319] border border-white/5 rounded-t-md px-3.5 py-2 text-[0.64rem] font-mono tracking-wider font-semibold text-blue-400/90 uppercase flex items-center gap-1.5"
-                        )}
-                      >
-                        <BarChart3 className={cn("size-3 text-[#00d4a8]")} />
+                    <div className="px-5 pb-5 pt-1 bg-black/10 border-t border-white/2 animate-in fade-in slide-in-from-top-1 duration-200">
+                      <div className="bg-[#111319] border border-white/5 rounded-t-md px-3.5 py-2 text-[0.64rem] font-mono tracking-wider font-semibold text-blue-400/90 uppercase flex items-center gap-1.5">
+                        <BarChart3 className="size-3 text-[#00d4a8]" />
                         Target links for {row.parentUrl}
                       </div>
-                      <div
-                        className={cn("border-x border-b border-white/5 bg-[#08090d]/60 rounded-b-md overflow-hidden")}
-                      >
-                        <div
-                          className={cn(
-                            "grid grid-cols-[1.2fr_1fr_100px] px-4 py-2 text-[0.62rem] uppercase tracking-wider text-[#44444e] font-bold border-b border-white/5 bg-white/0.5"
-                          )}
-                        >
+                      <div className="border-x border-b border-white/5 bg-[#08090d]/60 rounded-b-md overflow-hidden">
+                        <div className="grid grid-cols-[1.2fr_1fr_100px] px-4 py-2 text-[0.62rem] uppercase tracking-wider text-[#44444e] font-bold border-b border-white/5 bg-white/0.5">
                           <div>Page Title & Path</div>
                           <div>Anchor Text</div>
-                          <div className={cn("text-right")}>Status</div>
+                          <div className="text-right">Status</div>
                         </div>
-                        <div className={cn("divide-y divide-white/0.2")}>
+                        <div className="divide-y divide-white/0.2">
                           {row.children.map((child, cIdx) => (
                             <div
                               key={cIdx}
@@ -795,18 +645,16 @@ export function FeaturedNetworkMatrix() {
                                 "grid grid-cols-[1.2fr_1fr_100px] px-4 py-3 items-center hover:bg-white/0.5 transition-all duration-700"
                               )}
                             >
-                              <div className={cn("truncate pr-3")}>
-                                <div className={cn("text-[#f0f0f2] font-medium tracking-tight text-[0.72rem] mb-0.5")}>
+                              <div className="truncate pr-3">
+                                <div className="text-[#f0f0f2] font-medium tracking-tight text-[0.72rem] mb-0.5">
                                   {child.title}
                                 </div>
-                                <div className={cn("text-blue-400/70 font-mono text-[0.66rem] truncate")}>
-                                  {child.path}
-                                </div>
+                                <div className="text-blue-400/70 font-mono text-[0.66rem] truncate">{child.path}</div>
                               </div>
-                              <div className={cn("text-[#888892] italic font-serif text-[0.74rem] truncate pr-2")}>
+                              <div className="text-[#888892] italic font-serif text-[0.74rem] truncate pr-2">
                                 "{child.anchor}"
                               </div>
-                              <div className={cn("text-right")}>
+                              <div className="text-right">
                                 <span
                                   className={cn(
                                     "inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-medium border",
@@ -829,11 +677,7 @@ export function FeaturedNetworkMatrix() {
         </div>
       </div>
 
-      <div
-        className={cn(
-          "px-5 py-2.5 bg-white/0.2 border-t border-white/5 flex justify-between items-center text-[0.64rem] font-mono text-[#44444e]"
-        )}
-      >
+      <div className="px-5 py-2.5 bg-white/0.2 border-t border-white/5 flex justify-between items-center text-[0.64rem] font-mono text-[#44444e]">
         <div>Rows mapped: 6 pages indexed</div>
         <div>DOM View: Virtual Grid Context Layer</div>
       </div>
