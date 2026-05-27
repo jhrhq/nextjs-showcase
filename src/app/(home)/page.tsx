@@ -135,7 +135,7 @@ export default function PortfolioPage() {
     >
       <nav
         className={cn(
-          "fixed top-0 inset-x-0 z-50 h-15 flex items-center border-b border-white/5 transition-colors duration-300",
+          "fixed top-0 inset-x-0 z-50 h-15 flex items-center border-b border-white/5 transition-all duration-700",
           scrolled ? "bg-[#080809]/92 backdrop-blur-xl" : "bg-[#080809]/75 backdrop-blur-xl"
         )}
       >
@@ -153,7 +153,7 @@ export default function PortfolioPage() {
             <button
               type="button"
               className={cn(
-                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
+                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               )}
               onClick={() => scrollTo("work")}
             >
@@ -162,7 +162,7 @@ export default function PortfolioPage() {
             <button
               type="button"
               className={cn(
-                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
+                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               )}
               onClick={() => scrollTo("projects")}
             >
@@ -171,7 +171,7 @@ export default function PortfolioPage() {
             <button
               type="button"
               className={cn(
-                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-colors cursor-pointer bg-transparent border-none p-0"
+                "text-sm text-[#888892] hover:text-[#f0f0f2] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               )}
               onClick={() => scrollTo("about")}
             >
@@ -193,12 +193,12 @@ export default function PortfolioPage() {
       <section id="hero" className={cn("min-h-screen flex flex-col justify-center pt-15 relative overflow-hidden")}>
         <div
           className={cn(
-            "absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_40%,transparent_100%)]"
+            "absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-size-[64px_64px] mask-[radial-gradient(ellipse_80%_80%_at_50%_50%,black_40%,transparent_100%)]"
           )}
         />
         <div
           className={cn(
-            "absolute top-[18%] left-1/2 -translate-x-1/2 w-[680px] h-[440px] pointer-events-none bg-[radial-gradient(ellipse,rgba(0,212,168,0.07)_0%,transparent_68%)]"
+            "absolute top-[18%] left-1/2 -translate-x-1/2 w-170 h-110 pointer-events-none bg-[radial-gradient(ellipse,rgba(0,212,168,0.07)_0%,transparent_68%)]"
           )}
         />
         <div className={cn("max-w-5xl mx-auto w-full px-8 relative z-10")}>
@@ -207,19 +207,21 @@ export default function PortfolioPage() {
               "inline-flex items-center gap-2 font-mono text-[0.72rem] text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/20 hover:bg-[#00d4a8]/10 px-3 py-1 rounded-full mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500"
             )}
           >
-            <span className={cn("size-1.5 rounded-full bg-[#00d4a8] animate-pulse")} /> Available for work
+            <span className={cn("size-1.5 rounded-full bg-[#00d4a8] animate-pulse")} />
+            Available for work
           </Badge>
           <h1
             className={cn(
               "font-display text-5xl md:text-7xl lg:text-[5.8rem] font-extrabold leading-[1.03] tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-4 delay-75 duration-500"
             )}
           >
-            I build <br /> <span className={cn("text-[#44444e]")}>production-grade</span> <br />{" "}
-            <span className={cn("text-[#00d4a8]")}>web apps.</span>
+            I build <br />
+            <span className={cn("text-[#44444e]")}>production-grade</span>
+            <br /> <span className={cn("text-[#00d4a8]")}>web apps.</span>
           </h1>
           <p
             className={cn(
-              "text-[1.08rem] text-[#888892] max-w-[500px] leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-4 delay-150 duration-500"
+              "text-[1.08rem] text-[#888892] max-w-125 leading-relaxed mb-10 animate-in fade-in slide-in-from-bottom-4 delay-150 duration-500"
             )}
           >
             I build high-performance products from scratch. Over the past 3 years, I single-handedly managed the full
@@ -266,18 +268,18 @@ export default function PortfolioPage() {
             <h2 className={cn("font-display text-3xl md:text-4xl font-bold tracking-tight text-[#f0f0f2] mb-3.5")}>
               Commercial Work
             </h2>
-            <p className={cn("text-[0.95rem] text-[#888892] max-w-[480px] leading-relaxed")}>
+            <p className={cn("text-[0.95rem] text-[#888892] max-w-1 rv20 leading-relaxed")}>
               A production SaaS application I single-handedly architected and built during my 3 years at Zventures.
             </p>
           </div>
           <Card
             className={cn(
-              "mt-12 bg-white/[0.03] border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 transition-colors duration-300 rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none"
+              "mt-12 bg-white/3 border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none"
             )}
           >
             <div
               className={cn(
-                "absolute top-0 inset-x-0 h-[1px] bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent"
+                "absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent"
               )}
             />
             <div>
@@ -307,7 +309,7 @@ export default function PortfolioPage() {
                   <span
                     key={t}
                     className={cn(
-                      "font-mono text-[0.7rem] text-[#888892] bg-white/[0.04] border border-white/5 px-2 py-1 rounded"
+                      "font-mono text-[0.7rem] text-[#888892] bg-white/4 border border-white/5 px-2 py-1 rounded"
                     )}
                   >
                     {t}
@@ -332,7 +334,7 @@ export default function PortfolioPage() {
                   variant="outline"
                   asChild
                   className={cn(
-                    "text-[#f0f0f2] bg-white/[0.02] border-white/5 hover:border-white/15 hover:bg-white/[0.06] px-4 rounded-[7px] shadow-none cursor-pointer"
+                    "text-[#f0f0f2] bg-white/2 border-white/5 hover:border-white/15 hover:bg-white/6 px-4 rounded-[7px] shadow-none cursor-pointer"
                   )}
                 >
                   <a href="https://your-demo-subdomain.vercel.app" target="_blank" rel="noreferrer">
@@ -356,12 +358,12 @@ export default function PortfolioPage() {
               <Card
                 key={p.name}
                 className={cn(
-                  "bg-white/[0.03] border-white/5 rounded-[14px] p-7 cursor-pointer transition-all duration-300 group hover:border-white/20 hover:bg-white/[0.06] hover:-translate-y-1 flex flex-col rv opacity-0 translate-y-6 transition-all duration-700 ease-out shadow-none"
+                  "bg-white/3 border-white/5 rounded-[14px] p-7 cursor-pointer group hover:border-white/20 hover:bg-white/6 hover:-translate-y-1 flex flex-col rv opacity-0 translate-y-6 transition-all duration-700 ease-out shadow-none"
                 )}
               >
                 <div
                   className={cn(
-                    "size-[42px] rounded-lg text-lg bg-[#00d4a8]/5 border border-[#00d4a8]/20 flex items-center justify-center mb-4"
+                    "size-105 rounded-lg text-lg bg-[#00d4a8]/5 border border-[#00d4a8]/20 flex items-center justify-center mb-4"
                   )}
                 >
                   {p.icon}
@@ -387,7 +389,7 @@ export default function PortfolioPage() {
           <div className={cn("rv opacity-0 translate-y-6 transition-all duration-700 ease-out")}>
             <h2 className={cn("font-display text-3xl font-bold tracking-tight text-[#f0f0f2]")}>Who I Am</h2>
           </div>
-          <div className={cn("grid grid-cols-1 lg:grid-cols-2 gap-[4.5rem] mt-12 items-start")}>
+          <div className={cn("grid grid-cols-1 lg:grid-cols-2 gap-18 mt-12 items-start")}>
             <div className={cn("rv opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 space-y-5")}>
               <p className={cn("text-[0.93rem] text-[#888892] leading-relaxed")}>
                 I'm a frontend engineer who cares deeply about what gets shipped. I've built production SaaS
@@ -413,12 +415,12 @@ export default function PortfolioPage() {
                 <div
                   key={s.name}
                   className={cn(
-                    "flex justify-between items-center px-4 py-3 bg-white/[0.03] border border-white/5 rounded-lg text-sm hover:border-white/15 transition-colors duration-200 group"
+                    "flex justify-between items-center px-4 py-3 bg-white/3 border border-white/5 rounded-lg text-sm hover:border-white/15 transition-all duration-700 group"
                   )}
                 >
                   <div
                     className={cn(
-                      "flex items-center gap-2.5 text-[#888892] group-hover:text-[#f0f0f2] transition-colors"
+                      "flex items-center gap-2.5 text-[#888892] group-hover:text-[#f0f0f2] transition-all duration-700"
                     )}
                   >
                     <span className={cn("size-1.5 rounded-full bg-[#00d4a8]")} />
@@ -436,17 +438,17 @@ export default function PortfolioPage() {
         <div className={cn("max-w-5xl mx-auto px-8")}>
           <div
             className={cn(
-              "relative overflow-hidden bg-white/[0.03] border border-white/5 rounded-[22px] py-18 px-8 text-center rv opacity-0 translate-y-6 transition-all duration-700 ease-out"
+              "relative overflow-hidden bg-white/3 border border-white/5 rounded-[22px] py-18 px-8 text-center rv opacity-0 translate-y-6 transition-all duration-700 ease-out"
             )}
           >
             <div
               className={cn(
-                "absolute top-0 left-1/2 -translate-x-1/2 w-[340px] h-[1px] bg-linear-to-r from-transparent via-[#00d4a8] to-transparent opacity-70"
+                "absolute top-0 left-1/2 -translate-x-1/2 w-85 h-px bg-linear-to-r from-transparent via-[#00d4a8] to-transparent opacity-70"
               )}
             />
             <div
               className={cn(
-                "absolute -top-[60px] left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-[radial-gradient(ellipse,rgba(0,212,168,0.07),transparent_70%)] pointer-events-none"
+                "absolute -top-15 left-1/2 -translate-x-1/2 w-100 -top-[60px]h-50 bg-[radial-gradient(ellipse,rgba(0,212,168,0.07),transparent_70%)] pointer-events-none"
               )}
             />
             <div className={cn("relative z-10")}>
@@ -455,7 +457,7 @@ export default function PortfolioPage() {
               >
                 Let's build something.
               </h2>
-              <p className={cn("text-[#888892] max-w-[380px] mx-auto text-[0.95rem] leading-relaxed mb-9")}>
+              <p className={cn("text-[#888892] max-w-95 mx-auto text-[0.95rem] leading-relaxed mb-9")}>
                 Open to frontend roles, contract projects, and interesting product challenges.
               </p>
               <div className={cn("flex gap-3.5 justify-center flex-wrap")}>
@@ -466,8 +468,8 @@ export default function PortfolioPage() {
                   asChild
                 >
                   <a href="mailto:hello@example.com">
-                    <Mail className={cn("size-4 mr-2")} /> hello@example.com{" "}
-                    <ArrowRight className={cn("size-3.5 ml-1.5")} />
+                    <Mail className={cn("size-4 mr-2")} />
+                    jhr.haq@gmail.com <ArrowRight className={cn("size-3.5 ml-1.5")} />
                   </a>
                 </Button>
               </div>
@@ -485,7 +487,7 @@ export default function PortfolioPage() {
             <button
               type="button"
               className={cn(
-                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
+                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               )}
               onClick={() => scrollTo("work")}
             >
@@ -494,7 +496,7 @@ export default function PortfolioPage() {
             <button
               type="button"
               className={cn(
-                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
+                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               )}
               onClick={() => scrollTo("projects")}
             >
@@ -503,7 +505,7 @@ export default function PortfolioPage() {
             <button
               type="button"
               className={cn(
-                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-colors cursor-pointer bg-transparent border-none p-0"
+                "text-[0.78rem] text-[#44444e] hover:text-[#888892] transition-all duration-700 cursor-pointer bg-transparent border-none p-0"
               )}
               onClick={() => scrollTo("contact")}
             >
@@ -532,7 +534,7 @@ const LinkedInIcon = ({ size = 16, altTitle = "LinkedIn Profile", className = ""
       viewBox="0 0 24 24"
       role="img"
       aria-label={altTitle}
-      className={cn("fill-current text-muted-foreground hover:text-foreground transition-colors", className)}
+      className={cn("fill-current text-muted-foreground hover:text-foreground transition-all duration-700", className)}
       {...props}
     >
       <title>{altTitle}</title>
@@ -555,7 +557,7 @@ const GitHubIcon = ({ size = 16, altTitle = "GitHub Profile", className = "", ..
       viewBox="0 0 24 24"
       role="img"
       aria-label={altTitle}
-      className={cn("fill-current text-muted-foreground hover:text-foreground transition-colors", className)}
+      className={cn("fill-current text-muted-foreground hover:text-foreground transition-all duration-700", className)}
       {...props}
     >
       <title>{altTitle}</title>
@@ -640,7 +642,7 @@ export function FeaturedNetworkMatrix() {
         "w-full bg-[#090a0d] border border-white/5 rounded-xl overflow-hidden shadow-2xl font-sans text-[0.76rem] text-[#888892] select-none animate-in fade-in duration-500"
       )}
     >
-      <div className={cn("flex items-center justify-between px-5 py-3 bg-white/[0.01] border-b border-white/5")}>
+      <div className={cn("flex items-center justify-between px-5 py-3 bg-white/1 border-b border-white/5")}>
         <div className={cn("flex items-center gap-2")}>
           <div className={cn("flex gap-1.5")}>
             <span className={cn("size-2 rounded-full bg-white/5")} />
@@ -686,7 +688,8 @@ export function FeaturedNetworkMatrix() {
                 "flex h-4 items-center gap-1 bg-white/2 border border-white/5 px-2 py-1 rounded text-[#44444e] text-[.5rem]"
               )}
             >
-              <SlidersHorizontal className={cn("size-1.5")} /> State
+              <SlidersHorizontal className={cn("size-1.5")} />
+              State
             </Button>
             <Button
               className={cn("bg-white/2 h-4 border border-white/5 px-2 py-1 rounded text-[#44444e] text-[.5rem]")}
@@ -707,7 +710,6 @@ export function FeaturedNetworkMatrix() {
             <div>Link Composition</div>
             <div className={cn("text-right")}>State</div>
           </div>
-
           <div className={cn("divide-y divide-white/3")}>
             {structuralData.map((row, idx) => {
               const isExpanded = !!expandedRows[idx];
@@ -715,13 +717,13 @@ export function FeaturedNetworkMatrix() {
                 <div
                   key={idx}
                   className={cn(
-                    "bg-white/[0.002] cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-[#00d4a8]"
+                    "bg-white/0.2 cursor-pointer outline-none focus-visible:ring-1 focus-visible:ring-[#00d4a8]"
                   )}
                   onClick={() => toggleRow(idx)}
                 >
                   <div
                     className={cn(
-                      "grid grid-cols-[40px_1fr_120px_110px] items-center px-4 py-3.5 hover:bg-white/1 transition-colors"
+                      "grid grid-cols-[40px_1fr_120px_110px] items-center px-4 py-3.5 hover:bg-white/1 transition-all duration-700"
                     )}
                   >
                     {isExpanded ? (
@@ -733,7 +735,6 @@ export function FeaturedNetworkMatrix() {
                       {row.parentUrl}
                       <ArrowUpRight className={cn("size-3 text-[#44444e] shrink-0")} />
                     </div>
-
                     <div className={cn("pr-4")}>
                       <div className={cn("w-full h-1.5 bg-white/5 rounded-full overflow-hidden")}>
                         <div
@@ -748,7 +749,6 @@ export function FeaturedNetworkMatrix() {
                         </span>
                       </div>
                     </div>
-
                     <div
                       className={cn(
                         "flex items-center gap-1.5 justify-end font-medium text-[0.72rem]",
@@ -761,11 +761,10 @@ export function FeaturedNetworkMatrix() {
                       {row.stateLabel}
                     </div>
                   </div>
-
                   {isExpanded && (
                     <div
                       className={cn(
-                        "px-5 pb-5 pt-1 bg-black/10 border-t border-white/[0.02] animate-in fade-in slide-in-from-top-1 duration-200"
+                        "px-5 pb-5 pt-1 bg-black/10 border-t border-white/0.2 animate-in fade-in slide-in-from-top-1 duration-200"
                       )}
                     >
                       <div
@@ -773,28 +772,27 @@ export function FeaturedNetworkMatrix() {
                           "bg-[#111319] border border-white/5 rounded-t-md px-3.5 py-2 text-[0.64rem] font-mono tracking-wider font-semibold text-blue-400/90 uppercase flex items-center gap-1.5"
                         )}
                       >
-                        <BarChart3 className={cn("size-3 text-[#00d4a8]")} /> Target links for {row.parentUrl}
+                        <BarChart3 className={cn("size-3 text-[#00d4a8]")} />
+                        Target links for {row.parentUrl}
                       </div>
-
                       <div
                         className={cn("border-x border-b border-white/5 bg-[#08090d]/60 rounded-b-md overflow-hidden")}
                       >
                         <div
                           className={cn(
-                            "grid grid-cols-[1.2fr_1fr_100px] px-4 py-2 text-[0.62rem] uppercase tracking-wider text-[#44444e] font-bold border-b border-white/5 bg-white/[0.005]"
+                            "grid grid-cols-[1.2fr_1fr_100px] px-4 py-2 text-[0.62rem] uppercase tracking-wider text-[#44444e] font-bold border-b border-white/5 bg-white/0.5"
                           )}
                         >
                           <div>Page Title & Path</div>
                           <div>Anchor Text</div>
                           <div className={cn("text-right")}>Status</div>
                         </div>
-
-                        <div className={cn("divide-y divide-white/[0.02]")}>
+                        <div className={cn("divide-y divide-white/0.2")}>
                           {row.children.map((child, cIdx) => (
                             <div
                               key={cIdx}
                               className={cn(
-                                "grid grid-cols-[1.2fr_1fr_100px] px-4 py-3 items-center hover:bg-white/[0.005] transition-colors"
+                                "grid grid-cols-[1.2fr_1fr_100px] px-4 py-3 items-center hover:bg-white/0.5 transition-all duration-700"
                               )}
                             >
                               <div className={cn("truncate pr-3")}>
@@ -833,7 +831,7 @@ export function FeaturedNetworkMatrix() {
 
       <div
         className={cn(
-          "px-5 py-2.5 bg-white/[0.002] border-t border-white/5 flex justify-between items-center text-[0.64rem] font-mono text-[#44444e]"
+          "px-5 py-2.5 bg-white/0.2 border-t border-white/5 flex justify-between items-center text-[0.64rem] font-mono text-[#44444e]"
         )}
       >
         <div>Rows mapped: 6 pages indexed</div>
