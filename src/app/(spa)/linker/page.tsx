@@ -8,14 +8,17 @@ import { useAuthStore } from "@/store/linker/auth-store";
 export default function LinkerPage() {
   const router = useRouter();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const hasHydrated = useAuthStore((state) => state.hasHydrated);
 
   useEffect(() => {
+    if (!hasHydrated) return;
+
     if (isAuthenticated) {
       router.replace(AUTH_CONFIG.ROUTES.DASHBOARD);
     } else {
       router.replace(AUTH_CONFIG.ROUTES.SIGN_IN);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, hasHydrated]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">
