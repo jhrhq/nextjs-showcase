@@ -228,7 +228,7 @@ export default function PortfolioPage() {
               A production SaaS application I single-handedly architected and built during my 3 years at Zventures.
             </p>
           </div>
-          <Card className="mt-12 bg-white/3 border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none">
+          <Card className="rv mt-12 bg-white/3 border-white/5 rounded-[18px] p-11 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 items-center relative overflow-hidden group hover:border-[#00d4a8]/20 opacity-0 translate-y-6 transition-all duration-700 ease-out delay-75 shadow-none">
             <div className="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-[#00d4a8]/50 to-transparent" />
             <div>
               <div className="inline-block font-mono text-[0.69rem] text-[#00d4a8] bg-[#00d4a8]/5 border border-[#00d4a8]/20 px-2.5 py-1 rounded mb-4">
