@@ -34,7 +34,7 @@ interface SkillItem {
 }
 
 // Exhaustive status definition for child row nodes
-type LinkStatus = "Active" | "Stale" | "Pending Delete";
+type LinkStatus = "Active" | "Stale" | "Delete";
 
 interface ChildRow {
   title: string;
@@ -91,6 +91,16 @@ const SKILLS: SkillItem[] = [
   { name: "Data Tables", note: "TanStack Table, virtualizer" },
   { name: "Animations", note: "Framer Motion, CSS" },
 ];
+const LINKBOSS_APP = {
+  liveApp: {
+    title: "Live App",
+    url: "https://app.linkboss.io",
+  },
+  demo: {
+    title: "Architecture Demo",
+    url: "/linker",
+  },
+};
 
 export default function PortfolioPage() {
   const [scrolled, setScrolled] = useState<boolean>(false);
@@ -177,7 +187,6 @@ export default function PortfolioPage() {
       </nav>
 
       <section id="hero" className="min-h-screen flex flex-col justify-center pt-15 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-size-[64px_64px] mask-[radial-gradient(ellipse_80%_80%_at_50%_50%,black_40%,transparent_100%)]" />
         <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-170 h-110 pointer-events-none bg-[radial-gradient(ellipse,rgba(0,212,168,0.07)_0%,transparent_68%)]" />
         <div className="max-w-5xl mx-auto w-full px-8 relative z-10">
           <Badge className="inline-flex items-center gap-2 font-mono text-[0.72rem] text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/20 hover:bg-[#00d4a8]/10 px-3 py-1 rounded-full mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -263,8 +272,8 @@ export default function PortfolioPage() {
                   asChild
                   className="text-[#00d4a8] bg-[#00d4a8]/5 border-[#00d4a8]/25 hover:bg-[#00d4a8]/15 px-4 rounded-[7px] shadow-none cursor-pointer"
                 >
-                  <a href="https://app.linkboss.io" target="_blank" rel="noreferrer">
-                    Live App <ArrowUpRight className="size-3.5 ml-1" />
+                  <a href={LINKBOSS_APP.liveApp.url} target="_blank" rel="noreferrer">
+                    {LINKBOSS_APP.liveApp.title} <ArrowUpRight className="size-3.5 ml-1" />
                   </a>
                 </Button>
                 <Button
@@ -273,8 +282,8 @@ export default function PortfolioPage() {
                   asChild
                   className="text-[#f0f0f2] bg-white/2 border-white/5 hover:border-white/15 hover:bg-white/6 px-4 rounded-[7px] shadow-none cursor-pointer"
                 >
-                  <a href="https://your-demo-subdomain.vercel.app" target="_blank" rel="noreferrer">
-                    Architecture Demo <ExternalLink className="size-3.5 ml-1.5" />
+                  <a href={LINKBOSS_APP.demo.url} target="_blank" rel="noreferrer">
+                    {LINKBOSS_APP.demo.title} <ExternalLink className="size-3.5 ml-1.5" />
                   </a>
                 </Button>
               </div>
@@ -404,8 +413,10 @@ export default function PortfolioPage() {
               Contact
             </button>
           </div>
-          <LinkedInIcon />
-          <GitHubIcon />
+          <div className="flex gap-8 items-center">
+            <LinkedInIcon />
+            <GitHubIcon />
+          </div>
         </div>
       </footer>
     </div>
@@ -499,7 +510,7 @@ export function FeaturedNetworkMatrix() {
           title: "API Reference",
           path: "/docs/api-reference-v3",
           anchor: "developer resources",
-          status: "Pending Delete",
+          status: "Delete",
         },
       ],
     },
@@ -515,7 +526,7 @@ export function FeaturedNetworkMatrix() {
         return "bg-emerald-500/5 border-emerald-500/10 text-emerald-400";
       case "Stale":
         return "bg-amber-500/5 border-amber-500/10 text-amber-400";
-      case "Pending Delete":
+      case "Delete":
         return "bg-rose-500/5 border-rose-500/10 text-rose-400";
       default:
         return "bg-white/5 border-white/10 text-[#888892]";
