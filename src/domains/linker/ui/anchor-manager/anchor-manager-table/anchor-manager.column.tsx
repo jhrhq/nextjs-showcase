@@ -11,28 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Anchor, LinkDetail } from "@/domains/linker/types/anchor-manager.types";
 import { cn } from "@/lib/utils";
-export const COLOR_MAP: Record<string, { bg: string; text: string }> = {
-  "Exact Match": {
-    bg: "bg-sky-100 dark:bg-sky-950/40",
-    text: "text-sky-800 dark:text-sky-400",
-  },
-  "Partial Match": {
-    bg: "bg-rose-100 dark:bg-rose-950/40",
-    text: "text-rose-800 dark:text-rose-400",
-  },
-  Branded: {
-    bg: "bg-amber-100 dark:bg-amber-950/40",
-    text: "text-amber-800 dark:text-amber-400",
-  },
-  Generic: {
-    bg: "bg-green-100 dark:bg-green-950/40",
-    text: "text-green-800 dark:text-green-400",
-  },
-  "Naked URL": {
-    bg: "bg-blue-100 dark:bg-blue-950/40",
-    text: "text-blue-800 dark:text-blue-400",
-  },
-};
+import { getAnchorColors } from "../distribution-analysis-card";
 
 export const anchorColumns: ColumnDef<Anchor>[] = [
   {
@@ -106,9 +85,9 @@ export const anchorColumns: ColumnDef<Anchor>[] = [
     header: "Type",
     cell: ({ getValue }) => {
       const anchorType = getValue() as string;
-      const colorSet = COLOR_MAP[anchorType] || { bg: "bg-gray-100", text: "text-gray-700" };
+      const colors = getAnchorColors(anchorType);
 
-      return <Badge className={cn(colorSet.bg, colorSet.text, "rounded-md")}>{anchorType}</Badge>;
+      return <Badge className={cn("rounded-md border-0", colors.badge)}>{anchorType}</Badge>;
     },
   },
 ];
