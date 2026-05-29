@@ -13,7 +13,9 @@ export type Anchor = {
   outbound: LinkDetail[];
 };
 
-export type TypeDistributionItem = { name: string; count: number };
+export type AnchorType = Anchor["type"];
+
+export type TypeDistributionItem = { name: AnchorType; count: number };
 export type KeywordItem = { keyword: string; count: number };
 export type QualityMetrics = { naturalAnchors: number; overOptimization: number; brandedRatio: number };
 

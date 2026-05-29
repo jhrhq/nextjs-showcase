@@ -5,9 +5,61 @@ import { Label, Pie, PieChart } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { cn } from "@/lib/utils";
+import type { Anchor, AnchorType } from "../../types/anchor-manager.types";
+
+type AnchorUIType = AnchorType | "Other";
+export const ANCHOR_COLOR_MAP: Record<
+  AnchorUIType,
+  {
+    chart: string;
+    badge: string;
+    dot: string;
+  }
+> = {
+  "Exact Match": {
+    chart: "var(--chart-1)",
+    badge: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300",
+    dot: "bg-emerald-500",
+  },
+
+  "Partial Match": {
+    chart: "var(--chart-2)",
+    badge: "bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300",
+    dot: "bg-indigo-500",
+  },
+
+  Branded: {
+    chart: "var(--chart-3)",
+    badge: "bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-300",
+    dot: "bg-violet-500",
+  },
+
+  Generic: {
+    chart: "var(--chart-4)",
+    badge: "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300",
+    dot: "bg-amber-500",
+  },
+
+  "Naked URL": {
+    chart: "var(--chart-5)",
+    badge: "bg-slate-100 text-slate-700 dark:bg-slate-900 dark:text-slate-300",
+    dot: "bg-slate-500",
+  },
+
+  Other: {
+    chart: "var(--chart-5)",
+    badge: "bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300",
+    dot: "bg-gray-500",
+  },
+} as const;
+
+export function getAnchorColors(type: string) {
+  return ANCHOR_COLOR_MAP[type as AnchorUIType] || ANCHOR_COLOR_MAP.Other;
+}
 
 type TypeDistributionItem = {
-  name: string;
+  name: Anchor["type"];
   count: number;
 };
 
@@ -57,21 +109,20 @@ export function PieCard({ data }: PieCardProps) {
   const { chartConfig, processedData } = React.useMemo(() => {
     const config: ChartConfig = {};
 
-    const processed = data.map((item, index) => {
+    const processed = data.map((item) => {
       // Creates a safe key name string (e.g., "Exact Match" -> "exact-match")
       const configKey = item.name.toLowerCase().replace(/[^a-z0-9]/g, "-");
-
       // Rotates through shadcn theme chart colors (var(--chart-1), var(--chart-2), etc.)
-      const colorIndex = (index % 5) + 1;
+      const colors = getAnchorColors(item.name);
 
+      getAnchorColors;
       config[configKey] = {
         label: item.name,
-        color: `var(--chart-${colorIndex})`,
       };
 
       return {
         ...item,
-        fill: `var(--color-${configKey})`,
+        fill: colors.chart,
       };
     });
 
@@ -84,7 +135,7 @@ export function PieCard({ data }: PieCardProps) {
   }, [data]);
 
   return (
-    <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[260px] w-full">
+    <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-65 w-full">
       <PieChart>
         <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
         <Pie data={processedData} dataKey="count" nameKey="name" innerRadius={70} outerRadius={100} strokeWidth={5}>
@@ -110,25 +161,18 @@ export function PieCard({ data }: PieCardProps) {
   );
 }
 
-const COLOR_MAP: Record<string, string> = {
-  "Exact Match": "#38bdf8", // Indigo
-  "Partial Match": "#fb7185", // Pink
-  Branded: "#facc15", // Amber
-  Generic: "#86efac", // Green
-  "Naked URL": "#3B82F6", // Blue
-};
 type BreakdownCardProps = {
   item: TypeDistributionItem;
   total: number;
 };
 export function BreakdownCard({ item, total }: BreakdownCardProps) {
   const percent = Math.round((item.count / total) * 100);
-
+  const colors = getAnchorColors(item.name);
   return (
     <Card className=" bg-muted/40 px-4 py-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: COLOR_MAP[item.name] || "#9CA3AF" }} />
+          <span className={cn("h-2.5 w-2.5 rounded-full", colors.dot)} />
           <div>
             <div className="text-sm">{item.name}</div>
             <div className="text-xs text-muted-foreground">{percent}%</div>
