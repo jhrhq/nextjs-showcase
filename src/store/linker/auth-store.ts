@@ -31,7 +31,8 @@ export const useAuthStore = create<AuthState>()(
       refreshToken: null,
       hasHydrated: false,
       setUser: (user: User | null) => set({ user, isAuthenticated: !!user }),
-      setTokens: (accessToken, refreshToken) => set({ accessToken, refreshToken }),
+      setTokens: (accessToken, refreshToken) =>
+        set({ accessToken, refreshToken }),
       logout: () => {
         if (typeof window !== "undefined") {
           localStorage.removeItem("accessToken");
@@ -48,6 +49,6 @@ export const useAuthStore = create<AuthState>()(
         }
         state!.hasHydrated = true;
       },
-    }
-  )
+    },
+  ),
 );

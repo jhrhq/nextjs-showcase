@@ -3,10 +3,10 @@ import clsx from "clsx";
 import Cookies from "js-cookie";
 import { Moon, Rss, Sun } from "lucide-react";
 import React from "react";
-import VisuallyHidden from "@/components/visually-hidden";
 import { COLOR_COOKIE_NAME, DARK_TOKENS, LIGHT_TOKENS } from "@/constants";
 import Logo from "../Logo/Logo";
 import styles from "./Header.module.css";
+import VisuallyHidden from "../../../../components/experiments/visually-hidden/visually-hidden";
 
 function Header({ initialTheme, className, ...delegated }) {
   const [theme, setTheme] = React.useState(initialTheme);

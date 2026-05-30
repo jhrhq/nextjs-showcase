@@ -33,14 +33,14 @@ export function IssueCard({ issue }: Props) {
 
         <div className="flex-1">
           <CardTitle className="text-base">
-            <a href={issue.html_url} target="_blank" className="hover:underline">
+            <a href={issue.html_url} target="_blank" className="hover:underline" rel="noopener">
               #{issue.number} {issue.title}
             </a>
           </CardTitle>
 
           <div className="text-sm text-muted-foreground">
             by{" "}
-            <a href={issue.user.html_url} target="_blank" className="hover:underline">
+            <a href={issue.user.html_url} target="_blank" className="hover:underline" rel="noopener">
               {issue.user.login}
             </a>
           </div>

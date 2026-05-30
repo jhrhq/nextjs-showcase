@@ -1,6 +1,12 @@
 packages:
   - .
 
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  msw: true
+  sharp: true
+
 ignoredBuiltDependencies:
   - msw
   - sharp
