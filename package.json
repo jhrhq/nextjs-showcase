@@ -1,7 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "nextjs-study",
-  "version": "0.1.0",
+  "description": "multiple applications with centralized deployment and a unified entry point",
+  "author": "Johir Haq <jhr.haqe@example.com>",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
