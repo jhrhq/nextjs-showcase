@@ -1,0 +1,42 @@
+import Image from "next/image";
+import Link from "next/link";
+
+const SearchMovieCard = async ({
+  id,
+  title,
+  poster_path,
+  release_date,
+  vote_average,
+}) => {
+  // const { base64 } = await getBlurData(
+  //   `https://image.tmdb.org/t/p/w500${poster_path}`
+  // );
+  return (
+    <Link
+      href={`/movie/${id}`}
+      className="bg-zinc-900 rounded-lg overflow-hidden hover:scale-105 transition-transform"
+    >
+      <Image
+        width={500}
+        height={500}
+        // placeholder="blur"
+        // blurDataURL={base64}
+        src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+        alt={title}
+        className="w-full aspect-[2/3] object-cover"
+      />
+      <div className="p-4">
+        <h3 className="font-bold mb-2">{title}</h3>
+        <div className="flex justify-between text-sm text-gray-400">
+          <span>
+            {" "}
+            {release_date ? new Date(release_date).getFullYear() : "unknown"}
+          </span>
+          <span>⭐ {vote_average ?? 0}</span>
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+export default SearchMovieCard;
