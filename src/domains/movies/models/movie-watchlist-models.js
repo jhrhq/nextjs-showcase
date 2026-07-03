@@ -49,5 +49,4 @@ const schema = new Schema({
   },
 });
 
-export const watchListModel =
-  mongoose.models.watchlists ?? mongoose.model("watchlists", schema);
+export const watchListModel = mongoose.models.watchlists ?? mongoose.model("watchlists", schema);

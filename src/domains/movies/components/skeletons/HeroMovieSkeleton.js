@@ -2,10 +2,7 @@ import { Skeleton } from "@/domains/movies/components/ui/skeleton";
 
 export function HeroMovieSkeletonCard() {
   return (
-    <div
-      id="hero"
-      className="relative h-screen bg-gray-800 bg-opacity-50 backdrop-blur-lg"
-    >
+    <div id="hero" className="relative h-screen bg-gray-800 bg-opacity-50 backdrop-blur-lg">
       {/* <Skeleton className="h-4/6 w-full rounded-xl" /> */}
       <div className="absolute inset-0 bg-gradient-to-t from-black" />
       <div className="absolute bottom-0 left-0 p-12">

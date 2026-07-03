@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export function useFetch(url) {
   const [data, setData] = useState(null);
@@ -7,7 +7,7 @@ export function useFetch(url) {
 
   useEffect(() => {
     // If url is null or a function returning null, don't fetch (Conditional fetching)
-    const targetUrl = typeof url === 'function' ? url() : url;
+    const targetUrl = typeof url === "function" ? url() : url;
     if (!targetUrl) {
       setData(null);
       setIsLoading(false);
@@ -20,7 +20,7 @@ export function useFetch(url) {
 
     fetch(targetUrl)
       .then((res) => {
-        if (!res.ok) throw new Error('Network response was not ok');
+        if (!res.ok) throw new Error("Network response was not ok");
         return res.json();
       })
       .then((data) => {
@@ -37,9 +37,7 @@ export function useFetch(url) {
     return () => {
       isMounted = false;
     };
-  }, [typeof url === 'function' ? url() : url]); // Re-run when the URL changes
+  }, [typeof url === "function" ? url() : url]); // Re-run when the URL changes
 
   return { data, isLoading, error };
 }
-
-

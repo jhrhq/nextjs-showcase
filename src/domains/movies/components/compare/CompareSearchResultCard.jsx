@@ -12,10 +12,7 @@ const CompareSearchResultCard = ({ title, poster_path, release_date }) => {
       />
       <div>
         <h3 className="font-bold">{title}</h3>
-        <p className="text-sm text-gray-400">
-          {" "}
-          {release_date ? new Date(release_date).getFullYear() : "unknown"}
-        </p>
+        <p className="text-sm text-gray-400"> {release_date ? new Date(release_date).getFullYear() : "unknown"}</p>
       </div>
     </>
   );
