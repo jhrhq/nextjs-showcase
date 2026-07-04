@@ -1,5 +1,5 @@
 import { Bed, DoorOpen, PersonStanding } from "lucide-react";
-import { FC } from "react";
+import type { FC } from "react";
 
 interface Props {
   sellerName: string;

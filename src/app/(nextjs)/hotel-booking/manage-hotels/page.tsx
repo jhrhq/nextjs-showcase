@@ -1,6 +1,6 @@
-import Navbar from "@/domains/hotel-booking/components/navbar";
 import { Edit2, Star, Trash2 } from "lucide-react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import Navbar from "@/domains/hotel-booking/components/navbar";
 
 export const metadata: Metadata = {
   title: "Manage Hotels",

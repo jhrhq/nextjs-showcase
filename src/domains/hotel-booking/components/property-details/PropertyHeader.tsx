@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import { FC } from "react";
+import type { FC } from "react";
 
 interface Props {
   name: string;

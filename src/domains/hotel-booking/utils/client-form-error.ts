@@ -1,4 +1,4 @@
-import { AuthError } from "next-auth";
+import { BetterAuthError } from "better-auth";
 import { ZodError } from "zod";
 
 export type FormState = {
@@ -35,7 +35,7 @@ export const clientFormErrorState = (error: unknown, setError) => {
       type: "manual",
       message: error.message,
     });
-  } else if (error instanceof AuthError) {
+  } else if (error instanceof BetterAuthError) {
     switch (error.type) {
       case "CredentialsSignin":
         return setError("root.serverError", {

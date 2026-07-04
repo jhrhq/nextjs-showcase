@@ -1,5 +1,5 @@
-import { FormState } from "@/domains/hotel-booking/utils/form-error-state";
 import { useEffect, useRef } from "react";
+import type { FormState } from "@/domains/hotel-booking/utils/form-error-state";
 
 const useFormReset = (formState: FormState) => {
   const formRef = useRef<HTMLFormElement>(null);

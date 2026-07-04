@@ -1,4 +1,8 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { X } from "lucide-react";
+import { type FC, useState } from "react";
+import { useForm } from "react-hook-form";
 import { createReviewAction, getReviews } from "@/domains/hotel-booking/actions/reviewAction";
 import { Rating } from "@/domains/hotel-booking/components/Rating";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
@@ -21,13 +25,9 @@ import {
 } from "@/domains/hotel-booking/components/ui/form";
 import { Textarea } from "@/domains/hotel-booking/components/ui/textarea";
 import { clientFormErrorState, clientSuccessErrorState } from "@/domains/hotel-booking/utils/client-form-error";
-import { PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
-import { FC, useState } from "react";
-import { useForm } from "react-hook-form";
+import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
 import { FieldCustomError } from "./field-error";
-import { ReviewType } from "./property-details/ReviewContainer";
+import type { ReviewType } from "./property-details/ReviewContainer";
 
 interface Props {
   propertyId: string;

@@ -1,5 +1,5 @@
 import { CircleCheck, Download, Luggage, Mail, MessageSquare, Star } from "lucide-react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Payment Success",

@@ -1,6 +1,6 @@
-import cloud from "@/domains/hotel-booking/utils/cloud";
-import { UploadApiOptions, UploadApiResponse } from "cloudinary";
+import type { UploadApiOptions, UploadApiResponse } from "cloudinary";
 import streamifier from "streamifier";
+import cloud from "@/domains/hotel-booking/utils/cloud";
 
 export const uploadFileToCloud = async (
   file: File,

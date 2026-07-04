@@ -1,5 +1,8 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { performLogin } from "@/domains/movies/actions";
 import ErrorAlert from "@/domains/movies/components/auth/ErrorAlert";
 import { Button } from "@/domains/movies/components/ui/button";
@@ -7,10 +10,6 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/domains/m
 import { Input } from "@/domains/movies/components/ui/input";
 import useAuth from "@/domains/movies/hooks/useAuth";
 import { loginSchema } from "@/domains/movies/validationSchema/loginSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-
-import { useForm } from "react-hook-form";
 
 const LoginForm = () => {
   const { setAuth } = useAuth();

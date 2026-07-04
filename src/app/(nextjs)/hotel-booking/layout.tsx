@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import connectDB from "@/domains/hotel-booking/config/database";
 
 import { Toaster } from "@/domains/hotel-booking/components/ui/sonner";
 // import VerificationStatus from "@/domains/hotel-booking/components/VerificationStatus";
@@ -16,14 +17,15 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }>) {
+  await connectDB();
 
   return (
     <html lang={locale}>
-      <body className={"antialiased"}>
+      <body className="antialiased">
         <main>
-            {/*<VerificationStatus visible={session && !session?.user?.verified && true} />*/}
-            {children}
-            <Toaster />
+          {/*<VerificationStatus visible={session && !session?.user?.verified && true} />*/}
+          {children}
+          <Toaster />
         </main>
       </body>
     </html>

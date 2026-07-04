@@ -1,10 +1,10 @@
 "use server";
+import mongoose from "mongoose";
 // import { auth } from "@/auth";
 // import connectDB from "@/domains/hotel-booking/config/database";
 import Property from "@/domains/hotel-booking/models/Property";
 import Review from "@/domains/hotel-booking/models/review-model";
 import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
-import mongoose from "mongoose";
 
 export async function getReviews({ propertyId }: { propertyId: string }) {
   // await connectDB();

@@ -1,14 +1,14 @@
 "use client";
 
-import SubmitButton from "@/domains/hotel-booking/components/SubmitButton";
-import { Input } from "@/domains/hotel-booking/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { handleSignUp } from "@/domains/hotel-booking/actions/signupAction";
 import { FieldCustomError } from "@/domains/hotel-booking/components/field-error";
+import SubmitButton from "@/domains/hotel-booking/components/SubmitButton";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/domains/hotel-booking/components/ui/form";
+import { Input } from "@/domains/hotel-booking/components/ui/input";
 import { clientFormErrorState, clientSuccessErrorState } from "@/domains/hotel-booking/utils/client-form-error";
-import { SignUp, signupSchema } from "@/domains/hotel-booking/validationSchema/signup-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { type SignUp, signupSchema } from "@/domains/hotel-booking/validationSchema/signup-schema";
 
 const SignupForm = () => {
   const form = useForm<SignUp>({

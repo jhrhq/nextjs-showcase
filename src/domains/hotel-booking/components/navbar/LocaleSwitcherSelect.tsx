@@ -1,9 +1,9 @@
 "use client";
 
-import { Toggle } from "@/domains/hotel-booking/components/ui/toggle";
 import { Languages } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
-import { ReactNode, useTransition } from "react";
+import { type ReactNode, useTransition } from "react";
+import { Toggle } from "@/domains/hotel-booking/components/ui/toggle";
 
 type Props = {
   children?: ReactNode;

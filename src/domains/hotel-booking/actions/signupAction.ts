@@ -1,11 +1,11 @@
 "use server";
+import crypto from "crypto";
 // import { auth, signIn } from "@/auth";
 import mail from "@/domains/hotel-booking//utils/mail";
 // import connectDB from "@/domains/hotel-booking/config/database";
 import UserModel, { createNewUser } from "@/domains/hotel-booking/models/user-model";
 import VerificationTokenModel from "@/domains/hotel-booking/models/verification-token-model";
-import { SignUp, signupSchema } from "@/domains/hotel-booking/validationSchema/signup-schema";
-import crypto from "crypto";
+import { type SignUp, signupSchema } from "@/domains/hotel-booking/validationSchema/signup-schema";
 
 const handleVerificationToken = async (user: { id: string; name: string; email: string }) => {
   const userId = user.id;

@@ -1,18 +1,16 @@
 "use client";
 
-import SubmitButton from "@/domains/hotel-booking/components/SubmitButton";
-import { Input } from "@/domains/hotel-booking/components/ui/input";
-
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { FC } from "react";
 import { useForm } from "react-hook-form";
-
 import { FieldCustomError } from "@/domains/hotel-booking/components/field-error";
+import SubmitButton from "@/domains/hotel-booking/components/SubmitButton";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/domains/hotel-booking/components/ui/form";
+import { Input } from "@/domains/hotel-booking/components/ui/input";
 import {
-  UpdatePasswordType,
+  type UpdatePasswordType,
   updatePasswordSchema,
 } from "@/domains/hotel-booking/validationSchema/update-password-validation-schema";
-import { FC } from "react";
 
 interface Props {
   token: string;

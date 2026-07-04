@@ -1,8 +1,7 @@
-import { FieldPath, useFormContext } from "react-hook-form";
-
-import { PropertyReview } from "@/domains/hotel-booking/validationSchema/review-schema";
 import { Star } from "lucide-react";
 import { forwardRef } from "react";
+import { type FieldPath, useFormContext } from "react-hook-form";
+import type { PropertyReview } from "@/domains/hotel-booking/validationSchema/review-schema";
 
 type RatingProps = React.InputHTMLAttributes<HTMLInputElement>;
 

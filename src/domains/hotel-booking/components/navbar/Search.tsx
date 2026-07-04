@@ -1,9 +1,9 @@
 "use client";
+import { Search as SearchIcon } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
 import useDebounce from "@/domains/hotel-booking/hooks/useDebounce";
-import { Search as SearchIcon } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const Search = () => {
   const searchParams = useSearchParams();

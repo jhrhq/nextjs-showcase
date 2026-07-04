@@ -3,16 +3,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-import { cn } from "@/lib/utils";
 
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import { Calendar } from "@/domains/hotel-booking/components/ui/calendar";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/domains/hotel-booking/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/domains/hotel-booking/components/ui/popover";
-import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const FormSchema = z.object({
   checkin: z.date({

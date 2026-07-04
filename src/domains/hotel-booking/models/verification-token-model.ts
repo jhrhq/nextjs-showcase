@@ -1,5 +1,5 @@
 import { compareSync, genSaltSync, hashSync } from "bcryptjs";
-import { Model, model, models, Schema } from "mongoose";
+import { type Model, model, models, Schema } from "mongoose";
 
 interface VerificationTokenDoc {
   token: string;

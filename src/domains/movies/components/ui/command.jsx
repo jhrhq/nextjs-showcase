@@ -1,8 +1,8 @@
 "use client";
-import { Command as CommandPrimitive } from "cmdk";
-import * as React from "react";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { Command as CommandPrimitive } from "cmdk";
+import * as React from "react";
 
 import { Dialog, DialogOverlay, DialogPortal } from "@/domains/movies/components/ui/dialog";
 import { cn } from "@/lib/utils";

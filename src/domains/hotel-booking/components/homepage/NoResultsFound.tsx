@@ -1,5 +1,5 @@
-import { Button } from "@/domains/hotel-booking/components/ui/button";
 import Link from "next/link";
+import { Button } from "@/domains/hotel-booking/components/ui/button";
 
 const NoResultsFound = ({ searchTerm }: { searchTerm?: string }) => {
   return (

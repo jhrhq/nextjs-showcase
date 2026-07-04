@@ -1,4 +1,3 @@
-import Navbar from "@/domains/hotel-booking/components/navbar";
 import {
   Bed,
   DoorOpen,
@@ -13,7 +12,8 @@ import {
   WavesLadder,
   Wifi,
 } from "lucide-react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import Navbar from "@/domains/hotel-booking/components/navbar";
 
 export const metadata: Metadata = {
   title: "Create Hotel",

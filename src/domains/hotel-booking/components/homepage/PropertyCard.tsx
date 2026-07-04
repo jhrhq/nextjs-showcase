@@ -1,11 +1,11 @@
-import { StarSvg } from "@/domains/hotel-booking/components/svg-component/StartSvg";
 import { Bed } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { StarSvg } from "@/domains/hotel-booking/components/svg-component/StartSvg";
 
 const PropertyCard = ({ property }) => {
   return (
-    <Link href={`/property/${property._id}`} className="block group">
+    <Link href={`/hotel-booking/property/${property._id}`} className="block group">
       <div>
         <div className="relative">
           <Image

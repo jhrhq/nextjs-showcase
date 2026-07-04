@@ -1,16 +1,14 @@
 "use client";
 
-import SubmitButton from "@/domains/hotel-booking/components/SubmitButton";
-import { Input } from "@/domains/hotel-booking/components/ui/input";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import { loginFormAction } from "@/domains/hotel-booking/actions";
 import { FieldCustomError } from "@/domains/hotel-booking/components/field-error";
+import SubmitButton from "@/domains/hotel-booking/components/SubmitButton";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/domains/hotel-booking/components/ui/form";
+import { Input } from "@/domains/hotel-booking/components/ui/input";
 import { clientFormErrorState, clientSuccessErrorState } from "@/domains/hotel-booking/utils/client-form-error";
-import { Login, loginSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
+import { type Login, loginSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
 
 const LoginForm = () => {
   const form = useForm<Login>({

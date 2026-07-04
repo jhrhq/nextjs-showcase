@@ -1,11 +1,11 @@
 "use client";
-import { getReviews } from "@/domains/hotel-booking/actions/reviewAction";
-import ReviewModal from "@/domains/hotel-booking/ReviewModal";
-import { Button } from "@/domains/hotel-booking/ui/button";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
+import { type FC, useEffect, useState } from "react";
+import { getReviews } from "@/domains/hotel-booking/actions/reviewAction";
+import { Button } from "@/domains/hotel-booking/components/ui/button";
 import ReviewBody from "./ReviewBody";
+import ReviewModal from "../ReviewModal";
+import { authClient } from "@/lib/auth-client";
 
 export interface ReviewType {
   _id: string;
@@ -22,7 +22,7 @@ interface Props {
 }
 
 const ReviewContainer: FC<Props> = ({ propertyId }) => {
-  const session = useSession();
+  const { data: session } = authClient.useSession()
 
   const [reviews, setReviews] = useState<ReviewType[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(false);

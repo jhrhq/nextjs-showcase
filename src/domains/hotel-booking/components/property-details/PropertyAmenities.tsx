@@ -16,7 +16,7 @@ import {
   WavesLadder,
   Wifi,
 } from "lucide-react";
-import { FC } from "react";
+import type { FC } from "react";
 
 export type AmenityIconsType = Record<string, JSX.Element>;
 

@@ -1,4 +1,6 @@
 "use client";
+import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import GoogleLoginAction from "@/domains/hotel-booking/components/auth/GoogleLoginAction";
 import LoginForm from "@/domains/hotel-booking/components/auth/LoginForm";
 import LoginNavigation from "@/domains/hotel-booking/components/auth/LoginNavigation";
@@ -9,8 +11,6 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/domains/hotel-booking/components/ui/dialog";
-import { X } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 const Page = () => {
   const router = useRouter();

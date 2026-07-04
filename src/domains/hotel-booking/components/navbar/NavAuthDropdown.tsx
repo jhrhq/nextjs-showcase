@@ -1,4 +1,5 @@
-import { auth } from "@/auth";
+import { Menu, User } from "lucide-react";
+import Link from "next/link";
 import Logout from "@/domains/hotel-booking/components/navbar/logout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/domains/hotel-booking/components/ui/avatar";
 import {
@@ -7,11 +8,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/domains/hotel-booking/components/ui/dropdown-menu";
-import { Menu, User } from "lucide-react";
-import Link from "next/link";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers"
 
 const NavAuthDropdown = async () => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+         headers: await headers()
+     })
 
   return (
     <DropdownMenu>
@@ -44,21 +47,21 @@ const NavAuthDropdown = async () => {
           <ul>
             <DropdownMenuItem asChild>
               <li className="w-full px-3 py-2 ">
-                <Link href="/login" className="flex-grow text-sm text-zinc-700 transition-all  hover:pl-1 w-fll">
+                <Link href="/login" className="grow text-sm text-zinc-700 transition-all  hover:pl-1 w-fll">
                   Login
                 </Link>
               </li>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <li className="w-full px-3 py-2 ">
-                <Link href="/signup" className="flex-grow text-sm text-zinc-700 transition-all  hover:pl-1 w-fll">
+                <Link href="/signup" className="grow text-sm text-zinc-700 transition-all  hover:pl-1 w-fll">
                   Signup
                 </Link>
               </li>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <li className="w-full px-3 py-2 ">
-                <Link href="/help" className="flex-grow text-sm text-zinc-700 transition-all  hover:pl-1 w-full">
+                <Link href="/help" className="grow text-sm text-zinc-700 transition-all  hover:pl-1 w-full">
                   Help
                 </Link>
               </li>

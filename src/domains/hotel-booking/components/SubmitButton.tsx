@@ -1,9 +1,9 @@
 "use client";
-import { Button } from "@/domains/hotel-booking/components/ui/button";
-import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 import { useFormContext } from "react-hook-form";
+import { Button } from "@/domains/hotel-booking/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const SubmitButton = ({ className, children }: { className?: string; children: ReactNode }) => {
   const { pending } = useFormStatus();

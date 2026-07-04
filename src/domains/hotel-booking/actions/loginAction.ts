@@ -1,8 +1,10 @@
 "use server";
 
-import { signIn } from "@/auth";
-import { Login, loginSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
 import { redirect } from "next/navigation";
+import { type Login, loginSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
+import { authClient } from "@/lib/auth-client";
+import { BetterAuthError } from "better-auth";
+
 
 // export const loginFormAction = async (
 //   formState: FormState,
@@ -27,24 +29,29 @@ import { redirect } from "next/navigation";
 //   return toFormState("SUCCESS", "Login Successful");
 // };
 export const loginFormAction = async (formData: Login) => {
+
   try {
     const result = loginSchema.safeParse(formData);
     if (!result.success) return { status: false, errors: result.error.formErrors.fieldErrors };
 
     const { email, password } = result.data;
 
-    await signIn("credentials", {
-      email,
-      password,
-      redirectTo: "/",
+    const { data, error } = await authClient.signIn.email({
+        email,
+        password,
+        rememberMe: true,
+        callbackURL: `${process.env.NEXT_PUBLIC_DOMAIN}/hotel-booking`,
     });
-    return { status: true };
+    if (error) {
+      throw new Error(error)
+    }
+    return { status: true, data };
   } catch (error) {
     console.log(error);
     let errorMsg = "";
     if (error instanceof Error && error.message === "NEXT_REDIRECT") {
       redirect("/");
-    } else if (error instanceof AuthError) {
+    } else if (error instanceof BetterAuthError) {
       switch (error.type) {
         case "CallbackRouteError":
           errorMsg = "Something went wrong";

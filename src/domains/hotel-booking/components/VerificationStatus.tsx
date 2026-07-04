@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import type { FC } from "react";
 import { useFormState } from "react-dom";
 
 import { generateVerificationLink } from "@/domains/hotel-booking/actions/signupAction";

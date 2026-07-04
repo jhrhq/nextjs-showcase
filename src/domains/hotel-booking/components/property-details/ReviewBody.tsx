@@ -1,7 +1,7 @@
 "use client";
+import type { FC } from "react";
 import ReviewCard from "@/domains/hotel-booking/components/property-details/ReviewCard";
-import { FC } from "react";
-import { ReviewType } from "./ReviewContainer";
+import type { ReviewType } from "./ReviewContainer";
 
 interface Props {
   reviews: ReviewType[];

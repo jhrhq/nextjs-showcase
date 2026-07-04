@@ -1,14 +1,14 @@
 // import UpdatePasswordForm from "@/domains/hotel-booking/components/auth/UpdatePasswordForm";
 // import connectDB from "@/domains/hotel-booking/config/database";
-import PassResetTokenModel from "@/domains/hotel-booking/models/password-reset-token-model";
+
 import { notFound } from "next/navigation";
+import PassResetTokenModel from "@/domains/hotel-booking/models/password-reset-token-model";
 
 interface Props {
-  searchParams:
-  Promise<{
+  searchParams: Promise<{
     token: string;
     userId: string;
-    }>
+  }>;
 }
 
 const UpdatePassword = async ({ searchParams }: Props) => {
@@ -25,7 +25,7 @@ const UpdatePassword = async ({ searchParams }: Props) => {
   // }
 
   // return <UpdatePasswordForm token={token} userId={userId} />;
-  return <h1 className="text-6xl">Update password</h1>
+  return <h1 className="text-6xl">Update password</h1>;
 };
 
 export default UpdatePassword;

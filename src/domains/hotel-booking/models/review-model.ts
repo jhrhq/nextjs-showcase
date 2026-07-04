@@ -1,4 +1,4 @@
-import { Model, model, models, ObjectId, Schema } from "mongoose";
+import { type Model, model, models, type ObjectId, Schema } from "mongoose";
 
 interface ReviewUser {
   _id?: ObjectId;

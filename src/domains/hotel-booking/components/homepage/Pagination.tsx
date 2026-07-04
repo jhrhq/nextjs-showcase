@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -5,7 +6,6 @@ import {
   PaginationLink,
 } from "@/domains/hotel-booking/components/ui/pagination";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const PropertyPagination = ({ page, pageSize, totalItems }: { page: number; pageSize: number; totalItems: number }) => {
   const totalPages = Math.ceil(totalItems / pageSize);

@@ -1,18 +1,16 @@
 "use client";
 
-import SubmitButton from "@/domains/hotel-booking/components/SubmitButton";
-import { Input } from "@/domains/hotel-booking/components/ui/input";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import { generatePassResetLinkAction } from "@/domains/hotel-booking/actions/password-reset";
 import { FieldCustomError } from "@/domains/hotel-booking/components/field-error";
+import SubmitButton from "@/domains/hotel-booking/components/SubmitButton";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/domains/hotel-booking/components/ui/form";
+import { Input } from "@/domains/hotel-booking/components/ui/input";
 import { clientFormErrorState, clientSuccessErrorState } from "@/domains/hotel-booking/utils/client-form-error";
 import {
+  type ForgetPasswordType,
   forgetPasswordSchema,
-  ForgetPasswordType,
 } from "@/domains/hotel-booking/validationSchema/update-password-validation-schema";
 
 const ForgetPasswordForm = () => {

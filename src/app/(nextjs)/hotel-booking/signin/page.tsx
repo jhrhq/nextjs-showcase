@@ -1,7 +1,7 @@
 // import GoogleLoginAction from "@/domains/hotel-booking/components/auth/GoogleLoginAction";
 // import LoginForm from "@/domains/hotel-booking/components/auth/LoginForm";
 // import LoginNavigation from "@/domains/hotel-booking/components/auth/LoginNavigation";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Login",

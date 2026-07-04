@@ -1,6 +1,6 @@
-import { FormState } from "@/domains/hotel-booking/utils/form-error-state";
-import { cn } from "@/lib/utils";
 import { CircleAlert } from "lucide-react";
+import type { FormState } from "@/domains/hotel-booking/utils/form-error-state";
+import { cn } from "@/lib/utils";
 
 type FieldErrorProps = {
   formState: FormState;

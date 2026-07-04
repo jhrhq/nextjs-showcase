@@ -1,16 +1,17 @@
 "use client";
+import type { FC } from "react";
 import StarRating from "@/domains/hotel-booking/components/StartRating";
 import { Avatar, AvatarFallback, AvatarImage } from "@/domains/hotel-booking/components/ui/avatar";
 import { formatDate } from "@/domains/hotel-booking/utils/date-time-utils";
-import { useSession } from "next-auth/react";
-import { FC } from "react";
-import { ReviewType } from "./ReviewContainer";
+import type { ReviewType } from "./ReviewContainer";
+import { authClient } from "@/lib/auth-client";
+
 interface Props {
   review: ReviewType;
 }
 
 const ReviewCard: FC<Props> = ({ review }) => {
-  const session = useSession();
+  const { data: session } = authClient.useSession()
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-4">

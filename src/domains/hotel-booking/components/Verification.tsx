@@ -1,24 +1,26 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { CheckCircle } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { FC, useEffect } from "react";
+import { type FC, useEffect } from "react";
+
 let loaded = false;
 const VerificationSuccess: FC<object> = () => {
   const router = useRouter();
-  const { update, status } = useSession();
+  const { data: session } = authClient.useSession();
+  console.log(session)
 
-  useEffect(() => {
-    if (loaded) return;
+  // useEffect(() => {
+  //   if (loaded) return;
 
-    if (status === "authenticated") {
-      update({ verified: true }).then(() => {
-        router.replace("/");
-        router.refresh();
-      });
-      loaded = true;
-    }
-  }, [status]);
+  //   if (status === "authenticated") {
+  //     update({ verified: true }).then(() => {
+  //       router.replace("/");
+  //       router.refresh();
+  //     });
+  //     loaded = true;
+  //   }
+  // }, [status]);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">

@@ -1,18 +1,16 @@
-import Verification from "@/domains/hotel-booking/components/Verification";
-import UserModel from "@/domains/hotel-booking/models/user-model";
 // import VerificationTokenModel from "@/domains/hotel-booking/models/verification-token-model";
 import { notFound } from "next/navigation";
-
+import Verification from "@/domains/hotel-booking/components/Verification";
+import UserModel from "@/domains/hotel-booking/models/user-model";
 
 interface Props {
-  searchParams:
-  Promise<{
+  searchParams: Promise<{
     token: string;
     userId: string;
-    }>
+  }>;
 }
 
-const Verify = async ({ searchParams }:Props) => {
+const Verify = async ({ searchParams }: Props) => {
   const { token, userId } = await searchParams;
   // try {
   //   const verificationToken = await VerificationTokenModel.findOne({ userId });

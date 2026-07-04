@@ -1,5 +1,5 @@
 import { compareSync, genSaltSync, hashSync } from "bcryptjs";
-import { Model, model, models, ObjectId, Schema } from "mongoose";
+import { type Model, model, models, type ObjectId, Schema } from "mongoose";
 
 interface BaseUserDoc {
   _id?: ObjectId;

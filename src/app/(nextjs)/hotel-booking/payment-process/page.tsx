@@ -1,7 +1,7 @@
+import { ChevronLeft, Star } from "lucide-react";
+import type { Metadata } from "next";
 import Footer from "@/domains/hotel-booking/components/Footer";
 import Navbar from "@/domains/hotel-booking/components/navbar";
-import { ChevronLeft, Star } from "lucide-react";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Payment Process",
