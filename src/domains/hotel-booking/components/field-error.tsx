@@ -23,8 +23,7 @@ const FieldCustomError = ({ errorMessage, className }: { errorMessage?: string; 
   return (
     <div className={cn("flex dark:bg-gray-900 rounded-3xl items-center px-6 py-4 text-sm bg-red-100", className)}>
       <CircleAlert
-        className="size-4 text-red-500 stroke-current flex-shrink-0"
-        // fill="none"
+        className="size-4 text-red-500 stroke-current shrink-0"
       />
       <div className="ml-3">
         <div className=" text-left text-red-600 dark:text-gray-50">{errorMessage}</div>

@@ -2,39 +2,44 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { loginFormAction } from "@/domains/hotel-booking/actions";
 import { FieldCustomError } from "@/domains/hotel-booking/components/field-error";
 import SubmitButton from "@/domains/hotel-booking/components/SubmitButton";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/domains/hotel-booking/components/ui/form";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
-import { clientFormErrorState, clientSuccessErrorState } from "@/domains/hotel-booking/utils/client-form-error";
-import { type Login, loginSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
+
+import { type SignIn, signInSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
+import { signInAction } from "../../actions/auth-action";
+
+// used when action = {formAction}
+// const INITIAL_STATE: ActionState = {};
 
 const LoginForm = () => {
-  const form = useForm<Login>({
-    resolver: zodResolver(loginSchema),
+  // used when action = {formAction}
+  // const [state, formAction, isPending] = useActionState(signInAction, INITIAL_STATE);
+
+  const form = useForm<SignIn>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
-  // const [formState, action] = useFormState(loginFormAction, EMPTY_FORM_STATE);
-  // const formRef = useFormReset(formState);
 
-  async function onSubmit(values: Login) {
+
+  async function onSubmit(values: SignIn) {
     try {
-      const result = await loginFormAction(values);
+      const result = await signInAction(values);
       if (!result?.status) {
-        clientSuccessErrorState(result?.message, form.setError);
+        form.setError("root", result?.message);
       }
     } catch (error) {
-      clientFormErrorState(error, form.setError);
+      form.setError("root.server", result?.message);
     }
   }
 
   return (
     <Form {...form}>
-      <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form  onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FieldCustomError errorMessage={form.formState?.errors?.root?.serverError?.message} />
 
         <FormField

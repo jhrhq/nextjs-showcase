@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { nextCookies } from "better-auth/next-js"; // Essential Next.js cookie synchronizer
-import { bearer, jwt } from "better-auth/plugins";
+// import { bearer, jwt } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
 
 // const client = new MongoClient(process.env.HOTEL_BOOKING_MONGODB_URI);
@@ -35,17 +35,17 @@ export const auth = betterAuth({
   basePath: "/api/auth/hotel-booking",
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true,
+    // requireEmailVerification: true,
     minPasswordLength: 8,
   },
-  emailVerification: {
-      sendOnSignUp: true,
-      autoSignInAfterVerification: false, // Ensures user logs in manually after confirming
-      sendVerificationEmail: async ({ user, url }) => {
-        // Replace this block with your production transactional mailer (e.g., Resend, Nodemailer)
-        console.log(`Sending verification link to ${user.email}: ${url}`);
-      },
-    },
+  // emailVerification: {
+  //     sendOnSignUp: true,
+  //     autoSignInAfterVerification: false, // Ensures user logs in manually after confirming
+  //     sendVerificationEmail: async ({ user, url }) => {
+  //       // Replace this block with your production transactional mailer (e.g., Resend, Nodemailer)
+  //       console.log(`Sending verification link to ${user.email}: ${url}`);
+  //     },
+  //   },
   // socialProviders: {
   //   google: {
   //     clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -53,23 +53,26 @@ export const auth = betterAuth({
   //   },
   // },
   plugins: [
-    bearer(),
-    jwt({
-          jwt: {
-            expirationTime: "15m", // Access Token lifespan
-            definePayload: ({ user }) => ({
-              id: user.id,
-              email: user.email,
-            }),
-          },
-          jwks: {
-            rotationInterval: 60 * 60 * 24 * 30, // Auto-rotate signing keys every 30 days
-            gracePeriod: 60 * 60 * 24 * 2,
-          },
-        }),
+    // bearer(),
+    // jwt({
+    //       jwt: {
+    //         expirationTime: "15m", // Access Token lifespan
+    //         definePayload: ({ user }) => ({
+    //           id: user.id,
+    //           email: user.email,
+    //         }),
+    //       },
+    //       jwks: {
+    //         rotationInterval: 60 * 60 * 24 * 30, // Auto-rotate signing keys every 30 days
+    //         gracePeriod: 60 * 60 * 24 * 2,
+    //       },
+    //     }),
     nextCookies() // MUST be the absolute last plugin in your array for Next.js
   ],
   advanced: {
-      cookiePrefix: "hotel-booking",
+    cookiePrefix: "hotel-booking",
+    database: {
+          generateId: false, // "serial" for auto-incrementing numeric IDs
+        },
     },
 });

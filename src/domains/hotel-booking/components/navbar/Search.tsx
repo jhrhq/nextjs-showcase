@@ -28,7 +28,7 @@ const Search = () => {
 
   return (
     <div className="row-start-2 col-span-2 border-0 md:w-full md:border flex shadow-sm hover:shadow-md transition-all md:rounded-full items-center px-2">
-      <div className="grid md:grid-cols-3 lg:grid-cols-7 gap-4 divide-x py-2 md:px-2 flex-grow w-full">
+      <div className="grid md:grid-cols-3 lg:grid-cols-7 gap-4 divide-x py-2 md:px-2 grow w-full">
         <Input
           onChange={(e) => {
             handleSearch(e.target.value);

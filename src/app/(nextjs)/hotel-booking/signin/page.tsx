@@ -1,6 +1,7 @@
 // import GoogleLoginAction from "@/domains/hotel-booking/components/auth/GoogleLoginAction";
 // import LoginForm from "@/domains/hotel-booking/components/auth/LoginForm";
 // import LoginNavigation from "@/domains/hotel-booking/components/auth/LoginNavigation";
+import LoginForm from "@/domains/hotel-booking/components/auth/LoginForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -30,7 +31,7 @@ const Login = () => {
             <div className="grow border-t border-gray-300" />
           </div>
           {/* Email Login Form */}
-          {/*<LoginForm />*/}
+          <LoginForm />
         </div>
         {/* Footer */}
         {/*<LoginNavigation />*/}

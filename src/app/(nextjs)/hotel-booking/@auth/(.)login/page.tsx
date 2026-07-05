@@ -1,7 +1,7 @@
 "use client";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import GoogleLoginAction from "@/domains/hotel-booking/components/auth/GoogleLoginAction";
+// import GoogleLoginAction from "@/domains/hotel-booking/components/auth/GoogleLoginAction";
 import LoginForm from "@/domains/hotel-booking/components/auth/LoginForm";
 import LoginNavigation from "@/domains/hotel-booking/components/auth/LoginNavigation";
 import {
@@ -44,7 +44,7 @@ const Page = () => {
         {/* Social Login */}
         <div className="space-y-4 mb-4">
           {/* Google Login Button */}
-          <GoogleLoginAction />
+          {/*<GoogleLoginAction />*/}
           {/* Divider */}
           <div className="flex items-center my-4">
             <div className="grow border-t border-gray-300" />

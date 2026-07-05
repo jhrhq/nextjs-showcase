@@ -1,5 +1,5 @@
+import { BetterAuthError } from "better-auth";
 import { redirect } from "next/navigation";
-import { AuthError } from "next-auth";
 import { ZodError } from "zod";
 
 export type FormState = {
@@ -42,7 +42,7 @@ export const fromErrorToFormState = (error: unknown) => {
       fieldErrors: {},
       timestamp: Date.now(),
     };
-  } else if (error instanceof AuthError) {
+  } else if (error instanceof BetterAuthError) {
     switch (error.type) {
       case "CredentialsSignin":
         return {

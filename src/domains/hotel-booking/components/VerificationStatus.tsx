@@ -3,7 +3,7 @@
 import type { FC } from "react";
 import { useFormState } from "react-dom";
 
-import { generateVerificationLink } from "@/domains/hotel-booking/actions/signupAction";
+import { generateVerificationLink } from "@/domains/hotel-booking/actions/verification-action";
 import SubmitButton from "./SubmitButton";
 
 interface Props {

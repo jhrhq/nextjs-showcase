@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { handleSignUp } from "@/domains/hotel-booking/actions/signupAction";
 import { FieldCustomError } from "@/domains/hotel-booking/components/field-error";
 import SubmitButton from "@/domains/hotel-booking/components/SubmitButton";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/domains/hotel-booking/components/ui/form";

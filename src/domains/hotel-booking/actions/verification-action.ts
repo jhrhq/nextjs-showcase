@@ -1,72 +1,24 @@
 "use server";
 import crypto from "crypto";
-// import { auth, signIn } from "@/auth";
-import mail from "@/domains/hotel-booking//utils/mail";
-// import connectDB from "@/domains/hotel-booking/config/database";
+// import mail from "@/domains/hotel-booking/utils/mail";
 import UserModel, { createNewUser } from "@/domains/hotel-booking/models/user-model";
 import VerificationTokenModel from "@/domains/hotel-booking/models/verification-token-model";
-import { type SignUp, signupSchema } from "@/domains/hotel-booking/validationSchema/signup-schema";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const handleVerificationToken = async (user: { id: string; name: string; email: string }) => {
   const userId = user.id;
   const token = crypto.randomBytes(36).toString("hex");
   //   randomToken = 1234hgh = db (hash)
 
-  // await connectDB();
   await VerificationTokenModel.findOneAndDelete({ userId });
   await VerificationTokenModel.create({ token, userId });
   const link = `${process.env.VERIFICATION_LINK}?token=${token}&userId=${userId}`;
-  await mail.sendVerificationMail({ link, name: user.name, to: user.email });
+  // await mail.sendVerificationMail({ link, name: user.name, to: user.email });
 };
 
-interface AuthResponse {
-  success?: boolean;
-  errors?: Record<string, string[] | undefined>;
-  error?: string;
-  status?: boolean;
-  message?: string;
-}
 
-export const handleSignUp = async (
-  // state: AuthResponse,
-  data: SignUp
-): Promise<AuthResponse> => {
-  const result = signupSchema.safeParse(data);
-  if (!result.success) {
-    // Show error to the users
-    return { status: false, errors: result.error.formErrors.fieldErrors };
-  }
 
-  // await connectDB();
-  const existingUser = await UserModel.findOne({ email: data.email });
-  if (existingUser)
-    return {
-      status: false,
-      error: "User already exists! Please Login to continue.",
-    };
-
-  const user = await createNewUser({
-    name: data.username,
-    email: data.email,
-    password: data.password,
-    provider: "credentials",
-    verified: false,
-  });
-
-  // send verification email
-  await handleVerificationToken({
-    email: data.email,
-    id: user._id,
-    name: data.username,
-  });
-  await signIn("credentials", {
-    email: data.email,
-    password: data.password,
-    redirectTo: "/",
-  });
-
-  return { status: true };
-};
 
 interface VerificationResponse {
   status?: boolean;
@@ -74,7 +26,10 @@ interface VerificationResponse {
 }
 export const generateVerificationLink = async ()// state: VerificationResponse,
 : Promise<VerificationResponse> => {
-  const session = await auth();
+  const session = await auth.api.getSession({
+         headers: await headers()
+  })
+
   if (!session) return { status: false, message: "Something went wrong" };
 
   const user = await UserModel.findById(session?.user?.id);

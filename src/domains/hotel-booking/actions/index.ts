@@ -1,4 +1,5 @@
-import { googleSingIn } from "@/domains/hotel-booking/actions/googleLoginAction";
-import { loginFormAction } from "@/domains/hotel-booking/actions/loginAction";
+// import { googleSingIn } from "@/domains/hotel-booking/actions/googleLoginAction";
+import { signInAction, signUpAction } from "@/domains/hotel-booking/actions/auth-action";
 
-export { googleSingIn, loginFormAction };
+// export { googleSingIn, loginFormAction };
+export {signInAction, signUpAction };
