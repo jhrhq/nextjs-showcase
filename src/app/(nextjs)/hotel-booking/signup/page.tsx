@@ -1,5 +1,5 @@
 // import GoogleLoginAction from "@/domains/hotel-booking/components/auth/GoogleLoginAction";
-import SignupForm from "@/domains/hotel-booking/components/auth/SignupForm";
+import SignUpForm from "@/domains/hotel-booking/components/auth/SignUpForm";
 
 const Signup = () => {
   return (
@@ -24,7 +24,7 @@ const Signup = () => {
               <div className="grow border-t border-gray-300" />
             </div>
             {/* Email Login Form */}
-            <SignupForm />
+            <SignUpForm />
           </div>
           {/* Footer */}
           <div className="text-center text-sm text-gray-600">

@@ -2,7 +2,7 @@
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 // import GoogleLoginAction from "@/domains/hotel-booking/components/auth/GoogleLoginAction";
-import LoginForm from "@/domains/hotel-booking/components/auth/LoginForm";
+import SignInForm from "@/domains/hotel-booking/components/auth/SignInForm";
 import LoginNavigation from "@/domains/hotel-booking/components/auth/LoginNavigation";
 import {
   Dialog,
@@ -52,7 +52,7 @@ const Page = () => {
             <div className="grow border-t border-gray-300" />
           </div>
           {/* Email Login Form */}
-          <LoginForm />
+          <SignInForm />
         </div>
         {/* Footer */}
         <LoginNavigation />

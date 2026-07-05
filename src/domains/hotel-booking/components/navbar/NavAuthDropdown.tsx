@@ -71,7 +71,7 @@ const NavAuthDropdown = async () => {
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>
-<Logout />
+<LogOut /><Logout />
                     </DropdownMenuItem>
           </>
         ) : (

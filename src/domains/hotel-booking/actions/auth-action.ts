@@ -5,7 +5,7 @@ import { auth } from "@/lib/auth";
 import { parseAuthError } from "@/lib/auth-error";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { signUpSchema } from "../validationSchema/signup-schema";
+import { SignUp, signUpSchema } from "../validationSchema/signup-schema";
 
 
 export type ActionState = {
@@ -48,17 +48,18 @@ export async function signInAction(
 }
 
 export async function signUpAction(
-  _prev: ActionState,
-  formData: FormData
+  // _prev: ActionState,
+  // formData: FormData
+  data:SignUp
 ): Promise<ActionState> {
-  const raw = {
-    name: formData.get("name"),
-    email: formData.get("email"),
-    password: formData.get("password"),
-    confirmPassword: formData.get("confirmPassword"),
-  };
+  // const raw = {
+  //   name: formData.get("name"),
+  //   email: formData.get("email"),
+  //   password: formData.get("password"),
+  //   confirmPassword: formData.get("confirmPassword"),
+  // };
 
-  const parsed = signUpSchema.safeParse(raw);
+  const parsed = signUpSchema.safeParse(data);
 
   if (!parsed.success) {
     return {
