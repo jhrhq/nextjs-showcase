@@ -32,7 +32,7 @@ const SignInForm = () => {
   async function onSubmit(values: SignIn) {
     try {
       const result = await signInAction(values);
-        handleServerActionErrors(setError, result)
+      handleServerActionErrors(setError, result)
     } catch (error) {
       handleServerActionErrors(setError, null, error)
      }

@@ -61,9 +61,8 @@ export async function signUpAction(
   const parsed = signUpSchema.safeParse(data);
 
   if (!parsed.success) {
-    return {
-      errors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
-    };
+    const { fieldErrors } = z.flattenError(parsed.error);
+    return {status: parsed.success, fieldErrors };
   }
 
   try {

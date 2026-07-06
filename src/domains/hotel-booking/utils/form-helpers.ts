@@ -32,6 +32,7 @@ export function handleServerActionErrors<TFieldValues extends FieldValues>(
     return;
   }
 
+
   // Scenario B: Handle an error caught inside the frontend onSubmit catch block
   if (catchError !== undefined && catchError !== null) {
     let fallbackMessage = 'An unexpected system error occurred.';
@@ -46,6 +47,7 @@ export function handleServerActionErrors<TFieldValues extends FieldValues>(
     }
     // Fallback for standard JavaScript Errors (like native Network / Next.js chunk failures)
     else if (catchError instanceof Error) {
+      if(catchError.message === "NEXT_REDIRECT") return
       fallbackMessage = catchError.message;
     }
 
