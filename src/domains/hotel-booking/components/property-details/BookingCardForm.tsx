@@ -9,14 +9,15 @@ import { z } from "zod";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import { Calendar } from "@/domains/hotel-booking/components/ui/calendar";
 import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field";
-import { FormError } from "@/domains/hotel-booking/components/form-error";
+
 import { Popover, PopoverContent, PopoverTrigger } from "@/domains/hotel-booking/components/ui/popover";
 import { cn } from "@/lib/utils";
+import FormError from "@/ui/shared/auth-errro-alert";
 
 const FormSchema = z.object({
   checkin: z.date({ message: "A date of birth is required." }),
   checkout: z.date({ message: "A date of birth is required." }),
-  guests: z.coerce.number().int().min(1, "Guests must be at least 1").max(6, "Guests must be at most 6"),
+  // guests: z.coerce.number().int().min(1, "Guests must be at least 1").max(6, "Guests must be at most 6"),
 });
 
 export function BookingCardForm() {
@@ -26,9 +27,9 @@ export function BookingCardForm() {
     formState: { errors },
   } = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      guests: 0,
-    },
+    // defaultValues: {
+    //   guests: 0,
+    // },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -61,7 +62,7 @@ export function BookingCardForm() {
                       selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
-                      initialFocus
+
                     />
                   </PopoverContent>
                 </Popover>
@@ -96,7 +97,7 @@ export function BookingCardForm() {
                       selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) => date < new Date() || date < new Date("1900-01-01")}
-                      initialFocus
+
                     />
                   </PopoverContent>
                 </Popover>

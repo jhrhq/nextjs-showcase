@@ -32,15 +32,14 @@ const SignInForm = () => {
   async function onSubmit(values: SignIn) {
     try {
       const result = await signInAction(values);
-      handleServerActionErrors(setError, result)
+      handleServerActionErrors(setError, result);
     } catch (error) {
-      handleServerActionErrors(setError, null, error)
-     }
+      handleServerActionErrors(setError, null, error);
+    }
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
-      <FieldGroup >
+      <FieldGroup>
         {/* Email Field */}
         <Field>
           <Input
@@ -49,9 +48,9 @@ const SignInForm = () => {
             className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
             {...register("email")}
           />
-            <FieldError>
-              <FormError error={errors.email?.message} />
-            </FieldError>
+          <FieldError>
+            <FormError error={errors.email?.message} />
+          </FieldError>
         </Field>
 
         {/* Password Field */}
@@ -62,15 +61,13 @@ const SignInForm = () => {
             className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
             {...register("password")}
           />
-            <FieldError>
-              <FormError error={errors.password?.message} />
-            </FieldError>
+          <FieldError>
+            <FormError error={errors.password?.message} />
+          </FieldError>
         </Field>
       </FieldGroup>
       {/* Root server error handling */}
-      <FieldCustomError
-        errorMessage={errors?.root?.serverError?.message}
-      />
+      <FieldCustomError errorMessage={errors?.root?.serverError?.message} />
 
       <Button
         type="submit"

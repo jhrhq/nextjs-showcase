@@ -30,7 +30,7 @@ export async function signInAction(
 
   if (!parsed.success) {
     const { fieldErrors } = z.flattenError(parsed.error);
-    return {status: parsed.success, fieldErrors };
+    return { status: parsed.success, fieldErrors };
   }
 
   try {
@@ -40,10 +40,9 @@ export async function signInAction(
     });
   } catch (err: unknown) {
     const error = err as { status?: number; code?: string; message?: string };
-    return {status:false, serverError: parseAuthError(error) };
+    return { status: false, serverError: parseAuthError(error) };
   }
   redirect("/hotel-booking");
-
 }
 
 export async function signUpAction(
@@ -62,7 +61,7 @@ export async function signUpAction(
 
   if (!parsed.success) {
     const { fieldErrors } = z.flattenError(parsed.error);
-    return {status: parsed.success, fieldErrors };
+    return { status: parsed.success, fieldErrors };
   }
 
   try {
@@ -77,7 +76,7 @@ export async function signUpAction(
     });
   } catch (err: unknown) {
     const error = err as { status?: number; code?: string; message?: string };
-    return {status:false, serverError: parseAuthError(error) };
+    return { status: false, serverError: parseAuthError(error) };
   }
 
   redirect("/hotel-booking");
