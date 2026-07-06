@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 
-const NoResultsFound = ({ searchTerm }: { searchTerm?: string }) => {
+const ResultsNotFound = ({ searchTerm }: { [key: string]: string | string[] | undefined }) => {
   return (
     <div className="container px-6 py-16 mx-auto text-center">
       <div className="max-w-lg mx-auto">
@@ -9,11 +9,11 @@ const NoResultsFound = ({ searchTerm }: { searchTerm?: string }) => {
         {searchTerm && <p className="text-base mt-2">&quot;{searchTerm}&quot;</p>}
         <p className="mt-6 text-gray-500 dark:text-gray-300 mb-5">Please search with a better title of properties.</p>
         <Button asChild>
-          <Link href={"/"}>Home</Link>
+          <Link href={"/hotel-booking"}>Home</Link>
         </Button>
       </div>
     </div>
   );
 };
 
-export default NoResultsFound;
+export default ResultsNotFound;
