@@ -19,7 +19,6 @@ import PropertyImages from "@/domains/hotel-booking/components/property-details/
 // import ReviewContainer from "@/domains/hotel-booking/components/property-details/ReviewContainer";
 import ReviewHeader from "@/domains/hotel-booking/components/property-details/ReviewHeader";
 import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
-import type { PropertyModelDoc } from "@/domains/hotel-booking/models/Property";
 
 // export async function generateMetadata({ params }, parent) {
 //   // read route params
@@ -50,8 +49,10 @@ interface Props {
 }
 const PropertyDetails = async ({ params }: Props) => {
   const { id } = await params;
-  const data: PropertyModelDoc = await getSelectedPropertyDetails(id);
+  const data = await getSelectedPropertyDetails(id);
   // const session = await auth();
+
+  if (!data) return null;
 
   return (
     <>
@@ -61,25 +62,25 @@ const PropertyDetails = async ({ params }: Props) => {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Property Title and Rating */}
         <PropertyHeader
-          name={data?.name}
-          rating={data?.avgRating}
-          reviews={data?.reviews}
-          location={`${data?.location?.street}, ${data?.location?.city}, ${data?.location?.state}`}
+          name={data.title}
+          rating={data.rating.overall}
+          reviews={data.reviews.length}
+          location={data.location.address || ""}
         />
 
         {/* Image Gallery */}
-        <PropertyImages images={data?.images} name={data?.name} />
+        <PropertyImages images={data?.images} name={data?.title} />
         {/* Property Details */}
         <div className="grid grid-cols-3 gap-8">
           {/* Left Column: Property Description */}
           <div className="col-span-2">
-            <PropertyFeatures sellerName={data?.seller_info?.name} rooms={data.rooms} beds={data.beds} />
+            <PropertyFeatures sellerName={data.host.name} rooms={data.capacity.bedrooms} beds={data.capacity.beds} />
             {/* Amenities */}
             <PropertyAmenities description={data?.description} amenities={data?.amenities} />
           </div>
           {/* Right Column: Booking Card */}
           <div>
-            <BookingCard pricePerNight={data?.pricePerNight} rating={data?.avgRating}>
+            <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.rating.overall}>
               <BookingCardForm />
             </BookingCard>
           </div>
@@ -89,7 +90,7 @@ const PropertyDetails = async ({ params }: Props) => {
       {/* Reviews Section */}
       <div className="max-w-7xl mx-auto px-6 py-12 border-t">
         <div className="grid items-center justify-between mb-8 grid-cols-2">
-          <ReviewHeader rating={data?.avgRating} reviews={data?.reviews?.length} />
+          <ReviewHeader rating={data?.rating.overall} reviews={data?.reviews?.length} />
 
           {/*<ReviewContainer propertyId={data?._id} />*/}
         </div>

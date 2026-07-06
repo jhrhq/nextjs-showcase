@@ -16,7 +16,7 @@ const PropertyPagination = ({ page, pageSize, totalItems }: { page: number; page
         <PaginationContent className="inline-flex items-center -space-x-px">
           <PaginationItem>
             <PaginationLink
-              href={`/?page=${page - 1}`}
+              href={`/hotel-booking/?page=${page - 1}`}
               className={cn(page <= 1 && "pointer-events-none text-zinc-400")}
             >
               <span className="sr-only">Previous</span>
@@ -28,7 +28,7 @@ const PropertyPagination = ({ page, pageSize, totalItems }: { page: number; page
             .fill(1)
             .map((_, index) => (
               <PaginationItem key={index}>
-                <PaginationLink href={`/?page=${index + 1}`} isActive={page == index + 1}>
+                <PaginationLink href={`/hotel-booking/?page=${index + 1}`} isActive={page == index + 1}>
                   <span className="sr-only">{index + 1}</span>
                   {index + 1}
                 </PaginationLink>
@@ -37,7 +37,7 @@ const PropertyPagination = ({ page, pageSize, totalItems }: { page: number; page
 
           <PaginationItem>
             <PaginationLink
-              href={`/?page=${page + 1}`}
+              href={`/hotel-booking/?page=${page + 1}`}
               className={cn(page >= totalPages && "pointer-events-none text-zinc-400")}
             >
               <span className="sr-only">Next</span>
