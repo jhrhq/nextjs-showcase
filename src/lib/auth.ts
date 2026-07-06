@@ -67,12 +67,12 @@ export const auth = betterAuth({
     //         gracePeriod: 60 * 60 * 24 * 2,
     //       },
     //     }),
-    nextCookies() // MUST be the absolute last plugin in your array for Next.js
+    nextCookies(), // MUST be the absolute last plugin in your array for Next.js
   ],
   advanced: {
     cookiePrefix: "hotel-booking",
     database: {
-          generateId: false, // "serial" for auto-incrementing numeric IDs
-        },
+      generateId: false, // "serial" for auto-incrementing numeric IDs
     },
+  },
 });

@@ -13,38 +13,33 @@
  *   mongoose.models.Listing ?? mongoose.model('Listing', ListingSchema)
  */
 
-import mongoose, {
-  type Document,
-  type Model,
-  Schema,
-  Types,
-} from "mongoose";
+import mongoose, { type Document, type Model, Schema, Types } from "mongoose";
 
 // ---------------------------------------------------------------------------
 // Embedded sub-documents
 // ---------------------------------------------------------------------------
 
 export interface IListingAddress {
-  street:    string;
-  city:      string;
-  country:   string;
-  zip:       string;
+  street: string;
+  city: string;
+  country: string;
+  zip: string;
   /** [longitude, latitude] — GeoJSON Point order. */
   coordinates: [number, number];
 }
 
 const ListingAddressSchema = new Schema<IListingAddress>(
   {
-    street:  { type: String, required: true, trim: true },
-    city:    { type: String, required: true, trim: true },
+    street: { type: String, required: true, trim: true },
+    city: { type: String, required: true, trim: true },
     country: { type: String, required: true, trim: true },
-    zip:     { type: String, required: true, trim: true },
+    zip: { type: String, required: true, trim: true },
     coordinates: {
-      type:     [Number],
+      type: [Number],
       required: true,
       validate: {
         validator: (v: number[]) => v.length === 2,
-        message:   "coordinates must be [longitude, latitude]",
+        message: "coordinates must be [longitude, latitude]",
       },
     },
   },
@@ -56,35 +51,35 @@ const ListingAddressSchema = new Schema<IListingAddress>(
 // ---------------------------------------------------------------------------
 
 export type ListingStatus = "active" | "inactive" | "archived";
-export type ListingType   = "hotel" | "apartment" | "villa" | "hostel" | "resort";
+export type ListingType = "hotel" | "apartment" | "villa" | "hostel" | "resort";
 
 export interface IListing {
-  _id:         Types.ObjectId;
+  _id: Types.ObjectId;
 
   /** Reference to the owning User document. */
-  ownerId:     Types.ObjectId;
+  ownerId: Types.ObjectId;
 
-  title:       string;
+  title: string;
   description: string;
-  type:        ListingType;
-  status:      ListingStatus;
+  type: ListingType;
+  status: ListingStatus;
 
-  address:     IListingAddress;
+  address: IListingAddress;
 
   /** Price per night in the smallest currency unit (e.g., cents/paisa). */
   pricePerNight: number;
 
   /** Maximum number of guests allowed. */
-  maxGuests:   number;
+  maxGuests: number;
 
   /** Total number of bedrooms. */
-  bedrooms:    number;
+  bedrooms: number;
 
   /** Total number of bathrooms. */
-  bathrooms:   number;
+  bathrooms: number;
 
   /** Array of amenity slugs, e.g. ["wifi", "pool", "parking"]. */
-  amenities:   string[];
+  amenities: string[];
 
   /**
    * Denormalised aggregate rating.  Updated by the review mutation handler
@@ -95,13 +90,13 @@ export interface IListing {
    * Stored here to support O(1) listing-card rendering without a $lookup.
    */
   averageRating: number;
-  totalReviews:  number;
+  totalReviews: number;
 
   /** Array of image URLs (CDN paths). */
-  images:      string[];
+  images: string[];
 
-  createdAt:   Date;
-  updatedAt:   Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export type ListingDocument = IListing & Document<Types.ObjectId>;
@@ -113,75 +108,75 @@ export type ListingDocument = IListing & Document<Types.ObjectId>;
 const ListingSchema = new Schema<IListing>(
   {
     ownerId: {
-      type:     Schema.Types.ObjectId,
-      ref:      "User",
+      type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
-      index:    true,
+      index: true,
     },
     title: {
-      type:     String,
+      type: String,
       required: true,
-      trim:     true,
+      trim: true,
       maxlength: 120,
     },
     description: {
-      type:     String,
+      type: String,
       required: true,
-      trim:     true,
+      trim: true,
       maxlength: 3000,
     },
     type: {
-      type:     String,
-      enum:     ["hotel", "apartment", "villa", "hostel", "resort"] as const,
+      type: String,
+      enum: ["hotel", "apartment", "villa", "hostel", "resort"] as const,
       required: true,
     },
     status: {
-      type:    String,
-      enum:    ["active", "inactive", "archived"] as const,
+      type: String,
+      enum: ["active", "inactive", "archived"] as const,
       default: "active",
-      index:   true,
+      index: true,
     },
     address: {
-      type:     ListingAddressSchema,
+      type: ListingAddressSchema,
       required: true,
     },
     pricePerNight: {
-      type:     Number,
+      type: Number,
       required: true,
-      min:      [1, "pricePerNight must be at least 1"],
+      min: [1, "pricePerNight must be at least 1"],
     },
     maxGuests: {
-      type:     Number,
+      type: Number,
       required: true,
-      min:      [1, "maxGuests must be at least 1"],
+      min: [1, "maxGuests must be at least 1"],
     },
     bedrooms: {
-      type:     Number,
+      type: Number,
       required: true,
-      min:      [0, "bedrooms cannot be negative"],
+      min: [0, "bedrooms cannot be negative"],
     },
     bathrooms: {
-      type:     Number,
+      type: Number,
       required: true,
-      min:      [0, "bathrooms cannot be negative"],
+      min: [0, "bathrooms cannot be negative"],
     },
     amenities: {
-      type:    [String],
+      type: [String],
       default: [],
     },
     averageRating: {
-      type:    Number,
+      type: Number,
       default: 0,
-      min:     0,
-      max:     5,
+      min: 0,
+      max: 5,
     },
     totalReviews: {
-      type:    Number,
+      type: Number,
       default: 0,
-      min:     0,
+      min: 0,
     },
     images: {
-      type:    [String],
+      type: [String],
       default: [],
     },
   },
@@ -220,5 +215,4 @@ ListingSchema.index({ ownerId: 1, status: 1 });
 // ---------------------------------------------------------------------------
 
 export const ListingModel: Model<IListing> =
-  (mongoose.models.Listing as Model<IListing> | undefined) ??
-  mongoose.model<IListing>("Listing", ListingSchema);
+  (mongoose.models.Listing as Model<IListing> | undefined) ?? mongoose.model<IListing>("Listing", ListingSchema);

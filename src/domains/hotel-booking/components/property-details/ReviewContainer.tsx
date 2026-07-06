@@ -22,7 +22,7 @@ interface Props {
 }
 
 const ReviewContainer: FC<Props> = ({ propertyId }) => {
-  const { data: session } = authClient.useSession()
+  const { data: session } = authClient.useSession();
 
   const [reviews, setReviews] = useState<ReviewType[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(false);

@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { type FC, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { createReviewAction, getReviews } from "@/domains/hotel-booking/actions/reviewAction";
 import { Rating } from "@/domains/hotel-booking/components/Rating";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
@@ -15,19 +15,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/domains/hotel-booking/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/domains/hotel-booking/components/ui/form";
+import { Field, FieldGroup, FieldLabel } from "@/domains/hotel-booking/components/ui/field";
 import { Textarea } from "@/domains/hotel-booking/components/ui/textarea";
-import { clientFormErrorState, clientSuccessErrorState } from "@/domains/hotel-booking/utils/client-form-error";
 import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
 import { FieldCustomError } from "./field-error";
 import type { ReviewType } from "./property-details/ReviewContainer";
+import { InputGroup } from "@/components/ui/input-group";
 
 interface Props {
   propertyId: string;
@@ -74,11 +67,8 @@ const ReviewModal: FC<Props> = ({ propertyId, userId, updateReviews }) => {
         form.reset();
         await reload();
       }
-      if (!result?.status) {
-        clientSuccessErrorState(result?.message, form.setError);
-      }
     } catch (error) {
-      clientFormErrorState(error, form.setError);
+      console.log(error);
     }
   }
 
@@ -102,58 +92,54 @@ const ReviewModal: FC<Props> = ({ propertyId, userId, updateReviews }) => {
 
         <div className="p-4 pt-0">
           <DialogDescription className="hidden">Review Description</DialogDescription>
-          <Form {...form}>
-            <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-              <FieldCustomError errorMessage={form.formState?.errors?.root?.serverError?.message} />
-              <div>
-                <FormField
-                  control={form.control}
-                  name="rating"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel className="text-gray-700 font-medium mb-2 text-base">Overall Rating</FormLabel>
-                      <FormControl>
-                        <Rating {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div>
-                <FormField
-                  control={form.control}
-                  name="comment"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel className="text-gray-700 font-medium mb-2 text-base">Your Review</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          rows={4}
-                          placeholder="Share your experience with other travelers..."
-                          className="w-full px-4 text-base py-3 rounded-lg border focus:border-gray-500 focus:ring-0 resize-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <DialogFooter className="border-t pt-4 bg-gray-50">
-                <div className="flex justify-end gap-4">
-                  <DialogClose asChild>
-                    <Button className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg static" variant="ghost">
-                      Cancel
-                    </Button>
-                  </DialogClose>
-                  <Button className="px-4 py-2 bg-primary text-white rounded-lg hover:brightness-90">
-                    Submit Review
+          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+            <FieldCustomError errorMessage={form.formState?.errors?.root?.serverError?.message} />
+            <FieldGroup>
+              <Controller
+                control={form.control}
+                name="rating"
+                render={({ field }) => (
+                  <Field className="w-full">
+                    <FieldLabel className="text-gray-700 font-medium mb-2 text-base">Overall Rating</FieldLabel>
+                    <InputGroup>
+                      <Rating {...field} />
+                    </InputGroup>
+                    <FormMessage />
+                  </Field>
+                )}
+              />
+              <Controller
+                control={form.control}
+                name="comment"
+                render={({ field }) => (
+                  <Field className="w-full">
+                    <FieldLabel className="text-gray-700 font-medium mb-2 text-base">Your Review</FieldLabel>
+                    <InputGroup>
+                      <Textarea
+                        {...field}
+                        rows={4}
+                        placeholder="Share your experience with other travelers..."
+                        className="w-full px-4 text-base py-3 rounded-lg border focus:border-gray-500 focus:ring-0 resize-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                      />
+                    </InputGroup>
+                    <FormMessage />
+                  </Field>
+                )}
+              />
+            </FieldGroup>
+            <DialogFooter className="border-t pt-4 bg-gray-50">
+              <div className="flex justify-end gap-4">
+                <DialogClose asChild>
+                  <Button className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg static" variant="ghost">
+                    Cancel
                   </Button>
-                </div>
-              </DialogFooter>
-            </form>
-          </Form>
+                </DialogClose>
+                <Button className="px-4 py-2 bg-primary text-white rounded-lg hover:brightness-90">
+                  Submit Review
+                </Button>
+              </div>
+            </DialogFooter>
+          </form>
         </div>
       </DialogContent>
     </Dialog>

@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ReviewCard: FC<Props> = ({ review }) => {
-  const { data: session } = authClient.useSession()
+  const { data: session } = authClient.useSession();
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-4">

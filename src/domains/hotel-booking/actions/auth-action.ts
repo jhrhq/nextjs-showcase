@@ -1,25 +1,25 @@
 "use server";
 
-import { type SignIn,  signInSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
+import { type SignIn, signInSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
 import { auth } from "@/lib/auth";
 import { parseAuthError } from "@/lib/auth-error";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { SignUp, signUpSchema } from "../validationSchema/signup-schema";
+import z from "zod";
+import { FieldValues } from "react-hook-form";
 
-
-export type ActionState = {
-  errors?: Record<string, string[]>;
+export type ActionState<T extends FieldValues = FieldValues> = {
+  status: boolean;
+  fieldErrors?: Partial<Record<keyof T, string[]>>;
   serverError?: string;
 };
-
-
 
 export async function signInAction(
   // _prev: ActionState,
   // formData: FormData // used when action = {signInAction}
   data: SignIn
-): Promise<ActionState> {
+): Promise<ActionState<SignIn>> {
   // used when action = {signInAction}
   // const raw = {
   //   email: formData.get("email"),
@@ -29,9 +29,8 @@ export async function signInAction(
   const parsed = signInSchema.safeParse(data);
 
   if (!parsed.success) {
-    return {
-      errors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
-    };
+    const { fieldErrors } = z.flattenError(parsed.error);
+    return {status: parsed.success, fieldErrors };
   }
 
   try {
@@ -41,16 +40,16 @@ export async function signInAction(
     });
   } catch (err: unknown) {
     const error = err as { status?: number; code?: string; message?: string };
-    return { serverError: parseAuthError(error) };
+    return {status:false, serverError: parseAuthError(error) };
   }
-
   redirect("/hotel-booking");
+
 }
 
 export async function signUpAction(
   // _prev: ActionState,
   // formData: FormData
-  data:SignUp
+  data: SignUp
 ): Promise<ActionState> {
   // const raw = {
   //   name: formData.get("name"),
@@ -79,7 +78,7 @@ export async function signUpAction(
     });
   } catch (err: unknown) {
     const error = err as { status?: number; code?: string; message?: string };
-    return { serverError: parseAuthError(error) };
+    return {status:false, serverError: parseAuthError(error) };
   }
 
   redirect("/hotel-booking");

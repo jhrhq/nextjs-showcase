@@ -17,5 +17,4 @@ export const authClient = createAuthClient({
   //     }
   //   },
   // },
-
 });

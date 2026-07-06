@@ -17,9 +17,6 @@ const handleVerificationToken = async (user: { id: string; name: string; email: 
   // await mail.sendVerificationMail({ link, name: user.name, to: user.email });
 };
 
-
-
-
 interface VerificationResponse {
   status?: boolean;
   message?: string;
@@ -27,8 +24,8 @@ interface VerificationResponse {
 export const generateVerificationLink = async ()// state: VerificationResponse,
 : Promise<VerificationResponse> => {
   const session = await auth.api.getSession({
-         headers: await headers()
-  })
+    headers: await headers(),
+  });
 
   if (!session) return { status: false, message: "Something went wrong" };
 

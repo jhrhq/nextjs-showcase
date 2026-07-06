@@ -9,7 +9,7 @@ const GoogleLoginAction = () => {
   // };
   return (
     <Button
-      onClick={() => console.log('goolge sing in')}
+      onClick={() => console.log("goolge sing in")}
       className="w-full h-auto text-base flex items-center justify-center border border-gray-300 rounded-full py-3 hover:bg-gray-50 transition [&_svg]:size-auto"
       variant="outline"
     >

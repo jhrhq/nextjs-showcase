@@ -21,17 +21,17 @@ const Login = () => {
         </div>
         {/* Social Login */}
         <div className="space-y-4 mb-4">
-          {/* Google Login Button */}
-          {/*<GoogleLoginAction />*/}
-
+          {/* Email Login Form */}
+          <SignInForm />
           {/* Divider */}
           <div className="flex items-center my-4">
             <div className="grow border-t border-gray-300" />
             <span className="mx-4 text-gray-500 text-sm">or</span>
             <div className="grow border-t border-gray-300" />
           </div>
-          {/* Email Login Form */}
-          <SignInForm />
+
+          {/* Google Login Button */}
+          {/*<GoogleLoginAction />*/}
         </div>
         {/* Footer */}
         {/*<LoginNavigation />*/}

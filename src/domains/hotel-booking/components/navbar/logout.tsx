@@ -11,8 +11,7 @@ export async function handleSignOut() {
   });
 }
 
-const Logout = async() => {
-
+const Logout = async () => {
   return (
     <Link
       href="/hotel-booking"

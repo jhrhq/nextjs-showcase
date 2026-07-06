@@ -30,12 +30,7 @@
  *   mongoose.models.Review ?? mongoose.model('Review', ReviewSchema)
  */
 
-import mongoose, {
-  type Document,
-  type Model,
-  Schema,
-  Types,
-} from "mongoose";
+import mongoose, { type Document, type Model, Schema, Types } from "mongoose";
 
 // ---------------------------------------------------------------------------
 // Interface
@@ -48,10 +43,10 @@ import mongoose, {
 export type ReviewRating = 1 | 2 | 3 | 4 | 5;
 
 export interface IReview {
-  _id:       Types.ObjectId;
+  _id: Types.ObjectId;
 
   /** The guest who authored this review. */
-  userId:    Types.ObjectId;
+  userId: Types.ObjectId;
 
   /** The listing being reviewed. */
   listingId: Types.ObjectId;
@@ -67,7 +62,7 @@ export interface IReview {
    */
   reservationId: Types.ObjectId;
 
-  rating:  ReviewRating;
+  rating: ReviewRating;
   comment: string;
 
   /**
@@ -91,27 +86,27 @@ export type ReviewDocument = IReview & Document<Types.ObjectId>;
 const ReviewSchema = new Schema<IReview>(
   {
     userId: {
-      type:     Schema.Types.ObjectId,
-      ref:      "User",
+      type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
-      index:    true,
+      index: true,
     },
     listingId: {
-      type:     Schema.Types.ObjectId,
-      ref:      "Listing",
+      type: Schema.Types.ObjectId,
+      ref: "Listing",
       required: true,
-      index:    true,
+      index: true,
     },
     reservationId: {
-      type:     Schema.Types.ObjectId,
-      ref:      "Reservation",
+      type: Schema.Types.ObjectId,
+      ref: "Reservation",
       required: true,
     },
     rating: {
-      type:     Number,
+      type: Number,
       required: true,
-      min:      [1, "rating must be between 1 and 5"],
-      max:      [5, "rating must be between 1 and 5"],
+      min: [1, "rating must be between 1 and 5"],
+      max: [5, "rating must be between 1 and 5"],
       /**
        * Enforce integer constraint at the schema level.
        * Zod also validates this at the API boundary, but defence-in-depth
@@ -119,21 +114,21 @@ const ReviewSchema = new Schema<IReview>(
        */
       validate: {
         validator: (v: number) => Number.isInteger(v),
-        message:   "rating must be an integer",
+        message: "rating must be an integer",
       },
     },
     comment: {
-      type:      String,
-      required:  true,
-      trim:      true,
-      minlength: [10,   "comment must be at least 10 characters"],
+      type: String,
+      required: true,
+      trim: true,
+      minlength: [10, "comment must be at least 10 characters"],
       maxlength: [2000, "comment must not exceed 2000 characters"],
     },
     moderationStatus: {
-      type:    String,
-      enum:    ["published", "pending", "removed"] as const,
+      type: String,
+      enum: ["published", "pending", "removed"] as const,
       default: "published",
-      index:   true,
+      index: true,
     },
   },
   {
@@ -166,7 +161,7 @@ ReviewSchema.index(
   { userId: 1, listingId: 1 },
   {
     unique: true,
-    name:   "unique_review_per_user_per_listing",
+    name: "unique_review_per_user_per_listing",
   }
 );
 
@@ -200,5 +195,4 @@ ReviewSchema.index({ reservationId: 1 }, { sparse: true });
 // ---------------------------------------------------------------------------
 
 export const ReviewModel: Model<IReview> =
-  (mongoose.models.Review as Model<IReview> | undefined) ??
-  mongoose.model<IReview>("Review", ReviewSchema);
+  (mongoose.models.Review as Model<IReview> | undefined) ?? mongoose.model<IReview>("Review", ReviewSchema);

@@ -20,17 +20,39 @@ export async function generateReceiptPdf(data: ReceiptProps): Promise<Uint8Array
   const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
   // Structural Branding Header
-  page.drawText("MINI-AIRBNB HOMESTAYS INC.", { x: 50, y: height - 60, size: 20, font: fontBold, color: rgb(0.88, 0.22, 0.33) });
-  page.drawText(`Invoice Reference ID: ${data.id}`, { x: 50, y: height - 85, size: 10, font: fontHelvetica, color: rgb(0.5, 0.5, 0.5) });
+  page.drawText("MINI-AIRBNB HOMESTAYS INC.", {
+    x: 50,
+    y: height - 60,
+    size: 20,
+    font: fontBold,
+    color: rgb(0.88, 0.22, 0.33),
+  });
+  page.drawText(`Invoice Reference ID: ${data.id}`, {
+    x: 50,
+    y: height - 85,
+    size: 10,
+    font: fontHelvetica,
+    color: rgb(0.5, 0.5, 0.5),
+  });
 
   // Divider Stroke Line
-  page.drawLine({ start: { x: 50, y: height - 105 }, end: { x: width - 50, y: height - 105 }, strokeWidth: 1, color: rgb(0.9, 0.9, 0.9) });
+  page.drawLine({
+    start: { x: 50, y: height - 105 },
+    end: { x: width - 50, y: height - 105 },
+    strokeWidth: 1,
+    color: rgb(0.9, 0.9, 0.9),
+  });
 
   // Guest Billing Identity Parameters
   page.drawText("ISSUED TO:", { x: 50, y: height - 135, size: 10, font: fontBold });
   page.drawText(`Guest Name: ${data.guestName}`, { x: 50, y: height - 150, size: 12, font: fontHelvetica });
   page.drawText(`Selected Lodging: ${data.hotelTitle}`, { x: 50, y: height - 165, size: 12, font: fontHelvetica });
-  page.drawText(`Duration Sequence: ${data.nights} Nights Registered`, { x: 50, y: height - 180, size: 12, font: fontHelvetica });
+  page.drawText(`Duration Sequence: ${data.nights} Nights Registered`, {
+    x: 50,
+    y: height - 180,
+    size: 12,
+    font: fontHelvetica,
+  });
 
   // Transaction Ledger Table Calculations
   let currentY = height - 240;
@@ -46,7 +68,12 @@ export async function generateReceiptPdf(data: ReceiptProps): Promise<Uint8Array
   writeLedgerRow("Cleaning Fee Allocation", `$${data.cleaningFee}`);
   writeLedgerRow("Service Fee Allocation", `$${data.serviceFee}`);
 
-  page.drawLine({ start: { x: 50, y: currentY - 10 }, end: { x: width - 50, y: currentY - 10 }, strokeWidth: 1, color: rgb(0.8, 0.8, 0.8) });
+  page.drawLine({
+    start: { x: 50, y: currentY - 10 },
+    end: { x: width - 50, y: currentY - 10 },
+    strokeWidth: 1,
+    color: rgb(0.8, 0.8, 0.8),
+  });
   currentY -= 15;
   writeLedgerRow("Gross Account Total", `$${data.totalPrice}`, true);
 

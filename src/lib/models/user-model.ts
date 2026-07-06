@@ -29,20 +29,20 @@ import mongoose, { type Document, type Model, Schema, Types } from "mongoose";
 // ---------------------------------------------------------------------------
 
 export interface IAddress {
-  street:  string;
-  city:    string;
+  street: string;
+  city: string;
   country: string;
-  zip:     string;
+  zip: string;
 }
 
 const AddressSchema = new Schema<IAddress>(
   {
-    street:  { type: String, required: true, trim: true },
-    city:    { type: String, required: true, trim: true },
+    street: { type: String, required: true, trim: true },
+    city: { type: String, required: true, trim: true },
     country: { type: String, required: true, trim: true },
-    zip:     { type: String, required: true, trim: true },
+    zip: { type: String, required: true, trim: true },
   },
-  { _id: false }   // Embedded — no separate _id needed.
+  { _id: false } // Embedded — no separate _id needed.
 );
 
 // ---------------------------------------------------------------------------
@@ -51,18 +51,18 @@ const AddressSchema = new Schema<IAddress>(
 
 export interface IUser {
   // ── Better Auth baseline fields ──────────────────────────────────────────
-  _id:           Types.ObjectId;
-  email:         string;
+  _id: Types.ObjectId;
+  email: string;
   emailVerified: boolean;
-  name:          string;
-  image:         string | null;
-  createdAt:     Date;
-  updatedAt:     Date;
+  name: string;
+  image: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 
   // ── Hotel-booking profile extensions ────────────────────────────────────
   /** Phone number in E.164 format, e.g. "+8801700000000". */
-  phone:        string | null;
-  address:      IAddress | null;
+  phone: string | null;
+  address: IAddress | null;
 
   /**
    * Role determines which server-side guards are applied:
@@ -71,10 +71,10 @@ export interface IUser {
    *              their own properties (enforced in the review mutex).
    *   "admin"  — platform-level access; can manage all resources.
    */
-  role:         "guest" | "owner" | "admin";
+  role: "guest" | "owner" | "admin";
 
   /** Soft-delete flag.  Deleted accounts cannot sign in. */
-  isActive:     boolean;
+  isActive: boolean;
 }
 
 /** Mongoose Document type for the User model. */
@@ -88,47 +88,47 @@ const UserSchema = new Schema<IUser>(
   {
     // ── Better Auth baseline ─────────────────────────────────────────────
     email: {
-      type:     String,
+      type: String,
       required: true,
-      unique:   true,
+      unique: true,
       lowercase: true,
-      trim:     true,
-      index:    true,
+      trim: true,
+      index: true,
     },
     emailVerified: {
-      type:    Boolean,
+      type: Boolean,
       default: false,
     },
     name: {
-      type:     String,
+      type: String,
       required: true,
-      trim:     true,
+      trim: true,
     },
     image: {
-      type:    String,
+      type: String,
       default: null,
     },
 
     // ── Hotel-booking profile extensions ─────────────────────────────────
     phone: {
-      type:    String,
+      type: String,
       default: null,
-      trim:    true,
+      trim: true,
     },
     address: {
-      type:    AddressSchema,
+      type: AddressSchema,
       default: null,
     },
     role: {
-      type:    String,
-      enum:    ["guest", "owner", "admin"] as const,
+      type: String,
+      enum: ["guest", "owner", "admin"] as const,
       default: "guest",
-      index:   true,
+      index: true,
     },
     isActive: {
-      type:    Boolean,
+      type: Boolean,
       default: true,
-      index:   true,
+      index: true,
     },
   },
   {
@@ -137,9 +137,9 @@ const UserSchema = new Schema<IUser>(
      * `updatedAt` automatically.  Better Auth also writes these fields, so
      * the values will be consistent.
      */
-    timestamps:  true,
-    collection:  "users",
-    versionKey:  false,   // Suppress __v — Better Auth does not expect it.
+    timestamps: true,
+    collection: "users",
+    versionKey: false, // Suppress __v — Better Auth does not expect it.
   }
 );
 
@@ -159,5 +159,4 @@ UserSchema.index({ email: 1, isActive: 1 });
 // ---------------------------------------------------------------------------
 
 export const UserModel: Model<IUser> =
-  (mongoose.models.User as Model<IUser> | undefined) ??
-  mongoose.model<IUser>("User", UserSchema);
+  (mongoose.models.User as Model<IUser> | undefined) ?? mongoose.model<IUser>("User", UserSchema);

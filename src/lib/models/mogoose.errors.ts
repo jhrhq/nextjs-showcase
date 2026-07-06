@@ -42,12 +42,7 @@ import mongoose from "mongoose";
  */
 export function isDuplicateKeyError(error: unknown): boolean {
   // MongoServerError from the native driver
-  if (
-    typeof error === "object" &&
-    error !== null &&
-    "code" in error &&
-    (error as { code: unknown }).code === 11000
-  ) {
+  if (typeof error === "object" && error !== null && "code" in error && (error as { code: unknown }).code === 11000) {
     return true;
   }
   return false;
@@ -61,9 +56,7 @@ export function isDuplicateKeyError(error: unknown): boolean {
  * Returns true when the error is a Mongoose ValidationError.
  * These are caused by schema-level validators failing before a DB write.
  */
-export function isValidationError(
-  error: unknown
-): error is mongoose.Error.ValidationError {
+export function isValidationError(error: unknown): error is mongoose.Error.ValidationError {
   return error instanceof mongoose.Error.ValidationError;
 }
 
@@ -74,9 +67,7 @@ export function isValidationError(
  * Does NOT expose internal schema details — only the human-readable
  * message attached to each ValidatorError.
  */
-export function extractValidationMessages(
-  error: mongoose.Error.ValidationError
-): Record<string, string> {
+export function extractValidationMessages(error: mongoose.Error.ValidationError): Record<string, string> {
   const messages: Record<string, string> = {};
 
   for (const [field, validatorError] of Object.entries(error.errors)) {
@@ -95,9 +86,7 @@ export function extractValidationMessages(
  * The most common cause is passing a non-ObjectId string where an ObjectId
  * is expected (e.g., a malformed `listingId` URL parameter).
  */
-export function isCastError(
-  error: unknown
-): error is mongoose.Error.CastError {
+export function isCastError(error: unknown): error is mongoose.Error.CastError {
   return error instanceof mongoose.Error.CastError;
 }
 
@@ -105,11 +94,7 @@ export function isCastError(
 // Generic DB error classifier — used in catch blocks
 // ---------------------------------------------------------------------------
 
-export type DbErrorKind =
-  | "duplicate_key"
-  | "validation"
-  | "cast"
-  | "unknown";
+export type DbErrorKind = "duplicate_key" | "validation" | "cast" | "unknown";
 
 /**
  * Classifies an unknown caught value into a DbErrorKind discriminant.
@@ -130,7 +115,7 @@ export type DbErrorKind =
  */
 export function classifyDbError(error: unknown): DbErrorKind {
   if (isDuplicateKeyError(error)) return "duplicate_key";
-  if (isValidationError(error))   return "validation";
-  if (isCastError(error))         return "cast";
+  if (isValidationError(error)) return "validation";
+  if (isCastError(error)) return "cast";
   return "unknown";
 }

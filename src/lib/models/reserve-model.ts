@@ -22,12 +22,7 @@
  *   mongoose.models.Reservation ?? mongoose.model('Reservation', ...)
  */
 
-import mongoose, {
-  type Document,
-  type Model,
-  Schema,
-  Types,
-} from "mongoose";
+import mongoose, { type Document, type Model, Schema, Types } from "mongoose";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -43,24 +38,19 @@ import mongoose, {
  *
  * Only `completed` reservations unlock the review gate.
  */
-export type ReservationStatus =
-  | "pending"
-  | "confirmed"
-  | "checked_in"
-  | "completed"
-  | "cancelled";
+export type ReservationStatus = "pending" | "confirmed" | "checked_in" | "completed" | "cancelled";
 
 export interface IReservation {
-  _id:       Types.ObjectId;
+  _id: Types.ObjectId;
 
   /** Guest who made the booking — referenced as guestId in review mutex. */
-  guestId:   Types.ObjectId;
+  guestId: Types.ObjectId;
 
   /** Listing being reserved. */
   listingId: Types.ObjectId;
 
-  checkIn:   Date;
-  checkOut:  Date;
+  checkIn: Date;
+  checkOut: Date;
 
   /** Number of guests declared at booking time. */
   guestCount: number;
@@ -72,7 +62,7 @@ export interface IReservation {
    */
   totalPrice: number;
 
-  status:    ReservationStatus;
+  status: ReservationStatus;
 
   /**
    * Cancellation metadata — populated only when status === "cancelled".
@@ -80,7 +70,7 @@ export interface IReservation {
   cancellation: {
     cancelledAt: Date;
     cancelledBy: "guest" | "owner" | "system";
-    reason:      string | null;
+    reason: string | null;
   } | null;
 
   createdAt: Date;
@@ -95,10 +85,10 @@ export type ReservationDocument = IReservation & Document<Types.ObjectId>;
 
 const CancellationSchema = new Schema(
   {
-    cancelledAt: { type: Date,   required: true },
+    cancelledAt: { type: Date, required: true },
     cancelledBy: {
-      type:     String,
-      enum:     ["guest", "owner", "system"] as const,
+      type: String,
+      enum: ["guest", "owner", "system"] as const,
       required: true,
     },
     reason: { type: String, default: null },
@@ -109,43 +99,43 @@ const CancellationSchema = new Schema(
 const ReservationSchema = new Schema<IReservation>(
   {
     guestId: {
-      type:     Schema.Types.ObjectId,
-      ref:      "User",
+      type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
-      index:    true,
+      index: true,
     },
     listingId: {
-      type:     Schema.Types.ObjectId,
-      ref:      "Listing",
+      type: Schema.Types.ObjectId,
+      ref: "Listing",
       required: true,
-      index:    true,
+      index: true,
     },
     checkIn: {
-      type:     Date,
+      type: Date,
       required: true,
     },
     checkOut: {
-      type:     Date,
+      type: Date,
       required: true,
     },
     guestCount: {
-      type:     Number,
+      type: Number,
       required: true,
-      min:      [1, "guestCount must be at least 1"],
+      min: [1, "guestCount must be at least 1"],
     },
     totalPrice: {
-      type:     Number,
+      type: Number,
       required: true,
-      min:      [0, "totalPrice cannot be negative"],
+      min: [0, "totalPrice cannot be negative"],
     },
     status: {
-      type:    String,
-      enum:    ["pending", "confirmed", "checked_in", "completed", "cancelled"] as const,
+      type: String,
+      enum: ["pending", "confirmed", "checked_in", "completed", "cancelled"] as const,
       default: "pending",
-      index:   true,
+      index: true,
     },
     cancellation: {
-      type:    CancellationSchema,
+      type: CancellationSchema,
       default: null,
     },
   },
@@ -162,11 +152,7 @@ const ReservationSchema = new Schema<IReservation>(
 
 ReservationSchema.pre("validate", function (next) {
   if (this.checkOut <= this.checkIn) {
-    this.invalidate(
-      "checkOut",
-      "checkOut must be strictly after checkIn",
-      this.checkOut
-    );
+    this.invalidate("checkOut", "checkOut must be strictly after checkIn", this.checkOut);
   }
   next();
 });

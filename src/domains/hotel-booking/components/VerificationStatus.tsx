@@ -4,7 +4,8 @@ import type { FC } from "react";
 import { useFormState } from "react-dom";
 
 import { generateVerificationLink } from "@/domains/hotel-booking/actions/verification-action";
-import SubmitButton from "./SubmitButton";
+import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
 
 interface Props {
   visible?: boolean;
@@ -30,7 +31,15 @@ const VerificationStatus: FC<Props> = ({ visible }) => {
       <span>Please check your inbox to verify your email.</span>
       <div className="text-center md:text-left">
         {"Didn't get link? "}
-        <SubmitButton className="w-auto p-0 py-0 px-2 h-7">Click Here</SubmitButton>
+        <Button
+          type="submit"
+          // disabled={pending}
+          className={cn(
+            "w-auto p-0 py-0 px-2 h-7 text-base bg-primary text-white rounded-full  hover:bg-primary transition"
+          )}
+        >
+          Click Here
+        </Button>
       </div>
     </form>
   );

@@ -15,6 +15,8 @@ export const CODE_MAP: Record<string, string> = {
   SESSION_EXPIRED: "Your session expired. Please sign in again.",
   INVALID_TOKEN: "Invalid or expired token.",
   NETWORK_ERROR: "Network error — check your connection and try again.",
+  // mongodb error
+  EAI_AGAIN: "Database server could not be reached (DNS timeout). Please check your internet connection.",
 };
 
 export const STATUS_MAP: Record<number, string> = {
