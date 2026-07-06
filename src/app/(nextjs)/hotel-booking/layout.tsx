@@ -12,15 +12,13 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
 }>) {
   await connectDB();
 
   return (
-    <html lang={locale}>
+    <html>
       <body className="antialiased">
         <main>
           {/*<VerificationStatus visible={session && !session?.user?.verified && true} />*/}
