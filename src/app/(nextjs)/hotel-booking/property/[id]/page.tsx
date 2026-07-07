@@ -7,7 +7,7 @@ import PropertyAmenities from "@/domains/hotel-booking/components/property-detai
 import PropertyFeatures from "@/domains/hotel-booking/components/property-details/PropertyFeatures";
 import PropertyHeader from "@/domains/hotel-booking/components/property-details/PropertyHeader";
 import PropertyImages from "@/domains/hotel-booking/components/property-details/PropertyImages";
-// import ReviewContainer from "@/domains/hotel-booking/components/property-details/ReviewContainer";
+import ReviewContainer from "@/domains/hotel-booking/components/property-details/ReviewContainer";
 import ReviewHeader from "@/domains/hotel-booking/components/property-details/ReviewHeader";
 import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
 
@@ -58,7 +58,7 @@ const PropertyDetails = async ({ params }: Props) => {
         <div className="grid items-center justify-between mb-8 grid-cols-2">
           <ReviewHeader rating={data?.rating.overall} reviews={data?.reviews?.length} />
 
-          {/*<ReviewContainer propertyId={data?._id} />*/}
+          <ReviewContainer propertyId={data?._id.toString()} />
         </div>
         {/* Show More Button */}
       </div>

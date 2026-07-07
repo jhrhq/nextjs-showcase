@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { type FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getReviews } from "@/domains/hotel-booking/actions/reviewAction";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import ReviewBody from "./ReviewBody";
@@ -21,7 +21,7 @@ interface Props {
   propertyId: string;
 }
 
-const ReviewContainer: FC<Props> = ({ propertyId }) => {
+const ReviewContainer = ({ propertyId }:Props) => {
   const { data: session } = authClient.useSession();
 
   const [reviews, setReviews] = useState<ReviewType[]>([]);
@@ -45,12 +45,12 @@ const ReviewContainer: FC<Props> = ({ propertyId }) => {
   return (
     <>
       <div className="col-span-1  flex justify-end mb-4">
-        {!session.data ? (
+        {!session ? (
           <Button className="px-4 py-2 border border-primary rounded-lg hover:bg-gray-100" variant="outline" asChild>
-            <Link href={"/login"}>Write a Review</Link>
+            <Link href={"/hotel-booking/login"}>Write a Review</Link>
           </Button>
         ) : (
-          <ReviewModal propertyId={propertyId} userId={session?.data?.user?.id} updateReviews={updateReviews} />
+          <ReviewModal propertyId={propertyId} userId={session?.user?.id} updateReviews={updateReviews} />
         )}
       </div>
       {!loadingReviews && <ReviewBody reviews={reviews} />}
