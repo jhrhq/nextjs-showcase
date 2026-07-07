@@ -13,7 +13,7 @@ const ReviewHeader: FC<Props> = ({ rating, reviews }) => {
       <div className="flex items-center">
         {rating && (
           <>
-            <Star className="fas fa-star text-yellow-500 mr-2" />
+            <Star className="fas fa-star text-yellow-500 mr-2" fill="currentColor" />
             <span className="text-xl font-semibold">{rating}</span>
             <span className="mx-2">·</span>
             <span className="text-gray-600">

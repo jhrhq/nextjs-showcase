@@ -15,7 +15,7 @@ const BookingCard: FC<Props> = ({ pricePerNight, rating, children }) => {
           <span className="text-gray-600 ml-1">per night</span>
         </div>
         <div className="flex items-center">
-          <Star className="fas fa-star text-yellow-500 mr-1" />
+          <Star className="text-yellow-500 mr-1" fill="currentColor" />
           <span>{rating}</span>
         </div>
       </div>

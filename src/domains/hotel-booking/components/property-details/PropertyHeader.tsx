@@ -16,7 +16,7 @@ const PropertyHeader: FC<Props> = ({ name, rating, reviews, location }) => {
         {rating && (
           <>
             {" "}
-            <Star className="fas fa-star text-yellow-500 mr-1" />
+            <Star className="fas fa-star text-yellow-500 mr-1" fill="currentColor" />
             <span>{rating} · </span>
             <span className="ml-2">
               {reviews} {reviews > 1 ? "reviews" : "review"}

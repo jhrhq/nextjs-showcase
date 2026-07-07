@@ -1,7 +1,4 @@
-// import LocalSwitcher from "@/domains/hotel-booking/components/navbar/LocalSwitcher";
 import NavAuthDropdown from "@/domains/hotel-booking/components/navbar/NavAuthDropdown";
-
-// import { getServerSession } from "@/lib/get-session";
 import Image from "next/image";
 import Link from "next/link";
 import Search from "@/domains/hotel-booking/components/navbar/Search";

@@ -23,7 +23,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             <Bed className="fa-bed inline-block mr-1" />{property.capacity?.bedrooms}
           </div>
         </div>
-        <div className="mt-3">first
+        <div className="mt-3">
           <div className="flex justify-between items-center">
             <h3 className="font-bold text-lg">{property.title}</h3>
             <div className="flex items-center">

@@ -116,7 +116,7 @@ export function BookingCardForm() {
           className="w-full block md:text-base text-center bg-primary text-white py-3 rounded-lg transition-all hover:brightness-90"
           asChild
         >
-          <Link href={"/payment-process"}>Reserve</Link>
+          <Link href={"/hotel-booking/payment-process"}>Reserve</Link>
         </Button>
       </form>
 
