@@ -6,6 +6,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
   return (
@@ -199,7 +201,11 @@ function FieldError({
       className={cn("text-sm font-normal text-destructive", className)}
       {...props}
     >
-      {content}
+      <Alert variant="destructive" className={cn("border-0 px-0 py-1", className)}>
+        <AlertCircle />
+        <AlertDescription>      {content}
+</AlertDescription>
+      </Alert>
     </div>
   );
 }
