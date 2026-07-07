@@ -1,4 +1,4 @@
-import { CircleCheck, Download, Luggage, Mail, MessageSquare, Star } from "lucide-react";
+import { CircleCheck, Download, Luggage, Mail, MessageSquare, MessageSquareMore, Star } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,7 +8,6 @@ export const metadata: Metadata = {
 
 const PaymentSuccess = () => {
   return (
-    <>
       <div className="max-w-3xl mx-auto p-6">
         {/* Success Message Section */}
         <div className="text-center my-12">
@@ -86,7 +85,7 @@ const PaymentSuccess = () => {
             </div>
             <div className="flex gap-4">
               <div className="text-primary">
-                <MessageSquare fill="currentColor" className="fas fa-comment-alt text-xl" />
+                <MessageSquareMore  className="fas fa-comment-alt text-xl" />
               </div>
               <div>
                 <h4 className="font-semibold mb-1">Message your host</h4>
@@ -119,7 +118,6 @@ const PaymentSuccess = () => {
           </a>
         </div>
       </div>
-    </>
   );
 };
 

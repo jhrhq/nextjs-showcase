@@ -2,6 +2,7 @@ import { ChevronLeft, Star } from "lucide-react";
 import type { Metadata } from "next";
 import Footer from "@/domains/hotel-booking/components/Footer";
 import Navbar from "@/domains/hotel-booking/components/navbar";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Payment Process",
@@ -17,10 +18,10 @@ const PaymentProcess = () => {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Back Button */}
         <div className="mb-8">
-          <a href="./details.html" className="text-zinc-800 hover:underline">
+          <Link href="/hotel-booking/details" className="text-zinc-800 hover:underline">
             <ChevronLeft className="fas fa-chevron-left mr-2" />
             Request to book
-          </a>
+          </Link>
         </div>
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -70,12 +71,12 @@ const PaymentProcess = () => {
               </div>
             </section>
             {/* Book Button */}
-            <a
-              href="./success.html"
+            <Link
+              href="/hotel-booking/payment-success"
               className="w-full block text-center bg-primary text-white py-3 rounded-lg mt-6 hover:brightness-90"
             >
               Request to book
-            </a>
+            </Link>
           </div>
           {/* Right Column */}
           <div>
