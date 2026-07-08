@@ -1,14 +1,13 @@
-
 import Footer from "@/domains/hotel-booking/components/Footer";
 import Navbar from "@/domains/hotel-booking/components/navbar";
 import BookingCard from "@/domains/hotel-booking/components/property-details/BookingCard";
-import { BookingCardForm } from "@/domains/hotel-booking/components/property-details/BookingCardForm";
+import { BookingForm } from "@/domains/hotel-booking/components/property-details/BookingForm";
 import PropertyAmenities from "@/domains/hotel-booking/components/property-details/PropertyAmenities";
 import PropertyFeatures from "@/domains/hotel-booking/components/property-details/PropertyFeatures";
 import PropertyHeader from "@/domains/hotel-booking/components/property-details/PropertyHeader";
 import PropertyImages from "@/domains/hotel-booking/components/property-details/PropertyImages";
-import ReviewContainer from "@/domains/hotel-booking/components/property-details/ReviewContainer";
-import ReviewHeader from "@/domains/hotel-booking/components/property-details/ReviewHeader";
+// import ReviewContainer from "@/domains/hotel-booking/components/property-details/ReviewContainer";
+// import ReviewHeader from "@/domains/hotel-booking/components/property-details/ReviewHeader";
 import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
 
 interface Props {
@@ -35,7 +34,7 @@ const PropertyDetails = async ({ params }: Props) => {
         />
 
         {/* Image Gallery */}
-        <PropertyImages images={data?.images.slice(0,5)} name={data?.title} />
+        <PropertyImages images={data?.images.slice(0, 5)} name={data?.title} />
         {/* Property Details */}
         <div className="grid grid-cols-3 gap-8">
           {/* Left Column: Property Description */}
@@ -47,21 +46,20 @@ const PropertyDetails = async ({ params }: Props) => {
           {/* Right Column: Booking Card */}
           <div>
             <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.rating.overall}>
-              <BookingCardForm />
+              <BookingForm />
             </BookingCard>
           </div>
         </div>
       </div>
 
       {/* Reviews Section */}
-      <div className="max-w-7xl mx-auto px-6 py-12 border-t">
+      {/*<div className="max-w-7xl mx-auto px-6 py-12 border-t">
         <div className="grid items-center justify-between mb-8 grid-cols-2">
           <ReviewHeader rating={data?.rating.overall} reviews={data?.reviews?.length} />
 
           <ReviewContainer propertyId={data?._id.toString()} />
         </div>
-        {/* Show More Button */}
-      </div>
+      </div>*/}
 
       <Footer />
     </>
