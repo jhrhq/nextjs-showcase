@@ -28,7 +28,7 @@ const ForgetPasswordForm = () => {
     // try {
     //   const result = await generatePassResetLinkAction(values);
     // } catch (error) {}
-    console.log(values)
+    console.log(values);
   }
 
   return (
@@ -42,7 +42,7 @@ const ForgetPasswordForm = () => {
             className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
             {...register("email")}
           />
-</Field>
+        </Field>
       </FieldGroup>
       <Button
         type="submit"

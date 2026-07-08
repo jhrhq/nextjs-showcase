@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Controller, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 
-import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field"
-import { Input } from "@/domains/hotel-booking/components/ui/input"
-import { Button } from "../ui/button"
+import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field";
+import { Input } from "@/domains/hotel-booking/components/ui/input";
+import { Button } from "../ui/button";
 
-import { signUpSchema } from "@/domains/hotel-booking/validationSchema/signup-schema"
-import { signUpAction } from "../../actions"
-import { cn } from "@/lib/utils"
+import { signUpSchema } from "@/domains/hotel-booking/validationSchema/signup-schema";
+import { signUpAction } from "../../actions";
+import { cn } from "@/lib/utils";
 
 export default function SignUpForm() {
   const form = useForm({
@@ -20,23 +20,21 @@ export default function SignUpForm() {
       password: "",
       confirmPassword: "",
     },
-  })
+  });
 
-  const pending = form.formState.isSubmitting
+  const pending = form.formState.isSubmitting;
 
   async function onSubmit(values: any) {
     try {
-      await signUpAction(values)
+      await signUpAction(values);
     } catch (error: any) {
-      form.setError("root.serverError", { message: error?.message || "Something went wrong" })
+      form.setError("root.serverError", { message: error?.message || "Something went wrong" });
     }
   }
 
   return (
     <form id="sign-up-form" noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-
       <FieldGroup className="space-y-4">
-
         {/* Username Field */}
         <Controller
           name="username"
@@ -51,9 +49,7 @@ export default function SignUpForm() {
                 aria-invalid={fieldState.invalid}
                 autoComplete="username"
               />
-              {fieldState.invalid && (
-                <FieldError errors={[fieldState.error]} />
-              )}
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
         />
@@ -72,9 +68,7 @@ export default function SignUpForm() {
                 aria-invalid={fieldState.invalid}
                 autoComplete="email"
               />
-              {fieldState.invalid && (
-                <FieldError errors={[fieldState.error]} />
-              )}
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
         />
@@ -92,9 +86,7 @@ export default function SignUpForm() {
                 className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
                 aria-invalid={fieldState.invalid}
               />
-              {fieldState.invalid && (
-                <FieldError errors={[fieldState.error]} />
-              )}
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
         />
@@ -112,27 +104,23 @@ export default function SignUpForm() {
                 className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
                 aria-invalid={fieldState.invalid}
               />
-              {fieldState.invalid && (
-                <FieldError errors={[fieldState.error]} />
-              )}
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
         />
 
-      {/* Root server error notification */}
-      <FieldError errors={[form.formState.errors?.root?.serverError]} />
+        {/* Root server error notification */}
+        <FieldError errors={[form.formState.errors?.root?.serverError]} />
       </FieldGroup>
 
       <Button
         type="submit"
         form="sign-up-form"
         disabled={pending}
-        className={cn(
-          "w-full text-base h-12 bg-primary text-white rounded-full py-3 hover:bg-primary transition"
-        )}
+        className={cn("w-full text-base h-12 bg-primary text-white rounded-full py-3 hover:bg-primary transition")}
       >
         {pending ? <span className="submitLoader" /> : "Continue"}
       </Button>
     </form>
-  )
+  );
 }

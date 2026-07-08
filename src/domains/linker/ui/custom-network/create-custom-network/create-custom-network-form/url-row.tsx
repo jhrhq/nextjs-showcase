@@ -154,9 +154,7 @@ export const UrlRow = React.memo(function UrlRow({
       </InputGroup>
 
       {/* Inline field-level error — shown for both invalid and duplicate cases */}
-      {isInvalid && errorMessage && (
-          <FieldError className="mt-1 ml-1" errors={[errorMessage]} />
-      )}
+      {isInvalid && errorMessage && <FieldError className="mt-1 ml-1" errors={[errorMessage]} />}
     </Field>
   );
 });

@@ -168,9 +168,7 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
             {bottomAddon && <InputGroupAddon align="block-end">{bottomAddon}</InputGroupAddon>}
           </InputGroup>
 
-          {fieldState.invalid && (
-            <FieldError errors={[fieldState.error]} />
-          )}
+          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
         </Field>
       )}
     />
@@ -261,9 +259,7 @@ export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
             )}
           </InputGroup>
 
-          {fieldState.invalid && (
-            <FieldError errors={[fieldState.error]} />
-          )}
+          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
         </Field>
       )}
     />
