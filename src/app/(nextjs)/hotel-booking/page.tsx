@@ -9,11 +9,7 @@ interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
+export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const { page, pageSize, search } = await searchParams;
 
   const currentPage = Math.max(1, Number(page) || 1);
@@ -22,11 +18,7 @@ export default async function Home({
   // normalise search — handles string | string[] | undefined
   const currentSearch = (Array.isArray(search) ? search[0] : search)?.trim() ?? "";
 
-  const { allProperties: properties, total } = await getAllProperties(
-    currentPage,
-    currentPageSize,
-    currentSearch
-  );
+  const { allProperties: properties, total } = await getAllProperties(currentPage, currentPageSize, currentSearch);
 
   const showPagination = total > currentPageSize;
 
@@ -40,22 +32,13 @@ export default async function Home({
         ) : (
           <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {properties.map((property) => (
-              <PropertyCard
-              key={property._id.toString()}
-                property={property}
-              />
+              <PropertyCard key={property._id.toString()} property={property} />
             ))}
           </div>
         )}
       </section>
 
-      {showPagination && (
-        <PropertyPagination
-          page={currentPage}
-          pageSize={currentPageSize}
-          totalItems={total}
-        />
-      )}
+      {showPagination && <PropertyPagination page={currentPage} pageSize={currentPageSize} totalItems={total} />}
 
       <Footer />
     </>

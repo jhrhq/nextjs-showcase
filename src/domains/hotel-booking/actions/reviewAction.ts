@@ -1,14 +1,11 @@
 "use server";
 import mongoose from "mongoose";
-// import { auth } from "@/auth";
-// import connectDB from "@/domains/hotel-booking/config/database";
-import Property from "@/domains/hotel-booking/models/Property";
-import Review from "@/domains/hotel-booking/models/review-model";
-import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
+import Review from "@/domains/hotel-booking/models/Review.model";
+// import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
+import { Property } from "../models";
+// import { auth } from "@/lib/auth";
 
 export async function getReviews({ propertyId }: { propertyId: string }) {
-  // await connectDB();
-
   const reviews = await Review.find({ property: propertyId }).sort({
     createdAt: "desc",
   });
@@ -20,38 +17,38 @@ export async function getReviews({ propertyId }: { propertyId: string }) {
   };
 }
 
-export async function createReviewAction({
-  data,
-  // path,
-}: {
-  data: PropertyReview;
-  // path: string;
-}) {
-  try {
-    const session = await auth();
-    if (!session) {
-      throw new Error("User is not authenticated");
-    }
+// export async function createReviewAction({
+//   data,
+//   // path,
+// }: {
+//   data: PropertyReview;
+//   // path: string;
+// }) {
+//   try {
+//     const session = await auth.api.getSession();
+//     if (!session) {
+//       throw new Error("User is not authenticated");
+//     }
 
-    const review = ReviewInputSchema.safeParse({
-      ...data,
-      user: session?.user?.id,
-    });
-    if (!review.success) return { status: false, errors: review.error.formErrors.fieldErrors };
+//     const review = ReviewInputSchema.safeParse({
+//       ...data,
+//       user: session?.user?.id,
+//     });
+//     if (!review.success) return { status: false, errors: review.error.formErrors.fieldErrors };
 
-    // await connectDB();
-    await Review.create(review.data);
-    await updatePropertyReview(review?.data.property);
-    // revalidatePath(path)
-    return {
-      status: true,
-      message: "Review created successfully",
-      // data: JSON.parse(JSON.stringify(newReview)),
-    };
-  } catch (error) {
-    return { status: false, message: error.message };
-  }
-}
+//     // await connectDB();
+//     await Review.create(review.data);
+//     await updatePropertyReview(review?.data.property);
+//     // revalidatePath(path)
+//     return {
+//       status: true,
+//       message: "Review created successfully",
+//       // data: JSON.parse(JSON.stringify(newReview)),
+//     };
+//   } catch (error) {
+//     return { status: false, message: error.message };
+//   }
+// }
 
 const updatePropertyReview = async (productId: string) => {
   // Calculate the new average rating, number of reviews, and rating distribution

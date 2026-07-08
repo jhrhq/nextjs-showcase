@@ -1,5 +1,4 @@
-import Property from "@/domains/hotel-booking/models/Property";
-import { IPropertyDocument } from "@/domains/hotel-booking/models/Property";
+import Property, { IPropertyDocument } from "@/domains/hotel-booking/models/Property.model";
 
 type PaginatedProperties = {
   allProperties: IPropertyDocument[];
@@ -13,22 +12,15 @@ async function getAllProperties(
 ): Promise<PaginatedProperties> {
   const skip = (page - 1) * pageSize;
 
-  const query = search
-    ? { $or: [{ title: new RegExp(search, "i") }] }
-    : {};
+  const query = search ? { $or: [{ title: new RegExp(search, "i") }] } : {};
 
   const total = await Property.countDocuments(query);
-  const allProperties = await Property.find(query)
-    .skip(skip)
-    .limit(pageSize)
-    .lean<IPropertyDocument[]>();
+  const allProperties = await Property.find(query).skip(skip).limit(pageSize).lean<IPropertyDocument[]>();
 
   return { allProperties, total };
 }
 
-async function getSelectedPropertyDetails(
-  propertyId: string
-): Promise<IPropertyDocument | null> {
+async function getSelectedPropertyDetails(propertyId: string): Promise<IPropertyDocument | null> {
   return Property.findById(propertyId).lean<IPropertyDocument>();
 }
 

@@ -2,7 +2,7 @@ import { Bed } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { StarSvg } from "@/domains/hotel-booking/components/svg-component/StartSvg";
-import { IPropertyDocument } from "../../models/Property";
+import { IPropertyDocument } from "../../models/Property.model";
 
 interface PropertyCardProps {
   property: IPropertyDocument;
@@ -20,7 +20,8 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             className="w-full h-64 object-cover rounded-xl group-hover:scale-105 transition-transform"
           />
           <div className="absolute top-3 right-3 bg-white/80 px-3 py-1 rounded-full text-xs font-semibold">
-            <Bed className="fa-bed inline-block mr-1" />{property.capacity?.bedrooms}
+            <Bed className="fa-bed inline-block mr-1" />
+            {property.capacity?.bedrooms}
           </div>
         </div>
         <div className="mt-3">
@@ -28,12 +29,10 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             <h3 className="font-bold text-lg">{property.title}</h3>
             <div className="flex items-center">
               <StarSvg />
-              <span className="ml-1 text-zinc-600">{ property.rating?.overall}</span>
+              <span className="ml-1 text-zinc-600">{property.rating?.overall}</span>
             </div>
           </div>
-          <p className="text-zinc-500 text-sm mt-1">
-            {property.location?.address}
-          </p>
+          <p className="text-zinc-500 text-sm mt-1">{property.location?.address}</p>
           <div className="mt-2 flex justify-between items-center">
             <div>
               <span className="font-bold">${property?.pricing?.perNight}</span>

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-const Loading = ({ className }:{className:string}) => {
+const Loading = ({ className }: { className: string }) => {
   return (
     <div className={cn("h-screen w-full grid place-content-center", className)}>
       <svg

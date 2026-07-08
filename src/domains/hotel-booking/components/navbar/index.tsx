@@ -1,7 +1,7 @@
-import NavAuthDropdown from "@/domains/hotel-booking/components/navbar/NavAuthDropdown";
 import Image from "next/image";
 import Link from "next/link";
 import Search from "@/domains/hotel-booking/components/navbar/Search";
+import UserDropdownMenu from "@/domains/hotel-booking/components/navbar/UserDropdownMenu";
 
 const Navbar = async () => {
   return (
@@ -17,7 +17,7 @@ const Navbar = async () => {
       <div className="flex items-center space-x-4 relative justify-end">
         {/*<LocalSwitcher />*/}
 
-        <NavAuthDropdown />
+        <UserDropdownMenu />
       </div>
     </nav>
   );

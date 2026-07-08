@@ -21,7 +21,7 @@ interface Props {
   propertyId: string;
 }
 
-const ReviewContainer = ({ propertyId }:Props) => {
+const ReviewContainer = ({ propertyId }: Props) => {
   const { data: session } = authClient.useSession();
 
   const [reviews, setReviews] = useState<ReviewType[]>([]);

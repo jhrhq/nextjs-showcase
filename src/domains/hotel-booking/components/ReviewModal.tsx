@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import { type FC, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { createReviewAction, getReviews } from "@/domains/hotel-booking/actions/reviewAction";
+import { getReviews } from "@/domains/hotel-booking/actions/reviewAction";
 import { Rating } from "@/domains/hotel-booking/components/Rating";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import {
@@ -59,16 +59,17 @@ const ReviewModal: FC<Props> = ({ propertyId, userId, updateReviews }) => {
   };
 
   async function onSubmit(values: PropertyReview) {
-    try {
-      const result = await createReviewAction({ data: values });
-      if (result?.status) {
-        setOpen(false);
-        form.reset();
-        await reload();
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const result = await createReviewAction({ data: values });
+    //   if (result?.status) {
+    //     setOpen(false);
+    //     form.reset();
+    //     await reload();
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    console.log(values);
   }
 
   return (

@@ -23,7 +23,7 @@ const AMENITY_MAP: Record<string, keyof typeof Icons> = {
   "Plunge Pool": "Droplet",
   "Private Deck": "Layers",
   "Radiant Heating": "Thermometer",
-  "Fireplace": "Flame",
+  Fireplace: "Flame",
   "Rowboat Access": "Anchor",
   "Patio Setup": "Grid",
   "Bay View View": "Compass",
@@ -176,7 +176,7 @@ const AMENITY_MAP: Record<string, keyof typeof Icons> = {
   "Geothermal Radiator Loop": "Workflow",
   "Starlink Internet Grid": "SatelliteReceiver",
   "Induction Cook Plate": "TableCells",
-  "Compact Wash Module": "Minimize2"
+  "Compact Wash Module": "Minimize2",
 };
 type LucideIconComponent = React.ComponentType<Icons.LucideProps>;
 interface Props {
@@ -184,7 +184,7 @@ interface Props {
   description: string;
 }
 
-const PropertyAmenities = ({ description, amenities = [] }:Props) => {
+const PropertyAmenities = ({ description, amenities = [] }: Props) => {
   if (amenities.length == 0) return null;
   return (
     <>
@@ -199,11 +199,13 @@ const PropertyAmenities = ({ description, amenities = [] }:Props) => {
             const IconComponent = (Icons[AMENITY_MAP[amenity]] || Icons.SquareChevronDown) as LucideIconComponent;
             return (
               <div key={index} className="flex items-center gap-2">
-                <span className="icon"><IconComponent className="w-5 h-5 text-zinc-600 shrink-0" strokeWidth={1.75} /></span>
+                <span className="icon">
+                  <IconComponent className="w-5 h-5 text-zinc-600 shrink-0" strokeWidth={1.75} />
+                </span>
                 <span className="name">{amenity}</span>
               </div>
-           )
-          } )}
+            );
+          })}
         </div>
       </div>
     </>

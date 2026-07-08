@@ -6,7 +6,6 @@ export function handleServerActionErrors<TFieldValues extends FieldValues>(
   result?: ActionState<TFieldValues> | null,
   catchError?: unknown
 ): void {
-
   if (result && !result.status) {
     if (result.fieldErrors) {
       const errorEntries = Object.entries(result.fieldErrors) as Array<[keyof TFieldValues, string[] | undefined]>;
@@ -28,7 +27,6 @@ export function handleServerActionErrors<TFieldValues extends FieldValues>(
     return;
   }
 
-
   if (catchError !== undefined && catchError !== null) {
     let fallbackMessage = "An unexpected system error occurred.";
 
@@ -38,9 +36,7 @@ export function handleServerActionErrors<TFieldValues extends FieldValues>(
       typeof (catchError as any).serverError === "string"
     ) {
       fallbackMessage = (catchError as any).serverError;
-    }
-
-    else if (catchError instanceof Error) {
+    } else if (catchError instanceof Error) {
       if (catchError.message === "NEXT_REDIRECT") return;
       fallbackMessage = catchError.message;
     }
