@@ -15,10 +15,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/domains/hotel-booking/components/ui/dialog";
-import { Field, FieldGroup, FieldLabel } from "@/domains/hotel-booking/components/ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/domains/hotel-booking/components/ui/field";
 import { Textarea } from "@/domains/hotel-booking/components/ui/textarea";
 import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
-import { FieldCustomError } from "./field-error";
 import type { ReviewType } from "./property-details/ReviewContainer";
 import { InputGroup } from "@/components/ui/input-group";
 
@@ -93,7 +92,6 @@ const ReviewModal: FC<Props> = ({ propertyId, userId, updateReviews }) => {
         <div className="p-4 pt-0">
           <DialogDescription className="hidden">Review Description</DialogDescription>
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-            <FieldCustomError errorMessage={form.formState?.errors?.root?.serverError?.message} />
             <FieldGroup>
               <Controller
                 control={form.control}
@@ -127,6 +125,7 @@ const ReviewModal: FC<Props> = ({ propertyId, userId, updateReviews }) => {
                 )}
               />
             </FieldGroup>
+            <FieldError errors={[form.formState?.errors?.root?.serverError]} />
             <DialogFooter className="border-t pt-4 bg-gray-50">
               <div className="flex justify-end gap-4">
                 <DialogClose asChild>

@@ -1,23 +1,18 @@
-"use client";
+"use client"
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { FieldCustomError } from "@/domains/hotel-booking/components/field-error";
-import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field";
-import { Input } from "@/domains/hotel-booking/components/ui/input";
-import { type SignUp, signUpSchema } from "@/domains/hotel-booking/validationSchema/signup-schema";
-import { signUpAction } from "../../actions";
-import FormError from "@/ui/shared/auth-errro-alert";
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Controller, useForm } from "react-hook-form"
 
-const SignUpForm = () => {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm<SignUp>({
+import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field"
+import { Input } from "@/domains/hotel-booking/components/ui/input"
+import { Button } from "../ui/button"
+
+import { signUpSchema } from "@/domains/hotel-booking/validationSchema/signup-schema"
+import { signUpAction } from "../../actions"
+import { cn } from "@/lib/utils"
+
+export default function SignUpForm() {
+  const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       username: "",
@@ -25,91 +20,119 @@ const SignUpForm = () => {
       password: "",
       confirmPassword: "",
     },
-  });
-  const pending = isSubmitting;
+  })
 
-  async function onSubmit(values: SignUp) {
+  const pending = form.formState.isSubmitting
+
+  async function onSubmit(values: any) {
     try {
-      await signUpAction(values);
-    } catch (error) {
-      setError("root.server", error);
+      await signUpAction(values)
+    } catch (error: any) {
+      form.setError("root.serverError", { message: error?.message || "Something went wrong" })
     }
   }
 
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      {/* Root server error notification */}
-      <FieldCustomError errorMessage={errors?.root?.serverError?.message} />
+    <form id="sign-up-form" noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+
       <FieldGroup className="space-y-4">
+
         {/* Username Field */}
-        <Field>
-          <Input
-            type="text"
-            placeholder="user name"
-            className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-            {...register("username")}
-          />
-          {errors.username?.message && (
-            <FieldError>
-              <FormError error={errors.username.message} />
-            </FieldError>
+        <Controller
+          name="username"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <Input
+                {...field}
+                type="text"
+                placeholder="User name"
+                className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+                aria-invalid={fieldState.invalid}
+                autoComplete="username"
+              />
+              {fieldState.invalid && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
-        </Field>
+        />
 
         {/* Email Field */}
-        <Field>
-          <Input
-            type="email"
-            placeholder="Email"
-            className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-            {...register("email")}
-          />
-          {errors.email?.message && (
-            <FieldError>
-              <FormError error={errors.email.message} />
-            </FieldError>
+        <Controller
+          name="email"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <Input
+                {...field}
+                type="email"
+                placeholder="Email"
+                className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+                aria-invalid={fieldState.invalid}
+                autoComplete="email"
+              />
+              {fieldState.invalid && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
-        </Field>
+        />
 
         {/* Password Field */}
-        <Field>
-          <Input
-            type="password"
-            placeholder="Password"
-            className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-            {...register("password")}
-          />
-          {errors.password?.message && (
-            <FieldError>
-              <FormError error={errors.password.message} />
-            </FieldError>
+        <Controller
+          name="password"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <Input
+                {...field}
+                type="password"
+                placeholder="Password"
+                className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+                aria-invalid={fieldState.invalid}
+              />
+              {fieldState.invalid && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
-        </Field>
+        />
 
         {/* Confirm Password Field */}
-        <Field>
-          <Input
-            type="password"
-            placeholder="Password"
-            className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-            {...register("confirmPassword")}
-          />
-          {errors.confirmPassword?.message && (
-            <FieldError>
-              <FormError error={errors.confirmPassword.message} />
-            </FieldError>
+        <Controller
+          name="confirmPassword"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <Input
+                {...field}
+                type="password"
+                placeholder="Confirm Password"
+                className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+                aria-invalid={fieldState.invalid}
+              />
+              {fieldState.invalid && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
-        </Field>
+        />
+
+      {/* Root server error notification */}
+      <FieldError errors={[form.formState.errors?.root?.serverError]} />
       </FieldGroup>
+
       <Button
         type="submit"
+        form="sign-up-form"
         disabled={pending}
-        className={cn("w-full text-base h-12 bg-primary text-white rounded-full py-3 hover:bg-primary transition")}
+        className={cn(
+          "w-full text-base h-12 bg-primary text-white rounded-full py-3 hover:bg-primary transition"
+        )}
       >
         {pending ? <span className="submitLoader" /> : "Continue"}
-      </Button>{" "}
+      </Button>
     </form>
-  );
-};
-
-export default SignUpForm;
+  )
+}

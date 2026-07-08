@@ -2,15 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { generatePassResetLinkAction } from "@/domains/hotel-booking/actions/password-reset";
-import { FieldCustomError } from "@/domains/hotel-booking/components/field-error";
+// import { generatePassResetLinkAction } from "@/domains/hotel-booking/actions/password-reset";
 import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
 import {
   type ForgetPasswordType,
   forgetPasswordSchema,
 } from "@/domains/hotel-booking/validationSchema/update-password-validation-schema";
-import FormError from "@/ui/shared/auth-errro-alert";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 
@@ -18,7 +16,6 @@ const ForgetPasswordForm = () => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<ForgetPasswordType>({
     resolver: zodResolver(forgetPasswordSchema),
@@ -28,14 +25,15 @@ const ForgetPasswordForm = () => {
   });
 
   async function onSubmit(values: ForgetPasswordType) {
-    try {
-      const result = await generatePassResetLinkAction(values);
-    } catch (error) {}
+    // try {
+    //   const result = await generatePassResetLinkAction(values);
+    // } catch (error) {}
+    console.log(values)
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <FieldCustomError errorMessage={errors?.root?.serverError?.message} />
+      <FieldError errors={[errors?.root?.serverError]} />
       <FieldGroup>
         <Field>
           <Input
@@ -44,13 +42,7 @@ const ForgetPasswordForm = () => {
             className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
             {...register("email")}
           />
-
-          {errors.email?.message && (
-            <FieldError>
-              <FormError error={errors.email.message} />
-            </FieldError>
-          )}
-        </Field>
+</Field>
       </FieldGroup>
       <Button
         type="submit"
@@ -58,7 +50,7 @@ const ForgetPasswordForm = () => {
         className={cn("w-full text-base h-12 bg-primary text-white rounded-full py-3 hover:bg-primary transition")}
       >
         Send
-      </Button>{" "}
+      </Button>
     </form>
   );
 };

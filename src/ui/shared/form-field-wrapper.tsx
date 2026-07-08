@@ -6,7 +6,6 @@ import { type Control, Controller, type FieldPath, type FieldValues } from "reac
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from "@/components/ui/input-group";
-import FormError from "@/ui/shared/auth-errro-alert";
 
 type FormFieldWrapperProps<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>;
@@ -169,9 +168,9 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
             {bottomAddon && <InputGroupAddon align="block-end">{bottomAddon}</InputGroupAddon>}
           </InputGroup>
 
-          <FieldError>
-            <FormError error={fieldState.error?.message} />
-          </FieldError>
+          {fieldState.invalid && (
+            <FieldError errors={[fieldState.error]} />
+          )}
         </Field>
       )}
     />
@@ -262,9 +261,9 @@ export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
             )}
           </InputGroup>
 
-          <FieldError>
-            <FormError error={fieldState.error?.message} />
-          </FieldError>
+          {fieldState.invalid && (
+            <FieldError errors={[fieldState.error]} />
+          )}
         </Field>
       )}
     />

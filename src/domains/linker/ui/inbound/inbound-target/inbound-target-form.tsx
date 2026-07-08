@@ -4,10 +4,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Field, FieldGroup } from "@/components/ui/field";
+import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
 import type { TargetUrlFormValues } from "@/domains/linker/validations/inbound.validation";
-import FormError from "@/ui/shared/auth-errro-alert";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 
 export interface TargetUrlFormHandle {
@@ -64,7 +63,7 @@ export const InboundTargetForm = React.forwardRef<TargetUrlFormHandle, TargetUrl
             />
           </FieldGroup>
           {/* General Error Alert */}
-          <FormError error={form.formState.errors.root?.message} />
+          <FieldError errors={[form.formState.errors.root]} />
           <Field orientation="horizontal">
             <Button form="signin" type="submit" disabled={isLoading}>
               {isLoading ? (

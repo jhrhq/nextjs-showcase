@@ -18,7 +18,6 @@ import {
   createCustomNetworkFormSchema,
 } from "@/domains/linker/validations/custom-network.validation";
 import { useDeboucedValue } from "@/hooks/shared/use-debounced-hook";
-import FormError from "@/ui/shared/auth-errro-alert";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 import BulkImportInput from "./bulk-import-input.tsx";
 import { DuplicateWarning } from "./duplicate-warning";
@@ -211,7 +210,7 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
                       status={meta.status}
                       isDuplicate={meta.isDuplicate}
                       isInvalid={meta.isInvalid}
-                      errorMessage={fieldError?.message}
+                      errorMessage={fieldError}
                       control={control}
                       onRemove={handleRemove}
                       onPaste={onInputPaste}
@@ -220,11 +219,11 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
                 );
               })}
 
-              {errors.urls?.root?.message && (
+              {/*{errors.urls?.root?.message && (
                 <FieldError>
                   <FormError error={errors.urls.root.message} />
                 </FieldError>
-              )}
+              )}*/}
 
               <Button
                 type="button"

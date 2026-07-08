@@ -19,7 +19,7 @@
 
 import { Link2, Trash2 } from "lucide-react";
 import * as React from "react";
-import { Controller } from "react-hook-form";
+import { Controller, type FieldError as FielErrorType } from "react-hook-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
@@ -31,7 +31,6 @@ import {
 } from "@/domains/linker/constants/custom-network.constants";
 import type { UrlFieldStatus, UrlFormControl } from "@/domains/linker/types/custom-network.types";
 import { cn } from "@/lib/utils";
-import FormError from "@/ui/shared/auth-errro-alert";
 
 // ─── Props ───
 
@@ -43,7 +42,7 @@ interface UrlRowProps {
   status: UrlFieldStatus;
   isDuplicate: boolean;
   isInvalid: boolean;
-  errorMessage: string | undefined;
+  errorMessage?: FielErrorType;
   control: UrlFormControl;
   onRemove: (index: number) => void;
   onPaste: (e: React.ClipboardEvent<HTMLInputElement>, index: number) => void;
@@ -120,7 +119,7 @@ export const UrlRow = React.memo(function UrlRow({
             </Tooltip>
           )}
 
-          {isInvalid && !isDuplicate && errorMessage && (
+          {/*{isInvalid && !isDuplicate && errorMessage && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Badge
@@ -132,7 +131,7 @@ export const UrlRow = React.memo(function UrlRow({
               </TooltipTrigger>
               <TooltipContent>{errorMessage}</TooltipContent>
             </Tooltip>
-          )}
+          )}*/}
 
           {total > 1 && (
             <Tooltip>
@@ -156,9 +155,7 @@ export const UrlRow = React.memo(function UrlRow({
 
       {/* Inline field-level error — shown for both invalid and duplicate cases */}
       {isInvalid && errorMessage && (
-        <FieldError className="mt-1 ml-1">
-          <FormError error={errorMessage} />
-        </FieldError>
+          <FieldError className="mt-1 ml-1" errors={[errorMessage]} />
       )}
     </Field>
   );

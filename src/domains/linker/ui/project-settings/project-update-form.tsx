@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { FieldGroup } from "@/components/ui/field";
+import { FieldError, FieldGroup } from "@/components/ui/field";
 import { useUpdateProject } from "@/domains/linker/hooks/use-projects";
 import { useUpdateProjectForm } from "@/domains/linker/hooks/use-update-project-form";
 import {
@@ -12,7 +12,6 @@ import {
   type UpdateProjectInput,
   updateProjectSchema,
 } from "@/domains/linker/validations/projects.validations";
-import FormError from "@/ui/shared/auth-errro-alert";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 
 type ProjectUpdateFormProps = {
@@ -63,7 +62,7 @@ export default function ProjectUpdateForm({ project }: ProjectUpdateFormProps) {
         />
       </FieldGroup>
       {/* General Error */}
-      <FormError error={errors.root?.message} />
+      <FieldError errors={[errors.root]} />
 
       <Button type="submit" disabled={projectUpdateLoading}>
         {updateProject.isPending && <Loader2 className="mr-2 size-4 animate-spin" />}

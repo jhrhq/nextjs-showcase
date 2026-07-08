@@ -13,7 +13,6 @@ import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/component
 import { Popover, PopoverContent, PopoverTrigger } from "@/domains/hotel-booking/components/ui/popover";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
-import FormError from "@/ui/shared/auth-errro-alert";
 
 const FormSchema = z
   .object({
@@ -66,45 +65,8 @@ export function BookingCardForm() {
             <Controller
               control={control}
               name="checkin"
-              render={({ field }) => (
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? format(field.value, "PPP") : <span>Check In</span>}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      // Allow today and future dates
-                      disabled={(date) => date < new Date(new Date().setHours(0,0,0,0))}
-                    />
-                  </PopoverContent>
-                </Popover>
-              )}
-            />
-            {errors.checkin?.message && (
-              <FieldError>
-                <FormError error={errors.checkin.message} />
-              </FieldError>
-            )}
-          </Field>
-
-          {/* Check Out Field */}
-          <Field className="flex flex-col">
-            <Controller
-              control={control}
-              name="checkout"
-              render={({ field }) => (
+              render={({ field , fieldState}) => (
+              <Field data-invalid={fieldState.invalid}>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -126,12 +88,50 @@ export function BookingCardForm() {
                       disabled={(date) => date < new Date()}
                     />
                   </PopoverContent>
-                </Popover>
+                  </Popover>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                  </Field>
               )}
             />
-              <FieldError>
-                <FormError error={errors.checkout?.message} />
-              </FieldError>
+          </Field>
+
+          {/* Check Out Field */}
+          <Field className="flex flex-col">
+            <Controller
+              control={control}
+              name="checkout"
+              render={({ field , fieldState}) => (
+              <Field data-invalid={fieldState.invalid}>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? format(field.value, "PPP") : <span>Check Out</span>}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) => date < new Date()}
+                    />
+                  </PopoverContent>
+                  </Popover>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                  </Field>
+              )}
+            />
           </Field>
 
           {/* Guests Field */}
@@ -153,10 +153,9 @@ export function BookingCardForm() {
                   placeholder="Number of guests"
                   autoComplete="off"
                 />
-
-                <FieldError>
-                  <FormError error={errors.guests?.message} />
-                </FieldError>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
               </Field>
             )}
           />

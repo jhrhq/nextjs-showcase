@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 
-import { FieldCustomError } from "@/domains/hotel-booking/components/field-error"
 import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field"
 import { Input } from "@/domains/hotel-booking/components/ui/input"
 import { Button } from "../ui/button"
@@ -79,7 +78,7 @@ export default function SignInForm() {
       </FieldGroup>
 
       {/* Root server error handling */}
-      <FieldCustomError className="rounded-full" errorMessage={form.formState.errors?.root?.serverError?.message} />
+      <FieldError className="rounded-full" errors={[form.formState.errors?.root?.serverError]} />
 
       <Button
         type="submit"

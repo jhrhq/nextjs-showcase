@@ -14,10 +14,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { FieldGroup } from "@/components/ui/field";
+import { FieldError, FieldGroup } from "@/components/ui/field";
 import { useCreateProjectForm } from "@/domains/linker/hooks/use-create-project-form";
 import { type CreateProjectInput, createProjectSchema } from "@/domains/linker/validations/projects.validations";
-import FormError from "@/ui/shared/auth-errro-alert";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 
 export function CreateProjectDialog() {
@@ -96,9 +95,9 @@ export function CreateProjectDialog() {
             />
           </FieldGroup>
           {/* General Error */}
-          <FormError error={errors.root?.message} />
+          <FieldError className="mt-2" errors={[errors.root]} />
 
-          <DialogFooter>
+          <DialogFooter className="mt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>

@@ -6,13 +6,12 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Field, FieldGroup } from "@/components/ui/field";
+import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { useSignInForm } from "@/domains/linker/hooks/use-sign-in";
 import { type SignInInput, signInSchema } from "@/domains/linker/validations/auth.validation";
 import { cn } from "@/lib/utils";
-import FormError from "@/ui/shared/auth-errro-alert";
 import { FormFieldWrapper, FormFieldWrapperPassword } from "@/ui/shared/form-field-wrapper";
 
 export function SignInForm() {
@@ -55,7 +54,7 @@ export function SignInForm() {
         />
       </FieldGroup>
       {/* General Error Alert */}
-      <FormError error={errors.root?.message} />
+      <FieldError errors={[errors.root]} />
       <UserAction />
       <Field orientation="horizontal">
         <SubmitButton isLoading={isLoading} />

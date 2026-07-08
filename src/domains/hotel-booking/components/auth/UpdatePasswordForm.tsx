@@ -1,96 +1,112 @@
-"use client";
+"use client"
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { FC } from "react";
-import { useForm } from "react-hook-form";
-import { FieldCustomError } from "@/domains/hotel-booking/components/field-error";
-import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field";
-import { Input } from "@/domains/hotel-booking/components/ui/input";
+import * as React from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Controller, useForm } from "react-hook-form"
+
+import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field"
+import { Input } from "@/domains/hotel-booking/components/ui/input"
+import { Button } from "../ui/button"
+
 import {
-  type UpdatePasswordType,
   updatePasswordSchema,
-} from "@/domains/hotel-booking/validationSchema/update-password-validation-schema";
-import FormError from "@/ui/shared/auth-errro-alert";
-import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
+} from "@/domains/hotel-booking/validationSchema/update-password-validation-schema"
+import { cn } from "@/lib/utils"
 
 interface Props {
   token: string;
   userId: string;
 }
 
-const UpdatePasswordForm: FC<Props> = ({ userId, token }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<UpdatePasswordType>({
+export default function UpdatePasswordForm({ userId, token }: Props) {
+  const form = useForm({
     resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
       oldPassword: "",
       newPassword: "",
-      userId: "",
-      token: "",
+      userId: userId || "",
+      token: token || "",
     },
-    values: { userId, token },
-  });
+  })
 
-  const pending = isSubmitting;
+  const pending = form.formState.isSubmitting
 
-  async function onSubmit(values: UpdatePasswordType) {
-    console.log(values);
+  async function onSubmit(values: any) {
+    console.log(values)
   }
 
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      {/* Root server error notification */}
-      <FieldCustomError errorMessage={errors?.root?.serverError?.message} />
-
-      {/* Hidden Fields for state sync */}
-      <input type="hidden" {...register("userId")} />
-      <input type="hidden" {...register("token")} />
+    <form id="update-password-form" noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      {/* Hidden Fields for state sync inside hook form context */}
+      <Controller
+        name="userId"
+        control={form.control}
+        render={({ field }) => <input type="hidden" {...field} />}
+      />
+      <Controller
+        name="token"
+        control={form.control}
+        render={({ field }) => <input type="hidden" {...field} />}
+      />
 
       <FieldGroup className="space-y-4">
+
         {/* Old Password Field */}
-        <Field>
-          <Input
-            type="password"
-            placeholder="Email" // Maintained original placeholder text choice
-            className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-            {...register("oldPassword")}
-          />
-          {errors.oldPassword?.message && (
-            <FieldError>
-              <FormError error={errors.oldPassword.message} />
-            </FieldError>
+        <Controller
+          name="oldPassword"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <Input
+                {...field}
+                type="password"
+                placeholder="Old Password"
+                className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+                aria-invalid={fieldState.invalid}
+              />
+              {fieldState.invalid && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
-        </Field>
+        />
 
         {/* New Password Field */}
-        <Field>
-          <Input
-            type="password"
-            placeholder="Email" // Maintained original placeholder text choice
-            className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 "
-            {...register("newPassword")}
-          />
-          {errors.newPassword?.message && (
-            <FieldError>
-              <FormError error={errors.newPassword.message} />
-            </FieldError>
+        <Controller
+          name="newPassword"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <Input
+                {...field}
+                type="password"
+                placeholder="New Password"
+                className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+                aria-invalid={fieldState.invalid}
+              />
+              {fieldState.invalid && (
+                <FieldError errors={[fieldState.error]} />
+              )}
+            </Field>
           )}
-        </Field>
+        />
+
       </FieldGroup>
+
+      {form.formState.errors?.root?.serverError && (
+        <FieldError errors={[form.formState.errors.root.serverError]} />
+      )}
 
       <Button
         type="submit"
+        form="update-password-form"
         disabled={pending}
-        className={cn("w-full text-base h-12 bg-primary text-white rounded-full py-3 hover:bg-primary transition")}
+        className={cn(
+          "w-full text-base h-12 bg-primary text-white rounded-full py-3 hover:bg-primary transition"
+        )}
       >
         Update
       </Button>
     </form>
-  );
-};
-
-export default UpdatePasswordForm;
+  )
+}

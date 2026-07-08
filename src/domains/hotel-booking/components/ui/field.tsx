@@ -201,11 +201,7 @@ function FieldError({
       className={cn("text-sm font-normal text-destructive", className)}
       {...props}
     >
-      <Alert variant="destructive" className={cn("border-0 px-0 py-1", className)}>
-        <AlertCircle />
-        <AlertDescription>      {content}
-</AlertDescription>
-      </Alert>
+      {content}
     </div>
   );
 }
