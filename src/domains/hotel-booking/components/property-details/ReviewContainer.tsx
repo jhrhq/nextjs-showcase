@@ -1,7 +1,7 @@
 "use client";
 import { IReviewSnapshot } from "../../models/shared.types";
 import ReviewBody from "./ReviewBody";
-// import ReviewModal from "../ReviewModal";
+import ReviewModal from "../ReviewModal";
 
 
 
@@ -21,7 +21,11 @@ const ReviewContainer = ({ propertyId, reviews }: Props) => {
             <Link href={"/hotel-booking/login"}>Write a Review</Link>
           </Button>*/}
 
-          {/*<ReviewModal propertyId={propertyId} userId={session?.user?.id} updateReviews={updateReviews} />*/}
+        <ReviewModal
+          propertyId={propertyId}
+          // userId={session?.user?.id}
+          // updateReviews={updateReviews}
+        />
       </div>
 
       <ReviewBody reviews={reviews} />

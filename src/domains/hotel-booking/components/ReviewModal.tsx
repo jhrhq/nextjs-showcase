@@ -1,10 +1,9 @@
 "use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
-import { type FC, useState } from "react";
+import { Star, X } from "lucide-react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { getReviews } from "@/domains/hotel-booking/actions/reviewAction";
-import { Rating } from "@/domains/hotel-booking/components/Rating";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import {
   Dialog,
@@ -15,61 +14,45 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/domains/hotel-booking/components/ui/dialog";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/domains/hotel-booking/components/ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/domains/hotel-booking/components/ui/textarea";
 import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
-import type { ReviewType } from "./property-details/ReviewContainer";
-import { InputGroup } from "@/components/ui/input-group";
+import { cn } from "@/lib/utils";
 
 interface Props {
   propertyId: string;
-  userId: string;
-  updateReviews: (reviews: ReviewType[]) => void;
+  // userId: string;
+  // updateReviews: () => void;
 }
 
 const reviewFormDefaultValues = {
   comment: "",
-  rating: 0,
+  overallRating: 0,
   property: "",
   user: "",
   isBooked: false,
 };
 
-const ReviewModal: FC<Props> = ({ propertyId, userId, updateReviews }) => {
+const FORM_ID = "review-form";
+
+const ReviewModal = ({ propertyId }: Props) => {
   const [open, setOpen] = useState(false);
 
   const form = useForm<PropertyReview>({
     resolver: zodResolver(ReviewInputSchema),
     defaultValues: reviewFormDefaultValues,
-    values: { ...reviewFormDefaultValues, property: propertyId, user: userId },
+    values: {
+      ...reviewFormDefaultValues,
+      property: propertyId,
+      user: "",
+    },
   });
-  const reload = async () => {
-    try {
-      const data = await getReviews({ propertyId });
-      if (data) {
-        updateReviews(data.reviews);
-      }
-    } catch (err) {
-      console.log(err);
-      // toast({
-      //   variant: 'destructive',
-      //   description: t('Error in fetching reviews'),
-      // })
-    }
-  };
+
 
   async function onSubmit(values: PropertyReview) {
-    // try {
-    //   const result = await createReviewAction({ data: values });
-    //   if (result?.status) {
-    //     setOpen(false);
-    //     form.reset();
-    //     await reload();
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
     console.log(values);
+    // Add your submission logic here
+    // setOpen(false);
   }
 
   return (
@@ -79,68 +62,87 @@ const ReviewModal: FC<Props> = ({ propertyId, userId, updateReviews }) => {
           Write a Review
         </Button>
       </DialogTrigger>
-
-      <DialogContent className=" bg-white ">
-        <div className="border-b pb-4">
+      <DialogContent className="bg-white pt-6 px-0">
+        <div className="border-b pb-4 px-6">
           <div className="flex justify-between items-center">
             <DialogTitle className="text-xl font-bold text-gray-800">Write a review</DialogTitle>
-            <DialogClose className=" text-gray-400 hover:text-gray-600 ">
-              <X className="ph-x size-4 " />
+            <DialogClose className="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
+              <X className="size-4 font-bold stroke-3" />
             </DialogClose>
           </div>
         </div>
 
-        <div className="p-4 pt-0">
+        <div className="px-6 py-4 pt-0">
           <DialogDescription className="hidden">Review Description</DialogDescription>
-          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+
+          <form id={FORM_ID} onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup>
               <Controller
                 control={form.control}
-                name="rating"
-                render={({ field }) => (
-                  <Field className="w-full">
+                name="overallRating"
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
                     <FieldLabel className="text-gray-700 font-medium mb-2 text-base">Overall Rating</FieldLabel>
-                    <InputGroup>
-                      <Rating {...field} />
-                    </InputGroup>
-                    <FormMessage />
+                      <div className="flex items-center gap-1 cursor-pointer">
+                           {[1, 2, 3, 4, 5].map((star) => (
+                             <Star
+                               key={star}
+                               className={cn("size-6", star <= field.value ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300 fill-gray-300')}
+                               onClick={() => field.onChange(star)}
+                             />
+                           ))}
+                         </div>
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
                 )}
               />
+
               <Controller
                 control={form.control}
                 name="comment"
-                render={({ field }) => (
-                  <Field className="w-full">
-                    <FieldLabel className="text-gray-700 font-medium mb-2 text-base">Your Review</FieldLabel>
-                    <InputGroup>
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={`${FORM_ID}-comment`} className="text-gray-700 font-medium mb-2 text-base">
+                      Your Review
+                    </FieldLabel>
                       <Textarea
                         {...field}
+                        id={`${FORM_ID}-comment`}
                         rows={4}
                         placeholder="Share your experience with other travelers..."
-                        className="w-full px-4 text-base py-3 rounded-lg border focus:border-gray-500 focus:ring-0 resize-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="h-auto w-full px-4 text-base py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary resize-none"
+                        aria-invalid={fieldState.invalid}
                       />
-                    </InputGroup>
-                    <FormMessage />
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
                 )}
               />
             </FieldGroup>
+
             <FieldError errors={[form.formState?.errors?.root?.serverError]} />
-            <DialogFooter className="border-t pt-4 bg-gray-50">
-              <div className="flex justify-end gap-4">
-                <DialogClose asChild>
-                  <Button className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg static" variant="ghost">
-                    Cancel
-                  </Button>
-                </DialogClose>
-                <Button className="px-4 py-2 bg-primary text-white rounded-lg hover:brightness-90">
-                  Submit Review
-                </Button>
-              </div>
-            </DialogFooter>
           </form>
         </div>
+
+        <DialogFooter className="border-t pt-4">
+          <div className="flex justify-end gap-4 px-6">
+            <Button
+              onClick={() =>     setOpen(false)
+}
+              type="button"
+              variant="ghost"
+              className="px-4 py-2 rounded-lg hover:brightness-100 text-gray-600 hover:cursor-pointer"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              form={FORM_ID}
+              className="px-4 py-2 bg-primary text-white rounded-lg hover:brightness-90 hover:cursor-pointer"
+            >
+              Submit Review
+            </Button>
+          </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
