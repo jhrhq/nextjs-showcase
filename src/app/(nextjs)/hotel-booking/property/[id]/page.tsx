@@ -27,7 +27,7 @@ const PropertyDetails = async ({ params }: Props) => {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <PropertyHeader
           name={data.title}
-          rating={data.averageRating}
+          rating={data.ratingAvg}
           reviews={data.reviewCount}
           location={data.location.address || ""}
         />
@@ -44,7 +44,7 @@ const PropertyDetails = async ({ params }: Props) => {
           </div>
           {/* Right Column: Booking Card */}
           <div>
-            <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.averageRating}>
+            <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.ratingAvg}>
               <BookingForm />
             </BookingCard>
           </div>
@@ -54,9 +54,9 @@ const PropertyDetails = async ({ params }: Props) => {
       {/* Reviews Section */}
       <div className="max-w-7xl mx-auto px-6 py-12 border-t">
         <div className="grid items-center justify-between mb-8 grid-cols-2">
-          <ReviewHeader rating={data?.averageRating} reviews={data?.reviewCount} />
+          <ReviewHeader rating={data?.ratingAvg} reviews={data?.reviewCount} />
 
-          <ReviewContainer propertyId={data?._id.toString()} />
+          <ReviewContainer propertyId={data?._id.toString()} reviews={data.recentReviews} />
         </div>
       </div>
 

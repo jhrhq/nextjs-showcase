@@ -1,32 +1,36 @@
 "use client";
-import type { FC } from "react";
-import StarRating from "@/domains/hotel-booking/components/StartRating";
 import { Avatar, AvatarFallback, AvatarImage } from "@/domains/hotel-booking/components/ui/avatar";
 import { formatDate } from "@/domains/hotel-booking/utils/date-time-utils";
-import type { ReviewType } from "./ReviewContainer";
-import { authClient } from "@/lib/auth-client";
+import { IReviewSnapshot } from "../../models/shared.types";
+import { Star } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Props {
-  review: ReviewType;
+  review: IReviewSnapshot;
 }
 
-const ReviewCard: FC<Props> = ({ review }) => {
-  const { data: session } = authClient.useSession();
+const ReviewCard = ({ review }: Props) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-4">
         <Avatar className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
-          <AvatarImage src={session.data?.user?.avatar?.url} alt="User avatar" className="w-full h-full object-cover" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarImage src={review.authorAvatar} alt={review.authorName} className="w-full h-full object-cover" />
+          <AvatarFallback>AV</AvatarFallback>
         </Avatar>
 
         <div>
-          <h4 className="font-medium">{session.data?.user.name}</h4>
+          <h4 className="font-medium">{review.authorName}</h4>
           <p className="text-gray-500 text-sm">{formatDate(review.createdAt)}</p>
         </div>
       </div>
 
-      <StarRating rating={review.rating} />
+      <div className="flex items-center">
+        {Array.from({ length: 5 }, (_, index) => (
+          <span key={index}>
+            <Star  className={cn(" text-yellow-500", index < review.overallRating && "fill-yellow-500")} />
+          </span>
+        ))}
+      </div>
 
       <p className="text-gray-600 leading-relaxed">{review.comment}</p>
     </div>

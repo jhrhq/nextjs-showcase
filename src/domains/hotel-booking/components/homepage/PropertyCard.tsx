@@ -29,7 +29,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             <h3 className="font-bold text-lg">{property.title}</h3>
             <div className="flex items-center">
               <StarSvg />
-              <span className="ml-1 text-zinc-600">{property.averageRating}</span>
+              <span className="ml-1 text-zinc-600">{property.ratingAvg}</span>
             </div>
           </div>
           <p className="text-zinc-500 text-sm mt-1">{property.location?.address}</p>

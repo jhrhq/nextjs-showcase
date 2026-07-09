@@ -1,20 +1,19 @@
 "use client";
-import type { FC } from "react";
 import ReviewCard from "@/domains/hotel-booking/components/property-details/ReviewCard";
-import type { ReviewType } from "./ReviewContainer";
+import { IReviewSnapshot } from "../../models/shared.types";
 
 interface Props {
-  reviews: ReviewType[];
+  reviews: IReviewSnapshot[];
 }
 
-const ReviewBody: FC<Props> = ({ reviews = [] }) => {
-  if (reviews?.length == 0) {
+const ReviewBody = ({ reviews }:Props) => {
+  if (reviews?.length === 0) {
     return null;
   }
   return (
     <div className="grid grid-cols-2 gap-8 col-span-full">
       {reviews.map((review) => (
-        <ReviewCard key={review._id} review={review} />
+        <ReviewCard key={review.reviewId.toString()} review={review} />
       ))}
     </div>
   );

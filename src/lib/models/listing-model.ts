@@ -85,11 +85,11 @@ export interface IListing {
    * Denormalised aggregate rating.  Updated by the review mutation handler
    * after every approved review write.
    *
-   *   averageRating = sum(review.rating) / totalReviews
+   *   ratingAvg = sum(review.rating) / totalReviews
    *
    * Stored here to support O(1) listing-card rendering without a $lookup.
    */
-  averageRating: number;
+  ratingAvg: number;
   totalReviews: number;
 
   /** Array of image URLs (CDN paths). */
@@ -164,7 +164,7 @@ const ListingSchema = new Schema<IListing>(
       type: [String],
       default: [],
     },
-    averageRating: {
+    ratingAvg: {
       type: Number,
       default: 0,
       min: 0,
