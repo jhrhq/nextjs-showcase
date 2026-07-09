@@ -13,7 +13,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
       <div>
         <div className="relative">
           <Image
-            src={property?.images?.[0] || ""}
+            src={property?.images?.[0].url || ""}
             alt={property?.title}
             width={500}
             height={500}
@@ -29,7 +29,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             <h3 className="font-bold text-lg">{property.title}</h3>
             <div className="flex items-center">
               <StarSvg />
-              <span className="ml-1 text-zinc-600">{property.rating}</span>
+              <span className="ml-1 text-zinc-600">{property.averageRating}</span>
             </div>
           </div>
           <p className="text-zinc-500 text-sm mt-1">{property.location?.address}</p>

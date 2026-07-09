@@ -1,21 +1,22 @@
 import Image from "next/image";
 import type { FC } from "react";
 import { cn } from "@/lib/utils";
+import { IPropertyImage } from "../../models/Property.model";
 
 interface Props {
-  images: string[];
-  name: string;
+  images: IPropertyImage[];
+  title:string
 }
 
-const PropertyImages: FC<Props> = ({ images = [], name }) => {
+const PropertyImages: FC<Props> = ({ images, title }:Props) => {
   if (images.length == 0) return null;
   return (
     <div className="grid grid-cols-4 grid-rows-2 gap-4 mb-8 h-125">
       {images.map((img, index) => (
         <div key={index} className={cn(index == 0 ? "col-span-2 row-span-2" : "")}>
           <Image
-            src={img}
-            alt={`${name} property`}
+            src={img.url}
+            alt={img.alt || title}
             width={500}
             height={800}
             className={cn(

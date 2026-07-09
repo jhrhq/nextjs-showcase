@@ -1,7 +1,5 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-// ─── Interfaces ───────────────────────────────────────────────────────────────
-
 export type BookingStatus =
   | "pending" // reserved, payment not yet confirmed
   | "confirmed" // payment successful → success.html shown
@@ -44,7 +42,6 @@ export interface IBookingDocument extends IBooking, Document {
   updatedAt: Date;
 }
 
-// ─── Schema ───────────────────────────────────────────────────────────────────
 
 const priceSummarySchema = new Schema<IPriceSummary>(
   {

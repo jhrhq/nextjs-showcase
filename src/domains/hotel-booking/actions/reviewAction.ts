@@ -1,16 +1,14 @@
 "use server";
 import mongoose from "mongoose";
-import Review from "@/domains/hotel-booking/models/Review.model";
-// import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
-import { Property } from "../models";
-// import { auth } from "@/lib/auth";
+
+import { Property, Review } from "../models";
 
 export async function getReviews({ propertyId }: { propertyId: string }) {
-  const reviews = await Review.find({ property: propertyId }).sort({
+  const reviews = await Review.find({ propertyId: propertyId }).sort({
     createdAt: "desc",
   });
 
-  const reviewsCount = await Review.countDocuments({ property: propertyId });
+  const reviewsCount = await Review.countDocuments({ propertyId: propertyId });
   return {
     reviews,
     reviewsCount,

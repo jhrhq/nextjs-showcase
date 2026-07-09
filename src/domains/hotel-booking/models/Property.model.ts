@@ -31,6 +31,30 @@ export interface ICapacity {
   bathrooms: number;
 }
 
+export interface IPropertyImage {
+  url: string;
+  alt?: string;
+}
+export interface ICachedReview {
+  reviewId: mongoose.Types.ObjectId;
+  authorId: mongoose.Types.ObjectId;
+  authorName: string; // Cached to avoid an extra lookup to the User collection
+  comment?: string;
+  overallRating?: number;
+  createdAt: Date;
+}
+
+const cachedReviewSchema = new Schema<ICachedReview>(
+  {
+    reviewId: { type: Schema.Types.ObjectId, ref: "Review", required: true },
+    authorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    authorName: { type: String, required: true },
+    comment: { type: String },
+    overallRating: { type: Number },
+    createdAt: { type: Date, required: true }
+  },
+  { _id: false }
+)
 export type PropertyType =
   | "Entire home"
   | "Private room"
@@ -44,16 +68,16 @@ export interface IProperty {
   type: PropertyType;
   location: ILocation;
   host: IHost;
-  images: string[];
+  images: IPropertyImage[];
   amenities: string[];
   pricing: IPricing;
   capacity: ICapacity;
-  rating: number;
+  averageRating: number;
   reviewCount: number;
+  recentReviews: ICachedReview[]; // ◄ ADD THIS LINE
   isPublished: boolean
   isFeatured: boolean;
   tags: string[];
-
   minimumNights: number;
   maximumNights: number;
 }
@@ -115,16 +139,16 @@ const propertySchema = new Schema<IPropertyDocument>(
     },
     location: { type: locationSchema, required: true },
     host: { type: hostSchema, required: true },
-    images: [{ type: String }],
+    images: [{ url: { type: String, required: true }, alt: String }],
     amenities: [{ type: String }],
     pricing: { type: pricingSchema, required: true },
     capacity: { type: capacitySchema, required: true },
-    rating: { type: Number, default: 0, min: 0, max: 5 },
+    averageRating: { type: Number, default: 0, min: 0, max: 5 },
     reviewCount: { type: Number, default: 0 },
     isPublished: { type: Boolean, default: false },
     isFeatured: { type: Boolean, default: false },
     tags: [{ type: String }],
-
+    recentReviews: { type: [cachedReviewSchema], default: [] }, // ◄ ADD THIS LINE
     minimumNights: { type: Number, default: 1 },
     maximumNights: { type: Number, default: 365 },
   },
@@ -134,10 +158,9 @@ const propertySchema = new Schema<IPropertyDocument>(
 propertySchema.index({ "location.city": 1 });
 propertySchema.index({ "location.country": 1 });
 propertySchema.index({ "pricing.perNight": 1 });
-propertySchema.index({ "rating.overall": -1 });
 propertySchema.index({ isFeatured: 1 });
-propertySchema.index({ isAvailable: 1 });
-propertySchema.index({ tags: 1 });
+propertySchema.index({ averageRating: -1 }); // Matches your averageRating field
+propertySchema.index({ isPublished: 1 });propertySchema.index({ tags: 1 });
 propertySchema.index({ title: "text", description: "text" });
 
 const Property: Model<IPropertyDocument> =

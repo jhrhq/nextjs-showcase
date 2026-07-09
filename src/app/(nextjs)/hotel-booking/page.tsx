@@ -14,7 +14,7 @@ export default async function Home({
   const { page, pageSize, search } = await searchParams;
 
   const currentPage = Math.max(1, Number(page) || 1);
-  const currentPageSize = Math.max(1, Number(pageSize) || 10);
+  const currentPageSize = Math.max(1, Number(pageSize) || 8);
 
   // normalise search — handles string | string[] | undefined
   const currentSearch = (Array.isArray(search) ? search[0] : search)?.trim() ?? "";

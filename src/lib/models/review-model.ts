@@ -14,11 +14,11 @@
  *    Prevents owners from reviewing their own properties.
  *
  *  Gate 2 — One-review cap (DB layer — this schema)
- *    Unique compound index: { userId: 1, listingId: 1 }
+ *    Unique compound index: { userId: 1, proeprtyId: 1 }
  *    A duplicate write throws MongoServerError code 11000 → handler returns 409.
  *
  *  Gate 3 — Verified reservation gate (application layer)
- *    Reservation must exist with { guestId, listingId, status: "completed",
+ *    Reservation must exist with { guestId, proeprtyId, status: "completed",
  *    checkOut: { $lte: now } } → 403 if absent.
  *
  * Having Gate 2 enforced at the database level (unique index) means that
@@ -49,7 +49,7 @@ export interface IReview {
   userId: Types.ObjectId;
 
   /** The listing being reviewed. */
-  listingId: Types.ObjectId;
+  proeprtyId: Types.ObjectId;
 
   /**
    * The completed reservation that unlocked this review.
@@ -91,7 +91,7 @@ const ReviewSchema = new Schema<IReview>(
       required: true,
       index: true,
     },
-    listingId: {
+    proeprtyId: {
       type: Schema.Types.ObjectId,
       ref: "Listing",
       required: true,
@@ -146,7 +146,7 @@ const ReviewSchema = new Schema<IReview>(
  * Gate 2 — One-review-per-user-per-listing.
  *
  * `unique: true` causes MongoDB to reject any second document with the same
- * (userId, listingId) pair with a MongoServerError { code: 11000 }.
+ * (userId, proeprtyId) pair with a MongoServerError { code: 11000 }.
  *
  * The Route Handler catches this specific error code and returns HTTP 409
  * rather than letting a 500 bubble to the client.
@@ -158,7 +158,7 @@ const ReviewSchema = new Schema<IReview>(
  *   deterministically, with no race window.
  */
 ReviewSchema.index(
-  { userId: 1, listingId: 1 },
+  { userId: 1, proeprtyId: 1 },
   {
     unique: true,
     name: "unique_review_per_user_per_listing",
@@ -167,15 +167,15 @@ ReviewSchema.index(
 
 /**
  * Listing-page aggregation index:
- *   { listingId, moderationStatus, createdAt }
+ *   { proeprtyId, moderationStatus, createdAt }
  *
  * Covers the paginated review feed query:
- *   Review.find({ listingId, moderationStatus: "published" })
+ *   Review.find({ proeprtyId, moderationStatus: "published" })
  *         .sort({ createdAt: -1 })
  *         .skip(offset)
  *         .limit(pageSize)
  */
-ReviewSchema.index({ listingId: 1, moderationStatus: 1, createdAt: -1 });
+ReviewSchema.index({ proeprtyId: 1, moderationStatus: 1, createdAt: -1 });
 
 /**
  * User profile — "my reviews" query:

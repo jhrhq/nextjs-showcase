@@ -1,11 +1,10 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-// ─── Interfaces ───────────────────────────────────────────────────────────────
 
 export interface IReview {
-  property: mongoose.Types.ObjectId; // ref → Property
-  author: mongoose.Types.ObjectId; // ref → User
-  booking: mongoose.Types.ObjectId; // ref → Booking  (proof of stay — required to leave a review)
+  propertyId: mongoose.Types.ObjectId; // ref → Property
+  authorId: mongoose.Types.ObjectId; // ref → User
+  bookingId: mongoose.Types.ObjectId; // ref → Booking  (proof of stay — required to leave a review)
   overallRating: number; // 1–5, shown as "Overall Rating" in ReviewModal
   comment: string;
 }
@@ -19,9 +18,9 @@ export interface IReviewDocument extends IReview, Document {
 
 const reviewSchema = new Schema<IReviewDocument>(
   {
-    property: { type: Schema.Types.ObjectId, ref: "Property", required: true },
-    author: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    booking: { type: Schema.Types.ObjectId, ref: "Booking", required: true },
+    propertyId: { type: Schema.Types.ObjectId, ref: "Property", required: true },
+    authorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    bookingId: { type: Schema.Types.ObjectId, ref: "Booking", required: true },
     overallRating: { type: Number, required: true, min: 1, max: 5 },
     comment: { type: String, required: true, trim: true },
   },

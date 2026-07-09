@@ -6,8 +6,8 @@ import PropertyAmenities from "@/domains/hotel-booking/components/property-detai
 import PropertyFeatures from "@/domains/hotel-booking/components/property-details/PropertyFeatures";
 import PropertyHeader from "@/domains/hotel-booking/components/property-details/PropertyHeader";
 import PropertyImages from "@/domains/hotel-booking/components/property-details/PropertyImages";
-// import ReviewContainer from "@/domains/hotel-booking/components/property-details/ReviewContainer";
-// import ReviewHeader from "@/domains/hotel-booking/components/property-details/ReviewHeader";
+import ReviewContainer from "@/domains/hotel-booking/components/property-details/ReviewContainer";
+import ReviewHeader from "@/domains/hotel-booking/components/property-details/ReviewHeader";
 import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
 
 interface Props {
@@ -15,6 +15,7 @@ interface Props {
     id: string;
   }>;
 }
+
 const PropertyDetails = async ({ params }: Props) => {
   const { id } = await params;
   const data = await getSelectedPropertyDetails(id);
@@ -26,13 +27,13 @@ const PropertyDetails = async ({ params }: Props) => {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <PropertyHeader
           name={data.title}
-          rating={data.rating}
+          rating={data.averageRating}
           reviews={data.reviewCount}
           location={data.location.address || ""}
         />
 
         {/* Image Gallery */}
-        <PropertyImages images={data?.images.slice(0, 5)} name={data?.title} />
+        <PropertyImages images={data?.images} title={data.title} />
         {/* Property Details */}
         <div className="grid grid-cols-3 gap-8">
           {/* Left Column: Property Description */}
@@ -43,7 +44,7 @@ const PropertyDetails = async ({ params }: Props) => {
           </div>
           {/* Right Column: Booking Card */}
           <div>
-            <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.rating}>
+            <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.averageRating}>
               <BookingForm />
             </BookingCard>
           </div>
@@ -51,13 +52,13 @@ const PropertyDetails = async ({ params }: Props) => {
       </div>
 
       {/* Reviews Section */}
-      {/*<div className="max-w-7xl mx-auto px-6 py-12 border-t">
+      <div className="max-w-7xl mx-auto px-6 py-12 border-t">
         <div className="grid items-center justify-between mb-8 grid-cols-2">
-          <ReviewHeader rating={data?.rating.overall} reviews={data?.reviews?.length} />
+          <ReviewHeader rating={data?.averageRating} reviews={data?.reviewCount} />
 
           <ReviewContainer propertyId={data?._id.toString()} />
         </div>
-      </div>*/}
+      </div>
 
       <Footer />
     </>

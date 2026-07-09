@@ -7,15 +7,7 @@ import ReviewBody from "./ReviewBody";
 import ReviewModal from "../ReviewModal";
 import { authClient } from "@/lib/auth-client";
 
-export interface ReviewType {
-  _id: string;
-  user: string;
-  isBooked: boolean;
-  property: string;
-  rating: number;
-  comment: string;
-  createdAt: string;
-}
+
 
 interface Props {
   propertyId: string;
@@ -24,10 +16,10 @@ interface Props {
 const ReviewContainer = ({ propertyId }: Props) => {
   const { data: session } = authClient.useSession();
 
-  const [reviews, setReviews] = useState<ReviewType[]>([]);
+  const [reviews, setReviews] = useState([]);
   const [loadingReviews, setLoadingReviews] = useState(false);
 
-  const updateReviews = (data: ReviewType[]) => {
+  const updateReviews = (data) => {
     return setReviews([...data]);
   };
 
