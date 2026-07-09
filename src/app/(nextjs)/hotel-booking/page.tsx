@@ -9,7 +9,8 @@ interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
 
-export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
+export default async function Home({
+  searchParams }: { searchParams: Promise<SearchParams> }) {
   const { page, pageSize, search } = await searchParams;
 
   const currentPage = Math.max(1, Number(page) || 1);
@@ -21,7 +22,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
   const { allProperties: properties, total } = await getAllProperties(currentPage, currentPageSize, currentSearch);
 
   const showPagination = total > currentPageSize;
-
   return (
     <>
       <Navbar />

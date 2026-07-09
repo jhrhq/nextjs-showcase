@@ -1,24 +1,13 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
 
-// ─── Sub-document interfaces ───────────────────────────────────────────────
-
-export interface IReview {
-  _id?: mongoose.Types.ObjectId;
-  author: string;
-  avatar?: string;
-  rating: number;
-  comment: string;
-  date: Date;
-}
-
 export interface ILocation {
+  street?: string;
   city: string;
+  state?: string;
   country: string;
   address?: string;
-  coordinates?: {
-    lat: number;
-    lng: number;
-  };
+  postalCode?: string;
+  coordinates?: { lat: number; lng: number };
 }
 
 export interface IHost {
@@ -42,20 +31,12 @@ export interface ICapacity {
   bathrooms: number;
 }
 
-export interface IRating {
-  overall: number;
-  cleanliness: number;
-  accuracy: number;
-  communication: number;
-  location: number;
-  value: number;
-}
-
-// ─── Property types ────────────────────────────────────────────────────────
-
-export type PropertyType = "Entire home" | "Private room" | "Shared room" | "Unique stay" | "Hotel room";
-
-// ─── Main document interface ───────────────────────────────────────────────
+export type PropertyType =
+  | "Entire home"
+  | "Private room"
+  | "Shared room"
+  | "Unique stay"
+  | "Hotel room";
 
 export interface IProperty {
   title: string;
@@ -67,35 +48,20 @@ export interface IProperty {
   amenities: string[];
   pricing: IPricing;
   capacity: ICapacity;
-  rating: IRating;
-  reviews: IReview[];
+  rating: number;
   reviewCount: number;
-  isAvailable: boolean;
+  isPublished: boolean
   isFeatured: boolean;
   tags: string[];
+
   minimumNights: number;
   maximumNights: number;
 }
 
-// Extends IProperty with Mongoose Document (adds _id, createdAt, updatedAt, etc.)
 export interface IPropertyDocument extends IProperty, Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
-// ─── Sub-document schemas ──────────────────────────────────────────────────
-
-const reviewSchema = new Schema<IReview>(
-  {
-    author: { type: String, required: true },
-    avatar: { type: String },
-    rating: { type: Number, required: true, min: 1, max: 5 },
-    comment: { type: String, required: true },
-    date: { type: Date, default: Date.now },
-  },
-  { _id: true }
-);
-
 const locationSchema = new Schema<ILocation>(
   {
     city: { type: String, required: true },
@@ -138,21 +104,6 @@ const capacitySchema = new Schema<ICapacity>(
   },
   { _id: false }
 );
-
-const ratingSchema = new Schema<IRating>(
-  {
-    overall: { type: Number, default: 0, min: 0, max: 5 },
-    cleanliness: { type: Number, default: 0 },
-    accuracy: { type: Number, default: 0 },
-    communication: { type: Number, default: 0 },
-    location: { type: Number, default: 0 },
-    value: { type: Number, default: 0 },
-  },
-  { _id: false }
-);
-
-// ─── Main schema ───────────────────────────────────────────────────────────
-
 const propertySchema = new Schema<IPropertyDocument>(
   {
     title: { type: String, required: true, trim: true },
@@ -168,21 +119,17 @@ const propertySchema = new Schema<IPropertyDocument>(
     amenities: [{ type: String }],
     pricing: { type: pricingSchema, required: true },
     capacity: { type: capacitySchema, required: true },
-    rating: { type: ratingSchema, default: () => ({}) },
-    reviews: [reviewSchema],
+    rating: { type: Number, default: 0, min: 0, max: 5 },
     reviewCount: { type: Number, default: 0 },
-    isAvailable: { type: Boolean, default: true },
+    isPublished: { type: Boolean, default: false },
     isFeatured: { type: Boolean, default: false },
     tags: [{ type: String }],
+
     minimumNights: { type: Number, default: 1 },
     maximumNights: { type: Number, default: 365 },
   },
-  {
-    timestamps: true, // adds createdAt + updatedAt automatically
-  }
+  { timestamps: true }
 );
-
-// ─── Indexes ───────────────────────────────────────────────────────────────
 
 propertySchema.index({ "location.city": 1 });
 propertySchema.index({ "location.country": 1 });
@@ -191,10 +138,7 @@ propertySchema.index({ "rating.overall": -1 });
 propertySchema.index({ isFeatured: 1 });
 propertySchema.index({ isAvailable: 1 });
 propertySchema.index({ tags: 1 });
-propertySchema.index({ title: "text", description: "text" }); // full-text search
-
-// ─── Model (Next.js hot-reload safe) ──────────────────────────────────────
-// Prevents "Cannot overwrite model once compiled" errors in dev mode.
+propertySchema.index({ title: "text", description: "text" });
 
 const Property: Model<IPropertyDocument> =
   (mongoose.models.Property as Model<IPropertyDocument>) ||

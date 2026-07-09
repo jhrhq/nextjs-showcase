@@ -15,11 +15,9 @@ interface Props {
     id: string;
   }>;
 }
-
 const PropertyDetails = async ({ params }: Props) => {
   const { id } = await params;
   const data = await getSelectedPropertyDetails(id);
-
   if (!data) return null;
 
   return (
@@ -28,8 +26,8 @@ const PropertyDetails = async ({ params }: Props) => {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <PropertyHeader
           name={data.title}
-          rating={data.rating.overall}
-          reviews={data.reviews.length}
+          rating={data.rating}
+          reviews={data.reviewCount}
           location={data.location.address || ""}
         />
 
@@ -45,7 +43,7 @@ const PropertyDetails = async ({ params }: Props) => {
           </div>
           {/* Right Column: Booking Card */}
           <div>
-            <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.rating.overall}>
+            <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.rating}>
               <BookingForm />
             </BookingCard>
           </div>
