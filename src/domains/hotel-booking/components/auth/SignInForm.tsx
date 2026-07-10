@@ -2,15 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-
-import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field";
+import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
-import { Button } from "../ui/button";
-
-import { signInSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
+import { type SignIn, signInSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
+import { cn } from "@/lib/utils";
 import { signInAction } from "../../actions/auth-action";
 import { handleServerActionErrors } from "../../utils/form-helpers";
-import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 export default function SignInForm() {
   const form = useForm({
@@ -23,7 +21,7 @@ export default function SignInForm() {
 
   const pending = form.formState.isSubmitting;
 
-  async function onSubmit(values: any) {
+  async function onSubmit(values: SignIn) {
     try {
       const result = await signInAction(values);
       handleServerActionErrors(form.setError, result);

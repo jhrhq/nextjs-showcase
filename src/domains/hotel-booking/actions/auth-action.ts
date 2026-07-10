@@ -1,13 +1,13 @@
 "use server";
 
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import type { FieldValues } from "react-hook-form";
+import z from "zod";
 import { type SignIn, signInSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
 import { auth } from "@/lib/auth";
 import { parseAuthError } from "@/lib/auth-error";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { SignUp, signUpSchema } from "../validationSchema/signup-schema";
-import z from "zod";
-import { FieldValues } from "react-hook-form";
+import { type SignUp, signUpSchema } from "../validationSchema/signup-schema";
 
 export type ActionState<T extends FieldValues = FieldValues> = {
   status: boolean;
@@ -19,7 +19,7 @@ export async function signInAction(
   // _prev: ActionState,
   // formData: FormData // used when action = {signInAction}
   data: SignIn
-): Promise<ActionState<SignIn>> {
+) {
   // used when action = {signInAction}
   // const raw = {
   //   email: formData.get("email"),
