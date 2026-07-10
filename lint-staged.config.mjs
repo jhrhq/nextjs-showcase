@@ -4,9 +4,11 @@ export default {
     "biome format --write --no-errors-on-unmatched",
     // () => "pnpm type-check"
   ],
-  "*.{ts,tsx}": [
-    () => "pnpm type-check",
-  ],
+  // "*.{ts,tsx}": [
+  //   () => "pnpm type-check",
+  // ],
+    "**/*.{js,ts,tsx}": ["pnpm run format", "pnpm run lint"]
+
   // "*.{json,md,mdx}": ["biome format --write --no-errors-on-unmatched"],
   // Run type-check after linting all files
   // "*.{ts,tsx}": () => "tsc --noEmit",
