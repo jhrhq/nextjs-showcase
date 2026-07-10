@@ -21,7 +21,7 @@ export function PaymentSummaryCard({
     <div className="sticky top-0 mb-8 rounded-lg bg-white p-6 shadow-sm">
          <div className="mb-6 flex items-start gap-4">
            <Image
-             src={property.images[0]}
+             src={property.images[0].url}
              alt={property.title}
              width={500}
              height={500}
@@ -38,7 +38,7 @@ export function PaymentSummaryCard({
                />
 
                <span className="mt-1 text-xs text-zinc-500">
-                 {property.rating.overall} ({property.reviewCount}{" "}
+                 {property.ratingAvg} ({property.reviewCount}{" "}
                  {property.reviewCount === 1 ? "Review" : "Reviews"})
                </span>
              </div>
