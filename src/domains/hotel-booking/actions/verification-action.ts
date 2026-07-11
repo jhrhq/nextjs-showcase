@@ -1,10 +1,10 @@
 "use server";
 import crypto from "crypto";
+import { headers } from "next/headers";
 // import mail from "@/domains/hotel-booking/utils/mail";
 import UserModel, { createNewUser } from "@/domains/hotel-booking/models/user-model";
 import VerificationTokenModel from "@/domains/hotel-booking/models/verification-token-model";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 
 const handleVerificationToken = async (user: { id: string; name: string; email: string }) => {
   const userId = user.id;

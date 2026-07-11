@@ -13,7 +13,7 @@
  *   mongoose.models.Listing ?? mongoose.model('Listing', ListingSchema)
  */
 
-import mongoose, { type Document, type Model, Schema, Types } from "mongoose";
+import mongoose, { type Document, type Model, Schema, type Types } from "mongoose";
 
 // ---------------------------------------------------------------------------
 // Embedded sub-documents

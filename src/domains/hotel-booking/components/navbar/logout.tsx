@@ -1,8 +1,7 @@
 "use server";
-import Link from "next/link";
-
-import { auth } from "@/lib/auth"; // Your Better Auth configuration file
 import { headers } from "next/headers";
+import Link from "next/link";
+import { auth } from "@/lib/auth"; // Your Better Auth configuration file
 
 export async function handleSignOut() {
   await auth.api.signOut({

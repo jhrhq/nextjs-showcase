@@ -1,4 +1,4 @@
-import { AuthError, CODE_MAP, STATUS_MAP } from "@/constants/auth.constants";
+import { type AuthError, CODE_MAP, STATUS_MAP } from "@/constants/auth.constants";
 
 export function parseAuthError(error: AuthError): string {
   if (error.code && CODE_MAP[error.code]) return CODE_MAP[error.code];

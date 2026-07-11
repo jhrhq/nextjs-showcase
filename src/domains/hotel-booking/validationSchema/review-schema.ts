@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-
 export const ReviewInputSchema = z.object({
   property: z.string(),
   user: z.string(),

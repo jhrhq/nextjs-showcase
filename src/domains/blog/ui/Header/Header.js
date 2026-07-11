@@ -4,9 +4,9 @@ import Cookies from "js-cookie";
 import { Moon, Rss, Sun } from "lucide-react";
 import React from "react";
 import { COLOR_COOKIE_NAME, DARK_TOKENS, LIGHT_TOKENS } from "@/constants";
+import VisuallyHidden from "../../../../components/experiments/visually-hidden/visually-hidden";
 import Logo from "../Logo/Logo";
 import styles from "./Header.module.css";
-import VisuallyHidden from "../../../../components/experiments/visually-hidden/visually-hidden";
 
 function Header({ initialTheme, className, ...delegated }) {
   const [theme, setTheme] = React.useState(initialTheme);

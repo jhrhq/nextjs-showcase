@@ -1,7 +1,7 @@
 import Footer from "@/domains/hotel-booking/components/Footer";
-import ResultsNotFound from "@/domains/hotel-booking/components/homepage/ResultsNotFound";
 import PropertyPagination from "@/domains/hotel-booking/components/homepage/Pagination";
 import PropertyCard from "@/domains/hotel-booking/components/homepage/PropertyCard";
+import ResultsNotFound from "@/domains/hotel-booking/components/homepage/ResultsNotFound";
 import Navbar from "@/domains/hotel-booking/components/navbar";
 import { getAllProperties } from "@/domains/hotel-booking/db/queries";
 
@@ -9,8 +9,7 @@ interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
 
-export default async function Home({
-  searchParams }: { searchParams: Promise<SearchParams> }) {
+export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const { page, pageSize, search } = await searchParams;
 
   const currentPage = Math.max(1, Number(page) || 1);

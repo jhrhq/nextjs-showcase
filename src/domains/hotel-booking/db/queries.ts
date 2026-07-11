@@ -1,4 +1,4 @@
-import Property, { IPropertyDocument } from "@/domains/hotel-booking/models/Property.model";
+import Property, { type IPropertyDocument } from "@/domains/hotel-booking/models/Property.model";
 
 type PaginatedProperties = {
   allProperties: IPropertyDocument[];

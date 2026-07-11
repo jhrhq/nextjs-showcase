@@ -1,12 +1,12 @@
 "use client";
 import ReviewCard from "@/domains/hotel-booking/components/property-details/ReviewCard";
-import { IReviewSnapshot } from "../../models/shared.types";
+import type { IReviewSnapshot } from "../../models/shared.types";
 
 interface Props {
   reviews: IReviewSnapshot[];
 }
 
-const ReviewBody = ({ reviews }:Props) => {
+const ReviewBody = ({ reviews }: Props) => {
   if (reviews?.length === 0) {
     return null;
   }

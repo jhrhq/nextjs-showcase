@@ -22,7 +22,7 @@
  * Next.js from re-registering the model on every hot-reload cycle.
  */
 
-import mongoose, { type Document, type Model, Schema, Types } from "mongoose";
+import mongoose, { type Document, type Model, Schema, type Types } from "mongoose";
 
 // ---------------------------------------------------------------------------
 // Embedded sub-document: address

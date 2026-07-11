@@ -6,9 +6,7 @@ export const paymentSchema = z.object({
     .min(15, "Card number must be at least 15 digits.")
     .max(16, "Card number cannot exceed 16 digits.")
     .regex(/^\d+$/, "Card number must contain only numbers."),
-  expiration: z
-    .string()
-    .regex(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/, "Expiration must be in MM/YY format."),
+  expiration: z.string().regex(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/, "Expiration must be in MM/YY format."),
   cvv: z
     .string()
     .min(3, "CVV must be at least 3 digits.")

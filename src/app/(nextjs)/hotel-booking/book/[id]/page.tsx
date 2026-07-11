@@ -1,12 +1,11 @@
-import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
 import { differenceInCalendarDays, format, parseISO } from "date-fns";
-
 import type { Metadata } from "next";
-import Navbar from "@/domains/hotel-booking/components/navbar";
+import BackToPreviousPage from "@/domains/hotel-booking/components/back-to-previous-page";
 import Footer from "@/domains/hotel-booking/components/Footer";
+import Navbar from "@/domains/hotel-booking/components/navbar";
 import PaymentForm from "@/domains/hotel-booking/components/payment/payment-form";
 import { PaymentSummaryCard, YourTrip } from "@/domains/hotel-booking/components/payment/payment-summary-card";
-import BackToPreviousPage from "@/domains/hotel-booking/components/back-to-previous-page";
+import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
 
 type SearchParams = {
   checkin?: string;
@@ -28,45 +27,35 @@ export const metadata: Metadata = {
 };
 
 const PaymentProcess = async ({ params, searchParams }: Props) => {
-
   const { id } = await params;
-   const { checkin, checkout, guests } = await searchParams;
+  const { checkin, checkout, guests } = await searchParams;
 
-   const property = await getSelectedPropertyDetails(id);
+  const property = await getSelectedPropertyDetails(id);
 
-   if (!property) return null;
+  if (!property) return null;
 
-   const hasBookingDates = !!(checkin && checkout);
+  const hasBookingDates = !!(checkin && checkout);
 
-   const totalNights = hasBookingDates
-     ? differenceInCalendarDays(parseISO(checkout), parseISO(checkin))
-     : 0;
+  const totalNights = hasBookingDates ? differenceInCalendarDays(parseISO(checkout), parseISO(checkin)) : 0;
 
-   const stayDuration = hasBookingDates
-     ? `${format(parseISO(checkin), "MMM d")} - ${format(
-         parseISO(checkout),
-         "d, yyyy"
-       )}`
-     : "";
+  const stayDuration = hasBookingDates
+    ? `${format(parseISO(checkin), "MMM d")} - ${format(parseISO(checkout), "d, yyyy")}`
+    : "";
 
-   const totalGuests = guests
-     ? `${guests} ${Number(guests) === 1 ? "guest" : "guests"}`
-     : "";
-
+  const totalGuests = guests ? `${guests} ${Number(guests) === 1 ? "guest" : "guests"}` : "";
 
   return (
     <>
       <Navbar />
       <div className="max-w-7xl mx-auto px-6 py-8">
-       <BackToPreviousPage />
+        <BackToPreviousPage />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
             <YourTrip stayDuration={stayDuration} totalGuests={totalGuests} />
             <PaymentForm />
           </div>
           <div>
-            <PaymentSummaryCard property={property}
-                  totalNights={totalNights} />
+            <PaymentSummaryCard property={property} totalNights={totalNights} />
           </div>
         </div>
       </div>

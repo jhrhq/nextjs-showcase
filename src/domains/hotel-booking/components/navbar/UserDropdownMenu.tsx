@@ -1,4 +1,5 @@
 import { Bell, CreditCard, LogOut, Menu, User, UserCircle } from "lucide-react";
+import { headers } from "next/headers";
 import Link from "next/link";
 import Logout from "@/domains/hotel-booking/components/navbar/logout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/domains/hotel-booking/components/ui/avatar";
@@ -12,7 +13,6 @@ import {
   DropdownMenuTrigger,
 } from "@/domains/hotel-booking/components/ui/dropdown-menu";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 
 const UserDropdownMenu = async () => {
   const session = await auth.api.getSession({

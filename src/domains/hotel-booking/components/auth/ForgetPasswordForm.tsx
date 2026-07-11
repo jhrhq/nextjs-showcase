@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 // import { generatePassResetLinkAction } from "@/domains/hotel-booking/actions/password-reset";
-import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field";
+import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
 import {
   type ForgetPasswordType,

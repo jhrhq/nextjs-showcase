@@ -1,20 +1,20 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { type Document, type Model, Schema } from "mongoose";
 import type { IReviewSnapshot } from "./shared.types";
 
 // ─── Interfaces ───────────────────────────────────────────────────────────────
 
 // Full Review document — stored in the `reviews` collection
 export interface IReview {
-  property: mongoose.Types.ObjectId;    // ref → Property
-  author: mongoose.Types.ObjectId;      // ref → User
-  booking: mongoose.Types.ObjectId;     // ref → Booking (proof of stay)
+  property: mongoose.Types.ObjectId; // ref → Property
+  author: mongoose.Types.ObjectId; // ref → User
+  booking: mongoose.Types.ObjectId; // ref → Booking (proof of stay)
 
   // Author snapshot — captured at write time so the reviewer's display
   // data survives account edits or deletion
   authorName: string;
   authorAvatar?: string;
 
-  overallRating: number;                // 1–5
+  overallRating: number; // 1–5
   comment: string;
 }
 
@@ -46,7 +46,7 @@ const reviewSchema = new Schema<IReviewDocument>(
 reviewSchema.index({ property: 1, author: 1 }, { unique: true });
 
 reviewSchema.index({ property: 1, createdAt: -1 }); // full review list on details page
-reviewSchema.index({ author: 1 });                  // "has user reviewed?" guard
+reviewSchema.index({ author: 1 }); // "has user reviewed?" guard
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -98,7 +98,7 @@ async function syncPropertyCache(propertyId: mongoose.Types.ObjectId) {
   await PropertyModel.findByIdAndUpdate(propertyId, {
     ratingAvg: stats ? Math.round(stats.avg * 10) / 10 : 0,
     reviewCount: stats?.count ?? 0,
-    recentReviews,                    // always exactly 0–3 entries
+    recentReviews, // always exactly 0–3 entries
   });
 }
 
@@ -116,7 +116,6 @@ reviewSchema.post("findOneAndDelete", async function (doc: IReviewDocument | nul
 // ─── Model ────────────────────────────────────────────────────────────────────
 
 const Review: Model<IReviewDocument> =
-  (mongoose.models.Review as Model<IReviewDocument>) ||
-  mongoose.model<IReviewDocument>("Review", reviewSchema);
+  (mongoose.models.Review as Model<IReviewDocument>) || mongoose.model<IReviewDocument>("Review", reviewSchema);
 
 export default Review;

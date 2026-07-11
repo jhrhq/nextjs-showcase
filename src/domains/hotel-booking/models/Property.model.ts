@@ -1,17 +1,12 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
-import type { ILocation, IHost, IReviewSnapshot } from "./shared.types";
+import mongoose, { type Document, type Model, Schema } from "mongoose";
+import type { IHost, ILocation, IReviewSnapshot } from "./shared.types";
 
 // ─── Re-export shared types so callers can import from one place ──────────────
-export type { ILocation, IHost, IReviewSnapshot };
+export type { IHost, ILocation, IReviewSnapshot };
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export type PropertyType =
-  | "Entire home"
-  | "Private room"
-  | "Shared room"
-  | "Unique stay"
-  | "Hotel room";
+export type PropertyType = "Entire home" | "Private room" | "Shared room" | "Unique stay" | "Hotel room";
 
 export interface IPricing {
   perNight: number;
@@ -39,7 +34,7 @@ export interface IProperty {
   title: string;
   description: string;
   type: PropertyType;
-  tags: string[];                 // e.g. ["beachfront", "pet-friendly", "pool"]
+  tags: string[]; // e.g. ["beachfront", "pet-friendly", "pool"]
 
   // ── Embedded host snapshot (avoids join on card render)
   host: IHost;
@@ -48,7 +43,7 @@ export interface IProperty {
   location: ILocation;
 
   // ── Media
-  images: IPropertyImage[];       // first image used as card thumbnail
+  images: IPropertyImage[]; // first image used as card thumbnail
   amenities: string[];
 
   // ── Pricing & capacity
@@ -78,7 +73,6 @@ export interface IPropertyDocument extends IProperty, Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
 
 const locationSchema = new Schema<ILocation>(
   {
@@ -124,13 +118,7 @@ const propertySchema = new Schema<IPropertyDocument>(
     type: {
       type: String,
       required: true,
-      enum: [
-        "Entire home",
-        "Private room",
-        "Shared room",
-        "Unique stay",
-        "Hotel room",
-      ] satisfies PropertyType[],
+      enum: ["Entire home", "Private room", "Shared room", "Unique stay", "Hotel room"] satisfies PropertyType[],
     },
     tags: { type: [String], default: [] },
 
@@ -174,13 +162,12 @@ const propertySchema = new Schema<IPropertyDocument>(
   { timestamps: true }
 );
 
-
-propertySchema.index({ "host.userId": 1 });                          // Manage Hotels
+propertySchema.index({ "host.userId": 1 }); // Manage Hotels
 propertySchema.index({ isPublished: 1, isFeatured: -1, ratingAvg: -1 }); // homepage sort
-propertySchema.index({ "location.city": 1, isPublished: 1 });        // city filter
-propertySchema.index({ tags: 1, isPublished: 1 });                   // tag filter
-propertySchema.index({ "pricing.perNight": 1 });                     // price sort/filter
-propertySchema.index({ title: "text", description: "text" });        // search bar
+propertySchema.index({ "location.city": 1, isPublished: 1 }); // city filter
+propertySchema.index({ tags: 1, isPublished: 1 }); // tag filter
+propertySchema.index({ "pricing.perNight": 1 }); // price sort/filter
+propertySchema.index({ title: "text", description: "text" }); // search bar
 
 const Property: Model<IPropertyDocument> =
   (mongoose.models.Property as Model<IPropertyDocument>) ||

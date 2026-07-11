@@ -1,15 +1,14 @@
 "use client";
 
-import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field";
+import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
-import { Button } from "../ui/button";
-
 import { updatePasswordSchema } from "@/domains/hotel-booking/validationSchema/update-password-validation-schema";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 interface Props {
   token: string;

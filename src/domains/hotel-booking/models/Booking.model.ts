@@ -1,4 +1,4 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { type Document, type Model, Schema } from "mongoose";
 
 export type BookingStatus =
   | "pending" // reserved, payment not yet confirmed
@@ -41,7 +41,6 @@ export interface IBookingDocument extends IBooking, Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
 
 const priceSummarySchema = new Schema<IPriceSummary>(
   {

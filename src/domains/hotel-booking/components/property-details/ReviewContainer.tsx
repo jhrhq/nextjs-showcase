@@ -1,23 +1,18 @@
 "use client";
-import { IReviewSnapshot } from "../../models/shared.types";
-import ReviewBody from "./ReviewBody";
+import type { IReviewSnapshot } from "../../models/shared.types";
 import ReviewModal from "../ReviewModal";
-
-
-
+import ReviewBody from "./ReviewBody";
 
 interface Props {
   propertyId: string;
-  reviews: IReviewSnapshot[]
+  reviews: IReviewSnapshot[];
 }
 
 const ReviewContainer = ({ propertyId, reviews }: Props) => {
-
   return (
     <>
       <div className="col-span-1  flex justify-end mb-4">
-
-          {/*<Button className="px-4 py-2 border border-primary rounded-lg hover:bg-gray-100" variant="outline" asChild>
+        {/*<Button className="px-4 py-2 border border-primary rounded-lg hover:bg-gray-100" variant="outline" asChild>
             <Link href={"/hotel-booking/login"}>Write a Review</Link>
           </Button>*/}
 

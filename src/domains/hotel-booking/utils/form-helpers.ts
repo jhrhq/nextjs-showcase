@@ -1,5 +1,5 @@
-import { FieldValues, UseFormSetError, Path } from "react-hook-form";
-import { ActionState } from "../actions/auth-action";
+import type { FieldValues, Path, UseFormSetError } from "react-hook-form";
+import type { ActionState } from "../actions/auth-action";
 
 export function handleServerActionErrors<TFieldValues extends FieldValues>(
   setError: UseFormSetError<TFieldValues>,

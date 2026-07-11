@@ -4,14 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import { Calendar } from "@/domains/hotel-booking/components/ui/calendar";
-import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field";
+import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import { Popover, PopoverContent, PopoverTrigger } from "@/domains/hotel-booking/components/ui/popover";
-import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
+import { Input } from "../ui/input";
 
 const FormSchema = z
   .object({
@@ -54,8 +54,13 @@ export function BookingForm() {
       checkin: format(data.checkin, "yyyy-MM-dd"),
       checkout: format(data.checkout, "yyyy-MM-dd"),
     };
+
     const params = new URLSearchParams(searchParams.toString());
-    Object.entries(payload).forEach(([key, value]) => params.set(key, value.toString()));
+
+    Object.entries(payload).forEach(([key, value]) => {
+      params.set(key, String(value));
+    });
+
     router.push(`/hotel-booking/book/${id}?${params.toString()}`);
   }
 
@@ -153,7 +158,7 @@ export function BookingForm() {
 
         <Button
           type="submit"
-          className="w-full block md:text-base text-center bg-primary text-white py-3 rounded-lg transition-all hover:brightness-90"
+          className="w-full block md:text-base text-center bg-primary text-white rounded-lg transition-all hover:brightness-90"
         >
           Reserve
         </Button>

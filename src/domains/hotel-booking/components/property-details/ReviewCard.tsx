@@ -1,9 +1,9 @@
 "use client";
+import { Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/domains/hotel-booking/components/ui/avatar";
 import { formatDate } from "@/domains/hotel-booking/utils/date-time-utils";
-import { IReviewSnapshot } from "../../models/shared.types";
-import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { IReviewSnapshot } from "../../models/shared.types";
 
 interface Props {
   review: IReviewSnapshot;
@@ -27,7 +27,7 @@ const ReviewCard = ({ review }: Props) => {
       <div className="flex items-center">
         {Array.from({ length: 5 }, (_, index) => (
           <span key={index}>
-            <Star  className={cn(" text-yellow-500", index < review.overallRating && "fill-yellow-500")} />
+            <Star className={cn(" text-yellow-500", index < review.overallRating && "fill-yellow-500")} />
           </span>
         ))}
       </div>

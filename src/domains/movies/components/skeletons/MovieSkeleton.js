@@ -13,7 +13,7 @@ export function MovieSkeletonCard() {
 }
 
 export function MovieSkeletonCardList({ cardLength = 5 }) {
-  let arrayOfFives = new Array(cardLength).fill(cardLength);
+  const arrayOfFives = new Array(cardLength).fill(cardLength);
 
   return (
     <>

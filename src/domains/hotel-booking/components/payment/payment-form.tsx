@@ -1,15 +1,12 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Controller, useForm } from "react-hook-form"
-
-import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field"
-import { Input } from "@/domains/hotel-booking/components/ui/input"
-import { Button } from "../ui/button"
-
-import { cn } from "@/lib/utils"
-import { PaymentInput, paymentSchema } from "@/domains/hotel-booking/validationSchema/payment-form-schema"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
+import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
+import { Input } from "@/domains/hotel-booking/components/ui/input";
+import { type PaymentInput, paymentSchema } from "@/domains/hotel-booking/validationSchema/payment-form-schema";
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 export default function PaymentForm() {
   const form = useForm<PaymentInput>({
@@ -24,27 +21,25 @@ export default function PaymentForm() {
       state: "",
       zipCode: "",
     },
-  })
+  });
 
-  const pending = form.formState.isSubmitting
+  const pending = form.formState.isSubmitting;
 
   async function onSubmit(values: PaymentInput) {
     try {
-      console.log("Processing payment details:", values)
+      console.log("Processing payment details:", values);
       // Execute your payment action here
     } catch (error) {
-      form.setError("root.serverError", { message: "Payment processing failed." })
+      form.setError("root.serverError", { message: "Payment processing failed." });
     }
   }
 
   return (
     <form id="payment-booking-form" noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-
       {/* Payment Details Section */}
       <section>
         <h2 className="text-xl font-semibold mb-4 text-zinc-900 dark:text-zinc-50">Pay with American Express</h2>
         <FieldGroup className="space-y-4">
-
           {/* Card Number */}
           <Controller
             name="cardNumber"
@@ -60,9 +55,7 @@ export default function PaymentForm() {
                   aria-invalid={fieldState.invalid}
                   autoComplete="cc-number"
                 />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>
             )}
           />
@@ -83,9 +76,7 @@ export default function PaymentForm() {
                     aria-invalid={fieldState.invalid}
                     autoComplete="cc-exp"
                   />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
               )}
             />
@@ -105,9 +96,7 @@ export default function PaymentForm() {
                     aria-invalid={fieldState.invalid}
                     autoComplete="cc-csc"
                   />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
               )}
             />
@@ -119,7 +108,6 @@ export default function PaymentForm() {
       <section>
         <h2 className="text-xl font-semibold mb-4 text-zinc-900 dark:text-zinc-50">Billing address</h2>
         <FieldGroup className="space-y-4">
-
           {/* Street Address */}
           <Controller
             name="streetAddress"
@@ -135,9 +123,7 @@ export default function PaymentForm() {
                   aria-invalid={fieldState.invalid}
                   autoComplete="street-address"
                 />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>
             )}
           />
@@ -156,9 +142,7 @@ export default function PaymentForm() {
               border border-gray-300  focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
                   aria-invalid={fieldState.invalid}
                 />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>
             )}
           />
@@ -178,9 +162,7 @@ export default function PaymentForm() {
                   aria-invalid={fieldState.invalid}
                   autoComplete="address-level2"
                 />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>
             )}
           />
@@ -201,9 +183,7 @@ export default function PaymentForm() {
                     aria-invalid={fieldState.invalid}
                     autoComplete="address-level1"
                   />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
               )}
             />
@@ -223,9 +203,7 @@ export default function PaymentForm() {
                     aria-invalid={fieldState.invalid}
                     autoComplete="postal-code"
                   />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
               )}
             />
@@ -234,9 +212,7 @@ export default function PaymentForm() {
       </section>
 
       {/* Global Server Catch Block */}
-      {form.formState.errors?.root?.serverError && (
-        <FieldError errors={[form.formState.errors.root.serverError]} />
-      )}
+      {form.formState.errors?.root?.serverError && <FieldError errors={[form.formState.errors.root.serverError]} />}
 
       {/* Submit Interface */}
       <Button
@@ -250,11 +226,12 @@ export default function PaymentForm() {
         {pending ? <span className="submitLoader" /> : "Confirm and Pay"}
       </Button>
       {/*<Link
-        href="/hotel-booking/payment-success"
+        // href="/hotel-booking/payment-success"
+        href="/hotel-booking/signin"
         className="w-full block text-center bg-primary text-white py-3 rounded-lg mt-6 hover:brightness-90"
       >
-        Request to book
+        Request to book login
       </Link>*/}
     </form>
-  )
+  );
 }

@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Star, X } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import {
   Dialog,
@@ -14,7 +15,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/domains/hotel-booking/components/ui/dialog";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/domains/hotel-booking/components/ui/textarea";
 import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
 import { cn } from "@/lib/utils";
@@ -47,7 +47,6 @@ const ReviewModal = ({ propertyId }: Props) => {
       user: "",
     },
   });
-
 
   async function onSubmit(values: PropertyReview) {
     console.log(values);
@@ -83,15 +82,18 @@ const ReviewModal = ({ propertyId }: Props) => {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel className="text-gray-700 font-medium mb-2 text-base">Overall Rating</FieldLabel>
-                      <div className="flex items-center gap-1 cursor-pointer">
-                           {[1, 2, 3, 4, 5].map((star) => (
-                             <Star
-                               key={star}
-                               className={cn("size-6", star <= field.value ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300 fill-gray-300')}
-                               onClick={() => field.onChange(star)}
-                             />
-                           ))}
-                         </div>
+                    <div className="flex items-center gap-1 cursor-pointer">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className={cn(
+                            "size-6",
+                            star <= field.value ? "text-yellow-500 fill-yellow-500" : "text-gray-300 fill-gray-300"
+                          )}
+                          onClick={() => field.onChange(star)}
+                        />
+                      ))}
+                    </div>
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
                 )}
@@ -105,14 +107,14 @@ const ReviewModal = ({ propertyId }: Props) => {
                     <FieldLabel htmlFor={`${FORM_ID}-comment`} className="text-gray-700 font-medium mb-2 text-base">
                       Your Review
                     </FieldLabel>
-                      <Textarea
-                        {...field}
-                        id={`${FORM_ID}-comment`}
-                        rows={4}
-                        placeholder="Share your experience with other travelers..."
-                        className="h-auto w-full px-4 text-base py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary resize-none"
-                        aria-invalid={fieldState.invalid}
-                      />
+                    <Textarea
+                      {...field}
+                      id={`${FORM_ID}-comment`}
+                      rows={4}
+                      placeholder="Share your experience with other travelers..."
+                      className="h-auto w-full px-4 text-base py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary resize-none"
+                      aria-invalid={fieldState.invalid}
+                    />
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
                 )}
@@ -126,8 +128,7 @@ const ReviewModal = ({ propertyId }: Props) => {
         <DialogFooter className="border-t pt-4">
           <div className="flex justify-end gap-4 px-6">
             <Button
-              onClick={() =>     setOpen(false)
-}
+              onClick={() => setOpen(false)}
               type="button"
               variant="ghost"
               className="px-4 py-2 rounded-lg hover:brightness-100 text-gray-600 hover:cursor-pointer"

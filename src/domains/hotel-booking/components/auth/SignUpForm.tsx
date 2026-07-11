@@ -3,13 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
-import { Field, FieldGroup, FieldError } from "@/domains/hotel-booking/components/ui/field";
+import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
-import { Button } from "../ui/button";
-
 import { signUpSchema } from "@/domains/hotel-booking/validationSchema/signup-schema";
-import { signUpAction } from "../../actions";
 import { cn } from "@/lib/utils";
+import { signUpAction } from "../../actions";
+import { Button } from "../ui/button";
 
 export default function SignUpForm() {
   const form = useForm({

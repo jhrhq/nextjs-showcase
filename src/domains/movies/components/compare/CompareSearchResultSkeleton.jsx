@@ -13,7 +13,7 @@ export const CompareSearchResultSkeleton = () => {
 };
 
 export function CompareSearchResultSkeletonList({ cardLength = 5 }) {
-  let arrayOfFives = new Array(cardLength).fill(cardLength);
+  const arrayOfFives = new Array(cardLength).fill(cardLength);
 
   return (
     <>
