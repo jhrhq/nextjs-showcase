@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import connectDB from "@/domains/hotel-booking/config/database";
 
 import { Toaster } from "@/domains/hotel-booking/components/ui/sonner";
+import connectDB from "@/domains/hotel-booking/config/database";
 // import VerificationStatus from "@/domains/hotel-booking/components/VerificationStatus";
 
 export const metadata: Metadata = {
@@ -11,17 +11,20 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
+  auth,
   children,
 }: Readonly<{
+  auth: React.ReactNode;
   children: React.ReactNode;
 }>) {
   await connectDB();
 
   return (
-    <html>
+    <html lang="en">
       <body className="antialiased">
         <main>
           {/*<VerificationStatus visible={session && !session?.user?.verified && true} />*/}
+          {auth}
           {children}
           <Toaster />
         </main>
