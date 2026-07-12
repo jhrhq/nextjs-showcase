@@ -7,6 +7,7 @@ import z from "zod";
 import { type SignIn, signInSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
 import { auth } from "@/lib/auth";
 import { parseAuthError } from "@/lib/auth-error";
+import { resolveCallbackUrlFromString } from "@/lib/callback-urls";
 import { type SignUp, signUpSchema } from "../validationSchema/signup-schema";
 
 export type ActionState<T extends FieldValues = FieldValues> = {
@@ -18,6 +19,7 @@ export type ActionState<T extends FieldValues = FieldValues> = {
 export async function signInAction(
   // _prev: ActionState,
   // formData: FormData // used when action = {signInAction}
+  callbackUrl: string,
   data: SignIn
 ) {
   // used when action = {signInAction}
@@ -42,7 +44,10 @@ export async function signInAction(
     const error = err as { status?: number; code?: string; message?: string };
     return { status: false, serverError: parseAuthError(error) };
   }
-  redirect("/hotel-booking");
+
+  const destination = resolveCallbackUrlFromString(callbackUrl);
+
+  redirect(destination);
 }
 
 export async function signUpAction(

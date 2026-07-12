@@ -14,6 +14,7 @@ const Logout = async () => {
   return (
     <Link
       href="/hotel-booking"
+      replace={true}
       onClick={handleSignOut}
       className="grow text-sm text-zinc-700 transition-all  hover:pl-1 w-fll"
     >

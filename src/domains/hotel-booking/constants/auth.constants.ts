@@ -29,6 +29,7 @@ export const AUTH_CONFIG = {
     MAX_LENGTH: 255,
   },
   ROUTES: {
+    HOME: "/hotel-booking",
     SIGN_IN: "/hotel-booking/signin",
     SIGN_UP: "/hotel-booking/signup",
     VERIFY: "/hotel-booking/verify",
