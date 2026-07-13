@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import SignInHeaderWithGoogleProvider from "@/domains/hotel-booking/components/auth/SignIn";
+import AuthHeaderWithProvider from "@/domains/hotel-booking/components/auth/AuthHeaderWithProvider";
 import SignInForm from "@/domains/hotel-booking/components/auth/SignInForm";
 import { auth } from "@/lib/auth";
 import { resolveCallbackUrl } from "@/lib/callback-urls";
@@ -32,8 +32,9 @@ const SignInPage = async ({ searchParams }: SignInPageProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="bg-white rounded-xl shadow w-96 p-6 relative ">
-        <SignInHeaderWithGoogleProvider />
-        <SignInForm callbackUrl={callbackUrl} />
+        <AuthHeaderWithProvider isSignIn={true} callbackUrl={callbackUrl}>
+          <SignInForm callbackUrl={callbackUrl} />
+        </AuthHeaderWithProvider>
       </div>
     </div>
   );

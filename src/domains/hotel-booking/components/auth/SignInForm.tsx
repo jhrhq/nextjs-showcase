@@ -24,8 +24,6 @@ export default function SignInForm({ callbackUrl }: SignInFormProps) {
     },
   });
 
-  // const signUpHref = `/hotel-booking/sign-up?callbackUrl=${encodeURIComponent(callbackUrl)}`;
-
   const pending = form.formState.isSubmitting;
   const boundAction = signInAction.bind(null, callbackUrl);
   async function onSubmit(values: SignIn) {

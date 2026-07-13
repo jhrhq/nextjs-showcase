@@ -1,3 +1,5 @@
+import AuthHeaderWithProvider from "@/domains/hotel-booking/components/auth/AuthHeaderWithProvider";
+import SignInForm from "@/domains/hotel-booking/components/auth/SignInForm";
 import SignInModal from "@/domains/hotel-booking/components/auth/SignInModal";
 import { resolveCallbackUrl } from "@/lib/callback-urls";
 
@@ -10,5 +12,11 @@ export default async function InterceptedSignIn({ searchParams }: InterceptedSig
   const params = new URLSearchParams(resolvedParams as Record<string, string>);
   const callbackUrl = resolveCallbackUrl(params);
 
-  return <SignInModal callbackUrl={callbackUrl} />;
+  return (
+    <SignInModal>
+      <AuthHeaderWithProvider isSignIn={true} callbackUrl={callbackUrl} modal={true}>
+        <SignInForm callbackUrl={callbackUrl} />
+      </AuthHeaderWithProvider>
+    </SignInModal>
+  );
 }

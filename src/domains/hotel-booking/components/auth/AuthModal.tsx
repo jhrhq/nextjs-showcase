@@ -1,14 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@/domains/hotel-booking/components/ui/dialog";
-import SignInHeaderWithGoogleProvider from "./SignIn";
-import SignInForm from "./SignInForm";
 
 type SignInModalProps = {
-  callbackUrl: string;
+  children: React.ReactNode;
 };
 
-const SignInModal = ({ callbackUrl }: SignInModalProps) => {
+const SignInModal = ({ children }: SignInModalProps) => {
   const router = useRouter();
 
   const handleOpenChange = () => {
@@ -16,10 +14,7 @@ const SignInModal = ({ callbackUrl }: SignInModalProps) => {
   };
   return (
     <Dialog defaultOpen={true} open={true} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-sm">
-        <SignInHeaderWithGoogleProvider />
-        <SignInForm callbackUrl={callbackUrl} />
-      </DialogContent>
+      <DialogContent className="sm:max-w-sm">{children}</DialogContent>
     </Dialog>
   );
 };
