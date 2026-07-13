@@ -53,6 +53,7 @@ export async function signInAction(
 export async function signUpAction(
   // _prev: ActionState,
   // formData: FormData
+  callbackUrl: string,
   data: SignUp
 ): Promise<ActionState> {
   // const raw = {
@@ -84,5 +85,7 @@ export async function signUpAction(
     return { status: false, serverError: parseAuthError(error) };
   }
 
-  redirect("/hotel-booking");
+  const destination = resolveCallbackUrlFromString(callbackUrl);
+
+  redirect(destination);
 }

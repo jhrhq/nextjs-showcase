@@ -5,12 +5,18 @@ import { Controller, useForm } from "react-hook-form";
 
 import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
-import { signUpSchema } from "@/domains/hotel-booking/validationSchema/signup-schema";
+import { type SignUp, signUpSchema } from "@/domains/hotel-booking/validationSchema/signup-schema";
 import { cn } from "@/lib/utils";
 import { signUpAction } from "../../actions";
+import { handleServerActionErrors } from "../../utils/form-helpers";
 import { Button } from "../ui/button";
 
-export default function SignUpForm() {
+type SignUPFormProps = {
+  /** Pre-validated callback path — where to go after sign-in succeeds. */
+  callbackUrl: string;
+};
+
+export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -22,12 +28,13 @@ export default function SignUpForm() {
   });
 
   const pending = form.formState.isSubmitting;
-
-  async function onSubmit(values: any) {
+  const boundAction = signUpAction.bind(null, callbackUrl);
+  async function onSubmit(values: SignUp) {
     try {
-      await signUpAction(values);
-    } catch (error: any) {
-      form.setError("root.serverError", { message: error?.message || "Something went wrong" });
+      const result = await boundAction(values);
+      handleServerActionErrors(form.setError, result);
+    } catch (error) {
+      handleServerActionErrors(form.setError, null, error);
     }
   }
 
