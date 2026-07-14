@@ -14,7 +14,8 @@ const db = client.db();
 export const auth = betterAuth({
   database: mongodbAdapter(db, { client }),
   baseURL: process.env.BETTER_AUTH_URL,
-  basePath: "/api/auth/hotel-booking",
+  // basePath: "/api/auth/hotel-booking",
+
   emailAndPassword: {
     enabled: true,
     // requireEmailVerification: true,

@@ -5,7 +5,6 @@
  *  3. Protected route → if no session, redirect to sign-in with callbackUrl
  *  4. Everything else inside the namespace defaults to protected (defence-in-depth)
  */
-
 import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { isAuthRoute, isPublicRotue } from "@/lib/routes";
@@ -14,6 +13,11 @@ import { buildSignInUrl } from "./lib/callback-urls";
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // 1. CRITICAL FIX: Allow all Better Auth internal endpoints to bypass middleware processing completely.
+  if (pathname.startsWith("/api/auth")) {
+    return NextResponse.next();
+  }
 
   if (isPublicRotue(pathname)) {
     return NextResponse.next();
@@ -49,9 +53,8 @@ export async function proxy(request: NextRequest) {
 }
 
 // ── Matcher ──
-// Scoped exclusively to /hotel-booking/* as required by spec.
-// The negative lookahead excludes Next.js internals and static assets so the
-// middleware never runs on _next/static, _next/image, or favicon.ico.
 export const config = {
-  matcher: ["/hotel-booking/:path*", "/((?!_next/static|_next/image|favicon.ico).*)"],
+  // 2. OPTIMIZATION FIX: Explicitly exclude 'api/auth' inside your matcher regex
+  // to avoid hitting the middleware file for authentication traffic altogether.
+  matcher: ["/hotel-booking/:path*", "/((?!api/auth|_next/static|_next/image|favicon.ico).*)"],
 };

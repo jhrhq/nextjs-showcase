@@ -44,6 +44,10 @@ const PaymentProcess = async ({ params, searchParams }: Props) => {
 
   const totalGuests = guests ? `${guests} ${Number(guests) === 1 ? "guest" : "guests"}` : "";
 
+  // const { perNight, cleaningFee, serviceFee } = property.pricing;
+
+  // const accommodationCost = perNight * totalNights;
+  // const totalPrice = accommodationCost + cleaningFee + serviceFee;
   return (
     <>
       <Navbar />
@@ -52,7 +56,7 @@ const PaymentProcess = async ({ params, searchParams }: Props) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
             <YourTrip stayDuration={stayDuration} totalGuests={totalGuests} />
-            <PaymentForm />
+            <PaymentForm property={JSON.parse(JSON.stringify(property))} totalNights={totalNights} />
           </div>
           <div>
             <PaymentSummaryCard property={property} totalNights={totalNights} />
