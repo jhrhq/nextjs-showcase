@@ -3,5 +3,8 @@ import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_DOMAIN,
-  // basePath: "/api/auth/hotel-booking",
+  basePath: "hotel-booking/api/auth",
+  emailAndPassword: {
+    enabled: true,
+  },
 });

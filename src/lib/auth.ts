@@ -13,17 +13,14 @@ const db = client.db();
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, { client }),
-  baseURL: process.env.BETTER_AUTH_URL,
-  // basePath: "/api/auth/hotel-booking",
-
+  basePath: "hotel-booking/api/auth",
   emailAndPassword: {
     enabled: true,
-    // requireEmailVerification: true,
     minPasswordLength: 8,
   },
   session: {
-    // 30-day rolling session
-    expiresIn: 60 * 60 * 24 * 30,
+    expiresIn: 60 * 60 * 24 * 30, // 30-day rolling session
+
     updateAge: 60 * 60 * 24, // refresh the cookie if older than 1 day
     cookieCache: {
       // Allows the Proxy to read session data from the cookie without a DB
@@ -47,27 +44,11 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     },
   },*/
-  plugins: [
-    /* bearer(),
-    jwt({
-          jwt: {
-            expirationTime: "15m", // Access Token lifespan
-            definePayload: ({ user }) => ({
-              id: user.id,
-              email: user.email,
-            }),
-          },
-          jwks: {
-            rotationInterval: 60 * 60 * 24 * 30, // Auto-rotate signing keys every 30 days
-            gracePeriod: 60 * 60 * 24 * 2,
-          },
-          }),*/
-    nextCookies(), // MUST be the absolute last plugin in your array for Next.js
-  ],
+  plugins: [nextCookies()],
   advanced: {
     cookiePrefix: "hotel-booking",
     database: {
-      generateId: false, // "serial" for auto-incrementing numeric IDs
+      generateId: false,
     },
   },
 });

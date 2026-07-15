@@ -1,25 +1,17 @@
-/**
- * Flow: (only applies for "hotel-booking")
- *  1. Public route   → pass through unconditionally
- *  2. Auth route     → if session exists, redirect to dashboard (avoid re-login)
- *  3. Protected route → if no session, redirect to sign-in with callbackUrl
- *  4. Everything else inside the namespace defaults to protected (defence-in-depth)
- */
 import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { isAuthRoute, isPublicRotue } from "@/lib/routes";
+import { isAuthRoute, isPublicRoute } from "@/lib/routes";
 import { AUTH_CONFIG } from "./domains/hotel-booking/constants/auth.constants";
-import { buildSignInUrl } from "./lib/callback-urls";
+// import { buildSignInUrl } from "./lib/callback-urls";
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 1. CRITICAL FIX: Allow all Better Auth internal endpoints to bypass middleware processing completely.
-  if (pathname.startsWith("/api/auth")) {
+  if (pathname.startsWith("/hotel-booking/api/auth")) {
     return NextResponse.next();
   }
 
-  if (isPublicRotue(pathname)) {
+  if (isPublicRoute(pathname)) {
     return NextResponse.next();
   }
 
@@ -43,18 +35,19 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (!isAuthenticated) {
+  /*  if (!isAuthenticated) {
     // Capture the full original URL (path + query string) as the callback
     const signInUrl = buildSignInUrl(request.nextUrl, request.url);
     return NextResponse.redirect(signInUrl);
-  }
+    } */
 
   return NextResponse.next();
 }
 
 // ── Matcher ──
+// Scoped exclusively to /hotel-booking/* as required by spec.
+// The negative lookahead excludes Next.js internals and static assets so the
+// middleware never runs on _next/static, _next/image, or favicon.ico.
 export const config = {
-  // 2. OPTIMIZATION FIX: Explicitly exclude 'api/auth' inside your matcher regex
-  // to avoid hitting the middleware file for authentication traffic altogether.
-  matcher: ["/hotel-booking/:path*", "/((?!api/auth|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

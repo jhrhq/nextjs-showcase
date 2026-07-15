@@ -5,9 +5,10 @@ import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe
 import { useParams, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import type Stripe from "stripe";
+// import type Stripe from "stripe";
 import { FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import { type PaymentInput, paymentSchema } from "@/domains/hotel-booking/validationSchema/payment-form-schema";
+import { authClient } from "@/lib/auth-client";
 import getStripe from "@/lib/stripe-configs/get-stripejs";
 // import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
@@ -33,7 +34,8 @@ export default function PaymentForm({ property, totalNights }: PaymentFormProps)
   const { perNight, cleaningFee, serviceFee } = property.pricing;
   const accommodationCost = perNight * totalNights;
   const totalPrice = accommodationCost + cleaningFee + serviceFee;
-  // console.log("session", session);
+  const session = authClient.useSession();
+  console.log("session", session);
 
   const form = useForm<PaymentInput>({
     resolver: zodResolver(paymentSchema),
@@ -53,7 +55,7 @@ export default function PaymentForm({ property, totalNights }: PaymentFormProps)
 
   async function onSubmit(values: PaymentInput) {
     console.log("Processing payment details:", values);
-    const { client_secret, url } = await createCheckoutSession(values);
+    const { client_secret, url: _url } = await createCheckoutSession(values);
 
     return setClientSecret(client_secret);
     // try {

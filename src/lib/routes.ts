@@ -41,7 +41,7 @@ function matchesRoute(pathName: string, routes: RouteConfig[]): boolean {
   });
 }
 
-export function isPublicRotue(pathName: string): boolean {
+export function isPublicRoute(pathName: string): boolean {
   return matchesRoute(pathName, PUBLIC_ROUTES);
 }
 
@@ -50,7 +50,7 @@ export function isAuthRoute(pathName: string): boolean {
 }
 
 export function isProtectedRoute(pathName: string): boolean {
-  if (isPublicRotue(pathName)) return false;
+  if (isPublicRoute(pathName)) return false;
   if (isAuthRoute(pathName)) return false;
   return true;
 }
