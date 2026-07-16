@@ -34,7 +34,8 @@ export default function PaymentForm({ property, totalNights }: PaymentFormProps)
   const { perNight, cleaningFee, serviceFee } = property.pricing;
   const accommodationCost = perNight * totalNights;
   const totalPrice = accommodationCost + cleaningFee + serviceFee;
-  const session = authClient.useSession();
+  const { useSession } = authClient;
+  const session = useSession();
   console.log("session", session);
 
   const form = useForm<PaymentInput>({

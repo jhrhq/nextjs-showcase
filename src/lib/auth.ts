@@ -18,18 +18,18 @@ export const auth = betterAuth({
     enabled: true,
     minPasswordLength: 8,
   },
-  session: {
-    expiresIn: 60 * 60 * 24 * 30, // 30-day rolling session
+  // session: {
+  //   expiresIn: 60 * 60 * 24 * 30, // 30-day rolling session
 
-    updateAge: 60 * 60 * 24, // refresh the cookie if older than 1 day
-    cookieCache: {
-      // Allows the Proxy to read session data from the cookie without a DB
-      // round-trip — this is what makes the middleware "fast/synchronous-style"
-      // as the spec requires.
-      enabled: true,
-      maxAge: 60 * 5, // 5-minute client-side cache
-    },
-  },
+  //   updateAge: 60 * 60 * 24, // refresh the cookie if older than 1 day
+  //   cookieCache: {
+  //     // Allows the Proxy to read session data from the cookie without a DB
+  //     // round-trip — this is what makes the middleware "fast/synchronous-style"
+  //     // as the spec requires.
+  //     enabled: true,
+  //     maxAge: 60 * 5, // 5-minute client-side cache
+  //   },
+  // },
   /*  emailVerification: {
       sendOnSignUp: true,
       autoSignInAfterVerification: false, // Ensures user logs in manually after confirming

@@ -22,7 +22,7 @@ export const AUTH_ROUTES: RouteConfig[] = [
 ];
 
 // Require a valid session. Everything not in PUBLIC or AUTH falls here by default
-export const PROTECTEDROUTES: RouteConfig[] = [
+export const PROTECTED_ROUTES: RouteConfig[] = [
   { path: AUTH_CONFIG.ROUTES.BOOK, prefix: true },
   { path: AUTH_CONFIG.ROUTES.BOOKINGS, prefix: true },
   { path: AUTH_CONFIG.ROUTES.CHECKOUT, prefix: true },
@@ -32,7 +32,7 @@ export const PROTECTEDROUTES: RouteConfig[] = [
 ];
 
 // helpers
-function matchesRoute(pathName: string, routes: RouteConfig[]): boolean {
+export function matchesRoute(pathName: string, routes: RouteConfig[]): boolean {
   return routes.some((route) => {
     if (route.prefix) {
       return pathName === route.path || pathName.startsWith(`${route.path}/`);
