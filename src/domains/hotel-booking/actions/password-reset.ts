@@ -1,6 +1,6 @@
 // import connectDB from "@/domains/hotel-booking/config/database";
 
-import crypto from "crypto";
+import crypto from "node:crypto";
 import PassResetTokenModel from "@/domains/hotel-booking/models/password-reset-token-model";
 import UserModel from "@/domains/hotel-booking/models/user-model";
 import { updatePasswordSchema } from "@/domains/hotel-booking/validationSchema/update-password-validation-schema";

@@ -1,12 +1,12 @@
 import { differenceInCalendarDays, format, parseISO } from "date-fns";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import BackToPreviousPage from "@/domains/hotel-booking/components/back-to-previous-page";
 import Footer from "@/domains/hotel-booking/components/Footer";
 import Navbar from "@/domains/hotel-booking/components/navbar";
 import PaymentForm from "@/domains/hotel-booking/components/payment/payment-form";
 import { PaymentSummaryCard, YourTrip } from "@/domains/hotel-booking/components/payment/payment-summary-card";
 import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
-import { Suspense } from "react";
 
 type SearchParams = {
   checkin?: string;
@@ -58,7 +58,7 @@ const PaymentProcess = async ({ params, searchParams }: Props) => {
           <div>
             <YourTrip stayDuration={stayDuration} totalGuests={totalGuests} />
             <Suspense fallback={<h1 className="text-9xl">Loading...</h1>}>
-            <PaymentForm property={JSON.parse(JSON.stringify(property))} totalNights={totalNights} />
+              <PaymentForm property={JSON.parse(JSON.stringify(property))} totalNights={totalNights} />
             </Suspense>
           </div>
           <div>

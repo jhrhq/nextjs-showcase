@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/domains/hotel-booking/components/ui/dropdown-menu";
 import { auth } from "@/lib/auth";
+import { AUTH_CONFIG } from "../../constants/auth.constants";
 
 const UserDropdownMenu = async () => {
   const session = await auth.api.getSession({
@@ -78,7 +79,7 @@ const UserDropdownMenu = async () => {
             <DropdownMenuItem asChild>
               <li className="w-full px-3 py-2 ">
                 <Link
-                  href="/hotel-booking/signin"
+                  href={AUTH_CONFIG.ROUTES.SIGN_IN}
                   className="grow text-sm text-zinc-700 transition-all  hover:pl-1 w-fll"
                 >
                   Signin
@@ -88,7 +89,7 @@ const UserDropdownMenu = async () => {
             <DropdownMenuItem asChild>
               <li className="w-full px-3 py-2 ">
                 <Link
-                  href="/hotel-booking/signup"
+                  href={AUTH_CONFIG.ROUTES.SIGN_UP}
                   className="grow text-sm text-zinc-700 transition-all  hover:pl-1 w-fll"
                 >
                   Signup

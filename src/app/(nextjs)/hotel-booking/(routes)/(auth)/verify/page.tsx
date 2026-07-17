@@ -1,7 +1,5 @@
 // import VerificationTokenModel from "@/domains/hotel-booking/models/verification-token-model";
-import { notFound } from "next/navigation";
 import Verification from "@/domains/hotel-booking/components/Verification";
-import UserModel from "@/domains/hotel-booking/models/user-model";
 
 interface Props {
   searchParams: Promise<{

@@ -7,7 +7,7 @@ export const formatDate = (date: string | Date): string | null => {
 };
 
 // domains/hotel-booking/utils/dates.ts
-import { addDays, differenceInDays, format, parseISO } from "date-fns";
+import { differenceInDays, format, parseISO } from "date-fns";
 
 /**
  * 1. Parses a "YYYY-MM-DD" string strictly into a UTC Midnight Date object.

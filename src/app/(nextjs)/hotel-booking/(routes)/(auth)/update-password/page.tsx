@@ -1,9 +1,6 @@
 // import UpdatePasswordForm from "@/domains/hotel-booking/components/auth/UpdatePasswordForm";
 // import connectDB from "@/domains/hotel-booking/config/database";
 
-import { notFound } from "next/navigation";
-import PassResetTokenModel from "@/domains/hotel-booking/models/password-reset-token-model";
-
 interface Props {
   searchParams: Promise<{
     token: string;

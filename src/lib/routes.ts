@@ -8,7 +8,7 @@ export type RouteConfig = {
 // Accessible to everyone regardless of auth state.
 export const PUBLIC_ROUTES: RouteConfig[] = [
   { path: AUTH_CONFIG.ROUTES.HOME },
-  { path: AUTH_CONFIG.ROUTES.PROPERTY, prefix: true }, // browse without auth
+  { path: AUTH_CONFIG.ROUTES.PROPERTY_PATH, prefix: true }, // browse without auth
   { path: "/hotel-booking/api/auth", prefix: true }, // Better Auth API handler
 ];
 
@@ -23,12 +23,8 @@ export const AUTH_ROUTES: RouteConfig[] = [
 
 // Require a valid session. Everything not in PUBLIC or AUTH falls here by default
 export const PROTECTED_ROUTES: RouteConfig[] = [
-  { path: AUTH_CONFIG.ROUTES.BOOK, prefix: true },
   { path: AUTH_CONFIG.ROUTES.BOOKINGS, prefix: true },
-  { path: AUTH_CONFIG.ROUTES.CHECKOUT, prefix: true },
   { path: AUTH_CONFIG.ROUTES.CREATE_HOTEL, prefix: true },
-  { path: AUTH_CONFIG.ROUTES.DASHBOARD, prefix: true },
-  { path: AUTH_CONFIG.ROUTES.MANAGE_HOTELS, prefix: true },
 ];
 
 // helpers

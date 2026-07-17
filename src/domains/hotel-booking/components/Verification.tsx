@@ -8,8 +8,6 @@ const loaded = false;
 const VerificationSuccess: FC<object> = () => {
   const router = useRouter();
   const { data: session } = authClient.useSession();
-  console.log(session);
-
   // useEffect(() => {
   //   if (loaded) return;
 

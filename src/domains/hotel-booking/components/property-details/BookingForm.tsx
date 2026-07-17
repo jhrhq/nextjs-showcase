@@ -11,6 +11,7 @@ import { Calendar } from "@/domains/hotel-booking/components/ui/calendar";
 import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import { Popover, PopoverContent, PopoverTrigger } from "@/domains/hotel-booking/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { AUTH_CONFIG } from "../../constants/auth.constants";
 import { Input } from "../ui/input";
 
 const FormSchema = z
@@ -35,7 +36,7 @@ const FormSchema = z
   });
 
 export function BookingForm() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -61,7 +62,7 @@ export function BookingForm() {
       params.set(key, String(value));
     });
 
-    router.push(`/hotel-booking/book/${id}?${params.toString()}`);
+    router.push(`${AUTH_CONFIG.ROUTES.BOOK(id)}?${params.toString()}`);
   }
 
   return (

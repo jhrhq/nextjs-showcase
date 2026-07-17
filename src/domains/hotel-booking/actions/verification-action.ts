@@ -1,5 +1,5 @@
 "use server";
-import crypto from "crypto";
+import crypto from "node:crypto";
 import { headers } from "next/headers";
 // import mail from "@/domains/hotel-booking/utils/mail";
 import UserModel, { createNewUser } from "@/domains/hotel-booking/models/user-model";

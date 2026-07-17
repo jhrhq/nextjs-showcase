@@ -9,7 +9,6 @@ import { signInSchema } from "@/domains/linker/validations/auth.validation";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  console.log(body);
   const validationResult = signInSchema.safeParse(body);
 
   if (!validationResult.success) {
