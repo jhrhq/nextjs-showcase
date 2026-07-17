@@ -35,14 +35,13 @@ export default function PaymentForm({ property, totalNights }: PaymentFormProps)
   const accommodationCost = perNight * totalNights;
   const totalPrice = accommodationCost + cleaningFee + serviceFee;
   const { useSession } = authClient;
-  const session = useSession();
-  console.log("session", session);
+  const { data: session } = useSession();
 
   const form = useForm<PaymentInput>({
     resolver: zodResolver(paymentSchema),
     defaultValues: {
       uiMode: "embedded",
-      userId: "6a4a519456438e2db2115b6f",
+      userId: session?.user.id ?? "",
       propertyId: params.id,
       checkin: checkin || "",
       checkout: checkout || "",

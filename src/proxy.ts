@@ -165,28 +165,30 @@
 //     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
 //   ],
 // };
-
 import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function proxy(request: NextRequest) {
-  // 1. Grab the session cookie
-  const sessionCookie = getSessionCookie(request);
+  // FIX: Explicitly pass your custom cookiePrefix here so it detects the right token!
+  const sessionCookie = getSessionCookie(request, {
+    cookiePrefix: "hotel-booking",
+  });
 
-  // 2. If the user has no cookie, redirect them to the hotel-booking login
+  // Safe debugging
+  console.log("Hotel Booking Proxy Session Cookie Status:", !!sessionCookie);
+
   if (!sessionCookie) {
     const loginUrl = new URL("/hotel-booking/signin", request.url);
 
-    // Remember the exact protected hotel page they wanted to visit
+    // Fallback tracking to return back after login
     loginUrl.searchParams.set("redirectTo", request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // 3. User has a cookie, allow the request forward to the app layer
   return NextResponse.next();
 }
 
-// 4. THE SCOPE GUARD: Only trigger this file for protected hotel booking pages!
+// Scopes your network validation strictly to hotel tenant routes
 export const config = {
   matcher: [
     "/hotel-booking/book/:path*",
