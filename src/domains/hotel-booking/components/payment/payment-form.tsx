@@ -1,6 +1,5 @@
 "use client";
 
-import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
 import { useParams, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -8,12 +7,10 @@ import { useForm } from "react-hook-form";
 import { FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import type { PaymentInput } from "@/domains/hotel-booking/validationSchema/payment-form-schema";
 import { authClient } from "@/lib/auth-client";
-import getStripe from "@/lib/stripe-configs/get-stripejs";
-// import { authClient } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
 import { createCheckoutSession } from "../../actions/stripe-action";
 import type { IPropertyDocument } from "../../models/Property.model";
 import { Button } from "../ui/button";
+import CheckoutClient from "./checkout-client";
 
 type PaymentFormProps = {
   property: IPropertyDocument;
@@ -45,7 +42,7 @@ export default function PaymentForm({ property, totalNights }: PaymentFormProps)
       propertyId: params.id ?? "",
       checkin,
       checkout,
-      guests,
+      guests: Number(guests),
       totalPrice,
     },
   });
@@ -68,7 +65,6 @@ export default function PaymentForm({ property, totalNights }: PaymentFormProps)
     }
 
     try {
-      console.log("Processing payment details:", values);
       const { client_secret } = await createCheckoutSession(values);
       setClientSecret(client_secret);
     } catch (_error) {
@@ -102,9 +98,7 @@ export default function PaymentForm({ property, totalNights }: PaymentFormProps)
           type="submit"
           form="payment-booking-form"
           disabled={isDisabled}
-          className={cn(
-            "w-full text-base h-12 bg-primary text-white rounded-lg py-3 hover:bg-primary/90 transition-all font-medium"
-          )}
+          className="w-full text-base h-12 bg-primary text-white rounded-lg py-3 hover:bg-primary/90 transition-all font-medium"
         >
           {isAuthPending ? (
             "Verifying session..."
@@ -117,13 +111,7 @@ export default function PaymentForm({ property, totalNights }: PaymentFormProps)
       </form>
 
       {/* Stripe Interactive Node */}
-      {clientSecret && (
-        <div className="mt-8">
-          <EmbeddedCheckoutProvider stripe={getStripe()} options={{ clientSecret }}>
-            <EmbeddedCheckout />
-          </EmbeddedCheckoutProvider>
-        </div>
-      )}
+      <CheckoutClient clientSecret={clientSecret} />
     </>
   );
 }

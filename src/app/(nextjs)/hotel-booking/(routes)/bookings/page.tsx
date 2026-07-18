@@ -52,3 +52,26 @@ const Bookings = () => {
 };
 
 export default Bookings;
+
+/*
+
+
+import { connectToDatabase } from "@/lib/db";
+import Booking from "@/models/Booking";
+import { reconcileBookingStatus } from "@/lib/stripe-recovery";
+
+export default async function DashboardPage() {
+  await connectToDatabase();
+  const rawBookings = await Booking.find({ userId: "user_mock_9921" });
+
+  // Map over the results. Any pending booking checks live data automatically.
+  const resolvedBookings = await Promise.all(rawBookings.map(reconcileBookingStatus));
+
+  return (
+    <div>
+      {resolvedBookings.map((b) => (
+        <div key={b._id.toString()}>{b.status}</div>
+      ))}
+    </div>
+  );
+}*/

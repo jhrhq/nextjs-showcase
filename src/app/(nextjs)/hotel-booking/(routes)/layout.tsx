@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { Toaster } from "@/domains/hotel-booking/components/ui/sonner";
-import connectDB from "@/domains/hotel-booking/config/database";
+import { connectToDatabase } from "@/domains/hotel-booking/config/database";
 // import VerificationStatus from "@/domains/hotel-booking/components/VerificationStatus";
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default async function RootLayout({
   auth: React.ReactNode;
   children: React.ReactNode;
 }>) {
-  await connectDB();
+  await connectToDatabase();
 
   return (
     <html lang="en">

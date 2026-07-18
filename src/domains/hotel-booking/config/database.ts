@@ -1,24 +1,36 @@
 import mongoose from "mongoose";
 
-let connected = false;
+const MONGODB_URI = process.env.HOTEL_BOOKING_MONGODB_URI;
 
-const connectDB = async () => {
-  mongoose.set("strictQuery", true);
+if (!MONGODB_URI) {
+  throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
+}
 
-  // if database is already connected, don't connect again
+// Global caching to preserve connection across hot-reloads
+let cached = (global as any).mongoose;
 
-  if (connected) {
-    console.log("Mongo DB connected");
-    return;
+if (!cached) {
+  cached = (global as any).mongoose = { conn: null, promise: null };
+}
+
+export async function connectToDatabase() {
+  if (cached.conn) return cached.conn;
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
+    MONGODB_URI;
+
+    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((m) => m.connection);
   }
 
-  // connect to MongoDB
   try {
-    await mongoose.connect(process.env.HOTEL_BOOKING_MONGODB_URI as string);
-    connected = true;
-  } catch (error) {
-    console.log(error);
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
   }
-};
 
-export default connectDB;
+  return cached.conn;
+}

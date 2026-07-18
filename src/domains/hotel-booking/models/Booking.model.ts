@@ -1,18 +1,21 @@
 import mongoose, { type Document, type Model, Schema } from "mongoose";
 
-export type BookingStatus =
-  | "pending" // reserved, payment not yet confirmed
-  | "confirmed" // payment successful → success.html shown
-  | "cancelled"
-  | "completed"; // check-out date has passed
+export type BookingStatus = "pending" | "confirmed" | "cancelled" | "completed";
 
 export interface IPriceSummary {
   perNight: number;
   numberOfNights: number;
-  cleaningFee: number; // copied from Property at booking time so it never changes
-  serviceFee: number; // copied from Property at booking time so it never changes
-  totalCost: number; // perNight × numberOfNights + cleaningFee + serviceFee
+  cleaningFee: number;
+  serviceFee: number;
+  totalCost: number;
   currency: string;
+}
+
+export interface IPaymentInfo {
+  stripeSessionId: string;
+  stripePaymentIntentId?: string;
+  amountPaid?: number;
+  paidAt?: Date;
 }
 
 export interface IBillingAddress {
@@ -26,15 +29,16 @@ export interface IBillingAddress {
 }
 
 export interface IBooking {
-  property: mongoose.Types.ObjectId; // ref → Property
-  guest: mongoose.Types.ObjectId; // ref → User
-  checkIn: Date;
-  checkOut: Date;
+  propertyId: mongoose.Types.ObjectId;
+  userId: mongoose.Types.ObjectId;
+  checkin: Date;
+  checkout: Date;
   guests: number;
   status: BookingStatus;
-  priceSummary: IPriceSummary; // snapshot so edits to Property don't affect past bookings
-  billingAddress: IBillingAddress; // collected on paymentProcess page
-  receiptSentAt?: Date; // set after email receipt is dispatched
+  priceSummary: IPriceSummary;
+  paymentInfo: IPaymentInfo; // Added missing type definition here
+  billingAddress: IBillingAddress;
+  receiptSentAt?: Date;
 }
 
 export interface IBookingDocument extends IBooking, Document {
@@ -54,6 +58,29 @@ const priceSummarySchema = new Schema<IPriceSummary>(
   { _id: false }
 );
 
+const PaymentInfoSchema = new Schema<IPaymentInfo>(
+  {
+    stripeSessionId: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    stripePaymentIntentId: {
+      type: String,
+      trim: true,
+    },
+    amountPaid: {
+      type: Number,
+      min: 0,
+    },
+    paidAt: {
+      type: Date,
+    },
+  },
+  { _id: false }
+);
+
 const billingAddressSchema = new Schema<IBillingAddress>(
   {
     fullName: { type: String, required: true },
@@ -69,10 +96,10 @@ const billingAddressSchema = new Schema<IBillingAddress>(
 
 const bookingSchema = new Schema<IBookingDocument>(
   {
-    property: { type: Schema.Types.ObjectId, ref: "Property", required: true },
-    guest: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    checkIn: { type: Date, required: true },
-    checkOut: { type: Date, required: true },
+    propertyId: { type: Schema.Types.ObjectId, ref: "Property", required: true },
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    checkin: { type: Date, required: true },
+    checkout: { type: Date, required: true },
     guests: { type: Number, required: true, min: 1 },
     status: {
       type: String,
@@ -80,15 +107,17 @@ const bookingSchema = new Schema<IBookingDocument>(
       default: "pending",
     },
     priceSummary: { type: priceSummarySchema, required: true },
-    billingAddress: { type: billingAddressSchema, required: true },
+    paymentInfo: { type: PaymentInfoSchema, required: true },
+    billingAddress: { type: billingAddressSchema },
     receiptSentAt: { type: Date },
   },
   { timestamps: true }
 );
 
-bookingSchema.index({ guest: 1 }); // Bookings page — list user's bookings
-bookingSchema.index({ property: 1 }); // host's manage view
-bookingSchema.index({ property: 1, guest: 1 }); // check if guest has booked → unlock review button
+// Fixed: Mapped compound indexes to use the actual schema paths (userId and propertyId)
+bookingSchema.index({ userId: 1 });
+bookingSchema.index({ propertyId: 1 });
+bookingSchema.index({ propertyId: 1, userId: 1 });
 bookingSchema.index({ status: 1 });
 
 const Booking: Model<IBookingDocument> =

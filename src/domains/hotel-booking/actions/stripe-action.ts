@@ -1,9 +1,12 @@
 "use server";
 
+import mongoose from "mongoose";
 import { headers } from "next/headers";
 import type { Stripe } from "stripe";
 import { stripe } from "@/lib/stripe-configs/stripe";
 import { formatAmountForStripe } from "@/lib/stripe-configs/stripe-helpers";
+import { AUTH_CONFIG } from "../constants/auth.constants";
+import { Booking, Property } from "../models";
 import type { PaymentInput } from "../validationSchema/payment-form-schema";
 // import { parseToUTCMidnight } from "../utils/date-time-utils";
 
@@ -16,25 +19,41 @@ export async function createCheckoutSession(
   const origin = originHeader.get("origin") as string;
   // const checkInDate = parseToUTCMidnight(data.checkin);
   // const checkOutDate = parseToUTCMidnight(data.checkout);
+
+  const property = await Property.findById(data.propertyId);
+  if (!property) throw new Error("Property no found");
+
+  const checkinDate = new Date(data.checkin);
+  const checkoutDate = new Date(data.checkout);
+  const numberOfNights = Math.max(
+    1,
+    Math.ceil((checkoutDate.getTime() - checkinDate.getTime()) / (1000 * 60 * 60 * 24))
+  );
+
+  const { perNight, cleaningFee, serviceFee } = property.pricing;
+  const totalCost = perNight * numberOfNights + cleaningFee + serviceFee;
+
+  const preGeneratedBookingId = new mongoose.Types.ObjectId();
+
   const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create({
     mode: "payment",
     submit_type: "pay",
     line_items: [
       {
-        quantity: 1,
         price_data: {
           currency: "usd",
           product_data: {
-            name: "Hotel Stay Reservation",
-            description: `${data.guests} Guests • Stay from ${data.checkin} to ${data.checkout}`,
+            name: `Stay at ${property.title}`,
+            description: `${numberOfNights} nights reservation`,
           },
-          // Stripe requires amounts in cents (525 -> 52500)
-          unit_amount: Math.round(data.totalPrice * 100),
+          unit_amount: Math.round(totalCost * 100),
         },
+        quantity: 1,
       },
     ],
     // Metadata only handles flat strings - perfect match for input data
     metadata: {
+      bookingId: preGeneratedBookingId.toString(),
       userId: data.userId,
       propertyId: data.propertyId,
       checkin: data.checkin,
@@ -43,10 +62,27 @@ export async function createCheckoutSession(
     },
 
     ...{
-      return_url: `${origin}/book/6a4ff659a9e5bd00be602ba5?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${origin}${AUTH_CONFIG.ROUTES.BOOKING_SUCCESS(data.propertyId)}?session_id={CHECKOUT_SESSION_ID}`,
     },
 
-    ui_mode: "embedded_page", // Stripe's modern embedded enum value
+    ui_mode: "embedded_page",
+  });
+
+  await Booking.create({
+    _id: preGeneratedBookingId,
+    propertyId: new mongoose.Types.ObjectId(data.propertyId),
+    userId: new mongoose.Types.ObjectId(data.userId),
+    checkin: checkinDate,
+    checkout: checkoutDate,
+    guests: data.guests,
+    status: "pending",
+    priceSummary: { perNight, numberOfNights, cleaningFee, serviceFee, totalCost, currency: "usd" },
+    paymentInfo: {
+      stripeSessionId: checkoutSession.id,
+      stripePaymentIntentId: checkoutSession.payment_intent,
+      amountPaid: checkoutSession.amount_total,
+      paidAt: new Date(checkoutSession.created * 1000),
+    },
   });
 
   return {
