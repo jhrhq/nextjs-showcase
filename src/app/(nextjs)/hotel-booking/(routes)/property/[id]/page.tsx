@@ -21,7 +21,14 @@ const PropertyDetails = async ({ params }: Props) => {
   const bookingData = await getSelectedPropertyBookinDetails(id);
   const data = await getSelectedPropertyDetails(id);
   if (!data) return null;
-  const isBooked = !!bookingData || false;
+  let isBooked = false;
+
+  if (bookingData) {
+    const now = new Date();
+    const checkoutDate = new Date(bookingData.checkout);
+    const checkinDate = new Date(bookingData.checkin);
+    isBooked = checkoutDate > now && checkinDate <= now;
+  }
 
   return (
     <>
@@ -47,7 +54,13 @@ const PropertyDetails = async ({ params }: Props) => {
           {/* Right Column: Booking Card */}
           <div>
             <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.ratingAvg}>
-              <BookingForm isBooked={isBooked} />
+              <BookingForm
+                isBooked={isBooked}
+                guests={bookingData ? bookingData.guests : data.capacity.bedrooms * 2}
+                maxGuests={data.capacity.bedrooms * 2}
+                checkin={bookingData?.checkin}
+                checkout={bookingData?.checkout}
+              />
             </BookingCard>
           </div>
         </div>

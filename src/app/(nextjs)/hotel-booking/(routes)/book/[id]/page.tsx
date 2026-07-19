@@ -51,7 +51,16 @@ const PaymentProcess = async ({ params, searchParams }: Props) => {
 
   const totalGuests = guests ? `${guests} ${Number(guests) === 1 ? "guest" : "guests"}` : "";
 
+  let isBooked = false;
+
   if (bookingData) {
+    const now = new Date();
+    const checkoutDate = new Date(bookingData.checkout);
+    const checkinDate = new Date(bookingData.checkin);
+    isBooked = checkoutDate > now && checkinDate <= now;
+  }
+
+  if (isBooked && bookingData) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-8 flex items-center justify-center">
         <PropertyBooked existingBooking={bookingData} />

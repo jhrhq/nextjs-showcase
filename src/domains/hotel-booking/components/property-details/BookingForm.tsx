@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { Controller, useForm } from "react-hook-form";
+import { useEffect, useMemo } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import { Calendar } from "@/domains/hotel-booking/components/ui/calendar";
@@ -14,42 +15,74 @@ import { cn } from "@/lib/utils";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
 import { Input } from "../ui/input";
 
-const FormSchema = z
-  .object({
-    checkin: z.date({
-      error: "Check-in date is required.",
-    }),
-    checkout: z.date({
-      error: "Check-out date is required.",
-    }),
-    guests: z
-      .number({
-        error: "Guests is required.",
-      })
-      .int()
-      .min(1, "Guests must be at least 1")
-      .max(6, "Guests must be at most 6"),
-  })
-  .refine((data) => data.checkout > data.checkin, {
-    message: "Check-out must be after check-in.",
-    path: ["checkout"],
-  });
+const createBookingSchema = (maxGuests: number) =>
+  z
+    .object({
+      checkin: z.date({
+        error: "Check-in date is required.",
+      }),
+      checkout: z.date({
+        error: "Check-out date is required.",
+      }),
+      guests: z
+        .number({
+          error: "Guests is required.",
+        })
+        .int({ error: "Guests must be a whole number." })
+        .min(1, { error: "Guests must be at least 1" })
+        .max(maxGuests, { error: `Guests must be at most ${maxGuests}` }),
+    })
+    .refine((data) => data.checkout > data.checkin, {
+      error: "Check-out must be after check-in.",
+      path: ["checkout"],
+    });
 
-export function BookingForm({ isBooked }: { isBooked: boolean }) {
+type BookingFormValues = z.infer<ReturnType<typeof createBookingSchema>>;
+
+type BookingFormProps = {
+  isBooked: boolean;
+  guests: number;
+  maxGuests: number;
+  checkin?: Date | string;
+  checkout?: Date | string;
+};
+
+function parseToDate(dateInput: string | Date | undefined): Date | undefined {
+  if (!dateInput) return undefined;
+  const parsed = dateInput instanceof Date ? dateInput : new Date(dateInput);
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed;
+}
+
+export function BookingForm({ isBooked, checkin, checkout, guests = 0, maxGuests }: BookingFormProps) {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const formSchema = useMemo(() => createBookingSchema(maxGuests), [maxGuests]);
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      checkin: undefined,
-      checkout: undefined,
-      guests: undefined,
+      checkin: parseToDate(checkin),
+      checkout: parseToDate(checkout),
+      guests: guests > 0 ? guests : 1,
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  useEffect(() => {
+    form.reset({
+      checkin: parseToDate(checkin),
+      checkout: parseToDate(checkout),
+      guests: guests > 0 ? guests : 1,
+    });
+  }, [checkin, checkout, guests, form.reset]);
+
+  const watchedCheckin = useWatch({
+    control: form.control,
+    name: "checkin",
+  });
+
+  function onSubmit(data: BookingFormValues) {
+    if (isBooked) return;
     const payload = {
       ...data,
       checkin: format(data.checkin, "yyyy-MM-dd"),
@@ -80,6 +113,7 @@ export function BookingForm({ isBooked }: { isBooked: boolean }) {
                       <Button
                         variant={"outline"}
                         className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
+                        disabled={isBooked}
                       >
                         {field.value ? format(field.value, "yyyy-MM-dd") : <span>Check Out</span>}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -90,7 +124,7 @@ export function BookingForm({ isBooked }: { isBooked: boolean }) {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) => date < new Date()}
+                        disabled={(date) => date < new Date() || isBooked}
                       />
                     </PopoverContent>
                   </Popover>
@@ -111,6 +145,7 @@ export function BookingForm({ isBooked }: { isBooked: boolean }) {
                       <Button
                         variant={"outline"}
                         className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
+                        disabled={isBooked}
                       >
                         {field.value ? format(field.value, "yyyy-MM-dd") : <span>Check Out</span>}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -121,7 +156,10 @@ export function BookingForm({ isBooked }: { isBooked: boolean }) {
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) => date < new Date()}
+                        disabled={(date: Date) => {
+                          const isBeforeOrEqualCheckin = watchedCheckin ? date <= watchedCheckin : false;
+                          return date < new Date() || isBeforeOrEqualCheckin || isBooked;
+                        }}
                       />
                     </PopoverContent>
                   </Popover>
@@ -140,9 +178,10 @@ export function BookingForm({ isBooked }: { isBooked: boolean }) {
                   {...field}
                   value={field.value ?? ""}
                   onChange={(e) => {
-                    const value = e.target.valueAsNumber;
-                    field.onChange(Number.isNaN(value) ? undefined : value);
+                    const val = e.target.value;
+                    field.onChange(val === "" ? "" : Number(val));
                   }}
+                  disabled={isBooked}
                   type="number"
                   id="form-booking-guests"
                   aria-invalid={fieldState.invalid}

@@ -9,11 +9,11 @@ interface Props {
 }
 
 const PropertyImages: FC<Props> = ({ images, title }: Props) => {
-  if (images.length == 0) return null;
+  if (images.length === 0) return null;
   return (
     <div className="grid grid-cols-4 grid-rows-2 gap-4 mb-8 h-125">
       {images.map((img, index) => (
-        <div key={index} className={cn(index == 0 ? "col-span-2 row-span-2" : "")}>
+        <div key={index} className={cn(index === 0 && "col-span-2 row-span-2")}>
           <Image
             src={img.url}
             alt={img.alt || title}
@@ -21,7 +21,7 @@ const PropertyImages: FC<Props> = ({ images, title }: Props) => {
             height={800}
             className={cn(
               "w-full object-cover  ",
-              index == 0 ? "h-full rounded-xl group-hover:scale-105 transition-transform" : "h-full rounded-lg"
+              index === 0 ? "h-full rounded-xl group-hover:scale-105 transition-transform" : "h-full rounded-lg"
             )}
           />
         </div>
