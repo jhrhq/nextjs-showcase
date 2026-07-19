@@ -6,6 +6,7 @@ import Footer from "@/domains/hotel-booking/components/Footer";
 import Navbar from "@/domains/hotel-booking/components/navbar";
 import PaymentForm from "@/domains/hotel-booking/components/payment/payment-form";
 import { PaymentSummaryCard, YourTrip } from "@/domains/hotel-booking/components/payment/payment-summary-card";
+import { connectToDatabase } from "@/domains/hotel-booking/config/database";
 import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
 
 type SearchParams = {
@@ -28,6 +29,7 @@ export const metadata: Metadata = {
 };
 
 const PaymentProcess = async ({ params, searchParams }: Props) => {
+  await connectToDatabase();
   const { id } = await params;
   const { checkin, checkout, guests } = await searchParams;
 
@@ -45,10 +47,6 @@ const PaymentProcess = async ({ params, searchParams }: Props) => {
 
   const totalGuests = guests ? `${guests} ${Number(guests) === 1 ? "guest" : "guests"}` : "";
 
-  // const { perNight, cleaningFee, serviceFee } = property.pricing;
-
-  // const accommodationCost = perNight * totalNights;
-  // const totalPrice = accommodationCost + cleaningFee + serviceFee;
   return (
     <>
       <Navbar />

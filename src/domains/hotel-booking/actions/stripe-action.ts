@@ -1,10 +1,12 @@
 "use server";
 
+import { differenceInDays, parseISO } from "date-fns";
 import mongoose from "mongoose";
 import { headers } from "next/headers";
 import type { Stripe } from "stripe";
 import { stripe } from "@/lib/stripe-configs/stripe";
 import { formatAmountForStripe } from "@/lib/stripe-configs/stripe-helpers";
+import { connectToDatabase } from "../config/database";
 import { AUTH_CONFIG } from "../constants/auth.constants";
 import { Booking, Property } from "../models";
 import type { PaymentInput } from "../validationSchema/payment-form-schema";
@@ -17,18 +19,13 @@ export async function createCheckoutSession(
 
   const originHeader = await headers();
   const origin = originHeader.get("origin") as string;
-  // const checkInDate = parseToUTCMidnight(data.checkin);
-  // const checkOutDate = parseToUTCMidnight(data.checkout);
 
   const property = await Property.findById(data.propertyId);
   if (!property) throw new Error("Property no found");
 
-  const checkinDate = new Date(data.checkin);
-  const checkoutDate = new Date(data.checkout);
-  const numberOfNights = Math.max(
-    1,
-    Math.ceil((checkoutDate.getTime() - checkinDate.getTime()) / (1000 * 60 * 60 * 24))
-  );
+  const checkinDate = parseISO(data.checkin);
+  const checkoutDate = parseISO(data.checkout);
+  const numberOfNights = Math.max(1, differenceInDays(checkoutDate, checkinDate));
 
   const { perNight, cleaningFee, serviceFee } = property.pricing;
   const totalCost = perNight * numberOfNights + cleaningFee + serviceFee;
@@ -68,6 +65,7 @@ export async function createCheckoutSession(
     ui_mode: "embedded_page",
   });
 
+  await connectToDatabase();
   await Booking.create({
     _id: preGeneratedBookingId,
     propertyId: new mongoose.Types.ObjectId(data.propertyId),
