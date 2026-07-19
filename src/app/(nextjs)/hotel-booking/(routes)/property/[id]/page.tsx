@@ -8,7 +8,7 @@ import PropertyHeader from "@/domains/hotel-booking/components/property-details/
 import PropertyImages from "@/domains/hotel-booking/components/property-details/PropertyImages";
 import ReviewContainer from "@/domains/hotel-booking/components/property-details/ReviewContainer";
 import ReviewHeader from "@/domains/hotel-booking/components/property-details/ReviewHeader";
-import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
+import { getSelectedPropertyBookinDetails, getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
 
 interface Props {
   params: Promise<{
@@ -18,8 +18,10 @@ interface Props {
 
 const PropertyDetails = async ({ params }: Props) => {
   const { id } = await params;
+  const bookingData = await getSelectedPropertyBookinDetails(id);
   const data = await getSelectedPropertyDetails(id);
   if (!data) return null;
+  const isBooked = !!bookingData || false;
 
   return (
     <>
@@ -45,7 +47,7 @@ const PropertyDetails = async ({ params }: Props) => {
           {/* Right Column: Booking Card */}
           <div>
             <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.ratingAvg}>
-              <BookingForm />
+              <BookingForm isBooked={isBooked} />
             </BookingCard>
           </div>
         </div>

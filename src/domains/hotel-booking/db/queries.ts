@@ -1,6 +1,8 @@
 import type { Types } from "mongoose";
 import Property, { type IPropertyDocument } from "@/domains/hotel-booking/models/Property.model";
 import { connectToDatabase } from "../config/database";
+import { Booking } from "../models";
+import type { IBookingDocument } from "../models/Booking.model";
 
 type PaginatedProperties = {
   allProperties: IPropertyDocument[];
@@ -28,8 +30,16 @@ async function getSelectedPropertyDetails(propertyId?: string | Types.ObjectId):
 
   await connectToDatabase();
 
-  // .lean() strips Mongoose internal tracking overhead, returning a lightweight plain JS object
   return await Property.findById(propertyId).lean<IPropertyDocument | null>();
 }
+async function getSelectedPropertyBookinDetails(
+  propertyId?: string | Types.ObjectId
+): Promise<IBookingDocument | null> {
+  if (!propertyId) return null;
 
-export { getAllProperties, getSelectedPropertyDetails };
+  await connectToDatabase();
+
+  return await Booking.findOne({ propertyId }).lean<IBookingDocument | null>();
+}
+
+export { getAllProperties, getSelectedPropertyBookinDetails, getSelectedPropertyDetails };

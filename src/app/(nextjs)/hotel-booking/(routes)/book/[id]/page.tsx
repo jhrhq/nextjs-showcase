@@ -2,12 +2,13 @@ import { differenceInCalendarDays, format, parseISO } from "date-fns";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import BackToPreviousPage from "@/domains/hotel-booking/components/back-to-previous-page";
+import PropertyBooked from "@/domains/hotel-booking/components/booked";
 import Footer from "@/domains/hotel-booking/components/Footer";
 import Navbar from "@/domains/hotel-booking/components/navbar";
 import PaymentForm from "@/domains/hotel-booking/components/payment/payment-form";
 import { PaymentSummaryCard, YourTrip } from "@/domains/hotel-booking/components/payment/payment-summary-card";
 import { connectToDatabase } from "@/domains/hotel-booking/config/database";
-import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
+import { getSelectedPropertyBookinDetails, getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
 
 type SearchParams = {
   checkin?: string;
@@ -30,7 +31,10 @@ export const metadata: Metadata = {
 
 const PaymentProcess = async ({ params, searchParams }: Props) => {
   await connectToDatabase();
+
   const { id } = await params;
+  const bookingData = await getSelectedPropertyBookinDetails(id);
+
   const { checkin, checkout, guests } = await searchParams;
 
   const property = await getSelectedPropertyDetails(id);
@@ -46,6 +50,14 @@ const PaymentProcess = async ({ params, searchParams }: Props) => {
     : "";
 
   const totalGuests = guests ? `${guests} ${Number(guests) === 1 ? "guest" : "guests"}` : "";
+
+  if (bookingData) {
+    return (
+      <div className="max-w-7xl mx-auto px-6 py-8 flex items-center justify-center">
+        <PropertyBooked existingBooking={bookingData} />
+      </div>
+    );
+  }
 
   return (
     <>

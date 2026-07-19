@@ -35,7 +35,7 @@ const FormSchema = z
     path: ["checkout"],
   });
 
-export function BookingForm() {
+export function BookingForm({ isBooked }: { isBooked: boolean }) {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -159,9 +159,13 @@ export function BookingForm() {
 
         <Button
           type="submit"
-          className="w-full block md:text-base text-center bg-primary text-white rounded-lg transition-all hover:brightness-90"
+          className={cn(
+            "w-full block md:text-base text-center bg-primary text-white rounded-lg transition-all hover:brightness-90",
+            isBooked && "disabled"
+          )}
+          disabled={isBooked}
         >
-          Reserve
+          {isBooked ? "Reserved" : "Reserve"}
         </Button>
       </form>
 

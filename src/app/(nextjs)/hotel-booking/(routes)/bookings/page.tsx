@@ -1,5 +1,6 @@
 import { DownloadCloud } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Navbar from "@/domains/hotel-booking/components/navbar";
 
 export const metadata: Metadata = {
@@ -18,7 +19,9 @@ const Bookings = () => {
           {/* Booking Item 1 */}
           <div className="bg-white shadow-md rounded-lg p-4 flex items-center justify-between hover:shadow-lg transition-shadow">
             <div className="flex items-center space-x-4">
-              <img
+              <Image
+                height={500}
+                width={500}
                 src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Property Thumbnail"
                 className="w-24 h-24 object-cover rounded-md"
@@ -30,10 +33,10 @@ const Bookings = () => {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-3 py-2 text-sm bg-primary text-white rounded-lg hover:brightness-90">
+              <button type="button" className="px-3 py-2 text-sm bg-primary text-white rounded-lg hover:brightness-90">
                 View Trip Details
               </button>
-              <button className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
+              <button type="button" className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
                 <DownloadCloud className="fas fa-download mr-2" />
                 Download Receipt
               </button>
@@ -54,8 +57,6 @@ const Bookings = () => {
 export default Bookings;
 
 /*
-
-
 import { connectToDatabase } from "@/lib/db";
 import Booking from "@/models/Booking";
 import { reconcileBookingStatus } from "@/lib/stripe-recovery";
