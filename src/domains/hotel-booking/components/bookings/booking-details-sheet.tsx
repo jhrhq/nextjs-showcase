@@ -4,8 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import type { UserBookingDTO } from "../mappers/booking.mappers";
-import { Button } from "./ui/button";
+import type { UserBookingDTO } from "../../mappers/booking.mappers";
+import { Button } from "../ui/button";
 
 interface BookingDetailsSheetProps {
   booking: UserBookingDTO;
