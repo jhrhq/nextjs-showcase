@@ -1,65 +1,63 @@
 "use client";
 
-import { useParams, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-// import type Stripe from "stripe";
-import { FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
-import type { PaymentInput } from "@/domains/hotel-booking/validationSchema/payment-form-schema";
 import { authClient } from "@/lib/auth-client";
 import { createCheckoutSession } from "../../actions/stripe-action";
-import type { IPropertyDocument } from "../../models/Property.model";
+import { useBookingParams } from "../../hooks/use-booking-params";
+import type { PaymentInput } from "../../validationSchema/payment-form-schema";
 import { Button } from "../ui/button";
+import { FieldError } from "../ui/field";
 import CheckoutClient from "./checkout-client";
 
+interface IPropertyPricing {
+  perNight: number;
+  cleaningFee: number;
+  serviceFee: number;
+}
+
 type PaymentFormProps = {
-  property: IPropertyDocument;
-  totalNights: number;
+  propertyId: string;
+  pricing: IPropertyPricing;
+  maxGuests: number;
 };
 
-export default function PaymentForm({ property, totalNights }: PaymentFormProps) {
-  // 1. Group Hooks cleanly at the top level
+export default function PaymentForm({ maxGuests, pricing, propertyId }: PaymentFormProps) {
   const params = useParams<{ id: string }>();
-  const searchParams = useSearchParams();
   const { data: session, isPending: isAuthPending } = authClient.useSession();
-
   const [clientSecret, setClientSecret] = useState<string | null>(null);
 
-  // 2. Parse pricing and URL parameters safely
-  const checkin = searchParams.get("checkin") || "";
-  const checkout = searchParams.get("checkout") || "";
-  const guests = searchParams.get("guests") || "";
+  const { checkinStr, checkoutStr, guestsCount, calculatedNights } = useBookingParams(maxGuests);
 
-  const { perNight, cleaningFee, serviceFee } = property.pricing;
-  const accommodationCost = perNight * totalNights;
-  const totalPrice = accommodationCost + cleaningFee + serviceFee;
+  const { perNight, cleaningFee, serviceFee } = pricing;
+  const totalPrice = calculatedNights > 0 ? perNight * calculatedNights + cleaningFee + serviceFee : 0;
 
   const form = useForm<PaymentInput>({
-    // resolver: zodResolver(paymentSchema),
     values: {
-      uiMode: "embedded",
-      userId: session?.user.id ?? "",
-      propertyId: params.id ?? "",
-      checkin,
-      checkout,
-      guests: Number(guests),
+      uiMode: "embedded_page",
+      userId: session?.user?.id ?? "",
+      propertyId: params.id ?? propertyId ?? "",
+      checkin: checkinStr,
+      checkout: checkoutStr,
+      guests: guestsCount,
       totalPrice,
     },
   });
 
   const isSubmitting = form.formState.isSubmitting;
+  const isDisabled = isSubmitting || isAuthPending || !session || calculatedNights === 0;
 
-  const isDisabled = isSubmitting || isAuthPending || !session;
+  // biome-ignore lint/correctness/useExhaustiveDependencies: suppress dependency to recheck checkinStr, checkoutStr,guestsCount
+  useEffect(() => {
+    setClientSecret(null);
+  }, [checkinStr, checkoutStr, guestsCount]);
 
   async function onSubmit(values: PaymentInput) {
-    const requiredKeys: (keyof PaymentInput)[] = ["userId", "propertyId", "checkin", "checkout", "guests"];
-
-    const hasMissingMetadata = requiredKeys.some((key) => !values[key]?.toString().trim());
-
-    if (hasMissingMetadata || !values.totalPrice) {
+    if (!values.userId || !values.propertyId || !values.checkin || !values.checkout || calculatedNights === 0) {
       form.setError("root.serverError", {
         type: "custom",
-        message: "Booking details are incomplete. Please ensure you are logged in and have selected valid dates.",
+        message: "Booking details are incomplete. Please verify dates and ensure you are logged in.",
       });
       return;
     }
@@ -67,7 +65,7 @@ export default function PaymentForm({ property, totalNights }: PaymentFormProps)
     try {
       const { client_secret } = await createCheckoutSession(values);
       setClientSecret(client_secret);
-    } catch (_error) {
+    } catch {
       form.setError("root.serverError", {
         message: "Payment processing failed. Please try again.",
       });
@@ -76,41 +74,26 @@ export default function PaymentForm({ property, totalNights }: PaymentFormProps)
 
   return (
     <>
-      <form id="payment-booking-form" noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <section>
-          <h2 className="text-xl font-semibold mb-4 text-zinc-900 dark:text-zinc-50">Pay with American Express</h2>
-
-          <FieldGroup className="space-y-4">
-            <input {...form.register("uiMode")} type="hidden" />
-            <input {...form.register("userId")} type="hidden" />
-            <input {...form.register("propertyId")} type="hidden" />
-            <input {...form.register("checkin")} type="hidden" />
-            <input {...form.register("checkout")} type="hidden" />
-            <input {...form.register("guests")} type="hidden" />
-            <input {...form.register("totalPrice")} type="hidden" />
-          </FieldGroup>
-        </section>
-
-        {/* Global Server Catch Block */}
+      {/* Form Submission */}
+      <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-10">
         {form.formState.errors?.root?.serverError && <FieldError errors={[form.formState.errors.root.serverError]} />}
-
         <Button
           type="submit"
-          form="payment-booking-form"
           disabled={isDisabled}
-          className="w-full text-base h-12 bg-primary text-white rounded-lg py-3 hover:bg-primary/90 transition-all font-medium"
+          className="w-full text-base h-12 bg-primary text-white rounded-xl py-3 hover:bg-primary/90 active:scale-[0.99] transition-all font-medium shadow-sm"
         >
           {isAuthPending ? (
             "Verifying session..."
           ) : isSubmitting ? (
             <span className="submitLoader" />
+          ) : calculatedNights === 0 ? (
+            "Select dates to continue"
           ) : (
             "Request to book"
           )}
         </Button>
       </form>
 
-      {/* Stripe Interactive Node */}
       <CheckoutClient clientSecret={clientSecret} />
     </>
   );

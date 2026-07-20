@@ -1,38 +1,44 @@
+"use client";
 import { Star } from "lucide-react";
 import Image from "next/image";
-import type { IPropertyDocument } from "../../models/Property.model";
-import { Button } from "../ui/button";
+import { useBookingParams } from "../../hooks/use-booking-params";
 
 type PaymentSummaryCardProps = {
-  property: IPropertyDocument;
-  totalNights: number;
+  title: string;
+  reviewCount: number;
+  imgsrc: string;
+  ratingAvg: number;
+  pricing: { perNight: number; currency: string; cleaningFee: number; serviceFee: number };
+  maxGuests: number;
 };
 
-export function PaymentSummaryCard({ property, totalNights }: PaymentSummaryCardProps) {
-  const { perNight, cleaningFee, serviceFee } = property.pricing;
+export function PaymentSummaryCard({
+  title,
+  imgsrc,
+  reviewCount,
+  ratingAvg,
+  pricing,
+  maxGuests,
+}: PaymentSummaryCardProps) {
+  const { perNight, cleaningFee, serviceFee } = pricing;
+  const { calculatedNights } = useBookingParams(maxGuests);
 
-  const accommodationCost = perNight * totalNights;
+  const accommodationCost = perNight * calculatedNights;
   const totalPrice = accommodationCost + cleaningFee + serviceFee;
 
   return (
     <div className="sticky top-0 mb-8 rounded-lg bg-white p-6 shadow-sm">
       <div className="mb-6 flex items-start gap-4">
-        <Image
-          src={property.images[0].url}
-          alt={property.title}
-          width={500}
-          height={500}
-          className="h-20 w-20 rounded-lg object-cover"
-        />
+        <Image src={imgsrc} alt={title} width={500} height={500} className="h-20 w-20 rounded-lg object-cover" />
 
         <div>
-          <p className="font-bold">{property.title}</p>
+          <p className="font-bold">{title}</p>
 
           <div className="flex items-center">
-            <Star className="mr-1 size-4" fill={property.reviewCount > 0 ? "currentColor" : undefined} />
+            <Star className="mr-1 size-4" fill={reviewCount > 0 ? "currentColor" : undefined} />
 
             <span className="mt-1 text-xs text-zinc-500">
-              {property.ratingAvg} ({property.reviewCount} {property.reviewCount === 1 ? "Review" : "Reviews"})
+              {ratingAvg} ({reviewCount} {reviewCount === 1 ? "Review" : "Reviews"})
             </span>
           </div>
         </div>
@@ -44,7 +50,7 @@ export function PaymentSummaryCard({ property, totalNights }: PaymentSummaryCard
         <div className="space-y-3">
           <div className="flex justify-between">
             <span>
-              ${perNight} × {totalNights} {totalNights === 1 ? "night" : "nights"}
+              ${perNight} × {calculatedNights} {calculatedNights === 1 ? "night" : "nights"}
             </span>
             <span>${accommodationCost}</span>
           </div>
@@ -66,33 +72,5 @@ export function PaymentSummaryCard({ property, totalNights }: PaymentSummaryCard
         </div>
       </div>
     </div>
-  );
-}
-
-export function YourTrip({ stayDuration, totalGuests }: { stayDuration: string; totalGuests: string }) {
-  return (
-    <section className="mb-8">
-      <h2 className="text-xl font-semibold mb-4">Your trip</h2>
-      {/* Dates */}
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <h3 className="font-medium">Dates</h3>
-          <p className="text-zinc-600 text-sm">{stayDuration}</p>
-        </div>
-        <Button variant="secondary" className="text-zinc-800 text-sm font-bold">
-          Edit
-        </Button>
-      </div>
-      {/* Guests */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h3 className="font-medium">Guests</h3>
-          <p className="text-zinc-600 text-sm">{totalGuests}</p>
-        </div>
-        <Button variant="secondary" className="text-zinc-800 text-sm font-bold">
-          Edit
-        </Button>
-      </div>
-    </section>
   );
 }

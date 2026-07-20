@@ -1,9 +1,9 @@
 "use client";
 import { Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/domains/hotel-booking/components/ui/avatar";
-import { formatDate } from "@/domains/hotel-booking/utils/date-time-utils";
 import { cn } from "@/lib/utils";
 import type { IReviewSnapshot } from "../../models/shared.types";
+import { formatDisplayDate } from "../../utils/date-time-utils";
 
 interface Props {
   review: IReviewSnapshot;
@@ -20,7 +20,7 @@ const ReviewCard = ({ review }: Props) => {
 
         <div>
           <h4 className="font-medium">{review.authorName}</h4>
-          <p className="text-gray-500 text-sm">{formatDate(review.createdAt)}</p>
+          <p className="text-gray-500 text-sm">{formatDisplayDate(review.createdAt)}</p>
         </div>
       </div>
 

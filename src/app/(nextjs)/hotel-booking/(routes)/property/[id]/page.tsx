@@ -56,10 +56,10 @@ const PropertyDetails = async ({ params }: Props) => {
             <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.ratingAvg}>
               <BookingForm
                 isBooked={isBooked}
-                guests={bookingData ? bookingData.guests : data.capacity.bedrooms * 2}
-                maxGuests={data.capacity.bedrooms * 2}
-                checkin={bookingData?.checkin}
-                checkout={bookingData?.checkout}
+                guests={bookingData ? bookingData.guests : data.capacity.guests}
+                maxGuests={data.capacity.guests}
+                checkin={isBooked ? bookingData?.checkin : undefined}
+                checkout={isBooked ? bookingData?.checkout : undefined}
               />
             </BookingCard>
           </div>

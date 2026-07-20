@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const paymentSchema = z.object({
-  uiMode: z.literal("embedded"),
+  uiMode: z.literal("embedded_page"),
   userId: z.string().min(1, "User session required"),
   propertyId: z.string().min(1, "Property reference required"),
   checkin: z.string("Invalid check-in date"),

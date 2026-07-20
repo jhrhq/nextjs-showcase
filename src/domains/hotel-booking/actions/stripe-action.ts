@@ -10,13 +10,10 @@ import { connectToDatabase } from "../config/database";
 import { AUTH_CONFIG } from "../constants/auth.constants";
 import { Booking, Property } from "../models";
 import type { PaymentInput } from "../validationSchema/payment-form-schema";
-// import { parseToUTCMidnight } from "../utils/date-time-utils";
 
 export async function createCheckoutSession(
   data: PaymentInput
 ): Promise<{ client_secret: string | null; url: string | null }> {
-  // const ui_mode = data.get("uiMode") as Stripe.Checkout.SessionCreateParams.UiMode;
-
   const originHeader = await headers();
   const origin = originHeader.get("origin") as string;
 
