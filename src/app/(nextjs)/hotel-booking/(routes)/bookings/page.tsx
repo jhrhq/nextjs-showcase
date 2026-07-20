@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { BookingCard } from "@/domains/hotel-booking/components/booking-card";
+import { BookingCard } from "@/domains/hotel-booking/components/bookings/booking-card";
 import Navbar from "@/domains/hotel-booking/components/navbar";
 import { AUTH_CONFIG } from "@/domains/hotel-booking/constants/auth.constants";
 import { getUserBookings } from "@/domains/hotel-booking/db/queries";

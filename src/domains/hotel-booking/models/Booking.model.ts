@@ -29,7 +29,7 @@ export interface IBillingAddress {
 }
 
 export interface IBooking {
-  property: mongoose.Types.ObjectId;
+  propertyId: mongoose.Types.ObjectId;
   userId: mongoose.Types.ObjectId;
   checkin: Date;
   checkout: Date;
@@ -96,7 +96,7 @@ const billingAddressSchema = new Schema<IBillingAddress>(
 
 const bookingSchema = new Schema<IBookingDocument>(
   {
-    property: { type: Schema.Types.ObjectId, ref: "Property", required: true },
+    propertyId: { type: Schema.Types.ObjectId, ref: "Property", required: true },
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     checkin: { type: Date, required: true },
     checkout: { type: Date, required: true },

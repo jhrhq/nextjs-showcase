@@ -1,10 +1,9 @@
-// "use client";
-
 import { Calendar, CheckCircle2, Clock, Download, Users } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import { calculateNights, formatStayDuration } from "@/domains/hotel-booking/utils/date-time-utils";
-import { toIdString, type UserBookingDTO } from "../mappers/booking.mappers";
+import { toIdString, type UserBookingDTO } from "../../mappers/booking.mappers";
+import { BookingDetailsSheet } from "./booking-details-sheet";
 
 export function formatBookingCode(id: unknown): string {
   const idStr = toIdString(id);
@@ -103,9 +102,7 @@ export function BookingCard({ booking }: { booking: UserBookingDTO }) {
 
         {/* Action Group */}
         <div className="flex items-center gap-2">
-          <Button type="button" className="bg-primary py-2 px-3">
-            View Trip Details
-          </Button>
+          <BookingDetailsSheet booking={booking} />
 
           <Button type="button" variant="outline" className="px-3 py-2">
             <Download className="w-3.5 h-3.5 text-zinc-500" />
