@@ -23,6 +23,7 @@ export interface UserBookingDTO {
   checkout: Date;
   guests: number;
   status: BookingStatus;
+  userId: string;
   priceSummary: {
     totalCost: number;
     currency: string;
@@ -35,6 +36,7 @@ export function toUserBookingDTO({ _id, propertyId, ...rest }: IUserBooking): Us
   return {
     id: toIdString(_id),
     ...rest,
+    userId: toIdString(rest.userId),
     property: {
       id: toIdString(property._id),
       title: property.title,

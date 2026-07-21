@@ -103,10 +103,11 @@ export function BookingCard({ booking }: { booking: UserBookingDTO }) {
         {/* Action Group */}
         <div className="flex items-center gap-2">
           <BookingDetailsSheet booking={booking} />
-
-          <Button type="button" variant="outline" className="px-3 py-2">
-            <Download className="w-3.5 h-3.5 text-zinc-500" />
-            Receipt
+          <Button type="button" variant="outline" className="px-3 py-2" asChild>
+            <a href={`/hotel-booking/api/bookings/${booking.id}/receipt`} target="_blank" rel="noopener noreferrer">
+              <Download className="w-3.5 h-3.5 text-zinc-500" />
+              Receipt
+            </a>
           </Button>
         </div>
       </div>

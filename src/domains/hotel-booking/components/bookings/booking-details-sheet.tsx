@@ -127,8 +127,10 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
 
         {/* Action Buttons */}
         <div className="space-y-2">
-          <Button className="w-full" variant="outline">
-            <Download className="mr-2 h-4 w-4" /> Download PDF Receipt
+          <Button type="button" variant="outline" className="w-full" asChild>
+            <a href={`/hotel-booking/api/bookings/${booking.id}/receipt`} target="_blank" rel="noopener noreferrer">
+              <Download className="mr-2 h-4 w-4" /> Download PDF Receipt
+            </a>
           </Button>
         </div>
       </SheetContent>

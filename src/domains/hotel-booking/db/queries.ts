@@ -69,5 +69,28 @@ export async function getUserBookings(userId: string): Promise<UserBookingDTO[]>
   // TS automatically verifies every element maps correctly to UserBookingDTO.
   return rawBookings.map(toUserBookingDTO);
 }
+export async function getUserBooking(id: string): Promise<UserBookingDTO | null> {
+  // 1. Guard Clause Type Safety
+  // Must return an empty array typed implicitly as UserBookingDTO[]
+  if (!id) return null;
+
+  await connectToDatabase();
+
+  if (!Property) {
+    throw new Error("Property model not registered for populate");
+  }
+
+  const rawBookings = await Booking.findById(id)
+    .populate({
+      path: "propertyId",
+      select: "title location images",
+    })
+    .sort({ createdAt: -1 })
+    .lean<IUserBooking>();
+
+  if (!rawBookings) return null;
+
+  return toUserBookingDTO(rawBookings);
+}
 
 export { getAllProperties, getSelectedPropertyBookinDetails, getSelectedPropertyDetails };
