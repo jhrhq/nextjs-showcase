@@ -71,7 +71,7 @@ const PropertyDetails = async ({ params }: Props) => {
         <div className="grid items-center justify-between mb-8 grid-cols-2">
           <ReviewHeader rating={data?.ratingAvg} reviews={data?.reviewCount} />
 
-          <ReviewContainer propertyId={data?._id.toString()} reviews={data.recentReviews} />
+          <ReviewContainer propertyId={data?._id.toString()} isBooked={!!bookingData} reviews={data.recentReviews} />
         </div>
       </div>
 

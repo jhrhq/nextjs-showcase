@@ -1,14 +1,14 @@
-"use client";
 import type { IReviewSnapshot } from "../../models/shared.types";
 import ReviewModal from "../ReviewModal";
 import ReviewBody from "./ReviewBody";
 
 interface Props {
   propertyId: string;
+  isBooked: boolean;
   reviews: IReviewSnapshot[];
 }
 
-const ReviewContainer = ({ propertyId, reviews }: Props) => {
+const ReviewContainer = ({ propertyId, reviews, isBooked }: Props) => {
   return (
     <>
       <div className="col-span-1  flex justify-end mb-4">
@@ -18,6 +18,7 @@ const ReviewContainer = ({ propertyId, reviews }: Props) => {
 
         <ReviewModal
           propertyId={propertyId}
+          isBooked={isBooked}
           // userId={session?.user?.id}
           // updateReviews={updateReviews}
         />
