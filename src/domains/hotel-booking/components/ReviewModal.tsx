@@ -1,14 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Star, X } from "lucide-react";
+import { Star } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -21,6 +20,7 @@ import { cn } from "@/lib/utils";
 
 interface Props {
   propertyId: string;
+  isBooked: boolean;
   // userId: string;
   // updateReviews: () => void;
 }
@@ -35,7 +35,7 @@ const reviewFormDefaultValues = {
 
 const FORM_ID = "review-form";
 
-const ReviewModal = ({ propertyId }: Props) => {
+const ReviewModal = ({ propertyId, isBooked }: Props) => {
   const [open, setOpen] = useState(false);
 
   const form = useForm<PropertyReview>({
@@ -43,6 +43,7 @@ const ReviewModal = ({ propertyId }: Props) => {
     defaultValues: reviewFormDefaultValues,
     values: {
       ...reviewFormDefaultValues,
+      isBooked,
       property: propertyId,
       user: "",
     },
@@ -57,7 +58,11 @@ const ReviewModal = ({ propertyId }: Props) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="px-4 py-2 border border-primary rounded-lg hover:bg-gray-100" variant="outline">
+        <Button
+          disabled={!isBooked}
+          className="px-4 py-2 border border-primary rounded-lg hover:bg-gray-100"
+          variant="outline"
+        >
           Write a Review
         </Button>
       </DialogTrigger>
@@ -65,9 +70,6 @@ const ReviewModal = ({ propertyId }: Props) => {
         <div className="border-b pb-4 px-6">
           <div className="flex justify-between items-center">
             <DialogTitle className="text-xl font-bold text-gray-800">Write a review</DialogTitle>
-            <DialogClose className="text-gray-400 hover:text-gray-600 hover:cursor-pointer">
-              <X className="size-4 font-bold stroke-3" />
-            </DialogClose>
           </div>
         </div>
 
@@ -125,24 +127,22 @@ const ReviewModal = ({ propertyId }: Props) => {
           </form>
         </div>
 
-        <DialogFooter className="border-t pt-4">
-          <div className="flex justify-end gap-4 px-6">
-            <Button
-              onClick={() => setOpen(false)}
-              type="button"
-              variant="ghost"
-              className="px-4 py-2 rounded-lg hover:brightness-100 text-gray-600 hover:cursor-pointer"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              form={FORM_ID}
-              className="px-4 py-2 bg-primary text-white rounded-lg hover:brightness-90 hover:cursor-pointer"
-            >
-              Submit Review
-            </Button>
-          </div>
+        <DialogFooter className="border-t pt-4 -mx-px px-6">
+          <Button
+            onClick={() => setOpen(false)}
+            type="button"
+            variant="ghost"
+            className="px-4 py-2 rounded-lg hover:brightness-100 text-gray-600 hover:cursor-pointer"
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            form={FORM_ID}
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:brightness-90 hover:cursor-pointer"
+          >
+            Submit Review
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
