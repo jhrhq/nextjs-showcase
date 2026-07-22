@@ -19,33 +19,25 @@ import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/
 import { cn } from "@/lib/utils";
 
 interface Props {
+  userId: string;
   propertyId: string;
-  hasReserved: boolean;
-  // userId: string;
+  bookingId?: string;
   // updateReviews: () => void;
 }
 
-const reviewFormDefaultValues = {
-  comment: "",
-  overallRating: 0,
-  property: "",
-  user: "",
-  isBooked: false,
-};
-
 const FORM_ID = "review-form";
 
-const ReviewModal = ({ propertyId, hasReserved }: Props) => {
+const ReviewModal = ({ userId, propertyId, bookingId }: Props) => {
   const [open, setOpen] = useState(false);
 
   const form = useForm<PropertyReview>({
     resolver: zodResolver(ReviewInputSchema),
-    defaultValues: reviewFormDefaultValues,
-    values: {
-      ...reviewFormDefaultValues,
-      isBooked: hasReserved,
-      property: propertyId,
-      user: "",
+    defaultValues: {
+      userId,
+      propertyId,
+      bookingId,
+      comment: "",
+      overallRating: 5,
     },
   });
 
@@ -59,7 +51,7 @@ const ReviewModal = ({ propertyId, hasReserved }: Props) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          disabled={!hasReserved}
+          disabled={!bookingId}
           className="px-4 py-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
           variant="outline"
         >

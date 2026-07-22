@@ -25,10 +25,9 @@ const PropertyDetails = async ({ params }: Props) => {
   const { id } = await params;
   const bookingData = await getSelectedPropertyBookinDetails(id);
   const data = await getSelectedPropertyDetails(id);
-  if (!data) return null;
+  if (!data || !session) return null;
   let isBooked = false;
   const isHost = session?.user.id === data.host.userId.toString();
-  const hasReserved = !!bookingData;
 
   if (bookingData) {
     const now = new Date();
@@ -79,9 +78,10 @@ const PropertyDetails = async ({ params }: Props) => {
           <ReviewHeader rating={data?.ratingAvg} reviews={data?.reviewCount} />
 
           <ReviewContainer
+            userId={session?.user.id}
             propertyId={data?._id.toString()}
+            bookingId={bookingData?._id.toString()}
             isHost={isHost}
-            hasReserved={hasReserved}
             reviews={data.recentReviews}
           />
         </div>
