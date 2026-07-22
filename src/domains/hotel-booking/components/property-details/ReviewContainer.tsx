@@ -4,24 +4,23 @@ import ReviewBody from "./ReviewBody";
 
 interface Props {
   propertyId: string;
-  isBooked: boolean;
+  isHost: boolean;
+  hasReserved: boolean;
   reviews: IReviewSnapshot[];
 }
 
-const ReviewContainer = ({ propertyId, reviews, isBooked }: Props) => {
+const ReviewContainer = ({ propertyId, reviews, isHost, hasReserved }: Props) => {
   return (
     <>
       <div className="col-span-1  flex justify-end mb-4">
-        {/*<Button className="px-4 py-2 border border-primary rounded-lg hover:bg-gray-100" variant="outline" asChild>
-            <Link href={"/hotel-booking/login"}>Write a Review</Link>
-          </Button>*/}
-
-        <ReviewModal
-          propertyId={propertyId}
-          isBooked={isBooked}
-          // userId={session?.user?.id}
-          // updateReviews={updateReviews}
-        />
+        {!isHost ? (
+          <ReviewModal
+            propertyId={propertyId}
+            hasReserved={hasReserved}
+            // userId={session?.user?.id}
+            // updateReviews={updateReviews}
+          />
+        ) : null}
       </div>
 
       <ReviewBody reviews={reviews} />

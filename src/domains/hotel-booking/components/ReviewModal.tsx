@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 
 interface Props {
   propertyId: string;
-  isBooked: boolean;
+  hasReserved: boolean;
   // userId: string;
   // updateReviews: () => void;
 }
@@ -35,7 +35,7 @@ const reviewFormDefaultValues = {
 
 const FORM_ID = "review-form";
 
-const ReviewModal = ({ propertyId, isBooked }: Props) => {
+const ReviewModal = ({ propertyId, hasReserved }: Props) => {
   const [open, setOpen] = useState(false);
 
   const form = useForm<PropertyReview>({
@@ -43,7 +43,7 @@ const ReviewModal = ({ propertyId, isBooked }: Props) => {
     defaultValues: reviewFormDefaultValues,
     values: {
       ...reviewFormDefaultValues,
-      isBooked,
+      isBooked: hasReserved,
       property: propertyId,
       user: "",
     },
@@ -59,8 +59,8 @@ const ReviewModal = ({ propertyId, isBooked }: Props) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          disabled={!isBooked}
-          className="px-4 py-2 border border-primary rounded-lg hover:bg-gray-100"
+          disabled={!hasReserved}
+          className="px-4 py-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
           variant="outline"
         >
           Write a Review

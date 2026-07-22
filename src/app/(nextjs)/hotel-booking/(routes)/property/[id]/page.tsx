@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import Footer from "@/domains/hotel-booking/components/Footer";
 import Navbar from "@/domains/hotel-booking/components/navbar";
 import BookingCard from "@/domains/hotel-booking/components/property-details/BookingCard";
@@ -9,6 +10,7 @@ import PropertyImages from "@/domains/hotel-booking/components/property-details/
 import ReviewContainer from "@/domains/hotel-booking/components/property-details/ReviewContainer";
 import ReviewHeader from "@/domains/hotel-booking/components/property-details/ReviewHeader";
 import { getSelectedPropertyBookinDetails, getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
+import { auth } from "@/lib/auth";
 
 interface Props {
   params: Promise<{
@@ -17,11 +19,16 @@ interface Props {
 }
 
 const PropertyDetails = async ({ params }: Props) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const { id } = await params;
   const bookingData = await getSelectedPropertyBookinDetails(id);
   const data = await getSelectedPropertyDetails(id);
   if (!data) return null;
   let isBooked = false;
+  const isHost = session?.user.id === data.host.userId.toString();
+  const hasReserved = !!bookingData;
 
   if (bookingData) {
     const now = new Date();
@@ -71,7 +78,12 @@ const PropertyDetails = async ({ params }: Props) => {
         <div className="grid items-center justify-between mb-8 grid-cols-2">
           <ReviewHeader rating={data?.ratingAvg} reviews={data?.reviewCount} />
 
-          <ReviewContainer propertyId={data?._id.toString()} isBooked={!!bookingData} reviews={data.recentReviews} />
+          <ReviewContainer
+            propertyId={data?._id.toString()}
+            isHost={isHost}
+            hasReserved={hasReserved}
+            reviews={data.recentReviews}
+          />
         </div>
       </div>
 
