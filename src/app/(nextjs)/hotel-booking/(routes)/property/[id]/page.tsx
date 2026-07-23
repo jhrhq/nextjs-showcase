@@ -29,7 +29,8 @@ const PropertyDetails = async ({ params }: Props) => {
 
   if (!data) return null;
   let isBooked = false;
-  const isHost = session?.user.id === data.host.userId.toString();
+  const userId = session?.user.id;
+  const isHost = userId === data.host.userId.toString();
 
   if (bookingData) {
     const now = new Date();
@@ -83,6 +84,7 @@ const PropertyDetails = async ({ params }: Props) => {
             propertyId={data?._id.toString()}
             bookingId={bookingData?._id.toString()}
             isHost={isHost}
+            userId={userId}
             reviews={data.recentReviews}
           />
         </div>
