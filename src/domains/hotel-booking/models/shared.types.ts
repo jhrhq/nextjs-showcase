@@ -23,11 +23,9 @@ export interface IHost {
 // Embedded snapshot of a reviewer — name + avatar captured at review time
 // so deleting the User account doesn't wipe historical review display data
 export interface IReviewSnapshot {
-  reviewId: import("mongoose").Types.ObjectId; // ref → Review
-  authorId: import("mongoose").Types.ObjectId; // ref → User
+  authorId: string; // ref → User
   authorName: string;
   authorAvatar?: string;
   overallRating: number;
   comment: string;
-  createdAt: Date;
 }

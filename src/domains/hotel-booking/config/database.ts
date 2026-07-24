@@ -20,8 +20,6 @@ export async function connectToDatabase() {
     const opts = {
       bufferCommands: false,
     };
-    MONGODB_URI;
-
     cached.promise = mongoose.connect(MONGODB_URI!, opts).then((m) => m.connection);
   }
 
