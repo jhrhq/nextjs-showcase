@@ -1,8 +1,8 @@
-import { Calendar, CheckCircle2, Clock, Download, Users } from "lucide-react";
+import { Calendar, CheckCircle2, Clock, Users } from "lucide-react";
 import Image from "next/image";
-import { Button } from "@/domains/hotel-booking/components/ui/button";
 import { calculateNights, formatStayDuration } from "@/domains/hotel-booking/utils/date-time-utils";
 import { toIdString, type UserBookingDTO } from "../../mappers/booking.mappers";
+import { DownloadReceiptButton } from "../download-receipt-button";
 import { BookingDetailsSheet } from "./booking-details-sheet";
 
 export function formatBookingCode(id: unknown): string {
@@ -103,12 +103,12 @@ export function BookingCard({ booking }: { booking: UserBookingDTO }) {
         {/* Action Group */}
         <div className="flex items-center gap-2">
           <BookingDetailsSheet booking={booking} />
-          <Button type="button" variant="outline" className="px-3 py-2" asChild>
-            <a href={`/hotel-booking/api/bookings/${booking.id}/receipt`} target="_blank" rel="noopener noreferrer">
-              <Download className="w-3.5 h-3.5 text-zinc-500" />
-              Receipt
-            </a>
-          </Button>
+          <DownloadReceiptButton
+            bookingId={booking.id}
+            label="Receipt"
+            size="sm"
+            iconClassName="w-3.5 h-3.5 text-zinc-500"
+          />
         </div>
       </div>
     </div>

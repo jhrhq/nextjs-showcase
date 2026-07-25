@@ -1,7 +1,8 @@
 import { format } from "date-fns";
-import { Briefcase, CheckCircle2, Download, Mail, MessageSquareText, Star } from "lucide-react";
+import { Briefcase, CheckCircle2, Mail, MessageSquareText, Star } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { DownloadReceiptButton } from "@/domains/hotel-booking/components/download-receipt-button";
 import { connectToDatabase } from "@/domains/hotel-booking/config/database";
 import { AUTH_CONFIG } from "@/domains/hotel-booking/constants/auth.constants";
 import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
@@ -9,10 +10,12 @@ import { Booking } from "@/domains/hotel-booking/models";
 import { stripe } from "@/lib/stripe-configs/stripe";
 
 interface PageProps {
+  params: Promise<{ id: string }>;
   searchParams: Promise<{ session_id?: string }>;
 }
 
-export default async function BookingConfirmationPage({ searchParams }: PageProps) {
+export default async function BookingConfirmationPage({ params, searchParams }: PageProps) {
+  const { id: bookignId } = await params;
   const { session_id } = await searchParams;
 
   if (!session_id) {
@@ -183,13 +186,11 @@ export default async function BookingConfirmationPage({ searchParams }: PageProp
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              type="button"
-              className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg shadow-xs hover:brightness-95 transition-all active:scale-[0.98] cursor-pointer"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Download Receipt
-            </button>
+            <DownloadReceiptButton
+              bookingId={bookignId}
+              className="px-6 py-3 bg-primary text-primary-foreground hover:brightness-95 active:scale-[0.98] shadow-xs cursor-pointer"
+              iconClassName="text-zinc-500"
+            />
           </div>
 
           {/* Need Help Section */}

@@ -1,10 +1,11 @@
-import { Calendar, CheckCircle2, Clock, Download, MapPin, Receipt, Users } from "lucide-react";
+import { Calendar, CheckCircle2, Clock, MapPin, Receipt, Users } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import type { UserBookingDTO } from "../../mappers/booking.mappers";
+import { DownloadReceiptButton } from "../download-receipt-button";
 import { Button } from "../ui/button";
 
 interface BookingDetailsSheetProps {
@@ -117,9 +118,7 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
 
           <div className="flex justify-between text-sm text-zinc-600">
             <span>Total Amount Paid</span>
-            <span className="font-bold text-zinc-900">
-              {priceSummary.currency} ${priceSummary.totalCost}
-            </span>
+            <span className="font-bold text-zinc-900">${priceSummary.totalCost}</span>
           </div>
         </div>
 
@@ -127,11 +126,7 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
 
         {/* Action Buttons */}
         <div className="space-y-2">
-          <Button type="button" variant="outline" className="w-full" asChild>
-            <a href={`/hotel-booking/api/bookings/${booking.id}/receipt`} target="_blank" rel="noopener noreferrer">
-              <Download className="mr-2 h-4 w-4" /> Download PDF Receipt
-            </a>
-          </Button>
+          <DownloadReceiptButton bookingId={booking.id} label="Download PDF Receipt" className="w-full" />
         </div>
       </SheetContent>
     </Sheet>
