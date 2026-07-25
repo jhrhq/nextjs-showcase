@@ -1,10 +1,7 @@
 import mongoose, { type Document, type Model, Schema, type Types } from "mongoose";
-import type { IHost, ILocation, IReviewSnapshot } from "./shared.types";
+import type { IHost, ILocation } from "./shared.types";
 
-// ─── Re-export shared types so callers can import from one place ──────────────
-export type { IHost, ILocation, IReviewSnapshot };
-
-// ─── Types ────────────────────────────────────────────────────────────────────
+export type { IHost, ILocation };
 
 export type PropertyType = "Entire home" | "Private room" | "Shared room" | "Unique stay" | "Hotel room";
 
@@ -27,41 +24,26 @@ export interface IPropertyImage {
   alt?: string;
 }
 
-// ─── Main interface ───────────────────────────────────────────────────────────
-
 export interface IProperty {
-  // ── Identity
   title: string;
   description: string;
   type: PropertyType;
   tags: string[]; // e.g. ["beachfront", "pet-friendly", "pool"]
 
-  // ── Embedded host snapshot (avoids join on card render)
   host: IHost;
 
-  // ── Location (your exact interface)
   location: ILocation;
 
   // ── Media
-  images: IPropertyImage[]; // first image used as card thumbnail
+  images: IPropertyImage[];
   amenities: string[];
 
-  // ── Pricing & capacity
   pricing: IPricing;
   capacity: ICapacity;
 
-  // ── Cached metadata — updated by Review post-hooks, never manually
   ratingAvg: number;
   reviewCount: number;
-  /**
-   * Hard-capped array of the 3 most recent reviews.
-   * Each entry is a denormalised snapshot (name + avatar + comment)
-   * so the details page hero section renders with zero extra queries.
-   * Managed exclusively via the Review post-save / post-delete hook.
-   */
-  recentReviews: IReviewSnapshot[];
 
-  // ── Visibility flags
   isPublished: boolean;
   isFeatured: boolean;
 
@@ -103,19 +85,6 @@ const hostSchema = new Schema<IHost>(
   { _id: false }
 );
 
-const reviewSnapshotSchema = new Schema<IReviewSnapshot>(
-  {
-    reviewId: { type: Schema.Types.ObjectId, ref: "Review", required: true },
-    authorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    authorName: { type: String, required: true },
-    authorAvatar: String,
-    overallRating: { type: Number, required: true, min: 1, max: 5 },
-    comment: { type: String, required: true },
-    createdAt: { type: Date, required: true },
-  },
-  { _id: false }
-);
-
 const propertySchema = new Schema<IPropertyDocument>(
   {
     title: { type: String, required: true, trim: true },
@@ -146,17 +115,8 @@ const propertySchema = new Schema<IPropertyDocument>(
       bathrooms: { type: Number, required: true },
     },
 
-    // ── Cached metadata (managed by Review hooks — never write these manually)
     ratingAvg: { type: Number, default: 0, min: 0, max: 5 },
     reviewCount: { type: Number, default: 0 },
-    recentReviews: {
-      type: [reviewSnapshotSchema],
-      default: [],
-      validate: {
-        validator: (arr: IReviewSnapshot[]) => arr.length <= 3,
-        message: "recentReviews is hard-capped at 3 entries",
-      },
-    },
 
     isPublished: { type: Boolean, default: false },
     isFeatured: { type: Boolean, default: false },

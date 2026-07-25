@@ -158,7 +158,7 @@ const ReviewSchema = new Schema<IReview>(
  *   deterministically, with no race window.
  */
 ReviewSchema.index(
-  { userId: 1, proeprtyId: 1 },
+  { authorId: 1, proeprtyId: 1 },
   {
     unique: true,
     name: "unique_review_per_user_per_listing",
@@ -181,7 +181,7 @@ ReviewSchema.index({ proeprtyId: 1, moderationStatus: 1, createdAt: -1 });
  * User profile — "my reviews" query:
  *   { userId, createdAt }
  */
-ReviewSchema.index({ userId: 1, createdAt: -1 });
+ReviewSchema.index({ authorId: 1, createdAt: -1 });
 
 /**
  * Reservation audit trail — look up the review tied to a specific stay:

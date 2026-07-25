@@ -2,11 +2,11 @@
 import { Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/domains/hotel-booking/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import type { IReviewSnapshot } from "../../models/shared.types";
+import type { IReviewDocument } from "../../models/Review.model";
 import { formatDisplayDate } from "../../utils/date-time-utils";
 
 interface Props {
-  review: IReviewSnapshot;
+  review: IReviewDocument;
 }
 
 const ReviewCard = ({ review }: Props) => {

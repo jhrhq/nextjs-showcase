@@ -2,8 +2,9 @@ import type { Types } from "mongoose";
 import Property, { type IPropertyDocument } from "@/domains/hotel-booking/models/Property.model";
 import { connectToDatabase } from "../config/database";
 import { toUserBookingDTO, type UserBookingDTO } from "../mappers/booking.mappers";
-import { Booking } from "../models";
+import { Booking, Review } from "../models";
 import type { IBookingDocument } from "../models/Booking.model";
+import type { IReviewDocument } from "../models/Review.model";
 
 type PaginatedProperties = {
   allProperties: IPropertyDocument[];
@@ -85,7 +86,6 @@ export async function getUserBooking(id: string): Promise<UserBookingDTO | null>
       path: "propertyId",
       select: "title location images",
     })
-    .sort({ createdAt: -1 })
     .lean<IUserBooking>();
 
   if (!rawBookings) return null;
@@ -93,4 +93,17 @@ export async function getUserBooking(id: string): Promise<UserBookingDTO | null>
   return toUserBookingDTO(rawBookings);
 }
 
-export { getAllProperties, getSelectedPropertyBookinDetails, getSelectedPropertyDetails };
+async function getReviewsForProperty(propertyId: string): Promise<IReviewDocument[]> {
+  try {
+    await connectToDatabase();
+
+    const reviews = await Review.find({ propertyId }).sort({ createdAt: -1 }).lean<IReviewDocument>();
+
+    return JSON.parse(JSON.stringify(reviews));
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return [];
+  }
+}
+
+export { getAllProperties, getReviewsForProperty, getSelectedPropertyBookinDetails, getSelectedPropertyDetails };

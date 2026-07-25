@@ -75,7 +75,6 @@ const PropertyDetails = async ({ params }: Props) => {
         </div>
       </div>
 
-      {/* Reviews Section */}
       <div className="max-w-7xl mx-auto px-6 py-12 border-t">
         <div className="grid items-center justify-between mb-8 grid-cols-2">
           <ReviewHeader rating={data?.ratingAvg} reviews={data?.reviewCount} />
@@ -85,7 +84,6 @@ const PropertyDetails = async ({ params }: Props) => {
             bookingId={bookingData?._id.toString()}
             isHost={isHost}
             userId={userId}
-            reviews={data.recentReviews}
           />
         </div>
       </div>

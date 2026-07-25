@@ -23,12 +23,12 @@ import { createReviewAction } from "../actions/reviewAction";
 interface Props {
   propertyId: string;
   bookingId?: string;
-  // updateReviews: () => void;
+  isCurrentUserReview: boolean;
 }
 
 const FORM_ID = "review-form";
 
-const ReviewModal = ({ propertyId, bookingId }: Props) => {
+const ReviewModal = ({ propertyId, bookingId, isCurrentUserReview }: Props) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -43,23 +43,20 @@ const ReviewModal = ({ propertyId, bookingId }: Props) => {
   });
 
   async function onSubmit(values: PropertyReview) {
-    console.log(values);
     try {
       const res = await createReviewAction({ data: values, path: pathname });
       if (res) setOpen(false);
       console.log(res);
-    } catch {
+    } catch (error) {
       console.log(error);
     }
-    // Add your submission logic here
-    // setOpen(false);
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          disabled={!bookingId}
+          disabled={!bookingId || isCurrentUserReview}
           className="px-4 py-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
           variant="outline"
         >

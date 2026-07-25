@@ -19,13 +19,3 @@ export interface IHost {
   isSuperhost: boolean;
   joinedYear?: number;
 }
-
-// Embedded snapshot of a reviewer — name + avatar captured at review time
-// so deleting the User account doesn't wipe historical review display data
-export interface IReviewSnapshot {
-  authorId: string; // ref → User
-  authorName: string;
-  authorAvatar?: string;
-  overallRating: number;
-  comment: string;
-}

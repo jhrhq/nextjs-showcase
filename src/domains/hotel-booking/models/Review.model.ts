@@ -5,7 +5,7 @@ export interface IReviewDocument extends Document {
   _id: Types.ObjectId;
   propertyId: Types.ObjectId;
   bookingId: Types.ObjectId;
-  authorId: string;
+  authorId: Types.ObjectId;
   authorName: string;
   authorAvatar?: string;
   overallRating: number;
@@ -36,6 +36,8 @@ const ReviewSchema = new Schema<IReviewDocument>(
   },
   { timestamps: true }
 );
+
+ReviewSchema.index({ propertyId: 1, authorId: 1 }, { unique: true });
 
 // Strongly-typed model accessor helper
 function getPropertyModel(): IPropertyModel {

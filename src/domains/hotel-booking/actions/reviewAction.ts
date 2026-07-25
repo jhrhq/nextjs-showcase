@@ -11,6 +11,7 @@ import { type PropertyReview, ReviewInputSchema } from "../validationSchema/revi
 
 interface ActionResponse {
   success: boolean;
+
   message: string;
   errors?: Record<string, string[]>;
 }
