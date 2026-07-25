@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Star } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -17,9 +18,9 @@ import {
 import { Textarea } from "@/domains/hotel-booking/components/ui/textarea";
 import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
 import { cn } from "@/lib/utils";
+import { createReviewAction } from "../actions/reviewAction";
 
 interface Props {
-  userId: string;
   propertyId: string;
   bookingId?: string;
   // updateReviews: () => void;
@@ -27,13 +28,13 @@ interface Props {
 
 const FORM_ID = "review-form";
 
-const ReviewModal = ({ userId, propertyId, bookingId }: Props) => {
+const ReviewModal = ({ propertyId, bookingId }: Props) => {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   const form = useForm<PropertyReview>({
     resolver: zodResolver(ReviewInputSchema),
     defaultValues: {
-      userId,
       propertyId,
       bookingId,
       comment: "",
@@ -43,6 +44,13 @@ const ReviewModal = ({ userId, propertyId, bookingId }: Props) => {
 
   async function onSubmit(values: PropertyReview) {
     console.log(values);
+    try {
+      const res = await createReviewAction({ data: values, path: pathname });
+      if (res) setOpen(false);
+      console.log(res);
+    } catch {
+      console.log(error);
+    }
     // Add your submission logic here
     // setOpen(false);
   }

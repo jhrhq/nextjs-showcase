@@ -1,4 +1,4 @@
-import mongoose, { type Document, type Model, Schema } from "mongoose";
+import mongoose, { type Document, type Model, Schema, type Types } from "mongoose";
 import type { IHost, ILocation, IReviewSnapshot } from "./shared.types";
 
 // ─── Re-export shared types so callers can import from one place ──────────────
@@ -72,6 +72,11 @@ export interface IProperty {
 export interface IPropertyDocument extends IProperty, Document {
   createdAt: Date;
   updatedAt: Date;
+}
+
+// Statics Interface
+export interface IPropertyModel extends Model<IPropertyDocument> {
+  calculateReviewStats(propertyId: Types.ObjectId | string): Promise<void>;
 }
 
 const locationSchema = new Schema<ILocation>(
@@ -169,6 +174,41 @@ propertySchema.index({ tags: 1, isPublished: 1 }); // tag filter
 propertySchema.index({ "pricing.perNight": 1 }); // price sort/filter
 propertySchema.index({ title: "text", description: "text" }); // search bar
 
+// inside property.model.ts
+
+propertySchema.statics.calculateReviewStats = async function (propertyId: Types.ObjectId | string): Promise<void> {
+  const Review = mongoose.model("Review");
+  const targetId = typeof propertyId === "string" ? new mongoose.Types.ObjectId(propertyId) : propertyId;
+
+  type AggregationOutput = { ratingAvg: number; reviewCount: number };
+
+  const [result] = await Review.aggregate<AggregationOutput>([
+    { $match: { propertyId: targetId } },
+    {
+      $group: {
+        _id: null,
+        ratingAvg: { $avg: "$overallRating" },
+        reviewCount: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        ratingAvg: { $round: ["$ratingAvg", 2] },
+        reviewCount: 1,
+      },
+    },
+  ]);
+
+  await this.findByIdAndUpdate(
+    targetId,
+    {
+      ratingAvg: result ? result.ratingAvg : 0,
+      reviewCount: result ? result.reviewCount : 0,
+    },
+    { runValidators: false }
+  );
+};
 const Property: Model<IPropertyDocument> =
   (mongoose.models.Property as Model<IPropertyDocument>) ||
   mongoose.model<IPropertyDocument>("Property", propertySchema);

@@ -1,82 +1,98 @@
 "use server";
-import mongoose from "mongoose";
 
-import { Property, Review } from "../models";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import z from "zod";
+import Booking from "@/domains/hotel-booking/models/Booking.model";
+import { auth } from "@/lib/auth";
+import { connectToDatabase } from "../config/database";
+import { Review } from "../models";
+import { type PropertyReview, ReviewInputSchema } from "../validationSchema/review-schema";
 
-export async function getReviews({ propertyId }: { propertyId: string }) {
-  const reviews = await Review.find({ propertyId: propertyId }).sort({
-    createdAt: "desc",
-  });
-
-  const reviewsCount = await Review.countDocuments({ propertyId: propertyId });
-  return {
-    reviews,
-    reviewsCount,
-  };
+interface ActionResponse {
+  success: boolean;
+  message: string;
+  errors?: Record<string, string[]>;
 }
 
-// export async function createReviewAction({
-//   data,
-//   // path,
-// }: {
-//   data: PropertyReview;
-//   // path: string;
-// }) {
-//   try {
-//     const session = await auth.api.getSession();
-//     if (!session) {
-//       throw new Error("User is not authenticated");
-//     }
+export async function createReviewAction({
+  data,
+  path,
+}: {
+  data: PropertyReview;
+  path: string;
+}): Promise<ActionResponse> {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
 
-//     const review = ReviewInputSchema.safeParse({
-//       ...data,
-//       user: session?.user?.id,
-//     });
-//     if (!review.success) return { status: false, errors: review.error.formErrors.fieldErrors };
+    if (!session?.user?.id) {
+      return {
+        success: false,
+        message: "Unauthorized access",
+      };
+    }
 
-//     // await connectDB();
-//     await Review.create(review.data);
-//     await updatePropertyReview(review?.data.property);
-//     // revalidatePath(path)
-//     return {
-//       status: true,
-//       message: "Review created successfully",
-//       // data: JSON.parse(JSON.stringify(newReview)),
-//     };
-//   } catch (error) {
-//     return { status: false, message: error.message };
-//   }
-// }
+    const parsed = ReviewInputSchema.safeParse(data);
+    if (!parsed.success) {
+      const { fieldErrors } = z.flattenError(parsed.error);
 
-const updatePropertyReview = async (productId: string) => {
-  // Calculate the new average rating, number of reviews, and rating distribution
-  const result = await Review.aggregate([
-    { $match: { property: new mongoose.Types.ObjectId(productId) } },
-    {
-      $group: {
-        _id: "$rating",
-        count: { $sum: 1 },
-      },
-    },
-  ]);
-  // Calculate the total number of reviews and average rating
-  const totalReviews = result.reduce((sum, { count }) => sum + count, 0);
-  const avgRating = result.reduce((sum, { _id, count }) => sum + _id * count, 0) / totalReviews;
+      return {
+        success: false,
+        message: "Validation failed",
+        errors: fieldErrors,
+      };
+    }
 
-  // Convert aggregation result to a map for easier lookup
-  const ratingMap = result.reduce((map, { _id, count }) => {
-    map[_id] = count;
-    return map;
-  }, {});
-  // Ensure all ratings 1-5 are represented, with missing ones set to count: 0
-  const ratingDistribution = [];
-  for (let i = 1; i <= 5; i++) {
-    ratingDistribution.push({ rating: i, count: ratingMap[i] || 0 });
+    const { propertyId, bookingId } = parsed.data;
+    const { id: userId } = session.user;
+
+    await connectToDatabase();
+
+    const isEligible = await Booking.exists({
+      _id: bookingId,
+      propertyId,
+      userId,
+      status: "confirmed",
+    });
+
+    if (!isEligible) {
+      return {
+        success: false,
+        message: "You are not authorized to review this property.",
+      };
+    }
+
+    await Review.create({
+      authorId: userId,
+      authorName: session.user.name,
+      authorAvatar: session.user.image,
+      ...parsed.data,
+    });
+    revalidatePath(path);
+    return { success: true, message: "Review published successfully!" };
+  } catch (error) {
+    return handleReviewError(error);
   }
-  // Update product fields with calculated values
-  await Property.findByIdAndUpdate(productId, {
-    avgRating: avgRating.toFixed(1),
-    numReviews: totalReviews,
-    ratingDistribution,
-  });
-};
+}
+
+/**
+ * Isolated Error Handler for Mongo and Mongoose codes
+ */
+function handleReviewError(error: unknown): ActionResponse {
+  console.error("[CREATE_REVIEW_ERROR]", error);
+
+  // Native MongoDB Duplicate Key Error (Unique index violation on bookingId)
+  if (typeof error === "object" && error !== null && "code" in error && (error as { code?: number }).code === 11000) {
+    return {
+      success: false,
+      message: "You have already submitted a review for this booking.",
+    };
+  }
+
+  return {
+    success: false,
+    message: error instanceof Error ? error.message : "Failed to create review.",
+  };
+}

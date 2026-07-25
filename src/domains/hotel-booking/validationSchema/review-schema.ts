@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const ReviewInputSchema = z.object({
-  userId: z.string(),
   propertyId: z.string(),
   bookingId: z.string(),
   // title: z.string().min(1, "Title is required"),
