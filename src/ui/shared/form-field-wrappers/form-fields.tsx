@@ -17,6 +17,7 @@ interface ControlledFieldProps<TFieldValues extends FieldValues, TName extends F
   label?: string;
   description?: string;
   placeholder?: string;
+  Icon?: React.ElementType;
 }
 
 interface ControlledInputProps<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>>

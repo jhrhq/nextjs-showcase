@@ -3,18 +3,18 @@
 import { Building2, Loader2, Sparkles } from "lucide-react";
 import { type Control, type FormState, useWatch } from "react-hook-form";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import type { CreatePropertyInput } from "../../validationSchema/property-schema";
+import type { PropertyFormValues } from "../../validationSchema/property-schema";
 import { Button } from "../ui/button";
 import { FieldError } from "../ui/field";
 
 interface FormProps {
-  control: Control<CreatePropertyInput>;
+  control: Control<PropertyFormValues>;
 }
 
 export default function PropertyLivePreview({
   control,
   formState,
-}: FormProps & { formState: FormState<CreatePropertyInput> }) {
+}: FormProps & { formState: FormState<PropertyFormValues> }) {
   const title = useWatch({ control, name: "title" });
   const city = useWatch({ control, name: "location.city" });
   const country = useWatch({ control, name: "location.country" });
