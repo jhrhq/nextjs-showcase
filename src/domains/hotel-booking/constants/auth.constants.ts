@@ -28,6 +28,9 @@ export const AUTH_CONFIG = {
   EMAIL: {
     MAX_LENGTH: 255,
   },
+  API: {
+    DOWNLOAD_RECEIPT: (id: string | number) => `/hotel-booking/api/bookings/${id}/receipt` as const,
+  },
   ROUTES: {
     HOME: "/hotel-booking",
     SIGN_IN: "/hotel-booking/signin",

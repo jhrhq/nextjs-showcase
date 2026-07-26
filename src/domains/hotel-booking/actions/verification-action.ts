@@ -2,7 +2,7 @@
 import crypto from "node:crypto";
 import { headers } from "next/headers";
 // import mail from "@/domains/hotel-booking/utils/mail";
-import UserModel, { createNewUser } from "@/domains/hotel-booking/models/user-model";
+import UserModel from "@/domains/hotel-booking/models/User.model";
 import VerificationTokenModel from "@/domains/hotel-booking/models/verification-token-model";
 import { auth } from "@/lib/auth";
 

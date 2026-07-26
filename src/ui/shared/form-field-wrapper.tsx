@@ -14,7 +14,8 @@ type FormFieldWrapperProps<TFieldValues extends FieldValues> = {
   label?: string;
   htmlFor?: string;
   required?: boolean;
-  className?: string;
+  inputGroupClassName?: string;
+  inputClassName?: string;
   placeholder?: string;
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
   autoComplete?: string;
@@ -115,6 +116,8 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
   topAddon,
   bottomAddon,
   as = "input",
+  inputClassName,
+  inputGroupClassName,
 }: FormFieldWrapperProps<TFieldValues>) {
   const id = React.useId();
   const userHtmlFor = htmlFor || id;
@@ -138,8 +141,7 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
               )}
             </FieldLabel>
           )}
-
-          <InputGroup>
+          <InputGroup className={inputGroupClassName}>
             {topAddon && <InputGroupAddon align="block-start">{topAddon}</InputGroupAddon>}
 
             {startAddon && <InputGroupAddon align="inline-start">{startAddon}</InputGroupAddon>}
@@ -151,10 +153,12 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
                 aria-invalid={fieldState.invalid}
                 placeholder={placeholder}
                 autoComplete={autoComplete}
+                className={inputClassName}
               />
             ) : (
               <InputGroupInput
                 {...field}
+                className={inputClassName}
                 id={userHtmlFor}
                 aria-invalid={fieldState.invalid}
                 placeholder={placeholder}
@@ -192,7 +196,7 @@ export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
   placeholder = "Please enter your password.",
   type = "password",
   autoComplete = "off",
-
+  className = "",
   showToggle = true,
   defaultVisible = false,
   lockIcon = <Lock className="size-4 text-muted-foreground" />,
@@ -241,6 +245,7 @@ export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
               required={required}
               type={showPassword ? "text" : type}
               autoComplete={autoComplete}
+              className={className}
             />
 
             {/* Right toggle button (conditional) */}

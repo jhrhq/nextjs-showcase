@@ -2,7 +2,7 @@
 
 import crypto from "node:crypto";
 import PassResetTokenModel from "@/domains/hotel-booking/models/password-reset-token-model";
-import UserModel from "@/domains/hotel-booking/models/user-model";
+import UserModel from "@/domains/hotel-booking/models/User.model";
 import { updatePasswordSchema } from "@/domains/hotel-booking/validationSchema/update-password-validation-schema";
 
 interface ResetPassResponse {

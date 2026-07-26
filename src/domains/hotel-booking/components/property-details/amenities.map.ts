@@ -258,3 +258,25 @@ export const AMENITY_MAP: Record<string, LucideIcon> = {
   "Mosquito nets": Shield,
   "Solar power": Sun,
 };
+
+// Optional custom overrides for specific keys
+const LABEL_OVERRIDES: Record<string, string> = {
+  wifi: "Free Wi-Fi",
+  parking: "Free Parking",
+  gym: "Fitness Center",
+};
+
+// Automatically derive AMENITY_LABELS from AMENITY_MAP keys
+export const AMENITY_LABELS: Record<string, string> = Object.keys(AMENITY_MAP).reduce(
+  (acc, key) => {
+    acc[key] =
+      LABEL_OVERRIDES[key] ||
+      key
+        .replace(/[-_]/g, " ")
+        .replace(/([A-Z])/g, " $1")
+        .replace(/^\w/, (c) => c.toUpperCase())
+        .trim();
+    return acc;
+  },
+  {} as Record<string, string>
+);
