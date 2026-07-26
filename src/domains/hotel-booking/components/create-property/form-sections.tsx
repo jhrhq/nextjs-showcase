@@ -33,7 +33,7 @@ import type { PropertyFormValues } from "../../validationSchema/property-schema"
 import { AMENITY_LABELS, AMENITY_MAP } from "../property-details/amenities.map";
 import { FieldError } from "../ui/field";
 import { Input } from "../ui/input";
-import { CURRENCIES } from "./constants";
+import { CURRENCIES, PROPERTY_TYPES } from "./constants";
 
 type FormControl = { control: Control<PropertyFormValues> };
 
@@ -126,7 +126,14 @@ export function PropertyCapacityInputs({ control }: FormControl) {
   return (
     <div className="border-b pb-6 border-zinc-200">
       <h3 className="text-lg font-semibold text-zinc-800 mb-4">Property Capacity</h3>
-      <FieldGroup className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <FieldGroup className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+        <ControlledSelect
+          control={control}
+          name="type"
+          label="Property type"
+          placeholder="Select type"
+          options={PROPERTY_TYPES.map((t) => ({ value: t, label: t }))}
+        />
         {CAPACITY_CONFIG.map(({ name, label, icon: Icon }) => (
           <Controller
             key={name}

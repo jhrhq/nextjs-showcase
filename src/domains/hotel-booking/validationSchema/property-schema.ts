@@ -33,12 +33,12 @@ export const propertySchema = z.object({
 export type PropertyFormValues = z.infer<typeof propertySchema>;
 
 export const propertyFormDefaults: PropertyFormValues = {
-  title: "",
-  description: "",
+  title: "Relaxing Lakeside Home",
+  description: "Lovely lakeside family home.",
   type: "Entire home",
   tags: [],
-  location: { city: "", country: "", address: "" },
-  pricing: { perNight: 0, cleaningFee: 0, serviceFee: 0, currency: "USD" },
+  location: { city: "New York", country: "United States", address: "123 Ocean Avenue, New York, USA" },
+  pricing: { perNight: 120, cleaningFee: 20, serviceFee: 30, currency: "USD" },
   capacity: { guests: 1, bedrooms: 1, beds: 1, bathrooms: 1 },
   images: [
     {
