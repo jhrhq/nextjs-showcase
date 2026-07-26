@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 import { ControlledTextarea } from "@/ui/shared/form-field-wrappers/form-fields";
+import { createPropertyAction } from "../../actions/create-property-action";
 import { type PropertyFormValues, propertyFormDefaults, propertySchema } from "../../validationSchema/property-schema";
 import { FieldGroup } from "../ui/field";
 import PropertyAmenitiesSelector, {
@@ -38,6 +39,12 @@ export default function PropertyEditForm() {
 
   const onSubmit = async (data: PropertyFormValues) => {
     console.log("Submitting property:", data);
+    try {
+      const result = await createPropertyAction(data);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
