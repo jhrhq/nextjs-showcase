@@ -43,7 +43,7 @@ export const AUTH_CONFIG = {
     BOOKINGS: "/hotel-booking/bookings",
     HOSTING_CREATE: "/hotel-booking/hosting/create",
     HOSTING_LISTING: "/hotel-booking/hosting/listing",
-    HOSTING_LISTING_EDIT: (id: string | number) => `/hotel-booking/hosting/listing/edit/${id}` as const,
+    HOSTING_LISTING_EDIT: (id: string | number) => `/hotel-booking/hosting/listing/${id}/edit` as const,
     CREATE_HOTEL: "/hotel-booking/hosting/create-hotel",
     PROPERTY_PATH: "/hotel-booking/property",
     PROPERTY: (id: string | number) => `/hotel-booking/property/${id}` as const,
