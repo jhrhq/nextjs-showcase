@@ -1,5 +1,7 @@
 import type { Types } from "mongoose";
+import { headers } from "next/headers";
 import Property, { type IPropertyDocument } from "@/domains/hotel-booking/models/Property.model";
+import { auth } from "@/lib/auth";
 import { connectToDatabase } from "../config/database";
 import { toUserBookingDTO, type UserBookingDTO } from "../mappers/booking.mappers";
 import { Booking, Review } from "../models";
@@ -106,4 +108,25 @@ async function getReviewsForProperty(propertyId: string): Promise<IReviewDocumen
   }
 }
 
-export { getAllProperties, getReviewsForProperty, getSelectedPropertyBookinDetails, getSelectedPropertyDetails };
+async function getHostProperties(): Promise<IPropertyDocument[] | null> {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session?.user?.id) throw new Error("Unauthorized");
+
+  await connectToDatabase();
+
+  const properties = await Property.find({
+    "host.userId": session.user.id,
+  })
+    .sort({ createdAt: -1 })
+    .lean<IPropertyDocument[]>();
+
+  return properties;
+}
+
+export {
+  getAllProperties,
+  getHostProperties,
+  getReviewsForProperty,
+  getSelectedPropertyBookinDetails,
+  getSelectedPropertyDetails,
+};

@@ -1,6 +1,8 @@
-import { Edit2, Star, Trash2 } from "lucide-react";
 import type { Metadata } from "next";
+import { Button } from "@/components/ui/button";
+import ManageProperties from "@/domains/hotel-booking/components/create-property/manage-properties";
 import Navbar from "@/domains/hotel-booking/components/navbar";
+import { getHostProperties } from "@/domains/hotel-booking/db/queries";
 
 export const metadata: Metadata = {
   title: "Manage Hotels",
@@ -8,52 +10,25 @@ export const metadata: Metadata = {
 };
 
 const ManageList = async () => {
+  const properties = await getHostProperties();
   return (
     <>
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 pb-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-zinc-800">Manage Hotels</h1>
-          <button className="bg-primary text-white px-4 py-2 rounded-lg hover:brightness-90 transition-colors">
-            + Create Hotel
-          </button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Hotel Card 1 */}
-          <div className="overflow-hidden cursor-pointer">
-            <div className="relative">
-              <img
-                src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Hotel Property"
-                className="w-full h-48 object-cover rounded-md transition-all hover:scale-105"
-              />
-              <div className="absolute top-4 right-4 bg-white/80 px-3 py-1 rounded-full text-sm font-semibold">
-                <Star className="fas fa-star text-yellow-500 mr-1" />
-                4.8
-              </div>
-            </div>
-            <div className="p-4">
-              <h2 className="text-lg font-semibold text-zinc-800 mb-2">Cozy Mountain Retreat</h2>
-              <div className="flex justify-between items-center">
-                <span className="text-zinc-600">3 Rooms Available</span>
-                <span className="text-rose-600 font-semibold">$250/night</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-zinc-500">Location: Mountain View, CA</span>
-                <div className="space-x-2">
-                  <a href="./create.html" className="text-blue-500 hover:text-blue-600">
-                    <Edit2 className="fas fa-edit" />
-                  </a>
-                  <button className="text-red-500 hover:text-red-600">
-                    <Trash2 className="fas fa-trash" />
-                  </button>
-                </div>
-              </div>
-            </div>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-zinc-900">Manage Properties</h1>
+            <p className="text-sm text-zinc-500 mt-1">View, edit, and create listings for your hotel portfolio.</p>
           </div>
-          {/* Hotel Card 2 */}
+          <Button
+            type="button"
+            className="bg-primary text-white px-4 py-2 rounded-lg hover:brightness-90 transition-colors"
+          >
+            + Create Hotel
+          </Button>
         </div>
+        <ManageProperties properties={properties} />
       </div>
     </>
   );
