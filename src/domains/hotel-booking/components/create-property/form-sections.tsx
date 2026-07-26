@@ -148,7 +148,7 @@ export function PropertyCapacityInputs({ control }: FormControl) {
                     <Input
                       type="number"
                       {...field}
-                      onChange={(e) => onChange(e.target.valueAsNumber || 0)}
+                      onChange={(e) => onChange(e.target.valueAsNumber || "")}
                       aria-invalid={fieldState.invalid}
                       className="border-0 p-0 h-auto font-semibold text-zinc-800 focus-visible:ring-0 shadow-none"
                     />
@@ -197,7 +197,7 @@ export function PropertyPricingInputs({ control }: FormControl) {
                     <Input
                       type="number"
                       {...field}
-                      onChange={(e) => onChange(e.target.valueAsNumber || 0)}
+                      onChange={(e) => onChange(e.target.valueAsNumber || "")}
                       aria-invalid={fieldState.invalid}
                       className="border-0 p-0 h-auto font-semibold text-zinc-800 focus-visible:ring-0 shadow-none"
                     />

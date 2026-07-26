@@ -11,23 +11,23 @@ export const propertySchema = z.object({
     address: z.string().optional(),
   }),
   pricing: z.object({
-    perNight: z.number().min(0, "Must be ≥ 0"),
-    cleaningFee: z.number().min(0, "Must be ≥ 0"),
-    serviceFee: z.number().min(0, "Must be ≥ 0"),
+    perNight: z.number("Must be a number").min(0, "Must be ≥ 0"),
+    cleaningFee: z.number("Must be a number").min(0, "Must be ≥ 0"),
+    serviceFee: z.number("Must be a number").min(0, "Must be ≥ 0"),
     currency: z.string(),
   }),
   capacity: z.object({
-    guests: z.number().min(1, "At least 1 guest"),
-    bedrooms: z.number().min(0),
-    beds: z.number().min(0),
-    bathrooms: z.number().min(0),
+    guests: z.number("Must be a number").min(1, "At least 1 guest"),
+    bedrooms: z.number("Must be a number").min(0),
+    beds: z.number("Must be a number").min(0),
+    bathrooms: z.number("Must be a number").min(0),
   }),
-  images: z.array(z.object({ url: z.string().url("Must be a valid URL"), alt: z.string() })),
+  images: z.array(z.object({ url: z.url("Must be a valid URL"), alt: z.string().optional() })),
   amenities: z.array(z.string()),
   isPublished: z.boolean(),
   isFeatured: z.boolean(),
-  minimumNights: z.number().min(1),
-  maximumNights: z.number().min(1),
+  minimumNights: z.number("Must be a number").min(1),
+  maximumNights: z.number("Must be a number").min(1),
 });
 
 export type PropertyFormValues = z.infer<typeof propertySchema>;
