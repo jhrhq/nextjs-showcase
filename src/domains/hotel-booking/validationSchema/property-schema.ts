@@ -1,9 +1,10 @@
 import { z } from "zod";
+import { AMENITY_OPTIONS, PROPERTY_TYPES } from "../constants/property.constants";
 
 export const propertySchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
-  type: z.enum(["Entire home", "Private room", "Shared room", "Unique stay", "Hotel room"]),
+  title: z.string().min(3, "Title is required").max(100, "Title can not bet more that 100 characters"),
+  description: z.string().min(10, "Description must be at least 10 characters"),
+  type: z.enum(PROPERTY_TYPES),
   tags: z.array(z.string()),
   location: z.object({
     city: z.string().min(1, "City is required"),
@@ -18,12 +19,17 @@ export const propertySchema = z.object({
   }),
   capacity: z.object({
     guests: z.number("Must be a number").min(1, "At least 1 guest"),
-    bedrooms: z.number("Must be a number").min(0),
-    beds: z.number("Must be a number").min(0),
-    bathrooms: z.number("Must be a number").min(0),
+    bedrooms: z.number("Must be a number").min(1, "At least 1 bedroom"),
+    beds: z.number("Must be a number").min(1, "At least 1 bed"),
+    bathrooms: z.number("Must be a number").min(1, "At least 1 bathroom"),
   }),
-  images: z.array(z.object({ url: z.url("Must be a valid URL"), alt: z.string().optional() })),
-  amenities: z.array(z.string()),
+  images: z.array(
+    z.object({
+      url: z.url("Must be a valid URL"),
+      alt: z.string().optional(),
+    })
+  ),
+  amenities: z.array(z.enum(AMENITY_OPTIONS)),
   isPublished: z.boolean(),
   isFeatured: z.boolean(),
   minimumNights: z.number("Must be a number").min(1),

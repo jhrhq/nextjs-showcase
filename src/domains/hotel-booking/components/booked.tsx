@@ -2,10 +2,10 @@ import { format } from "date-fns";
 import { AlertCircle, Calendar, CalendarOff, Users } from "lucide-react";
 import Link from "next/link";
 import { AUTH_CONFIG } from "@/domains/hotel-booking/constants/auth.constants";
-import type { IBookingDocument } from "@/domains/hotel-booking/models/Booking.model";
+import type { IBooking } from "@/domains/hotel-booking/models/Booking.model";
 
 export interface PropertyBookedWidgetProps {
-  existingBooking: IBookingDocument;
+  existingBooking: IBooking;
   // onClearDates: () => void;
 }
 

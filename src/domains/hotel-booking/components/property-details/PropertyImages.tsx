@@ -1,10 +1,10 @@
 import Image from "next/image";
 import type { FC } from "react";
 import { cn } from "@/lib/utils";
-import type { IPropertyImage } from "../../models/Property.model";
+import type { IProperty } from "../../type/property.type";
 
 interface Props {
-  images: IPropertyImage[];
+  images: IProperty["images"];
   title: string;
 }
 

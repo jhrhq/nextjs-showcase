@@ -29,11 +29,12 @@ import {
   ControlledSwitch,
 } from "@/ui/shared/form-field-wrappers/form-fields";
 import { FormSection } from "@/ui/shared/form-field-wrappers/form-section";
+import { AMENITY_OPTIONS, CURRENCIES, PROPERTY_TYPES } from "../../constants/property.constants";
+import type { AmenityKey } from "../../type/property.type";
 import type { PropertyFormValues } from "../../validationSchema/property-schema";
 import { AMENITY_LABELS, AMENITY_MAP } from "../property-details/amenities.map";
 import { FieldError } from "../ui/field";
 import { Input } from "../ui/input";
-import { CURRENCIES, PROPERTY_TYPES } from "./constants";
 
 type FormControl = { control: Control<PropertyFormValues> };
 
@@ -281,7 +282,7 @@ export default function PropertyAmenitiesSelector({
 }: FormControl & { setValue: UseFormSetValue<PropertyFormValues> }) {
   const selectedAmenities = useWatch({ control, name: "amenities" }) || [];
 
-  const toggleAmenity = (key: string) => {
+  const toggleAmenity = (key: AmenityKey) => {
     const updated = selectedAmenities.includes(key)
       ? selectedAmenities.filter((item) => item !== key)
       : [...selectedAmenities, key];
@@ -297,24 +298,27 @@ export default function PropertyAmenitiesSelector({
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel className="text-xl font-semibold mb-4 text-zinc-800 block">What this place offers</FieldLabel>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {Object.entries(AMENITY_MAP).map(([key, IconComponent]) => {
-              const isSelected = selectedAmenities.includes(key);
-              const label = AMENITY_LABELS[key] ?? key;
+            {AMENITY_OPTIONS.map((amenity) => {
+              const IconComponent = AMENITY_MAP[amenity];
+              const isSelected = selectedAmenities.includes(amenity);
+              const label = AMENITY_LABELS[amenity] ?? amenity;
+
+              if (!IconComponent) return null;
 
               return (
                 <button
-                  key={key}
+                  key={amenity}
                   type="button"
-                  onClick={() => toggleAmenity(key)}
+                  onClick={() => toggleAmenity(amenity)}
                   className={`flex items-center gap-3 p-3 rounded-lg border text-left transition-all cursor-pointer ${
                     isSelected
                       ? "border-primary bg-primary/5 text-primary font-medium"
                       : "border-zinc-200 bg-white text-gray-600 hover:border-zinc-300"
                   }`}
                 >
-                  <IconComponent className="w-5 h-5 shrink-0" />
+                  <IconComponent className="size-5 shrink-0" />
                   <span className="text-sm flex-1">{label}</span>
-                  {isSelected && <Check className="w-4 h-4 text-primary shrink-0" />}
+                  {isSelected && <Check className="size-4 text-primary shrink-0" />}
                 </button>
               );
             })}

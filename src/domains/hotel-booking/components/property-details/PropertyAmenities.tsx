@@ -1,8 +1,9 @@
 import { SquareChevronDown } from "lucide-react";
+import type { AmenityKey } from "../../type/property.type";
 import { AMENITY_MAP } from "./amenities.map";
 
 interface Props {
-  amenities: string[];
+  amenities: AmenityKey[];
   description: string;
 }
 

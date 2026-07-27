@@ -2,10 +2,10 @@ import { Bed } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { StarSvg } from "@/domains/hotel-booking/components/svg-component/StartSvg";
-import type { IPropertyDocument } from "../../models/Property.model";
+import type { IProperty } from "../../type/property.type";
 
 interface PropertyCardProps {
-  property: IPropertyDocument;
+  property: IProperty;
 }
 const PropertyCard = ({ property }: PropertyCardProps) => {
   return (

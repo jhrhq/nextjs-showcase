@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 import { ControlledTextarea } from "@/ui/shared/form-field-wrappers/form-fields";
-import type { IPropertyDocument } from "../../models/Property.model";
+import type { IProperty } from "../../type/property.type";
 import { type PropertyFormValues, propertyFormDefaults, propertySchema } from "../../validationSchema/property-schema";
 import { FieldGroup } from "../ui/field";
 import PropertyAmenitiesSelector, {
@@ -27,7 +27,7 @@ export type ServerActionResult =
   | undefined;
 
 interface PropertyFormProps {
-  initialValues?: IPropertyDocument | null;
+  initialValues?: IProperty | null;
   action: (data: PropertyFormValues) => Promise<ServerActionResult>;
 }
 
@@ -55,7 +55,7 @@ export default function PropertyEditForm({ initialValues, action }: PropertyForm
     console.log("Submitting property:", data);
     try {
       const result = await action(data);
-      toast.success(result?.message || result?.data?.propertyId);
+      toast.success(result?.data?.propertyId || "successfull");
     } catch (error) {
       console.log(error);
     }

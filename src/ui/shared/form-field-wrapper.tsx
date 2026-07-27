@@ -10,7 +10,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupTextarea } from
 type FormFieldWrapperProps<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>;
   name: FieldPath<TFieldValues>;
-
+  className?: string;
   label?: string;
   htmlFor?: string;
   required?: boolean;

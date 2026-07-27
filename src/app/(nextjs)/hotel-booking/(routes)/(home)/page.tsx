@@ -3,6 +3,7 @@ import PropertyPagination from "@/domains/hotel-booking/components/homepage/Pagi
 import PropertyCard from "@/domains/hotel-booking/components/homepage/PropertyCard";
 import ResultsNotFound from "@/domains/hotel-booking/components/homepage/ResultsNotFound";
 import Navbar from "@/domains/hotel-booking/components/navbar";
+
 import { getAllProperties } from "@/domains/hotel-booking/db/queries";
 
 interface SearchParams {
@@ -14,7 +15,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
 
   const currentPage = Math.max(1, Number(page) || 1);
   const currentPageSize = Math.max(1, Number(pageSize) || 8);
-
   // normalise search — handles string | string[] | undefined
   const currentSearch = (Array.isArray(search) ? search[0] : search)?.trim() ?? "";
 

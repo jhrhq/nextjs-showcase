@@ -1,15 +1,16 @@
 import type { Types } from "mongoose";
 import { headers } from "next/headers";
-import Property, { type IPropertyDocument } from "@/domains/hotel-booking/models/Property.model";
+import Property from "@/domains/hotel-booking/models/Property.model";
 import { auth } from "@/lib/auth";
 import { connectToDatabase } from "../config/database";
 import { toUserBookingDTO, type UserBookingDTO } from "../mappers/booking.mappers";
 import { Booking, Review } from "../models";
 import type { IBookingDocument } from "../models/Booking.model";
 import type { IReviewDocument } from "../models/Review.model";
+import type { IProperty } from "../type/property.type";
 
 type PaginatedProperties = {
-  allProperties: IPropertyDocument[];
+  allProperties: IProperty[];
   total: number;
 };
 
@@ -23,19 +24,20 @@ async function getAllProperties(
   const query = search ? { $or: [{ title: new RegExp(search, "i") }] } : {};
 
   const total = await Property.countDocuments(query);
-  const allProperties = await Property.find(query).skip(skip).limit(pageSize).lean<IPropertyDocument[]>();
+  const allProperties = await Property.find(query).skip(skip).limit(pageSize).lean<IProperty[]>();
 
   return { allProperties, total };
 }
 
-async function getSelectedPropertyDetails(propertyId?: string | Types.ObjectId): Promise<IPropertyDocument | null> {
+async function getSelectedPropertyDetails(propertyId?: string | Types.ObjectId): Promise<IProperty | null> {
   // Defensive check against empty inputs
   if (!propertyId) return null;
 
   await connectToDatabase();
 
-  return await Property.findById(propertyId).lean<IPropertyDocument | null>();
+  return await Property.findById(propertyId).lean<IProperty | null>();
 }
+
 async function getSelectedPropertyBookinDetails(propertyId?: string | Types.ObjectId) {
   if (!propertyId) return null;
 
@@ -45,7 +47,7 @@ async function getSelectedPropertyBookinDetails(propertyId?: string | Types.Obje
 }
 
 export type IUserBooking = Omit<IBookingDocument, "propertyId"> & {
-  propertyId: Pick<IPropertyDocument, "_id" | "title" | "location" | "images">;
+  propertyId: Pick<IProperty, "_id" | "title" | "location" | "images">;
 };
 
 export async function getUserBookings(userId: string): Promise<UserBookingDTO[]> {
@@ -108,7 +110,7 @@ async function getReviewsForProperty(propertyId: string): Promise<IReviewDocumen
   }
 }
 
-async function getHostProperties(): Promise<IPropertyDocument[] | null> {
+async function getHostProperties(): Promise<IProperty[] | null> {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user?.id) throw new Error("Unauthorized");
 
@@ -118,7 +120,7 @@ async function getHostProperties(): Promise<IPropertyDocument[] | null> {
     "host.userId": session.user.id,
   })
     .sort({ createdAt: -1 })
-    .lean<IPropertyDocument[]>();
+    .lean<IProperty[]>();
 
   return properties;
 }

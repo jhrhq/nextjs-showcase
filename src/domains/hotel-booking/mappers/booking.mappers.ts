@@ -1,7 +1,7 @@
 import type { IUserBooking } from "../db/queries";
 import type { BookingStatus } from "../models/Booking.model";
-import type { IPropertyImage } from "../models/Property.model";
-import type { ILocation } from "../models/shared.types";
+import type { IProperty } from "../type/property.type";
+import type { ILocation } from "../type/shared.types";
 
 export function toIdString(id: unknown): string {
   if (!id) return "";
@@ -14,7 +14,7 @@ export interface PropertySummaryDTO {
   id: string;
   title: string;
   location: ILocation;
-  images: IPropertyImage[];
+  images: IProperty["images"];
 }
 
 export interface UserBookingDTO {

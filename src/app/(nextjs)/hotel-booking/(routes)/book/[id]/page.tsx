@@ -71,7 +71,11 @@ const PaymentProcess = async ({ params }: Props) => {
                 </div>
               }
             >
-              <PaymentForm maxGuests={property.capacity.guests} pricing={property.pricing} propertyId={property.id} />
+              <PaymentForm
+                maxGuests={property.capacity.guests}
+                pricing={property.pricing}
+                propertyId={property._id.toString()}
+              />
             </Suspense>
           </div>
           <div>

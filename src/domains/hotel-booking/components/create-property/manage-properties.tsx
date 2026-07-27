@@ -6,12 +6,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
-import type { IPropertyDocument } from "../../models/Property.model";
+import type { IProperty } from "../../type/property.type";
 
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1000&auto=format&fit=crop";
 
 interface ManagePropertiesProps {
-  properties: IPropertyDocument[] | null;
+  properties: IProperty[] | null;
   onDelete?: (id: string) => void;
 }
 
@@ -51,7 +51,7 @@ function PropertyEmptyState() {
 }
 
 interface PropertyCardProps {
-  property: IPropertyDocument;
+  property: IProperty;
   onDelete?: (id: string) => void;
 }
 

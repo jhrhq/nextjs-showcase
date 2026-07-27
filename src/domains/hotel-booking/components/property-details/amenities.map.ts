@@ -259,14 +259,12 @@ export const AMENITY_MAP: Record<string, LucideIcon> = {
   "Solar power": Sun,
 };
 
-// Optional custom overrides for specific keys
 const LABEL_OVERRIDES: Record<string, string> = {
   wifi: "Free Wi-Fi",
   parking: "Free Parking",
   gym: "Fitness Center",
 };
 
-// Automatically derive AMENITY_LABELS from AMENITY_MAP keys
 export const AMENITY_LABELS: Record<string, string> = Object.keys(AMENITY_MAP).reduce(
   (acc, key) => {
     acc[key] =

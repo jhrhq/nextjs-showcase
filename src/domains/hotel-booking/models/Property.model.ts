@@ -1,120 +1,54 @@
-import mongoose, { type Document, type Model, Schema, type Types } from "mongoose";
-import type { IHost, ILocation } from "./shared.types";
+import mongoose, { type Model, Schema, type Types } from "mongoose";
+import { CURRENCIES, PROPERTY_TYPES } from "../constants/property.constants";
+import type { IProperty, IPropertyDocument } from "../type/property.type";
 
-export type { IHost, ILocation };
-
-export type PropertyType = "Entire home" | "Private room" | "Shared room" | "Unique stay" | "Hotel room";
-
-export interface IPricing {
-  perNight: number;
-  currency: string;
-  cleaningFee: number;
-  serviceFee: number;
-}
-
-export interface ICapacity {
-  guests: number;
-  bedrooms: number;
-  beds: number;
-  bathrooms: number;
-}
-
-export interface IPropertyImage {
-  url: string;
-  alt?: string;
-}
-
-export interface IProperty {
-  title: string;
-  description: string;
-  type: PropertyType;
-  tags: string[]; // e.g. ["beachfront", "pet-friendly", "pool"]
-
-  host: IHost;
-
-  location: ILocation;
-
-  // ── Media
-  images: IPropertyImage[];
-  amenities: string[];
-
-  pricing: IPricing;
-  capacity: ICapacity;
-
-  ratingAvg: number;
-  reviewCount: number;
-
-  isPublished: boolean;
-  isFeatured: boolean;
-
-  minimumNights: number;
-  maximumNights: number;
-}
-
-export interface IPropertyDocument extends IProperty, Document {
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-// Statics Interface
 export interface IPropertyModel extends Model<IPropertyDocument> {
   calculateReviewStats(propertyId: Types.ObjectId | string): Promise<void>;
 }
 
-const locationSchema = new Schema<ILocation>(
-  {
-    street: String,
-    city: { type: String, required: true },
-    state: String,
-    country: { type: String, required: true },
-    address: String,
-    postalCode: String,
-    coordinates: { lat: Number, lng: Number },
-  },
-  { _id: false }
-);
-
-const hostSchema = new Schema<IHost>(
-  {
-    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    name: { type: String, required: true },
-    avatar: String,
-    isSuperhost: { type: Boolean, default: false },
-    joinedYear: Number,
-  },
-  { _id: false }
-);
-
-const propertySchema = new Schema<IPropertyDocument>(
+const propertySchema = new Schema<IProperty>(
   {
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true },
     type: {
       type: String,
       required: true,
-      enum: ["Entire home", "Private room", "Shared room", "Unique stay", "Hotel room"] satisfies PropertyType[],
+      enum: PROPERTY_TYPES,
     },
     tags: { type: [String], default: [] },
 
-    host: { type: hostSchema, required: true },
-    location: { type: locationSchema, required: true },
-
+    host: {
+      userId: { type: Schema.Types.ObjectId, ref: "User", required: true, index: true },
+      name: { type: String, required: true },
+      avatar: String,
+      isSuperhost: { type: Boolean, default: false },
+      joinedYear: Number,
+    },
+    location: {
+      street: String,
+      city: { type: String, required: true, index: true },
+      state: String,
+      country: { type: String, required: true },
+      address: String,
+      postalCode: String,
+      coordinates: { lat: Number, lng: Number },
+    },
     images: [{ url: { type: String, required: true }, alt: String }],
     amenities: [String],
 
     pricing: {
-      perNight: { type: Number, required: true },
-      currency: { type: String, default: "USD" },
-      cleaningFee: { type: Number, default: 0 },
-      serviceFee: { type: Number, default: 0 },
-    },
-    capacity: {
-      guests: { type: Number, required: true },
-      bedrooms: { type: Number, required: true },
-      beds: { type: Number, required: true },
-      bathrooms: { type: Number, required: true },
+      perNight: { type: Number, required: true, min: 0 },
+      cleaningFee: { type: Number, default: 0, min: 0 },
+      serviceFee: { type: Number, default: 0, min: 0 },
+      currency: { type: String, enum: CURRENCIES, default: "USD" },
     },
 
+    capacity: {
+      guests: { type: Number, required: true, min: 1 },
+      bedrooms: { type: Number, required: true, min: 0 },
+      beds: { type: Number, required: true, min: 0 },
+      bathrooms: { type: Number, required: true, min: 0 },
+    },
     ratingAvg: { type: Number, default: 0, min: 0, max: 5 },
     reviewCount: { type: Number, default: 0 },
 
@@ -133,8 +67,6 @@ propertySchema.index({ "location.city": 1, isPublished: 1 }); // city filter
 propertySchema.index({ tags: 1, isPublished: 1 }); // tag filter
 propertySchema.index({ "pricing.perNight": 1 }); // price sort/filter
 propertySchema.index({ title: "text", description: "text" }); // search bar
-
-// inside property.model.ts
 
 propertySchema.statics.calculateReviewStats = async function (propertyId: Types.ObjectId | string): Promise<void> {
   const Review = mongoose.model("Review");
@@ -169,8 +101,7 @@ propertySchema.statics.calculateReviewStats = async function (propertyId: Types.
     { runValidators: false }
   );
 };
-const Property: Model<IPropertyDocument> =
-  (mongoose.models.Property as Model<IPropertyDocument>) ||
-  mongoose.model<IPropertyDocument>("Property", propertySchema);
+const Property: Model<IProperty> =
+  (mongoose.models.Property as Model<IProperty>) || mongoose.model<IProperty>("Property", propertySchema);
 
 export default Property;
