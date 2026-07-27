@@ -24,7 +24,7 @@ export const AUTH_ROUTES: RouteConfig[] = [
 // Require a valid session. Everything not in PUBLIC or AUTH falls here by default
 export const PROTECTED_ROUTES: RouteConfig[] = [
   { path: AUTH_CONFIG.ROUTES.BOOKINGS, prefix: true },
-  { path: AUTH_CONFIG.ROUTES.CREATE_HOTEL, prefix: true },
+  { path: AUTH_CONFIG.ROUTES.HOSTING_CREATE, prefix: true },
 ];
 
 // helpers

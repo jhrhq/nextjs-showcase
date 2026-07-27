@@ -1,7 +1,10 @@
+import { Plus } from "lucide-react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import ManageProperties from "@/domains/hotel-booking/components/create-property/manage-properties";
 import Navbar from "@/domains/hotel-booking/components/navbar";
+import { AUTH_CONFIG } from "@/domains/hotel-booking/constants/auth.constants";
 import { getHostProperties } from "@/domains/hotel-booking/db/queries";
 
 export const metadata: Metadata = {
@@ -23,9 +26,12 @@ const ManageList = async () => {
           </div>
           <Button
             type="button"
-            className="bg-primary text-white px-4 py-2 rounded-lg hover:brightness-90 transition-colors"
+            className="bg-primary text-white px-4 py-5 text-md rounded-lg hover:brightness-90 transition-colors"
+            asChild
           >
-            + Create Hotel
+            <Link href={AUTH_CONFIG.ROUTES.HOSTING_CREATE}>
+              <Plus /> Create Hotel
+            </Link>
           </Button>
         </div>
         <ManageProperties properties={properties} />

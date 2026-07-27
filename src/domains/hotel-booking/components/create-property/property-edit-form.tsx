@@ -2,9 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 import { ControlledTextarea } from "@/ui/shared/form-field-wrappers/form-fields";
-import { createPropertyAction } from "../../actions/create-property-action";
+import type { IPropertyDocument } from "../../models/Property.model";
 import { type PropertyFormValues, propertyFormDefaults, propertySchema } from "../../validationSchema/property-schema";
 import { FieldGroup } from "../ui/field";
 import PropertyAmenitiesSelector, {
@@ -17,10 +18,23 @@ import PropertyAmenitiesSelector, {
 } from "./form-sections";
 import PropertyLivePreview from "./property-live-preview";
 
-export default function PropertyEditForm() {
+export type ServerActionResult =
+  | {
+      success?: boolean;
+      data?: { propertyId: string };
+      errors?: unknown;
+    }
+  | undefined;
+
+interface PropertyFormProps {
+  initialValues?: IPropertyDocument | null;
+  action: (data: PropertyFormValues) => Promise<ServerActionResult>;
+}
+
+export default function PropertyEditForm({ initialValues, action }: PropertyFormProps) {
   const { control, handleSubmit, watch, setValue, formState } = useForm<PropertyFormValues>({
     resolver: zodResolver(propertySchema),
-    defaultValues: { ...propertyFormDefaults },
+    defaultValues: { ...propertyFormDefaults, ...initialValues },
     mode: "onBlur",
   });
 
@@ -40,8 +54,8 @@ export default function PropertyEditForm() {
   const onSubmit = async (data: PropertyFormValues) => {
     console.log("Submitting property:", data);
     try {
-      const result = await createPropertyAction(data);
-      console.log(result);
+      const result = await action(data);
+      toast.success(result?.message || result?.data?.propertyId);
     } catch (error) {
       console.log(error);
     }

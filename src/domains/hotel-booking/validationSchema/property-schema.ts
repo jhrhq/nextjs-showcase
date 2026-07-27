@@ -33,8 +33,9 @@ export const propertySchema = z.object({
 export type PropertyFormValues = z.infer<typeof propertySchema>;
 
 export const propertyFormDefaults: PropertyFormValues = {
-  title: "Relaxing Lakeside Home",
-  description: "Lovely lakeside family home.",
+  title: "Quiet Canopy Retreat",
+  description:
+    "Escape the noise at Quiet Canopy Retreat, a serene forest hideaway nestled high among the trees, crafted for quiet mornings, starry nights, and total peace of mind.",
   type: "Entire home",
   tags: [],
   location: { city: "New York", country: "United States", address: "123 Ocean Avenue, New York, USA" },

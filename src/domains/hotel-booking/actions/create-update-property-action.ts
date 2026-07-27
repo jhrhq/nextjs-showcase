@@ -2,7 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+import z from "zod";
 import { auth } from "@/lib/auth";
+import { verifySession } from "@/lib/dal";
 import { connectToDatabase } from "../config/database";
 import { AUTH_CONFIG } from "../constants/auth.constants";
 import { Property } from "../models";
@@ -53,6 +55,52 @@ export async function createPropertyAction(
     return {
       success: true,
       data: { propertyId: newProperty._id.toString() },
+    };
+  } catch (error: unknown) {
+    console.error("[CREATE_PROPERTY_ACTION_ERROR]", error);
+
+    const errorMessage = error instanceof Error ? error.message : "Failed to create property listing.";
+
+    return { success: false, error: errorMessage };
+  }
+}
+
+export async function updatePropertyAction(propertyId: string, data: PropertyFormValues) {
+  const { userId } = await verifySession();
+
+  const validated = propertySchema.safeParse(data);
+  if (!validated.success) {
+    const { fieldErrors } = z.flattenError(validated.error);
+    return {
+      success: false,
+      errors: fieldErrors,
+    };
+  }
+
+  try {
+    await connectToDatabase();
+    const updatedProperty = await Property.findOneAndUpdate(
+      {
+        _id: propertyId,
+        "host.userId": userId,
+      },
+      {
+        $set: validated.data,
+      },
+      { new: true }
+    );
+
+    if (!updatedProperty) {
+      return { success: false, message: "Property not found or unauthorized." };
+    }
+
+    revalidatePath(AUTH_CONFIG.ROUTES.HOME);
+    revalidatePath(AUTH_CONFIG.ROUTES.HOSTING_LISTING);
+    revalidatePath(AUTH_CONFIG.ROUTES.HOSTING_LISTING_EDIT(propertyId));
+
+    return {
+      success: true,
+      data: { propertyId: updatedProperty._id.toString() },
     };
   } catch (error: unknown) {
     console.error("[CREATE_PROPERTY_ACTION_ERROR]", error);

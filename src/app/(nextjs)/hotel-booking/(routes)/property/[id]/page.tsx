@@ -25,7 +25,6 @@ const PropertyDetails = async ({ params }: Props) => {
   const { id } = await params;
   const bookingData = await getSelectedPropertyBookinDetails(id);
   const data = await getSelectedPropertyDetails(id);
-  data;
 
   if (!data) return null;
   let isBooked = false;
