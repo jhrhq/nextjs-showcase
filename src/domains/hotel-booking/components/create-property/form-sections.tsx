@@ -31,7 +31,7 @@ import {
 import { FormSection } from "@/ui/shared/form-field-wrappers/form-section";
 import { AMENITY_OPTIONS, CURRENCIES, PROPERTY_TYPES } from "../../constants/property.constants";
 import type { AmenityKey } from "../../type/property.type";
-import type { PropertyFormValues } from "../../validationSchema/property-schema";
+import type { PropertyFormValues } from "../../validationSchema/property.schema";
 import { AMENITY_LABELS, AMENITY_MAP } from "../property-details/amenities.map";
 import { FieldError } from "../ui/field";
 import { Input } from "../ui/input";

@@ -9,7 +9,7 @@ import { formatAmountForStripe } from "@/lib/stripe-configs/stripe-helpers";
 import { connectToDatabase } from "../config/database";
 import { AUTH_CONFIG } from "../constants/auth.constants";
 import { Booking, Property } from "../models";
-import type { PaymentInput } from "../validationSchema/payment-form-schema";
+import type { PaymentInput } from "../validationSchema/payment-form.schema";
 
 export async function createCheckoutSession(
   data: PaymentInput

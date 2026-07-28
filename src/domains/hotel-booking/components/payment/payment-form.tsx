@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
 import { createCheckoutSession } from "../../actions/stripe-action";
 import { useBookingParams } from "../../hooks/use-booking-params";
-import type { PaymentInput } from "../../validationSchema/payment-form-schema";
+import type { PaymentInput } from "../../validationSchema/payment-form.schema";
 import { Button } from "../ui/button";
 import { FieldError } from "../ui/field";
 import CheckoutClient from "./checkout-client";

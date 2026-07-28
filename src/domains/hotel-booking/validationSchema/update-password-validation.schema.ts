@@ -30,7 +30,7 @@ export const updatePasswordSchema = z
   });
 
 export const forgetPasswordSchema = z.object({
-  email: z.string({ message: "Email is required" }).email({ message: "Please Enter a valid email" }),
+  email: z.email({ message: "Please Enter a valid email" }),
 });
 
 export type UpdatePasswordType = z.infer<typeof updatePasswordSchema>;

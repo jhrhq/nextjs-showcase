@@ -1,15 +1,7 @@
-import mongoose, { type Document, type Model, Schema } from "mongoose";
+import mongoose, { type Model, Schema } from "mongoose";
+import type { IAuthUserDocument } from "../type/user.type";
 
-export interface IBetterAuthUser extends Document {
-  name: string;
-  email: string;
-  emailVerified: boolean;
-  image?: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const UserSchema = new Schema<IBetterAuthUser>(
+const UserSchema = new Schema<IAuthUserDocument>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -21,4 +13,6 @@ const UserSchema = new Schema<IBetterAuthUser>(
   { collection: "user" }
 );
 
-export const User: Model<IBetterAuthUser> = mongoose.models.User ?? mongoose.model<IBetterAuthUser>("User", UserSchema);
+const User: Model<IAuthUserDocument> = mongoose.models.User ?? mongoose.model<IAuthUserDocument>("User", UserSchema);
+
+export default User;

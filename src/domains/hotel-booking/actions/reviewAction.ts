@@ -7,7 +7,7 @@ import Booking from "@/domains/hotel-booking/models/Booking.model";
 import { auth } from "@/lib/auth";
 import { connectToDatabase } from "../config/database";
 import { Review } from "../models";
-import { type PropertyReview, ReviewInputSchema } from "../validationSchema/review-schema";
+import { type PropertyReview, ReviewInputSchema } from "../validationSchema/review.schema";
 
 interface ActionResponse {
   success: boolean;

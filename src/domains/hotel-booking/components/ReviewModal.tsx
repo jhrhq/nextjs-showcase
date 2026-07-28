@@ -16,7 +16,7 @@ import {
   DialogTrigger,
 } from "@/domains/hotel-booking/components/ui/dialog";
 import { Textarea } from "@/domains/hotel-booking/components/ui/textarea";
-import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review-schema";
+import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review.schema";
 import { cn } from "@/lib/utils";
 import { createReviewAction } from "../actions/reviewAction";
 

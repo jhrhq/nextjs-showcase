@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 import { ControlledTextarea } from "@/ui/shared/form-field-wrappers/form-fields";
 import type { IProperty } from "../../type/property.type";
-import { type PropertyFormValues, propertyFormDefaults, propertySchema } from "../../validationSchema/property-schema";
+import { type PropertyFormValues, propertyFormDefaults, propertySchema } from "../../validationSchema/property.schema";
 import { FieldGroup } from "../ui/field";
 import PropertyAmenitiesSelector, {
   LocationSection,

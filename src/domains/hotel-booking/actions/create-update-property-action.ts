@@ -8,7 +8,7 @@ import { verifySession } from "@/lib/dal";
 import { connectToDatabase } from "../config/database";
 import { AUTH_CONFIG } from "../constants/auth.constants";
 import { Property } from "../models";
-import { type PropertyFormValues, propertySchema } from "../validationSchema/property-schema";
+import { type PropertyFormValues, propertySchema } from "../validationSchema/property.schema";
 
 export type ActionResponse<T = null> = {
   success: boolean;

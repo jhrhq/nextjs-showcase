@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import { connectToDatabase } from "../config/database";
-import type { IBookingDocument } from "../models/Booking.model";
+import type { IBookingDocument } from "../type/booking.type";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 

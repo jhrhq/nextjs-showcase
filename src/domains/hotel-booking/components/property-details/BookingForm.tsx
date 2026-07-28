@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
 import { useBookingParams } from "../../hooks/use-booking-params";
 import { formatDateISO, isPastDate, parseUrlDate } from "../../utils/date-time-utils";
-import { type BookingFormValues, createBookingSchema } from "../../validationSchema/booking-schema";
+import { type BookingFormValues, createBookingSchema } from "../../validationSchema/booking.schema";
 import { GuestStepper } from "../payment/guest-stepper";
 
 type BookingFormProps = {

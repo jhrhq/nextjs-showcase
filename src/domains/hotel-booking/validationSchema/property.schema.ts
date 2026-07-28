@@ -1,39 +1,45 @@
 import { z } from "zod";
 import { AMENITY_OPTIONS, PROPERTY_TYPES } from "../constants/property.constants";
 
+export const locationSchema = z.object({
+  city: z.string().min(1, "City is required"),
+  country: z.string().min(1, "Country is required"),
+  address: z.string().optional(),
+});
+
+export const pricingSchema = z.object({
+  perNight: z.number().min(0, "Must be ≥ 0"),
+  cleaningFee: z.number().min(0, "Must be ≥ 0"),
+  serviceFee: z.number().min(0, "Must be ≥ 0"),
+  currency: z.string(),
+});
+
+export const capacitySchema = z.object({
+  guests: z.number().min(1, "At least 1 guest"),
+  bedrooms: z.number().min(1, "At least 1 bedroom"),
+  beds: z.number().min(1, "At least 1 bed"),
+  bathrooms: z.number().min(1, "At least 1 bathroom"),
+});
+
+export const propertyImageSchema = z.object({
+  url: z.url("Must be a valid URL"),
+  alt: z.string().optional(),
+});
+
 export const propertySchema = z.object({
-  title: z.string().min(3, "Title is required").max(100, "Title can not bet more that 100 characters"),
+  title: z.string().min(3, "Title is required").max(100, "Title cannot be more than 100 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   type: z.enum(PROPERTY_TYPES),
   tags: z.array(z.string()),
-  location: z.object({
-    city: z.string().min(1, "City is required"),
-    country: z.string().min(1, "Country is required"),
-    address: z.string().optional(),
-  }),
-  pricing: z.object({
-    perNight: z.number("Must be a number").min(0, "Must be ≥ 0"),
-    cleaningFee: z.number("Must be a number").min(0, "Must be ≥ 0"),
-    serviceFee: z.number("Must be a number").min(0, "Must be ≥ 0"),
-    currency: z.string(),
-  }),
-  capacity: z.object({
-    guests: z.number("Must be a number").min(1, "At least 1 guest"),
-    bedrooms: z.number("Must be a number").min(1, "At least 1 bedroom"),
-    beds: z.number("Must be a number").min(1, "At least 1 bed"),
-    bathrooms: z.number("Must be a number").min(1, "At least 1 bathroom"),
-  }),
-  images: z.array(
-    z.object({
-      url: z.url("Must be a valid URL"),
-      alt: z.string().optional(),
-    })
-  ),
+  location: locationSchema,
+  pricing: pricingSchema,
+  capacity: capacitySchema,
+  images: z.array(propertyImageSchema),
   amenities: z.array(z.enum(AMENITY_OPTIONS)),
   isPublished: z.boolean(),
   isFeatured: z.boolean(),
-  minimumNights: z.number("Must be a number").min(1),
-  maximumNights: z.number("Must be a number").min(1),
+  minimumNights: z.number().min(1),
+  maximumNights: z.number().min(1),
 });
 
 export type PropertyFormValues = z.infer<typeof propertySchema>;

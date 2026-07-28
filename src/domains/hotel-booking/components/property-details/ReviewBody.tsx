@@ -1,9 +1,9 @@
 import ReviewCard from "@/domains/hotel-booking/components/property-details/ReviewCard";
-import type { IReviewDocument } from "../../models/Review.model";
+import type { IReview } from "../../type/review.type";
 
-interface Props {
-  reviews: IReviewDocument[];
-}
+type Props = {
+  reviews: IReview[];
+};
 
 const ReviewBody = async ({ reviews }: Props) => {
   if (reviews?.length === 0) {

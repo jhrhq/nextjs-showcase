@@ -5,9 +5,9 @@ import { auth } from "@/lib/auth";
 import { connectToDatabase } from "../config/database";
 import { toUserBookingDTO, type UserBookingDTO } from "../mappers/booking.mappers";
 import { Booking, Review } from "../models";
-import type { IBookingDocument } from "../models/Booking.model";
-import type { IReviewDocument } from "../models/Review.model";
+import type { IBookingDocument } from "../type/booking.type";
 import type { IProperty } from "../type/property.type";
+import type { IReview } from "../type/review.type";
 
 type PaginatedProperties = {
   allProperties: IProperty[];
@@ -97,11 +97,11 @@ export async function getUserBooking(id: string): Promise<UserBookingDTO | null>
   return toUserBookingDTO(rawBookings);
 }
 
-async function getReviewsForProperty(propertyId: string): Promise<IReviewDocument[]> {
+async function getReviewsForProperty(propertyId: string): Promise<IReview[]> {
   try {
     await connectToDatabase();
 
-    const reviews = await Review.find({ propertyId }).sort({ createdAt: -1 }).lean<IReviewDocument>();
+    const reviews = await Review.find({ propertyId }).sort({ createdAt: -1 }).lean<IReview>();
 
     return JSON.parse(JSON.stringify(reviews));
   } catch (error) {

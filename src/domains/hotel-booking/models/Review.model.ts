@@ -1,18 +1,6 @@
-import mongoose, { type Document, type Model, Schema, type Types } from "mongoose";
+import mongoose, { type Document, type Model, Schema } from "mongoose";
+import type { IReviewDocument } from "../type/review.type";
 import type { IPropertyModel } from "./Property.model";
-
-export interface IReviewDocument extends Document {
-  _id: Types.ObjectId;
-  propertyId: Types.ObjectId;
-  bookingId: Types.ObjectId;
-  authorId: Types.ObjectId;
-  authorName: string;
-  authorAvatar?: string;
-  overallRating: number;
-  comment: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 const ReviewSchema = new Schema<IReviewDocument>(
   {

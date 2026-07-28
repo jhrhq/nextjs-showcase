@@ -1,50 +1,6 @@
-import mongoose, { type Document, type Model, Schema } from "mongoose";
-
-export type BookingStatus = "pending" | "confirmed" | "cancelled" | "completed";
-
-export interface IPriceSummary {
-  perNight: number;
-  numberOfNights: number;
-  cleaningFee: number;
-  serviceFee: number;
-  totalCost: number;
-  currency: string;
-}
-
-export interface IPaymentInfo {
-  stripeSessionId: string;
-  stripePaymentIntentId?: string;
-  amountPaid?: number;
-  paidAt?: Date;
-}
-
-export interface IBillingAddress {
-  fullName: string;
-  addressLine1: string;
-  addressLine2?: string;
-  city: string;
-  state?: string;
-  country: string;
-  postalCode: string;
-}
-
-export interface IBooking {
-  propertyId: mongoose.Types.ObjectId;
-  userId: mongoose.Types.ObjectId;
-  checkin: Date;
-  checkout: Date;
-  guests: number;
-  status: BookingStatus;
-  priceSummary: IPriceSummary;
-  paymentInfo: IPaymentInfo; // Added missing type definition here
-  billingAddress: IBillingAddress;
-  receiptSentAt?: Date;
-}
-
-export interface IBookingDocument extends IBooking, Document {
-  createdAt: Date;
-  updatedAt: Date;
-}
+import mongoose, { type Model, Schema } from "mongoose";
+import { BOOKING_STATUSES } from "../constants/booking.constants";
+import type { IBillingAddress, IBookingDocument, IPaymentInfo, IPriceSummary } from "../type/booking.type";
 
 const priceSummarySchema = new Schema<IPriceSummary>(
   {
@@ -103,8 +59,8 @@ const bookingSchema = new Schema<IBookingDocument>(
     guests: { type: Number, required: true, min: 1 },
     status: {
       type: String,
-      enum: ["pending", "confirmed", "cancelled", "completed"] satisfies BookingStatus[],
-      default: "pending",
+      enum: BOOKING_STATUSES,
+      default: BOOKING_STATUSES[0],
     },
     priceSummary: { type: priceSummarySchema, required: true },
     paymentInfo: { type: PaymentInfoSchema, required: true },
@@ -114,7 +70,6 @@ const bookingSchema = new Schema<IBookingDocument>(
   { timestamps: true }
 );
 
-// Fixed: Mapped compound indexes to use the actual schema paths (userId and propertyId)
 bookingSchema.index({ userId: 1 });
 bookingSchema.index({ propertyId: 1 });
 bookingSchema.index({ propertyId: 1, userId: 1 });
