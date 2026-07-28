@@ -2,11 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { createUser, findUserByCredentials, updateWatchList } from "@/domains/movies/db/queries";
-import { loginSchema } from "@/domains/movies/validationSchema/loginSchema";
-import { registerFormSchema } from "@/domains/movies/validationSchema/registerSchema";
+import { signUpSchema } from "@/lib/validations/auth.schema";
 
 async function performRegister(data) {
-  const validated = registerFormSchema.safeParse(data);
+  const validated = signUpSchema.safeParse(data);
 
   try {
     if (!validated.success) {
@@ -23,7 +22,7 @@ async function performRegister(data) {
       return { message: "Registration successful!" };
     }
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 }
 
@@ -43,7 +42,7 @@ async function performLogin(data) {
       return found;
     }
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 }
 
@@ -51,7 +50,7 @@ async function addToWatchList(movieId, authId, movie) {
   try {
     await updateWatchList(movieId, authId, movie);
   } catch (error) {
-    throw error;
+    console.log(error);
   }
   // Todo revalidate to movie details
   revalidatePath("/");

@@ -9,15 +9,14 @@ import { Button } from "@/domains/movies/components/ui/button";
 import { Checkbox } from "@/domains/movies/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/domains/movies/components/ui/form";
 import { Input } from "@/domains/movies/components/ui/input";
-import { registerFormSchema } from "@/domains/movies/validationSchema/registerSchema";
+import { signUpSchema } from "@/lib/validations/auth.schema";
 
 const RegisterForm = () => {
   const router = useRouter();
   const form = useForm({
-    resolver: zodResolver(registerFormSchema),
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -51,13 +50,13 @@ const RegisterForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="firstName"
+          name="username"
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Input
                   type="text"
-                  placeholder="First Name"
+                  placeholder="user name"
                   className="w-full  p-3 bg-moviedb-gray text-white rounded focus:outline-none focus:ring-2 focus:ring-moviedb-red"
                   {...field}
                 />
@@ -67,24 +66,7 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="lastName"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="text"
-                  placeholder="Last Name"
-                  className="w-full p-3 bg-moviedb-gray text-white rounded focus:outline-none focus:ring-2 focus:ring-moviedb-red"
-                  {...field}
-                />
-              </FormControl>
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="email"

@@ -5,8 +5,9 @@ import { Controller, useForm } from "react-hook-form";
 
 import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
-import { type SignUp, signUpSchema } from "@/domains/hotel-booking/validationSchema/signup-schema";
+
 import { cn } from "@/lib/utils";
+import { type SignUpInput, signUpSchema } from "@/lib/validations/auth.schema";
 import { signUpAction } from "../../actions";
 import { handleServerActionErrors } from "../../utils/form-helpers";
 import { Button } from "../ui/button";
@@ -29,7 +30,7 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
 
   const pending = form.formState.isSubmitting;
   const boundAction = signUpAction.bind(null, callbackUrl);
-  async function onSubmit(values: SignUp) {
+  async function onSubmit(values: SignUpInput) {
     try {
       const result = await boundAction(values);
       handleServerActionErrors(form.setError, result);

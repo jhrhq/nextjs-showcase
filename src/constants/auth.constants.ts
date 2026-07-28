@@ -3,6 +3,31 @@ export type AuthError = {
   code?: string;
   message?: string;
 };
+export const AUTH_LIMITS = {
+  NAME_MIN: 3,
+  NAME_MAX: 32,
+  PASSWORD_MIN: 8,
+  PASSWORD_MAX: 64,
+} as const;
+
+export const AUTH_MESSAGES = {
+  EMAIL_REQUIRED: "Email is required",
+  EMAIL_INVALID: "Please enter a valid email address",
+
+  PASSWORD_REQUIRED: "Password is required",
+  PASSWORD_TOO_SHORT: `Password must be at least ${AUTH_LIMITS.PASSWORD_MIN} characters`,
+  PASSWORD_TOO_LONG: `Password must be less than ${AUTH_LIMITS.PASSWORD_MAX} characters`,
+  CONFIRM_PASSWORD_REQUIRED: "Please confirm your password",
+
+  PASSWORDS_MUST_MATCH: "Passwords do not match",
+  PASSWORDS_MUST_BE_DIFFERENT: "New password must be different from current password",
+
+  NAME_REQUIRED: "Name is required",
+  NAME_TOO_SHORT: `Name must be at least ${AUTH_LIMITS.NAME_MIN} characters`,
+  NAME_TOO_LONG: `Name must be less than ${AUTH_LIMITS.NAME_MAX} characters`,
+
+  POLICY_REQUIRED: "You must accept the terms and privacy policy",
+} as const;
 
 export const CODE_MAP: Record<string, string> = {
   INVALID_EMAIL_OR_PASSWORD: "Incorrect email or password.",

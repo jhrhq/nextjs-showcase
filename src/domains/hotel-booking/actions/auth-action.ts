@@ -4,11 +4,10 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { FieldValues } from "react-hook-form";
 import z from "zod";
-import { type SignIn, signInSchema } from "@/domains/hotel-booking/validationSchema/login-schema";
 import { auth } from "@/lib/auth";
 import { parseAuthError } from "@/lib/auth-error";
 import { resolveCallbackUrlFromString } from "@/lib/callback-urls";
-import { type SignUp, signUpSchema } from "../validationSchema/signup-schema";
+import { type SignInInput, type SignUpInput, signInSchema, signUpSchema } from "@/lib/validations/auth.schema";
 
 export type ActionState<T extends FieldValues = FieldValues> = {
   status: boolean;
@@ -20,7 +19,7 @@ export async function signInAction(
   // _prev: ActionState,
   // formData: FormData // used when action = {signInAction}
   callbackUrl: string,
-  data: SignIn
+  data: SignInInput
 ) {
   // used when action = {signInAction}
   // const raw = {
@@ -54,7 +53,7 @@ export async function signUpAction(
   // _prev: ActionState,
   // formData: FormData
   callbackUrl: string,
-  data: SignUp
+  data: SignUpInput
 ): Promise<ActionState> {
   // const raw = {
   //   name: formData.get("name"),

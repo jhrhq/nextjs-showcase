@@ -8,7 +8,7 @@ import { Input } from "@/domains/hotel-booking/components/ui/input";
 import {
   type ForgetPasswordType,
   forgetPasswordSchema,
-} from "@/domains/hotel-booking/validationSchema/update-password-validation-schema";
+} from "@/domains/hotel-booking/validationSchema/update-password-validation.schema";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 
