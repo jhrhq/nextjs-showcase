@@ -101,7 +101,7 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
                       disabled={isBooked}
                     >
                       {field.value ? formatDateISO(field.value) : <span>Check in</span>}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      <CalendarIcon className="ml-auto size-4 opacity-50" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 rounded-2xl" align="start">
@@ -135,7 +135,7 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
                       disabled={isBooked}
                     >
                       {field.value ? formatDateISO(field.value) : <span>Check Out</span>}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      <CalendarIcon className="ml-auto size-4 opacity-50" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 rounded-2xl" align="start">

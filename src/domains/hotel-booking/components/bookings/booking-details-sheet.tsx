@@ -74,7 +74,7 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
         {/* Reservation Timeline */}
         <div className="space-y-4">
           <h4 className="text-sm font-semibold flex items-center gap-2 text-zinc-800">
-            <Calendar className="h-4 w-4" /> Stay Schedule
+            <Calendar className="size-4" /> Stay Schedule
           </h4>
 
           <div className="grid grid-cols-2 gap-3 rounded-lg bg-zinc-50 p-3 text-zinc-700">
@@ -102,7 +102,7 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
 
           <div className="flex items-center justify-between text-sm py-1">
             <span className="flex items-center gap-2 text-zinc-500">
-              <Users className="h-4 w-4" /> Total Guests
+              <Users className="size-4" /> Total Guests
             </span>
             <span className="font-medium text-zinc-800">{booking.guests} Guest(s)</span>
           </div>
@@ -113,7 +113,7 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
         {/* Pricing Summary */}
         <div className="space-y-3">
           <h4 className="text-sm font-semibold flex items-center gap-2 text-zinc-800">
-            <Receipt className="h-4 w-4" /> Payment Details
+            <Receipt className="size-4" /> Payment Details
           </h4>
 
           <div className="flex justify-between text-sm text-zinc-600">

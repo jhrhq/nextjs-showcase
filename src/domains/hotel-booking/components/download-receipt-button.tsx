@@ -23,7 +23,7 @@ export function DownloadReceiptButton({
   return (
     <Button type="button" variant={variant} size={size} className={cn("gap-2", className)} asChild {...props}>
       <a href={receiptUrl} target="_blank" rel="noopener noreferrer">
-        <Download className={cn("h-4 w-4 shrink-0", iconClassName)} />
+        <Download className={cn("size-4 shrink-0", iconClassName)} />
         {label && <span>{label}</span>}
       </a>
     </Button>

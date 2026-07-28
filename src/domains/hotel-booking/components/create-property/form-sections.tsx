@@ -249,7 +249,7 @@ export function TagsInput({ tags, onTagAdd, onTagRemove }: TagsInputProps) {
             className="bg-background"
           />
           <Button type="button" variant="outline" size="icon" onClick={handleAdd}>
-            <Plus className="h-4 w-4" />
+            <Plus className="size-4" />
           </Button>
         </div>
         {tags.length > 0 && (

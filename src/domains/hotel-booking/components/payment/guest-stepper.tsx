@@ -27,7 +27,7 @@ export function GuestStepper({ value, maxGuests, minGuests = 1, onChange, disabl
           disabled={disabled || value <= minGuests}
           onClick={() => onChange(value - 1)}
         >
-          <Minus className="h-4 w-4 text-zinc-600" />
+          <Minus className="size-4 text-zinc-600" />
         </Button>
 
         <span className="w-6 text-center font-semibold text-zinc-800 tabular-nums select-none">{value}</span>
@@ -40,7 +40,7 @@ export function GuestStepper({ value, maxGuests, minGuests = 1, onChange, disabl
           disabled={disabled || value >= maxGuests}
           onClick={() => onChange(value + 1)}
         >
-          <Plus className="h-4 w-4 text-zinc-600" />
+          <Plus className="size-4 text-zinc-600" />
         </Button>
       </div>
     </div>
