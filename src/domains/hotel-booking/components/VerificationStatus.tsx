@@ -1,6 +1,5 @@
 "use client";
 
-import type { FC } from "react";
 import { useFormState } from "react-dom";
 
 import { generateVerificationLink } from "@/domains/hotel-booking/actions/verification-action";
@@ -11,7 +10,7 @@ interface Props {
   visible?: boolean;
 }
 
-const VerificationStatus: FC<Props> = ({ visible }) => {
+const VerificationStatus = ({ visible }: Props) => {
   const [state, action] = useFormState(generateVerificationLink, {});
   if (!visible) return null;
 

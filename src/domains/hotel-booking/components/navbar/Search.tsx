@@ -10,12 +10,12 @@ const Search = () => {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const doSearch = useDebounce((term) => {
+  const doSearch = useDebounce((term: string) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set("search", term);
     }
-    if (pathname == "/") {
+    if (pathname === "/") {
       replace(`?${params.toString()}`);
     } else {
       replace(`/?${params.toString()}`);
