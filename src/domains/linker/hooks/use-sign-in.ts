@@ -3,7 +3,7 @@ import type { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { AUTH_ERROR_MESSAGES } from "@/domains/linker/constants/auth.constants";
 import { useSignIn } from "@/domains/linker/hooks/use-auth";
-import type { SignInInput } from "@/domains/linker/validations/auth.validation";
+import type { SignInInput } from "@/lib/validations/auth.schema";
 
 type ApiError = {
   message: string;

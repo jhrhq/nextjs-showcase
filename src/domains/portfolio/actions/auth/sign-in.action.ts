@@ -6,8 +6,8 @@ import { AuthError } from "@/domains/linker/errors/auth.error";
 import { rateLimitService } from "@/domains/linker/services/auth/rate-limit.service";
 import { sessionService } from "@/domains/linker/services/auth/session.service";
 import type { ActionResult } from "@/domains/linker/types/action.types";
-import { signInSchema } from "@/domains/linker/validations/auth.validation";
 import { authService } from "@/domains/portfolio/services/auth/auth.service";
+import { signInSchema } from "@/lib/validations/auth.schema";
 
 export interface SignInResult {
   redirectTo: string;

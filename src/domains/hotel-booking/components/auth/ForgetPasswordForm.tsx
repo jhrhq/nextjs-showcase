@@ -5,11 +5,8 @@ import { useForm } from "react-hook-form";
 // import { generatePassResetLinkAction } from "@/domains/hotel-booking/actions/password-reset";
 import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
-import {
-  type ForgetPasswordType,
-  forgetPasswordSchema,
-} from "@/domains/hotel-booking/validationSchema/update-password-validation.schema";
 import { cn } from "@/lib/utils";
+import { type ForgetPasswordInput, forgetPasswordSchema } from "@/lib/validations/auth.schema";
 import { Button } from "../ui/button";
 
 const ForgetPasswordForm = () => {
@@ -17,14 +14,14 @@ const ForgetPasswordForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ForgetPasswordType>({
+  } = useForm<ForgetPasswordInput>({
     resolver: zodResolver(forgetPasswordSchema),
     defaultValues: {
       email: "",
     },
   });
 
-  async function onSubmit(values: ForgetPasswordType) {
+  async function onSubmit(values: ForgetPasswordInput) {
     // try {
     //   const result = await generatePassResetLinkAction(values);
     // } catch (error) {}

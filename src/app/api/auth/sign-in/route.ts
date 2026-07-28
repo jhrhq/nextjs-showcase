@@ -5,7 +5,7 @@ import z from "zod";
 import { AUTH_ERROR_MESSAGES } from "@/domains/linker/constants/auth.constants";
 import { authenticateUser } from "@/domains/linker/services/auth/auth.service";
 import { createAccessToken, createRefreshToken } from "@/domains/linker/services/auth/jwt.service";
-import { signInSchema } from "@/domains/linker/validations/auth.validation";
+import { signInSchema } from "@/lib/validations/auth.schema";
 
 export async function POST(request: Request) {
   const body = await request.json();

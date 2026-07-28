@@ -10,8 +10,8 @@ import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { useSignInForm } from "@/domains/linker/hooks/use-sign-in";
-import { type SignInInput, signInSchema } from "@/domains/linker/validations/auth.validation";
 import { cn } from "@/lib/utils";
+import { type SignInInput, signInSchema } from "@/lib/validations/auth.schema";
 import { FormFieldWrapper, FormFieldWrapperPassword } from "@/ui/shared/form-field-wrapper";
 
 export function SignInForm() {

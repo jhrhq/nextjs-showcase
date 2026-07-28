@@ -1,7 +1,7 @@
 import "server-only";
 
 import { findUserByEmail, verifyPassword } from "@/domains/linker/services/auth/jwt.service";
-import type { SignInInput } from "@/domains/linker/validations/auth.validation";
+import type { SignInInput } from "@/lib/validations/auth.schema";
 
 export async function authenticateUser(input: SignInInput) {
   const user = await findUserByEmail(input.email);

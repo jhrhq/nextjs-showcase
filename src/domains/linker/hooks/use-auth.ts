@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { authApi } from "@/domains/linker/api/auth";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
-import type { SignInRequest, SignUpRequest } from "@/domains/linker/types/auth.types";
+import type { SignInInput, SignUpInput } from "@/lib/validations/auth.schema";
 import { useAuthStore } from "@/store/linker/auth-store";
 
 export function useSignIn() {
@@ -13,7 +13,7 @@ export function useSignIn() {
   const setTokens = useAuthStore((state) => state.setTokens);
 
   return useMutation({
-    mutationFn: (data: SignInRequest) => authApi.signIn(data),
+    mutationFn: (data: SignInInput) => authApi.signIn(data),
     onSuccess: (response) => {
       setUser(response.user);
       setTokens(response.accessToken, response.refreshToken);
@@ -27,7 +27,7 @@ export function useSignUp() {
   const setUser = useAuthStore((state) => state.setUser);
 
   return useMutation({
-    mutationFn: (data: SignUpRequest) => authApi.signUp(data),
+    mutationFn: (data: SignUpInput) => authApi.signUp(data),
     onSuccess: (response) => {
       localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("refreshToken", response.refreshToken);

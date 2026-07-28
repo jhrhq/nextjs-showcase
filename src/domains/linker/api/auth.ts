@@ -1,14 +1,15 @@
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
-import type { AuthResponse, SignInRequest, SignUpRequest } from "@/domains/linker/types/auth.types";
+import type { AuthResponse } from "@/domains/linker/types/auth.types";
+import type { SignInInput, SignUpInput } from "@/lib/validations/auth.schema";
 import { linkerApi } from "./axios-instance";
 
 export const authApi = {
-  signIn: async (data: SignInRequest): Promise<AuthResponse> => {
+  signIn: async (data: SignInInput): Promise<AuthResponse> => {
     const response = await linkerApi.post(AUTH_CONFIG.API.SIGN_IN, data);
     return response.data;
   },
 
-  signUp: async (data: SignUpRequest): Promise<AuthResponse> => {
+  signUp: async (data: SignUpInput): Promise<AuthResponse> => {
     const response = await linkerApi.post(AUTH_CONFIG.API.SIGN_UP, data);
     return response.data;
   },
