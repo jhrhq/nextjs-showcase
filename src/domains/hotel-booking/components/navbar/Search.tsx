@@ -1,29 +1,14 @@
 "use client";
 import { Search as SearchIcon } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
-import useDebounce from "@/domains/hotel-booking/hooks/useDebounce";
 
 const Search = () => {
   const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-
-  const doSearch = useDebounce((term: string) => {
-    const params = new URLSearchParams(searchParams);
-    if (term) {
-      params.set("search", term);
-    }
-    if (pathname === "/") {
-      replace(`?${params.toString()}`);
-    } else {
-      replace(`/?${params.toString()}`);
-    }
-  }, 500);
 
   function handleSearch(term: string) {
-    doSearch(term);
+    console.log(term);
   }
 
   return (
