@@ -1,24 +1,21 @@
 "use server";
+import { LogOut } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { auth } from "@/lib/auth"; // Your Better Auth configuration file
+import { AUTH_CONFIG } from "../../constants/auth.constants";
 
 export async function handleSignOut() {
   await auth.api.signOut({
     headers: await headers(),
-    // MANDATORY: Required to authenticate the request
   });
 }
 
 const Logout = async () => {
   return (
-    <Link
-      href="/hotel-booking"
-      replace={true}
-      onClick={handleSignOut}
-      className="grow text-sm text-zinc-700 transition-all  hover:pl-1 w-fll"
-    >
-      Logout
+    <Link href={AUTH_CONFIG.ROUTES.HOME} replace={true} onClick={handleSignOut}>
+      <LogOut className="mr-2 size-4" />
+      <span>Log out</span>
     </Link>
   );
 };
