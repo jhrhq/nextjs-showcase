@@ -1,31 +1,45 @@
 import mongoose from "mongoose";
 
-declare global {
-  // eslint-disable-next-line no-var
-  var _mongooseCache: {
-    conn: typeof mongoose | null;
-    promise: Promise<typeof mongoose> | null;
-  };
+const MONGODB_URI = process.env.HOTEL_BOOKING_MONGODB_URI as string;
+
+if (!MONGODB_URI) {
+  throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
 }
 
-const cache = global._mongooseCache ?? { conn: null, promise: null };
-global._mongooseCache = cache;
+interface MongooseCache {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+}
+
+declare global {
+  var mongooseCache: MongooseCache | undefined;
+}
+
+if (!global.mongooseCache) {
+  global.mongooseCache = { conn: null, promise: null };
+}
+
+const cached = global.mongooseCache;
 
 export async function connectToDatabase(): Promise<typeof mongoose> {
-  if (cache.conn) return cache.conn;
-
-  const MONGODB_URI = process.env.HOTEL_BOOKING_MONGODB_URI;
-
-  if (!MONGODB_URI) {
-    throw new Error("MONGODB_URI is not defined. Add it to your .env.local file.");
+  if (cached.conn) {
+    return cached.conn;
   }
 
-  if (!cache.promise) {
-    cache.promise = mongoose.connect(MONGODB_URI, {
+  if (!cached.promise) {
+    const opts = {
       bufferCommands: false,
-    });
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((m) => m);
   }
 
-  cache.conn = await cache.promise;
-  return cache.conn;
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
+  return cached.conn;
 }
