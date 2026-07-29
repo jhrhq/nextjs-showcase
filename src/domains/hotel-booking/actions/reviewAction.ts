@@ -40,13 +40,11 @@ export const createReviewAction = actionCreator(createReviewSchema, async ({ pat
     throw new Error(REVIEW_MESSAGES.NOT_ELIGIBLE);
   }
 
-  // 2. Prevent duplicate reviews (replaces Mongo 11000 type casting)
   const alreadyReviewed = await Review.exists({ bookingId });
   if (alreadyReviewed) {
     throw new Error(REVIEW_MESSAGES.ALREADY_REVIEWED);
   }
 
-  // 3. Create review
   await Review.create({
     authorId: userId,
     authorName,

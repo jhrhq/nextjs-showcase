@@ -62,7 +62,6 @@ export async function createCheckoutSession(
         quantity: 1,
       },
     ],
-    // Store all booking params in Stripe metadata (strings only)
     metadata: {
       userId,
       propertyId: data.propertyId,

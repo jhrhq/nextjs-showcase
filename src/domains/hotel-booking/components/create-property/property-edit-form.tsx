@@ -55,7 +55,7 @@ export default function PropertyEditForm({ initialValues, action }: PropertyForm
     try {
       const result = await action(data);
       if (result?.success) {
-        toast.success(result.data?.message);
+        toast.success(result?.message);
         router.push(AUTH_CONFIG.ROUTES.HOSTING_LISTING);
       }
       bindFormErrors(setError, result);

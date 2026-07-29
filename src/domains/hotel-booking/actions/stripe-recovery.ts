@@ -14,7 +14,6 @@ export async function reconcileBookingStatus(booking: IBookingDocument) {
   try {
     await connectToDatabase();
 
-    // Retrieve latest status directly from Stripe API
     const session = await stripe.checkout.sessions.retrieve(booking.paymentInfo.stripeSessionId);
 
     if (session.status === "complete" && session.payment_status === "paid") {

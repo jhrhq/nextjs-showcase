@@ -15,7 +15,7 @@ export function actionCreator<TSchema extends z.ZodSchema, TOutput>(
 
     try {
       const data = await handler(parsed.data);
-      return { success: true, data };
+      return { success: true, ...data };
     } catch (error) {
       if (isNextRedirectError(error)) {
         throw error;

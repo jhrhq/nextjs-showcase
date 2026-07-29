@@ -38,13 +38,11 @@ export async function createBookingFromSessionAction(sessionId: string): Promise
       return { success: false, message: "Invalid session metadata." };
     }
 
-    // 3. Extract payment intent ID safely (0% `as` casting)
     const stripePaymentIntentId =
       typeof checkoutSession.payment_intent === "string"
         ? checkoutSession.payment_intent
         : (checkoutSession.payment_intent?.id ?? "");
 
-    // 4. Create booking in Mongoose with exact original field mappings
     const newBooking = await Booking.create({
       propertyId: new mongoose.Types.ObjectId(metadata.propertyId),
       userId: new mongoose.Types.ObjectId(metadata.userId),

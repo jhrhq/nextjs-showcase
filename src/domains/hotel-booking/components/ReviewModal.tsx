@@ -49,7 +49,7 @@ const ReviewModal = ({ propertyId, bookingId, isCurrentUserReview }: Props) => {
       const res = await createReviewAction({ ...values, path: pathname });
       if (res.success) {
         setOpen(false);
-        toast.success(res.message);
+        toast.success(res?.message);
       } else {
         bindFormErrors(form.setError, res);
       }

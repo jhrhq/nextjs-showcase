@@ -43,7 +43,6 @@ export const createPropertyAction = actionCreator(propertySchema, async (data) =
   revalidatePath(AUTH_CONFIG.ROUTES.HOME);
   revalidatePath(AUTH_CONFIG.ROUTES.HOSTING_CREATE);
 
-  // Return the string directly — actionCreator handles wrapping
   return { message: `${newProperty.title} - ${PROPERTY_MESSAGES.CREATE_SUCCESS}` };
 });
 
