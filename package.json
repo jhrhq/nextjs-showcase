@@ -65,7 +65,7 @@
     "lodash.range": "^3.2.0",
     "lucide-react": "^1.17.0",
     "mongodb": "^7.4.0",
-    "mongoose": "^8.9.2",
+    "mongoose": "^9.8.1",
     "motion": "^12.40.0",
     "next": "16.2.9",
     "next-mdx-remote": "^6.0.0",

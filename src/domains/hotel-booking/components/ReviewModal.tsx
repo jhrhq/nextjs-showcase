@@ -5,6 +5,7 @@ import { Star } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Button } from "@/domains/hotel-booking/components/ui/button";
 import {
@@ -19,6 +20,7 @@ import { Textarea } from "@/domains/hotel-booking/components/ui/textarea";
 import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review.schema";
 import { cn } from "@/lib/utils";
 import { createReviewAction } from "../actions/reviewAction";
+import { bindFormErrors } from "../utils/form-helpers";
 
 interface Props {
   propertyId: string;
@@ -44,11 +46,15 @@ const ReviewModal = ({ propertyId, bookingId, isCurrentUserReview }: Props) => {
 
   async function onSubmit(values: PropertyReview) {
     try {
-      const res = await createReviewAction({ data: values, path: pathname });
-      if (res) setOpen(false);
-      console.log(res);
+      const res = await createReviewAction({ ...values, path: pathname });
+      if (res.success) {
+        setOpen(false);
+        toast.success(res.message);
+      } else {
+        bindFormErrors(form.setError, res);
+      }
     } catch (error) {
-      console.log(error);
+      bindFormErrors(form.setError, null, error);
     }
   }
 

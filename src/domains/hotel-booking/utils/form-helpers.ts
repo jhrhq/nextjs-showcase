@@ -1,49 +1,38 @@
 import type { FieldValues, Path, UseFormSetError } from "react-hook-form";
-import type { ActionState } from "../actions/auth-action";
+import type { ActionState } from "@/types/shared/action.types";
 
-export function handleServerActionErrors<TFieldValues extends FieldValues>(
-  setError: UseFormSetError<TFieldValues>,
-  result?: ActionState<TFieldValues> | null,
+function isFormPath<T extends FieldValues>(key: string): key is Path<T> {
+  return typeof key === "string" && key.length > 0;
+}
+
+export function bindFormErrors<T extends FieldValues>(
+  setError: UseFormSetError<T>,
+  result?: ActionState<unknown> | null,
   catchError?: unknown
 ): void {
-  if (result && !result.status) {
+  if (result?.message === "NEXT_REDIRECT") return;
+  if (catchError instanceof Error && catchError.message === "NEXT_REDIRECT") return;
+
+  if (result && !result.success) {
     if (result.fieldErrors) {
-      const errorEntries = Object.entries(result.fieldErrors) as Array<[keyof TFieldValues, string[] | undefined]>;
-      for (const [field, messages] of errorEntries) {
-        if (messages && messages.length > 0) {
-          setError(field as Path<TFieldValues>, {
-            type: "server",
-            message: messages[0],
-          });
+      for (const [key, messages] of Object.entries(result.fieldErrors)) {
+        if (messages?.[0] && isFormPath<T>(key)) {
+          setError(key, { type: "server", message: messages[0] });
         }
       }
     }
-    if (result.serverError) {
-      setError("root.serverError" as Path<TFieldValues>, {
-        type: "custom",
-        message: result.serverError,
-      });
+
+    const rootMessage = result.message || result.formErrors?.[0];
+    if (rootMessage) {
+      setError("root.serverError", { type: "custom", message: rootMessage });
     }
     return;
   }
 
-  if (catchError !== undefined && catchError !== null) {
-    let fallbackMessage = "An unexpected system error occurred.";
-
-    if (
-      typeof catchError === "object" &&
-      "serverError" in catchError &&
-      typeof (catchError as any).serverError === "string"
-    ) {
-      fallbackMessage = (catchError as any).serverError;
-    } else if (catchError instanceof Error) {
-      if (catchError.message === "NEXT_REDIRECT") return;
-      fallbackMessage = catchError.message;
+  if (catchError) {
+    const message = catchError instanceof Error ? catchError.message : "An unexpected error occurred.";
+    if (message !== "NEXT_REDIRECT") {
+      setError("root.serverError", { type: "custom", message });
     }
-
-    setError("root.serverError" as Path<TFieldValues>, {
-      type: "custom",
-      message: fallbackMessage,
-    });
   }
 }

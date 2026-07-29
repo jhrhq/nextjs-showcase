@@ -7,106 +7,69 @@ import { auth } from "@/lib/auth";
 import { verifySession } from "@/lib/dal";
 import { connectToDatabase } from "../config/database";
 import { AUTH_CONFIG } from "../constants/auth.constants";
+import { PROPERTY_MESSAGES } from "../constants/property.constants";
 import { Property } from "../models";
-import { type PropertyFormValues, propertySchema } from "../validationSchema/property.schema";
+import { propertySchema } from "../validationSchema/property.schema";
+import { actionCreator } from "./action-creator";
 
-export type ActionResponse<T = null> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
+const updatePropertySchema = propertySchema.extend({
+  propertyId: z.string().min(1, "Property ID is required."),
+});
 
-export async function createPropertyAction(
-  rawInput: PropertyFormValues
-): Promise<ActionResponse<{ propertyId: string }>> {
-  try {
-    const session = await auth.api.getSession({ headers: await headers() });
+export const createPropertyAction = actionCreator(propertySchema, async (data) => {
+  const session = await auth.api.getSession({ headers: await headers() });
 
-    if (!session?.user) {
-      return { success: false, error: "Unauthorized: You must be logged in to create a listing." };
-    }
-
-    const validationResult = propertySchema.safeParse(rawInput);
-    if (!validationResult.success) {
-      const firstError = validationResult.error.issues[0]?.message || "Invalid payload submitted.";
-      return { success: false, error: firstError };
-    }
-
-    await connectToDatabase();
-
-    const hostSnapshot = {
-      userId: session.user.id,
-      name: session.user.name,
-      avatar: session.user.image || "",
-      isSuperhost: false,
-      joinedYear: session.user.createdAt ? new Date(session.user.createdAt).getFullYear() : new Date().getFullYear(),
-    };
-
-    const newProperty = await Property.create({
-      ...validationResult.data,
-      host: hostSnapshot,
-      ratingAvg: 0,
-      reviewCount: 0,
-    });
-
-    revalidatePath(AUTH_CONFIG.ROUTES.HOME);
-    revalidatePath(AUTH_CONFIG.ROUTES.HOSTING_CREATE);
-
-    return {
-      success: true,
-      data: { propertyId: newProperty._id.toString() },
-    };
-  } catch (error: unknown) {
-    console.error("[CREATE_PROPERTY_ACTION_ERROR]", error);
-
-    const errorMessage = error instanceof Error ? error.message : "Failed to create property listing.";
-
-    return { success: false, error: errorMessage };
+  if (!session?.user) {
+    throw new Error(PROPERTY_MESSAGES.UNAUTHORIZED_CREATE);
   }
-}
 
-export async function updatePropertyAction(propertyId: string, data: PropertyFormValues) {
+  await connectToDatabase();
+
+  const hostSnapshot = {
+    userId: session.user.id,
+    name: session.user.name,
+    avatar: session.user.image || "",
+    isSuperhost: false,
+    joinedYear: session.user.createdAt ? new Date(session.user.createdAt).getFullYear() : new Date().getFullYear(),
+  };
+
+  const newProperty = await Property.create({
+    ...data,
+    host: hostSnapshot,
+    ratingAvg: 0,
+    reviewCount: 0,
+  });
+
+  revalidatePath(AUTH_CONFIG.ROUTES.HOME);
+  revalidatePath(AUTH_CONFIG.ROUTES.HOSTING_CREATE);
+
+  // Return the string directly — actionCreator handles wrapping
+  return { message: `${newProperty.title} - ${PROPERTY_MESSAGES.CREATE_SUCCESS}` };
+});
+
+export const updatePropertyAction = actionCreator(updatePropertySchema, async ({ propertyId, ...propertyData }) => {
   const { userId } = await verifySession();
 
-  const validated = propertySchema.safeParse(data);
-  if (!validated.success) {
-    const { fieldErrors } = z.flattenError(validated.error);
-    return {
-      success: false,
-      errors: fieldErrors,
-    };
+  await connectToDatabase();
+
+  const updatedProperty = await Property.findOneAndUpdate(
+    {
+      _id: propertyId,
+      "host.userId": userId,
+    },
+    {
+      $set: propertyData,
+    },
+    { new: true }
+  );
+
+  if (!updatedProperty) {
+    throw new Error(PROPERTY_MESSAGES.NOT_FOUND_OR_UNAUTHORIZED);
   }
 
-  try {
-    await connectToDatabase();
-    const updatedProperty = await Property.findOneAndUpdate(
-      {
-        _id: propertyId,
-        "host.userId": userId,
-      },
-      {
-        $set: validated.data,
-      },
-      { new: true }
-    );
+  revalidatePath(AUTH_CONFIG.ROUTES.HOME);
+  revalidatePath(AUTH_CONFIG.ROUTES.HOSTING_LISTING);
+  revalidatePath(AUTH_CONFIG.ROUTES.HOSTING_LISTING_EDIT(propertyId));
 
-    if (!updatedProperty) {
-      return { success: false, message: "Property not found or unauthorized." };
-    }
-
-    revalidatePath(AUTH_CONFIG.ROUTES.HOME);
-    revalidatePath(AUTH_CONFIG.ROUTES.HOSTING_LISTING);
-    revalidatePath(AUTH_CONFIG.ROUTES.HOSTING_LISTING_EDIT(propertyId));
-
-    return {
-      success: true,
-      data: { propertyId: updatedProperty._id.toString() },
-    };
-  } catch (error: unknown) {
-    console.error("[CREATE_PROPERTY_ACTION_ERROR]", error);
-
-    const errorMessage = error instanceof Error ? error.message : "Failed to create property listing.";
-
-    return { success: false, error: errorMessage };
-  }
-}
+  return { message: PROPERTY_MESSAGES.UPDATE_SUCCESS };
+});

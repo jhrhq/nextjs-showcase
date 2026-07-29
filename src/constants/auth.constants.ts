@@ -29,7 +29,7 @@ export const AUTH_MESSAGES = {
   POLICY_REQUIRED: "You must accept the terms and privacy policy",
 } as const;
 
-export const CODE_MAP: Record<string, string> = {
+export const AUTH_CODE_MAP = {
   INVALID_EMAIL_OR_PASSWORD: "Incorrect email or password.",
   USER_NOT_FOUND: "No account found with that email.",
   INVALID_PASSWORD: "Incorrect password.",
@@ -37,14 +37,20 @@ export const CODE_MAP: Record<string, string> = {
   TOO_MANY_REQUESTS: "Too many attempts. Please wait and try again.",
   EMAIL_NOT_VERIFIED: "Please verify your email before signing in.",
   ACCOUNT_DISABLED: "This account has been disabled. Contact support.",
+  ACCOUNT_LOCKED: "Account has been locked due to multiple failed attempts",
   SESSION_EXPIRED: "Your session expired. Please sign in again.",
   INVALID_TOKEN: "Invalid or expired token.",
-  NETWORK_ERROR: "Network error — check your connection and try again.",
-  // mongodb error
-  EAI_AGAIN: "Database server could not be reached (DNS timeout). Please check your internet connection.",
-};
+  NETWORK_ERROR: "Network error. Check your connection and try again.",
+  SERVER_ERROR: "An unexpected error occurred. Please try again",
+  INVALID_CREDENTIALS: "Invalid email or password",
+  RATE_LIMIT: "Too many login attempts. Please try again later",
+  VALIDATION_ERROR: "Please check your input and try again",
 
-export const STATUS_MAP: Record<number, string> = {
+  // MongoDB / Node network error
+  EAI_AGAIN: "Database server could not be reached (DNS timeout). Please check your internet connection.",
+} as const;
+
+export const STATUS_MAP = {
   400: "Invalid request. Check your details and try again.",
   401: "Incorrect email or password.",
   403: "Access denied.",
@@ -54,4 +60,14 @@ export const STATUS_MAP: Record<number, string> = {
   429: "Too many attempts. Please wait and try again.",
   500: "Something went wrong on our end. Please try again shortly.",
   503: "Service unavailable. Please try again later.",
-};
+} as const;
+
+export const AUTH_ERROR_CODES = {
+  INVALID_CREDENTIALS: "INVALID_CREDENTIALS",
+  ACCOUNT_LOCKED: "ACCOUNT_LOCKED",
+  ACCOUNT_DISABLED: "ACCOUNT_DISABLED",
+  EMAIL_NOT_VERIFIED: "EMAIL_NOT_VERIFIED",
+  RATE_LIMIT: "RATE_LIMIT",
+  SERVER_ERROR: "SERVER_ERROR",
+  VALIDATION_ERROR: "VALIDATION_ERROR",
+} as const;

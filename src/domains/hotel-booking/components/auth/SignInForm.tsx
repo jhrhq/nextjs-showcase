@@ -7,11 +7,10 @@ import { Input } from "@/domains/hotel-booking/components/ui/input";
 import { cn } from "@/lib/utils";
 import { type SignInInput, signInSchema } from "@/lib/validations/auth.schema";
 import { signInAction } from "../../actions/auth-action";
-import { handleServerActionErrors } from "../../utils/form-helpers";
+import { bindFormErrors } from "../../utils/form-helpers";
 import { Button } from "../ui/button";
 
 type SignInFormProps = {
-  /** Pre-validated callback path — where to go after sign-in succeeds. */
   callbackUrl: string;
 };
 
@@ -25,13 +24,13 @@ export default function SignInForm({ callbackUrl }: SignInFormProps) {
   });
 
   const pending = form.formState.isSubmitting;
-  const boundAction = signInAction.bind(null, callbackUrl);
+
   async function onSubmit(values: SignInInput) {
     try {
-      const result = await boundAction(values);
-      handleServerActionErrors(form.setError, result);
+      const result = await signInAction({ ...values, callbackUrl });
+      bindFormErrors(form.setError, result);
     } catch (error) {
-      handleServerActionErrors(form.setError, null, error);
+      bindFormErrors(form.setError, null, error);
     }
   }
 

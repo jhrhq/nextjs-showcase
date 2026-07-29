@@ -2,6 +2,8 @@ import { format } from "date-fns";
 import { Briefcase, CheckCircle2, Mail, MessageSquareText, Star } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { createBookingFromSessionAction } from "@/domains/hotel-booking/actions/booking.action";
+import { formatBookingCode } from "@/domains/hotel-booking/components/bookings/booking-card";
 import { DownloadReceiptButton } from "@/domains/hotel-booking/components/download-receipt-button";
 import { connectToDatabase } from "@/domains/hotel-booking/config/database";
 import { AUTH_CONFIG } from "@/domains/hotel-booking/constants/auth.constants";
@@ -25,21 +27,11 @@ export default async function BookingConfirmationPage({ params, searchParams }: 
   await connectToDatabase();
 
   try {
+    await createBookingFromSessionAction(session_id);
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
     if (session.status === "complete" && session.payment_status === "paid") {
-      const confirmedBooking = await Booking.findOneAndUpdate(
-        { "paymentInfo.stripeSessionId": session_id },
-        {
-          $set: {
-            status: "confirmed",
-            "paymentInfo.stripePaymentIntentId": session.payment_intent as string,
-            "paymentInfo.amountPaid": (session.amount_total ?? 0) / 100,
-            "paymentInfo.paidAt": new Date(),
-          },
-        },
-        { new: true }
-      );
+      const confirmedBooking = await Booking.findOne({ "paymentInfo.stripeSessionId": session_id });
       const property = await getSelectedPropertyDetails(confirmedBooking?.propertyId);
       if (!confirmedBooking) {
         return (
@@ -134,7 +126,7 @@ export default async function BookingConfirmationPage({ params, searchParams }: 
                   <div className="flex justify-between text-sm items-center">
                     <span className="text-zinc-600 dark:text-zinc-400">Booking ID</span>
                     <span className="font-mono text-xs text-zinc-700 dark:text-zinc-300 select-all bg-zinc-50 dark:bg-zinc-800/50 px-2 py-0.5 rounded">
-                      {String(confirmedBooking._id)}
+                      {formatBookingCode(String(confirmedBooking._id))}
                     </span>
                   </div>
                 </div>
@@ -189,7 +181,7 @@ export default async function BookingConfirmationPage({ params, searchParams }: 
             <DownloadReceiptButton
               bookingId={bookignId}
               className="px-6 py-3 bg-primary text-primary-foreground hover:brightness-95 active:scale-[0.98] shadow-xs cursor-pointer"
-              iconClassName="text-zinc-500"
+              // iconClassName="text-zinc-500"
             />
           </div>
 

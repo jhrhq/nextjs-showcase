@@ -1,33 +1,50 @@
 "use server";
 
 import { differenceInDays, parseISO } from "date-fns";
-import mongoose from "mongoose";
 import { headers } from "next/headers";
 import type { Stripe } from "stripe";
+import { auth } from "@/lib/auth";
 import { stripe } from "@/lib/stripe-configs/stripe";
 import { formatAmountForStripe } from "@/lib/stripe-configs/stripe-helpers";
 import { connectToDatabase } from "../config/database";
 import { AUTH_CONFIG } from "../constants/auth.constants";
-import { Booking, Property } from "../models";
+import { PAYMENT_MESSAGES } from "../constants/payment.constants";
+import { Property } from "../models";
 import type { PaymentInput } from "../validationSchema/payment-form.schema";
 
 export async function createCheckoutSession(
   data: PaymentInput
 ): Promise<{ client_secret: string | null; url: string | null }> {
-  const originHeader = await headers();
-  const origin = originHeader.get("origin") as string;
+  const reqHeaders = await headers();
+
+  const session = await auth.api.getSession({ headers: reqHeaders });
+  if (!session?.user?.id) {
+    throw new Error(PAYMENT_MESSAGES.UNAUTHORIZED);
+  }
+  const userId = session.user.id;
+
+  const origin = reqHeaders.get("origin") ?? reqHeaders.get("referer");
+  if (!origin) {
+    throw new Error(PAYMENT_MESSAGES.MISSING_ORIGIN);
+  }
+
+  await connectToDatabase();
 
   const property = await Property.findById(data.propertyId);
-  if (!property) throw new Error("Property no found");
+  if (!property) {
+    throw new Error(PAYMENT_MESSAGES.PROPERTY_NOT_FOUND);
+  }
 
   const checkinDate = parseISO(data.checkin);
   const checkoutDate = parseISO(data.checkout);
-  const numberOfNights = Math.max(1, differenceInDays(checkoutDate, checkinDate));
+  const numberOfNights = differenceInDays(checkoutDate, checkinDate);
+
+  if (numberOfNights < 1) {
+    throw new Error(PAYMENT_MESSAGES.INVALID_DATES);
+  }
 
   const { perNight, cleaningFee, serviceFee } = property.pricing;
   const totalCost = perNight * numberOfNights + cleaningFee + serviceFee;
-
-  const preGeneratedBookingId = new mongoose.Types.ObjectId();
 
   const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create({
     mode: "payment",
@@ -45,39 +62,21 @@ export async function createCheckoutSession(
         quantity: 1,
       },
     ],
-    // Metadata only handles flat strings - perfect match for input data
+    // Store all booking params in Stripe metadata (strings only)
     metadata: {
-      bookingId: preGeneratedBookingId.toString(),
-      userId: data.userId,
+      userId,
       propertyId: data.propertyId,
       checkin: data.checkin,
       checkout: data.checkout,
-      guests: data.guests,
+      guests: data.guests.toString(),
+      perNight: perNight.toString(),
+      numberOfNights: numberOfNights.toString(),
+      cleaningFee: cleaningFee.toString(),
+      serviceFee: serviceFee.toString(),
+      totalCost: totalCost.toString(),
     },
-
-    ...{
-      return_url: `${origin}${AUTH_CONFIG.ROUTES.BOOKING_SUCCESS(data.propertyId)}?session_id={CHECKOUT_SESSION_ID}`,
-    },
-
+    return_url: `${origin}${AUTH_CONFIG.ROUTES.BOOKING_SUCCESS(data.propertyId)}?session_id={CHECKOUT_SESSION_ID}`,
     ui_mode: "embedded_page",
-  });
-
-  await connectToDatabase();
-  await Booking.create({
-    _id: preGeneratedBookingId,
-    propertyId: new mongoose.Types.ObjectId(data.propertyId),
-    userId: new mongoose.Types.ObjectId(data.userId),
-    checkin: checkinDate,
-    checkout: checkoutDate,
-    guests: data.guests,
-    status: "pending",
-    priceSummary: { perNight, numberOfNights, cleaningFee, serviceFee, totalCost, currency: "usd" },
-    paymentInfo: {
-      stripeSessionId: checkoutSession.id,
-      stripePaymentIntentId: checkoutSession.payment_intent,
-      amountPaid: checkoutSession.amount_total,
-      paidAt: new Date(checkoutSession.created * 1000),
-    },
   });
 
   return {

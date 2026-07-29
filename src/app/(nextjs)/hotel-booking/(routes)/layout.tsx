@@ -26,7 +26,7 @@ export default async function RootLayout({
           {/*<VerificationStatus visible={session && !session?.user?.verified && true} />*/}
           {auth}
           {children}
-          <Toaster />
+          <Toaster richColors />
         </main>
       </body>
     </html>

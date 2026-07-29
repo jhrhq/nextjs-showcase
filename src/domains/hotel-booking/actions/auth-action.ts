@@ -2,89 +2,40 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import type { FieldValues } from "react-hook-form";
 import z from "zod";
 import { auth } from "@/lib/auth";
-import { parseAuthError } from "@/lib/auth-error";
 import { resolveCallbackUrlFromString } from "@/lib/callback-urls";
-import { type SignInInput, type SignUpInput, signInSchema, signUpSchema } from "@/lib/validations/auth.schema";
+import { signInSchema, signUpSchema } from "@/lib/validations/auth.schema";
+import { actionCreator } from "./action-creator";
 
-export type ActionState<T extends FieldValues = FieldValues> = {
-  status: boolean;
-  fieldErrors?: Partial<Record<keyof T, string[]>>;
-  serverError?: string;
-};
+const withCallbackUrl = z.object({
+  callbackUrl: z.string().optional(),
+});
 
-export async function signInAction(
-  // _prev: ActionState,
-  // formData: FormData // used when action = {signInAction}
-  callbackUrl: string,
-  data: SignInInput
-) {
-  // used when action = {signInAction}
-  // const raw = {
-  //   email: formData.get("email"),
-  //   password: formData.get("password"),
-  // };
+export const signInAction = actionCreator(signInSchema.extend(withCallbackUrl.shape), async (data) => {
+  await auth.api.signInEmail({
+    body: {
+      email: data.email,
+      password: data.password,
+    },
+    headers: await headers(),
+  });
 
-  const parsed = signInSchema.safeParse(data);
-
-  if (!parsed.success) {
-    const { fieldErrors } = z.flattenError(parsed.error);
-    return { status: parsed.success, fieldErrors };
-  }
-
-  try {
-    await auth.api.signInEmail({
-      body: parsed.data,
-      headers: await headers(),
-    });
-  } catch (err: unknown) {
-    const error = err as { status?: number; code?: string; message?: string };
-    return { status: false, serverError: parseAuthError(error) };
-  }
-
-  const destination = resolveCallbackUrlFromString(callbackUrl);
-
+  const destination = resolveCallbackUrlFromString(data.callbackUrl);
   redirect(destination);
-}
+});
 
-export async function signUpAction(
-  // _prev: ActionState,
-  // formData: FormData
-  callbackUrl: string,
-  data: SignUpInput
-): Promise<ActionState> {
-  // const raw = {
-  //   name: formData.get("name"),
-  //   email: formData.get("email"),
-  //   password: formData.get("password"),
-  //   confirmPassword: formData.get("confirmPassword"),
-  // };
+export const signUpAction = actionCreator(signUpSchema.extend(withCallbackUrl.shape), async (data) => {
+  await auth.api.signUpEmail({
+    body: {
+      name: data.username,
+      email: data.email,
+      password: data.password,
+      image: "https://unsplash.com/illustrations/a-cartoon-man-wearing-glasses-with-flowers-0Ae12IY3IY0",
+    },
+    headers: await headers(),
+  });
 
-  const parsed = signUpSchema.safeParse(data);
-
-  if (!parsed.success) {
-    const { fieldErrors } = z.flattenError(parsed.error);
-    return { status: parsed.success, fieldErrors };
-  }
-
-  try {
-    await auth.api.signUpEmail({
-      body: {
-        name: parsed.data.username,
-        email: parsed.data.email,
-        password: parsed.data.password,
-        image: "https://unsplash.com/illustrations/a-cartoon-man-wearing-glasses-with-flowers-0Ae12IY3IY0",
-      },
-      headers: await headers(),
-    });
-  } catch (err: unknown) {
-    const error = err as { status?: number; code?: string; message?: string };
-    return { status: false, serverError: parseAuthError(error) };
-  }
-
-  const destination = resolveCallbackUrlFromString(callbackUrl);
-
+  const destination = resolveCallbackUrlFromString(data.callbackUrl);
   redirect(destination);
-}
+});

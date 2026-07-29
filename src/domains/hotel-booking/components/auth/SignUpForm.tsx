@@ -9,11 +9,10 @@ import { Input } from "@/domains/hotel-booking/components/ui/input";
 import { cn } from "@/lib/utils";
 import { type SignUpInput, signUpSchema } from "@/lib/validations/auth.schema";
 import { signUpAction } from "../../actions";
-import { handleServerActionErrors } from "../../utils/form-helpers";
+import { bindFormErrors } from "../../utils/form-helpers";
 import { Button } from "../ui/button";
 
 type SignUPFormProps = {
-  /** Pre-validated callback path — where to go after sign-in succeeds. */
   callbackUrl: string;
 };
 
@@ -29,20 +28,19 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
   });
 
   const pending = form.formState.isSubmitting;
-  const boundAction = signUpAction.bind(null, callbackUrl);
+
   async function onSubmit(values: SignUpInput) {
     try {
-      const result = await boundAction(values);
-      handleServerActionErrors(form.setError, result);
+      const result = await signUpAction({ ...values, callbackUrl });
+      bindFormErrors(form.setError, result);
     } catch (error) {
-      handleServerActionErrors(form.setError, null, error);
+      bindFormErrors(form.setError, null, error);
     }
   }
 
   return (
     <form id="sign-up-form" noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       <FieldGroup className="space-y-4">
-        {/* Username Field */}
         <Controller
           name="username"
           control={form.control}
@@ -61,7 +59,6 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
           )}
         />
 
-        {/* Email Field */}
         <Controller
           name="email"
           control={form.control}
@@ -80,7 +77,6 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
           )}
         />
 
-        {/* Password Field */}
         <Controller
           name="password"
           control={form.control}
@@ -98,7 +94,6 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
           )}
         />
 
-        {/* Confirm Password Field */}
         <Controller
           name="confirmPassword"
           control={form.control}
@@ -116,7 +111,6 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
           )}
         />
 
-        {/* Root server error notification */}
         <FieldError errors={[form.formState.errors?.root?.serverError]} />
       </FieldGroup>
 

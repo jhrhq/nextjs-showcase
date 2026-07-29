@@ -1,11 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import type { ActionState } from "@/types/shared/action.types";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 import { ControlledTextarea } from "@/ui/shared/form-field-wrappers/form-fields";
+import { AUTH_CONFIG } from "../../constants/auth.constants";
 import type { IProperty } from "../../type/property.type";
+import { bindFormErrors } from "../../utils/form-helpers";
 import { type PropertyFormValues, propertyFormDefaults, propertySchema } from "../../validationSchema/property.schema";
 import { FieldGroup } from "../ui/field";
 import PropertyAmenitiesSelector, {
@@ -18,21 +22,17 @@ import PropertyAmenitiesSelector, {
 } from "./form-sections";
 import PropertyLivePreview from "./property-live-preview";
 
-export type ServerActionResult =
-  | {
-      success?: boolean;
-      data?: { propertyId: string };
-      errors?: unknown;
-    }
-  | undefined;
-
+type ActionResponse = {
+  message: string;
+};
 interface PropertyFormProps {
   initialValues?: IProperty | null;
-  action: (data: PropertyFormValues) => Promise<ServerActionResult>;
+  action: (values: PropertyFormValues) => Promise<ActionState<ActionResponse>>;
 }
 
 export default function PropertyEditForm({ initialValues, action }: PropertyFormProps) {
-  const { control, handleSubmit, watch, setValue, formState } = useForm<PropertyFormValues>({
+  const router = useRouter();
+  const { control, handleSubmit, watch, setValue, formState, setError } = useForm<PropertyFormValues>({
     resolver: zodResolver(propertySchema),
     defaultValues: { ...propertyFormDefaults, ...initialValues },
     mode: "onBlur",
@@ -52,12 +52,15 @@ export default function PropertyEditForm({ initialValues, action }: PropertyForm
   }
 
   const onSubmit = async (data: PropertyFormValues) => {
-    console.log("Submitting property:", data);
     try {
       const result = await action(data);
-      toast.success(result?.data?.propertyId || "successfull");
+      if (result?.success) {
+        toast.success(result.data?.message);
+        router.push(AUTH_CONFIG.ROUTES.HOSTING_LISTING);
+      }
+      bindFormErrors(setError, result);
     } catch (error) {
-      console.log(error);
+      bindFormErrors(setError, null, error);
     }
   };
 

@@ -1,6 +1,7 @@
 import { updatePropertyAction } from "@/domains/hotel-booking/actions/create-update-property-action";
 import PropertyEditForm from "@/domains/hotel-booking/components/create-property/property-edit-form";
 import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
+import type { PropertyFormValues } from "@/domains/hotel-booking/validationSchema/property.schema";
 import { verifySession } from "@/lib/dal";
 
 interface PageProps {
@@ -14,7 +15,10 @@ export default async function EditPropertyPage({ params }: PageProps) {
   const { id } = await params;
 
   const data = await getSelectedPropertyDetails(id);
-  const boundUpdateAction = updatePropertyAction.bind(null, id);
 
-  return <PropertyEditForm initialValues={JSON.parse(JSON.stringify(data))} action={boundUpdateAction} />;
+  const handleUpdateAction = async (values: PropertyFormValues) => {
+    "use server";
+    return updatePropertyAction({ ...values, propertyId: id });
+  };
+  return <PropertyEditForm initialValues={JSON.parse(JSON.stringify(data))} action={handleUpdateAction} />;
 }

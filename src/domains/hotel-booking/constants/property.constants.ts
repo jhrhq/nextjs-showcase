@@ -2,34 +2,6 @@ export const PROPERTY_TYPES = ["Entire home", "Private room", "Shared room", "Un
 
 export const CURRENCIES = ["USD", "EUR", "GBP", "CAD", "AUD", "JPY", "INR"] as const;
 
-// export const AMENITY_OPTIONS = [
-//   "WiFi",
-//   "Kitchen",
-//   "Washer",
-//   "Dryer",
-//   "Air conditioning",
-//   "Heating",
-//   "Dedicated workspace",
-//   "TV",
-//   "Hair dryer",
-//   "Iron",
-//   "Pool",
-//   "Hot tub",
-//   "Free parking",
-//   "EV charger",
-//   "Crib",
-//   "Gym",
-//   "BBQ grill",
-//   "Breakfast",
-//   "Indoor fireplace",
-//   "Smoking allowed",
-//   "Beachfront",
-//   "Waterfront",
-//   "Ski-in/ski-out",
-//   "Smoke alarm",
-//   "Carbon monoxide alarm",
-// ] as const;
-
 export const AMENITY_OPTIONS = [
   // Essentials & Comfort
   "Wifi",
@@ -216,3 +188,10 @@ export const AMENITY_OPTIONS = [
   "Mosquito nets",
   "Solar power",
 ] as const;
+
+export const PROPERTY_MESSAGES = {
+  UNAUTHORIZED_CREATE: "Unauthorized: You must be logged in to create a listing.",
+  NOT_FOUND_OR_UNAUTHORIZED: "Property not found or unauthorized.",
+  CREATE_SUCCESS: "Property created successfully.",
+  UPDATE_SUCCESS: "Property updated successfully.",
+} as const;
