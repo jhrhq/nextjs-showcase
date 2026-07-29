@@ -1,6 +1,5 @@
 import { headers } from "next/headers";
 import Footer from "@/domains/hotel-booking/components/Footer";
-import Navbar from "@/domains/hotel-booking/components/navbar";
 import BookingCard from "@/domains/hotel-booking/components/property-details/BookingCard";
 import { BookingForm } from "@/domains/hotel-booking/components/property-details/BookingForm";
 import PropertyAmenities from "@/domains/hotel-booking/components/property-details/PropertyAmenities";
@@ -9,7 +8,10 @@ import PropertyHeader from "@/domains/hotel-booking/components/property-details/
 import PropertyImages from "@/domains/hotel-booking/components/property-details/PropertyImages";
 import ReviewContainer from "@/domains/hotel-booking/components/property-details/ReviewContainer";
 import ReviewHeader from "@/domains/hotel-booking/components/property-details/ReviewHeader";
-import { getSelectedPropertyBookinDetails, getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
+import {
+  getSelectedPropertyBookinDetails,
+  getSelectedPropertyDetails,
+} from "@/domains/hotel-booking/db/queries";
 import { auth } from "@/lib/auth";
 
 interface Props {
@@ -40,7 +42,6 @@ const PropertyDetails = async ({ params }: Props) => {
 
   return (
     <>
-      <Navbar />
       <div className="max-w-7xl mx-auto px-6 py-8">
         <PropertyHeader
           name={data.title}
@@ -49,19 +50,24 @@ const PropertyDetails = async ({ params }: Props) => {
           location={data.location.address || ""}
         />
 
-        {/* Image Gallery */}
         <PropertyImages images={data?.images} title={data.title} />
-        {/* Property Details */}
         <div className="grid grid-cols-3 gap-8">
-          {/* Left Column: Property Description */}
           <div className="col-span-2">
-            <PropertyFeatures sellerName={data.host.name} rooms={data.capacity.bedrooms} beds={data.capacity.beds} />
-            {/* Amenities */}
-            <PropertyAmenities description={data?.description} amenities={data?.amenities} />
+            <PropertyFeatures
+              sellerName={data.host.name}
+              rooms={data.capacity.bedrooms}
+              beds={data.capacity.beds}
+            />
+            <PropertyAmenities
+              description={data?.description}
+              amenities={data?.amenities}
+            />
           </div>
-          {/* Right Column: Booking Card */}
           <div>
-            <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.ratingAvg}>
+            <BookingCard
+              pricePerNight={data?.pricing.perNight}
+              rating={data?.ratingAvg}
+            >
               <BookingForm
                 isBooked={isBooked}
                 guests={bookingData ? bookingData.guests : data.capacity.guests}

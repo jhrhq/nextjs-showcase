@@ -1,4 +1,3 @@
-// import VerificationTokenModel from "@/domains/hotel-booking/models/verification-token-model";
 import Verification from "@/domains/hotel-booking/components/Verification";
 
 interface Props {

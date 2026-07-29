@@ -1,5 +1,3 @@
-// import GoogleLoginAction from "@/domains/hotel-booking/components/auth/GoogleLoginAction";
-
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";

@@ -2,8 +2,6 @@ import Footer from "@/domains/hotel-booking/components/Footer";
 import PropertyPagination from "@/domains/hotel-booking/components/homepage/Pagination";
 import PropertyCard from "@/domains/hotel-booking/components/homepage/PropertyCard";
 import ResultsNotFound from "@/domains/hotel-booking/components/homepage/ResultsNotFound";
-import Navbar from "@/domains/hotel-booking/components/navbar";
-
 import { getAllProperties } from "@/domains/hotel-booking/db/queries";
 
 interface SearchParams {
@@ -23,8 +21,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
   const showPagination = total > currentPageSize;
   return (
     <>
-      <Navbar />
-
       <section className="px-6">
         {properties.length === 0 ? (
           <ResultsNotFound searchTerm={currentSearch} />

@@ -19,6 +19,8 @@ async function getAllProperties(
   pageSize: number = 10,
   search: string = ""
 ): Promise<PaginatedProperties> {
+  await connectToDatabase();
+
   const skip = (page - 1) * pageSize;
 
   const query = search ? { $or: [{ title: new RegExp(search, "i") }] } : {};

@@ -3,7 +3,6 @@ import "./globals.css";
 
 import { Toaster } from "@/domains/hotel-booking/components/ui/sonner";
 import { connectToDatabase } from "@/domains/hotel-booking/config/database";
-// import VerificationStatus from "@/domains/hotel-booking/components/VerificationStatus";
 
 export const metadata: Metadata = {
   title: "Hotel",
@@ -22,12 +21,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <main>
-          {/*<VerificationStatus visible={session && !session?.user?.verified && true} />*/}
-          {auth}
-          {children}
-          <Toaster richColors />
-        </main>
+        {auth}
+        {children}
+        <Toaster richColors />
       </body>
     </html>
   );

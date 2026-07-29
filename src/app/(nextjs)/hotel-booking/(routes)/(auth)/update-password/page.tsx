@@ -1,6 +1,3 @@
-// import UpdatePasswordForm from "@/domains/hotel-booking/components/auth/UpdatePasswordForm";
-// import connectDB from "@/domains/hotel-booking/config/database";
-
 interface Props {
   searchParams: Promise<{
     token: string;

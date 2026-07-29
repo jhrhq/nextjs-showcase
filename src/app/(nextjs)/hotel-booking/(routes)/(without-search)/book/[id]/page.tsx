@@ -3,12 +3,14 @@ import { Suspense } from "react";
 import BackToPreviousPage from "@/domains/hotel-booking/components/back-to-previous-page";
 import PropertyBooked from "@/domains/hotel-booking/components/booked";
 import Footer from "@/domains/hotel-booking/components/Footer";
-import Navbar from "@/domains/hotel-booking/components/navbar";
 import EditTripInfo from "@/domains/hotel-booking/components/payment/edit-trip-info";
 import PaymentForm from "@/domains/hotel-booking/components/payment/payment-form";
 import { PaymentSummaryCard } from "@/domains/hotel-booking/components/payment/payment-summary-card";
 import { connectToDatabase } from "@/domains/hotel-booking/config/database";
-import { getSelectedPropertyBookinDetails, getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
+import {
+  getSelectedPropertyBookinDetails,
+  getSelectedPropertyDetails,
+} from "@/domains/hotel-booking/db/queries";
 
 type SearchParams = {
   checkin?: string;
@@ -58,7 +60,6 @@ const PaymentProcess = async ({ params }: Props) => {
 
   return (
     <>
-      <Navbar />
       <div className="max-w-7xl mx-auto px-6 py-8">
         <BackToPreviousPage />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">

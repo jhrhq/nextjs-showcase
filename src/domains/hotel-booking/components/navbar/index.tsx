@@ -3,7 +3,7 @@ import Link from "next/link";
 import Search from "@/domains/hotel-booking/components/navbar/Search";
 import UserDropdownMenu from "@/domains/hotel-booking/components/navbar/UserDropdownMenu";
 
-const Navbar = async () => {
+const Navbar = async ({ showSearch }: { showSearch: boolean }) => {
   return (
     <nav className="grid grid-cols-2 md:flex justify-between items-center py-3 bg-white border-b mb-6 md:gap-8 px-4 md:px-8 lg:px-20">
       <div className="flex items-center shrink-0">
@@ -12,11 +12,9 @@ const Navbar = async () => {
         </Link>
       </div>
 
-      <Search />
+      {showSearch && <Search />}
 
       <div className="flex items-center space-x-4 relative justify-end">
-        {/*<LocalSwitcher />*/}
-
         <UserDropdownMenu />
       </div>
     </nav>
