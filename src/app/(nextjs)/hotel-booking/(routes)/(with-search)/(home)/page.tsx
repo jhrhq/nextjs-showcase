@@ -1,24 +1,51 @@
+import { Suspense } from "react";
 import Footer from "@/domains/hotel-booking/components/Footer";
 import PropertyPagination from "@/domains/hotel-booking/components/homepage/Pagination";
 import PropertyCard from "@/domains/hotel-booking/components/homepage/PropertyCard";
 import ResultsNotFound from "@/domains/hotel-booking/components/homepage/ResultsNotFound";
 import { getAllProperties } from "@/domains/hotel-booking/db/queries";
+import Loading from "./loading";
 
 interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
 
-export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const { page, pageSize, search } = await searchParams;
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  const currentPage = Math.max(1, Number(page) || 1);
-  const currentPageSize = Math.max(1, Number(pageSize) || 8);
-  // normalise search — handles string | string[] | undefined
-  const currentSearch = (Array.isArray(search) ? search[0] : search)?.trim() ?? "";
+export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const params = await searchParams;
+  const currentPage = Math.max(1, Number(params.page) || 1);
+  const currentPageSize = Math.max(1, Number(params.pageSize) || 8);
+  const currentSearch = (Array.isArray(params.search) ? params.search[0] : params.search)?.trim() ?? "";
+
+  const suspenseKey = `${currentPage}-${currentPageSize}-${currentSearch}`;
+
+  return (
+    <>
+      <Suspense key={suspenseKey} fallback={<Loading />}>
+        <PropertyList currentPage={currentPage} currentPageSize={currentPageSize} currentSearch={currentSearch} />
+      </Suspense>
+
+      <Footer />
+    </>
+  );
+}
+
+async function PropertyList({
+  currentPage,
+  currentPageSize,
+  currentSearch,
+}: {
+  currentPage: number;
+  currentPageSize: number;
+  currentSearch: string;
+}) {
+  await delay(3000);
 
   const { allProperties: properties, total } = await getAllProperties(currentPage, currentPageSize, currentSearch);
 
   const showPagination = total > currentPageSize;
+
   return (
     <>
       <section className="px-6">
@@ -34,8 +61,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
       </section>
 
       {showPagination && <PropertyPagination page={currentPage} pageSize={currentPageSize} totalItems={total} />}
-
-      <Footer />
     </>
   );
 }
