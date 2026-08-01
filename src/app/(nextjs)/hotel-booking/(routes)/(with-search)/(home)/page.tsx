@@ -1,16 +1,27 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Footer from "@/domains/hotel-booking/components/Footer";
 import PropertyPagination from "@/domains/hotel-booking/components/homepage/Pagination";
 import PropertyCard from "@/domains/hotel-booking/components/homepage/PropertyCard";
 import ResultsNotFound from "@/domains/hotel-booking/components/homepage/ResultsNotFound";
 import { getAllProperties } from "@/domains/hotel-booking/db/queries";
-import Loading from "./loading";
+import LoadingSkeleton from "./loading";
+
+export const metadata: Metadata = {
+  title: "Explore Hotels & Vacation Rentals | Hotel Booking",
+  description:
+    "Browse and book unique stays, boutique hotel rooms, cozy cabins, and luxury penthouses around the world.",
+  openGraph: {
+    title: "Explore Hotels & Vacation Rentals | Hotel Booking",
+    description:
+      "Browse and book unique stays, boutique hotel rooms, cozy cabins, and luxury penthouses around the world.",
+    type: "website",
+  },
+};
 
 interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const params = await searchParams;
@@ -22,7 +33,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
 
   return (
     <>
-      <Suspense key={suspenseKey} fallback={<Loading />}>
+      <Suspense key={suspenseKey} fallback={<LoadingSkeleton />}>
         <PropertyList currentPage={currentPage} currentPageSize={currentPageSize} currentSearch={currentSearch} />
       </Suspense>
 
@@ -40,8 +51,6 @@ async function PropertyList({
   currentPageSize: number;
   currentSearch: string;
 }) {
-  await delay(3000);
-
   const { allProperties: properties, total } = await getAllProperties(currentPage, currentPageSize, currentSearch);
 
   const showPagination = total > currentPageSize;

@@ -14,8 +14,12 @@ import {
 } from "@/domains/hotel-booking/components/payment/payment-success";
 
 export const metadata: Metadata = {
-  title: "Booking Confirmation",
-  description: "View your hotel booking details and confirmation receipt.",
+  title: "Booking Confirmed | Payment Successful",
+  description: "Your hotel booking has been confirmed. View your reservation details and receipt.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 interface PageProps {
