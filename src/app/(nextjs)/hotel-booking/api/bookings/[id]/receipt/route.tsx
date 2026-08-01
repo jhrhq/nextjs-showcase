@@ -4,9 +4,8 @@ import { ReceiptPDF } from "@/domains/hotel-booking/components/bookings/receipt-
 import { connectToDatabase } from "@/domains/hotel-booking/config/database";
 import { getUserBooking } from "@/domains/hotel-booking/db/queries";
 import { auth } from "@/lib/auth";
-// 1. Force Node.js runtime for @react-pdf/renderer
 export const runtime = "nodejs";
-// 2. Prevent caching static PDF responses
+
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {

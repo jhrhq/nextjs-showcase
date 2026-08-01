@@ -32,7 +32,6 @@ async function getAllProperties(
 }
 
 async function getSelectedPropertyDetails(propertyId?: string | Types.ObjectId): Promise<IProperty | null> {
-  // Defensive check against empty inputs
   if (!propertyId) return null;
 
   await connectToDatabase();
@@ -53,8 +52,6 @@ export type IUserBooking = Omit<IBookingDocument, "propertyId"> & {
 };
 
 export async function getUserBookings(userId: string): Promise<UserBookingDTO[]> {
-  // 1. Guard Clause Type Safety
-  // Must return an empty array typed implicitly as UserBookingDTO[]
   if (!userId) return [];
 
   await connectToDatabase();
@@ -71,14 +68,9 @@ export async function getUserBookings(userId: string): Promise<UserBookingDTO[]>
     .sort({ createdAt: -1 })
     .lean<IUserBooking[]>();
 
-  // 3. Transformation Type Safety
-  // rawBookings is RawPopulatedBooking[], toUserBookingDTO expects RawPopulatedBooking.
-  // TS automatically verifies every element maps correctly to UserBookingDTO.
   return rawBookings.map(toUserBookingDTO);
 }
 export async function getUserBooking(id: string): Promise<UserBookingDTO | null> {
-  // 1. Guard Clause Type Safety
-  // Must return an empty array typed implicitly as UserBookingDTO[]
   if (!id) return null;
 
   await connectToDatabase();
