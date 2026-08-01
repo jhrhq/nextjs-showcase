@@ -47,5 +47,4 @@ export const AUTH_CONFIG = {
     PROPERTY_PATH: "/hotel-booking/property",
     PROPERTY: (id: string | number) => `/hotel-booking/property/${id}` as const,
   },
-  // API: { ... },
 } as const;
