@@ -48,7 +48,7 @@ function UserAvatar({
 
 function AuthenticatedMenu({ user }: { user: { name?: string | null; email?: string | null; image?: string | null } }) {
   return (
-    <>
+    <DropdownMenuGroup>
       <DropdownMenuLabel className="p-2 font-normal">
         <div className="flex items-center gap-2.5 text-left text-sm">
           <UserAvatar image={user.image} name={user.name} email={user.email} size="h-9 w-9" />
@@ -58,41 +58,35 @@ function AuthenticatedMenu({ user }: { user: { name?: string | null; email?: str
           </div>
         </div>
       </DropdownMenuLabel>
+      <DropdownMenuItem asChild>
+        <Link href={AUTH_CONFIG.ROUTES.BOOKINGS} className="flex w-full cursor-pointer items-center gap-2">
+          <Calendar className="size-4 text-muted-foreground" />
+          <span>My Bookings</span>
+        </Link>
+      </DropdownMenuItem>
+
+      <DropdownMenuItem asChild>
+        <Link href={AUTH_CONFIG.ROUTES.HOSTING_LISTING} className="flex w-full cursor-pointer items-center gap-2">
+          <Building className="size-4 text-muted-foreground" />
+          <span>Manage Hostings</span>
+        </Link>
+      </DropdownMenuItem>
+
+      <DropdownMenuItem asChild>
+        <Link href={AUTH_CONFIG.ROUTES.HOSTING_CREATE} className="flex w-full cursor-pointer items-center gap-2">
+          <PlusCircle className="size-4 text-muted-foreground" />
+          <span>Create New Listing</span>
+        </Link>
+      </DropdownMenuItem>
 
       <DropdownMenuSeparator />
-
-      <DropdownMenuGroup>
-        <DropdownMenuItem asChild>
-          <Link href={AUTH_CONFIG.ROUTES.BOOKINGS} className="flex w-full cursor-pointer items-center gap-2">
-            <Calendar className="size-4 text-muted-foreground" />
-            <span>My Bookings</span>
-          </Link>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem asChild>
-          <Link href={AUTH_CONFIG.ROUTES.HOSTING_LISTING} className="flex w-full cursor-pointer items-center gap-2">
-            <Building className="size-4 text-muted-foreground" />
-            <span>Manage Hostings</span>
-          </Link>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem asChild>
-          <Link href={AUTH_CONFIG.ROUTES.HOSTING_CREATE} className="flex w-full cursor-pointer items-center gap-2">
-            <PlusCircle className="size-4 text-muted-foreground" />
-            <span>Create New Listing</span>
-          </Link>
-        </DropdownMenuItem>
-      </DropdownMenuGroup>
-
-      <DropdownMenuSeparator />
-
       <DropdownMenuItem
         className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700 dark:focus:bg-red-950/50"
         asChild
       >
         <Logout />
       </DropdownMenuItem>
-    </>
+    </DropdownMenuGroup>
   );
 }
 
