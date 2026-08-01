@@ -16,18 +16,14 @@ export const metadata: Metadata = {
 };
 
 const SignInPage = async ({ searchParams }: SignInPageProps) => {
-  const session = await auth.api.getSession({ headers: await headers() });
-
-  if (session?.user) {
-    const resolvedParams = await searchParams;
-    const params = new URLSearchParams(resolvedParams as Record<string, string>);
-    redirect(resolveCallbackUrl(params));
-  }
-
-  // ── Resolve & validate the callback URL ──
   const resolvedParams = await searchParams;
   const params = new URLSearchParams(resolvedParams as Record<string, string>);
   const callbackUrl = resolveCallbackUrl(params);
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (session?.user) {
+    redirect(callbackUrl);
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">

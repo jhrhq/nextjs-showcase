@@ -83,7 +83,7 @@ export function buildSignInUrl(requestedUrl: URL, baseUrl: string): string {
  *  - Sign-in page component (to pre-populate redirect intent)
  */
 export function resolveCallbackUrl(searchParams: URLSearchParams): string {
-  const raw = searchParams.get("callbackUrl");
+  const raw = searchParams.get("redirectTo");
 
   if (isSafeCallbackUrl(raw)) {
     return raw as string;
