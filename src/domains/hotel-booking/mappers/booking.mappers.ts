@@ -34,8 +34,8 @@ export interface UserBookingDTO {
 export function toUserBookingDTO({ _id, propertyId, ...rest }: IUserBooking): UserBookingDTO {
   const property = propertyId ?? {};
   return {
-    id: toIdString(_id),
     ...rest,
+    id: toIdString(_id),
     userId: toIdString(rest.userId),
     property: {
       id: toIdString(property._id),

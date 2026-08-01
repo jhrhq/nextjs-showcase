@@ -13,7 +13,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
       <div>
         <div className="relative">
           <Image
-            src={property?.images?.[0].url || ""}
+            src={property?.images?.[0].url || "/placeholder.svg"}
             alt={property?.title}
             width={500}
             height={500}

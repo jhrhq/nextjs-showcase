@@ -16,7 +16,7 @@ export function formatBookingCode(id: unknown): string {
 export function BookingCard({ booking }: { booking: UserBookingDTO }) {
   const { property, checkin, checkout, guests, status, priceSummary } = booking;
 
-  const thumbnail = property?.images?.[0]?.url || "/placeholder.jpg";
+  const thumbnail = property?.images?.[0]?.url || "/placeholder.svg";
   const bookingCode = formatBookingCode(booking.id);
   const stayDuration = formatStayDuration(checkin, checkout);
   const calculatedNights = calculateNights(checkin, checkout);
@@ -35,7 +35,8 @@ export function BookingCard({ booking }: { booking: UserBookingDTO }) {
             alt={property?.title || "Property image"}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
-            // sizes="112px"
+            sizes="112px"
+            loading="lazy"
           />
         </div>
 

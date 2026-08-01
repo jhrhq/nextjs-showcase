@@ -8,7 +8,14 @@ const Navbar = async ({ showSearch }: { showSearch: boolean }) => {
     <nav className="grid grid-cols-2 md:flex justify-between items-center py-3 bg-white border-b mb-6 md:gap-8 px-4 md:px-8 lg:px-20">
       <div className="flex items-center shrink-0">
         <Link href="/hotel-booking">
-          <Image src="/hotel-booking-logo.svg" alt="Hotel Logo" height={100} width={100} className="h-8 w-auto" />
+          <Image
+            loading="eager"
+            src="/hotel-booking-logo.svg"
+            alt="Hotel Logo"
+            height={100}
+            width={100}
+            className="h-8 w-auto"
+          />
         </Link>
       </div>
 

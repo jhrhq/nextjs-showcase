@@ -18,8 +18,7 @@ export const metadata = {
   description: "View your hotel booking details and confirmation receipt.",
 };
 
-const DEFAULT_PROPERTY_IMAGE =
-  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop";
+const DEFAULT_PROPERTY_IMAGE = "/placeholder.svg";
 
 const ConfirmationParamsSchema = z.object({
   bookingId: z.string().regex(/^[a-f\d]{24}$/i, "The provided booking reference ID is invalid."),
