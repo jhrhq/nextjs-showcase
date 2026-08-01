@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { BookingCard } from "@/domains/hotel-booking/components/bookings/booking-card";
-import { AUTH_CONFIG } from "@/domains/hotel-booking/constants/auth.constants";
 import { getUserBookings } from "@/domains/hotel-booking/db/queries";
-import { auth } from "@/lib/auth";
+import { verifySession } from "@/lib/dal";
 
 export const metadata: Metadata = {
   title: "My Bookings | Hotel Booking",
@@ -12,15 +9,9 @@ export const metadata: Metadata = {
 };
 
 const Bookings = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await verifySession();
 
-  if (!session?.user?.id) {
-    redirect(`${AUTH_CONFIG.ROUTES.HOME}?callbackUrl=/bookings`);
-  }
-
-  const bookings = await getUserBookings(session.user.id);
+  const bookings = await getUserBookings(session.userId);
   return (
     <>
       {bookings.length === 0 ? (

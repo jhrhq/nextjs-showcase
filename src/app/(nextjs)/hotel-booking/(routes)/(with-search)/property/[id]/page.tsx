@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { Suspense } from "react";
 
 import Footer from "@/domains/hotel-booking/components/Footer";
@@ -13,7 +12,7 @@ import ReviewContainer from "@/domains/hotel-booking/components/property-details
 import ReviewHeader from "@/domains/hotel-booking/components/property-details/ReviewHeader";
 import ReviewsSkeleton from "@/domains/hotel-booking/components/property-details/review-skeleton";
 import { getSelectedPropertyBookinDetails, getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
-import { auth } from "@/lib/auth";
+import { verifySession } from "@/lib/dal";
 
 interface Props {
   params: Promise<{
@@ -60,16 +59,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const PropertyDetails = async ({ params }: Props) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await verifySession();
   const { id } = await params;
   const bookingData = await getSelectedPropertyBookinDetails(id);
   const data = await getSelectedPropertyDetails(id);
   if (!data) return null;
   let isBooked = false;
 
-  const userId = session?.user.id;
+  const userId = session?.userId;
   const isHost = userId === data.host.userId.toString();
 
   if (bookingData) {
