@@ -61,7 +61,6 @@ const propertySchema = new Schema<IProperty>(
   { timestamps: true }
 );
 
-propertySchema.index({ "host.userId": 1 }); // Manage Hotels
 propertySchema.index({ isPublished: 1, isFeatured: -1, ratingAvg: -1 }); // homepage sort
 propertySchema.index({ "location.city": 1, isPublished: 1 }); // city filter
 propertySchema.index({ tags: 1, isPublished: 1 }); // tag filter
