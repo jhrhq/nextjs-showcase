@@ -1,4 +1,4 @@
-import { Bath, Bed, Edit2, Eye, MapPin, Plus, Star, Trash2, Users } from "lucide-react";
+import { Bath, Bed, Edit2, Eye, MapPin, Plus, Star, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -189,7 +189,7 @@ function PropertyCardActions({ propertyId }: PropertyCardActionsProps) {
   return (
     <CardFooter className="p-4 pt-2 border-t border-zinc-100 flex items-center justify-between bg-zinc-50/50">
       <Button asChild variant="ghost" size="sm" className="h-8 gap-1.5 text-xs">
-        <Link href={`/properties/${propertyId}`}>
+        <Link href={AUTH_CONFIG.ROUTES.PROPERTY(propertyId)}>
           <Eye className="size-3.5" />
         </Link>
       </Button>
@@ -199,14 +199,14 @@ function PropertyCardActions({ propertyId }: PropertyCardActionsProps) {
             <Edit2 className="size-3.5" />
           </Link>
         </Button>
-        <Button
+        {/*<Button
           disabled
           variant="destructive-lighter"
           // onClick={() => onDelete?.(propertyId)}
           className="text-red-600 focus:text-red-600 focus:bg-red-50"
         >
           <Trash2 className="w-4 h-4 mr-2" />
-        </Button>
+        </Button>*/}
       </div>
     </CardFooter>
   );
