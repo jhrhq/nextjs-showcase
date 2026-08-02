@@ -2,10 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-
+import { toast } from "sonner";
 import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
 import { Input } from "@/domains/hotel-booking/components/ui/input";
-
 import { cn } from "@/lib/utils";
 import { type SignUpInput, signUpSchema } from "@/lib/validations/auth.schema";
 import { signUpAction } from "../../actions";
@@ -32,7 +31,11 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
   async function onSubmit(values: SignUpInput) {
     try {
       const result = await signUpAction({ ...values, callbackUrl });
-      bindFormErrors(form.setError, result);
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        bindFormErrors(form.setError, result);
+      }
     } catch (error) {
       bindFormErrors(form.setError, null, error);
     }
