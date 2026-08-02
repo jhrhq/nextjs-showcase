@@ -29,9 +29,9 @@ export const signUpSchema = z
     confirmPassword: z
       .string({ message: AUTH_MESSAGES.CONFIRM_PASSWORD_REQUIRED })
       .min(1, AUTH_MESSAGES.CONFIRM_PASSWORD_REQUIRED),
-    policyAgreement: z.boolean().refine((val) => val === true, {
-      message: AUTH_MESSAGES.POLICY_REQUIRED,
-    }),
+    // policyAgreement: z.boolean().refine((val) => val === true, {
+    //   message: AUTH_MESSAGES.POLICY_REQUIRED,
+    // }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: AUTH_MESSAGES.PASSWORDS_MUST_MATCH,
