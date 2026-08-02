@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { createPropertyAction } from "@/domains/hotel-booking/actions/create-update-property-action";
+import { createPropertyAction } from "@/domains/hotel-booking/actions";
 import PropertyEditForm from "@/domains/hotel-booking/components/create-property/property-edit-form";
 import { verifySession } from "@/lib/dal";
 

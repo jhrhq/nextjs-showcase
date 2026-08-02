@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
-import { createCheckoutSession } from "../../actions/stripe-action";
+import { createCheckoutSession } from "../../actions";
 import { useBookingParams } from "../../hooks/use-booking-params";
 import type { PaymentInput } from "../../validationSchema/payment-form.schema";
 import { Button } from "../ui/button";

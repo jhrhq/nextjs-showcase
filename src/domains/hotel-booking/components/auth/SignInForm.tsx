@@ -6,7 +6,7 @@ import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/component
 import { Input } from "@/domains/hotel-booking/components/ui/input";
 import { cn } from "@/lib/utils";
 import { type SignInInput, signInSchema } from "@/lib/validations/auth.schema";
-import { signInAction } from "../../actions/auth-action";
+import { signInAction } from "../../actions";
 import { bindFormErrors } from "../../utils/form-helpers";
 import { Button } from "../ui/button";
 

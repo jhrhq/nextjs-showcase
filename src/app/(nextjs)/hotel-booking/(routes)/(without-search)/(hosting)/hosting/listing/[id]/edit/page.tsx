@@ -1,4 +1,4 @@
-import { updatePropertyAction } from "@/domains/hotel-booking/actions/create-update-property-action";
+import { updatePropertyAction } from "@/domains/hotel-booking/actions";
 import PropertyEditForm from "@/domains/hotel-booking/components/create-property/property-edit-form";
 import { getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
 import type { PropertyFormValues } from "@/domains/hotel-booking/validationSchema/property.schema";

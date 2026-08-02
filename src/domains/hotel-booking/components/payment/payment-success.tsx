@@ -3,7 +3,7 @@ import { Briefcase, CheckCircle2, Mail, MessageSquareText, Star } from "lucide-r
 import Image from "next/image";
 import type Stripe from "stripe";
 import { z } from "zod";
-import { createBookingFromSessionAction } from "@/domains/hotel-booking/actions/booking.action";
+import { createBookingFromSessionAction } from "@/domains/hotel-booking/actions";
 import { formatBookingCode } from "@/domains/hotel-booking/components/bookings/booking-card";
 import { connectToDatabase } from "@/domains/hotel-booking/config/database";
 import { AUTH_CONFIG } from "@/domains/hotel-booking/constants/auth.constants";

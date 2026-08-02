@@ -19,7 +19,7 @@ import {
 import { Textarea } from "@/domains/hotel-booking/components/ui/textarea";
 import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review.schema";
 import { cn } from "@/lib/utils";
-import { createReviewAction } from "../actions/reviewAction";
+import { createReviewAction } from "../actions";
 import { bindFormErrors } from "../utils/form-helpers";
 
 interface Props {
