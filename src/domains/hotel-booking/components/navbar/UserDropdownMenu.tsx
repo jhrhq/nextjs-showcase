@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { auth } from "@/lib/auth";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
+import { Button } from "../ui/button";
 import Logout from "./logout";
 
 function getInitials(name?: string | null, email?: string | null): string {
@@ -114,9 +115,14 @@ const UserDropdownMenu = async () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center justify-center gap-3 rounded-full border border-zinc-300 bg-white px-3.5 py-1.5 text-zinc-800 transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200">
-        <Menu className="size-4 text-zinc-600 dark:text-zinc-400" />
-        <UserAvatar image={user?.image} name={user?.name} email={user?.email} />
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className="flex items-center justify-center gap-3 rounded-full border border-zinc-300 bg-white px-3.5 py-1.5 text-zinc-800 transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200"
+        >
+          <Menu className="size-4 text-zinc-600 dark:text-zinc-400" />
+          <UserAvatar image={user?.image} name={user?.name} email={user?.email} />
+        </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" sideOffset={8} className="w-56">
