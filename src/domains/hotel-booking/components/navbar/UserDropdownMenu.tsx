@@ -81,10 +81,7 @@ function AuthenticatedMenu({ user }: { user: { name?: string | null; email?: str
       </DropdownMenuItem>
 
       <DropdownMenuSeparator />
-      <DropdownMenuItem
-        className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700 dark:focus:bg-red-950/50"
-        asChild
-      >
+      <DropdownMenuItem>
         <Logout />
       </DropdownMenuItem>
     </DropdownMenuGroup>
