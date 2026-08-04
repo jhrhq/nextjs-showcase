@@ -3,7 +3,7 @@
 import { Check, Copy, Loader2 } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useClipboard } from "@/hooks/shared/use-clipbboart";
 
 interface CopyProps {
@@ -48,14 +48,16 @@ export function CopyToClipboardWithToolTipIcon({ value }: { value: unknown }) {
   return (
     <CopyClipboard value={value} timeout={2000}>
       {({ copied, copy }) => (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size="icon" variant="ghost" onClick={copy}>
-              {copied ? <Check className="text-green-500" /> : <Copy />}
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>{copied ? "Copied" : "Copy"}</TooltipContent>
-        </Tooltip>
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant="ghost" onClick={copy}>
+                {copied ? <Check className="text-green-500" /> : <Copy />}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{copied ? "Copied" : "Copy"}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       )}
     </CopyClipboard>
   );
@@ -92,20 +94,22 @@ export function CopyButton({
   const tooltipText = error ? "Failed to copy" : copied ? "Copied!" : "Copy to clipboard";
 
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={handleCopy}
-          disabled={copied || loading}
-          className={className}
-          aria-label="Copy to clipboard"
-        >
-          {icon}
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>{tooltipText}</TooltipContent>
-    </Tooltip>
+    <TooltipProvider delayDuration={200}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleCopy}
+            disabled={copied || loading}
+            className={className}
+            aria-label="Copy to clipboard"
+          >
+            {icon}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>{tooltipText}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

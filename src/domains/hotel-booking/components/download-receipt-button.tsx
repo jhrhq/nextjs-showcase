@@ -1,7 +1,7 @@
 import { Download } from "lucide-react";
+import { Button, type ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AUTH_CONFIG } from "../constants/auth.constants";
-import { Button, type ButtonProps } from "./ui/button";
 
 interface DownloadReceiptButtonProps extends Omit<ButtonProps, "asChild"> {
   bookingId: string;

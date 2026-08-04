@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import CompareSearchResultCard from "@/domains/movies/components/compare/CompareSearchResultCard";
-import { CompareSearchResultSkeletonList } from "@/domains/movies/components/compare/CompareSearchResultSkeleton";
-import { Button } from "@/domains/movies/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandDialog,
@@ -12,7 +10,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/domains/movies/components/ui/command";
+} from "@/components/ui/command";
+import CompareSearchResultCard from "@/domains/movies/components/compare/CompareSearchResultCard";
+import { CompareSearchResultSkeletonList } from "@/domains/movies/components/compare/CompareSearchResultSkeleton";
 import { AUTH_CONFIG } from "@/domains/movies/constants/auth.constant";
 import useCompare from "@/domains/movies/hooks/useCompare";
 import { useDebouncedValue } from "@/domains/movies/hooks/useDebounce";

@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Skeleton } from "@/domains/movies/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { AUTH_CONFIG } from "@/domains/movies/constants/auth.constant";
 import { useFetch } from "../../hooks/useFetch";
 
@@ -8,8 +8,8 @@ const Details = ({ isLoading, title, description }) => {
   if (isLoading) {
     return (
       <div className="bg-zinc-800 p-3 rounded">
-        <Skeleton className="h4 w-[250px]" />
-        <Skeleton className="h4 w-[150px]" />
+        <Skeleton className="h4 w-62.5" />
+        <Skeleton className="h4 w-37.5" />
       </div>
     );
   }

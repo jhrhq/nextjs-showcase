@@ -1,5 +1,5 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
-import BlogHero from "@/components/blog/BlogHero";
+import BlogHero from "@/domains/blog/ui/BlogHero/BlogHero";
 import { loadBlogPost } from "@/helpers/file-helpers";
 import MDX_CMPONENTS from "@/helpers/mdx-components";
 import styles from "./postSlug.module.css";

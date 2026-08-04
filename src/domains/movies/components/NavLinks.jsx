@@ -20,7 +20,7 @@ const NavLinks = () => {
           href={nav.link}
           className={cn(
             "text-white hover:text-gray-300",
-            pathname == nav.link && " font-medium border-b border-b-red-600"
+            pathname === nav.link && " font-medium border-b border-b-red-600"
           )}
         >
           {nav.title}

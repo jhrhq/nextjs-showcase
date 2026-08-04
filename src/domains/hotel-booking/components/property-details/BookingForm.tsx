@@ -6,10 +6,10 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
-import { Button } from "@/domains/hotel-booking/components/ui/button";
-import { Calendar } from "@/domains/hotel-booking/components/ui/calendar";
-import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
-import { Popover, PopoverContent, PopoverTrigger } from "@/domains/hotel-booking/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Field, FieldError, FieldGroup } from "@/components/ui/field";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 import { AUTH_CONFIG } from "../../constants/auth.constants";

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
@@ -10,7 +11,7 @@ import type { TargetUrlFormValues } from "@/domains/linker/validations/inbound.v
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 
 export interface TargetUrlFormHandle {
-  submitWithUrl: (url: string) => void;
+  submitWithUrl: (url: string) => Promise<boolean>;
 }
 
 export interface TargetUrlFormProps {
@@ -33,7 +34,6 @@ export const InboundTargetForm = React.forwardRef<TargetUrlFormHandle, TargetUrl
   React.useImperativeHandle(ref, () => ({
     async submitWithUrl(url: string) {
       form.setValue("url", url);
-      InboundTargetForm;
       const isValid = await form.trigger("url");
 
       if (!isValid) return false;
@@ -50,7 +50,7 @@ export const InboundTargetForm = React.forwardRef<TargetUrlFormHandle, TargetUrl
       </CardHeader>
 
       <CardContent>
-        <form id="signin" onSubmit={form.handleSubmit(handleValidSubmit)} className="space-y-4" noValidate>
+        <form id="inbound-target-form" onSubmit={form.handleSubmit(handleValidSubmit)} className="space-y-4" noValidate>
           <FieldGroup>
             <FormFieldWrapper
               control={form.control}
@@ -65,7 +65,7 @@ export const InboundTargetForm = React.forwardRef<TargetUrlFormHandle, TargetUrl
           {/* General Error Alert */}
           <FieldError errors={[form.formState.errors.root]} />
           <Field orientation="horizontal">
-            <Button form="signin" type="submit" disabled={isLoading}>
+            <Button form="inbound-target-form" type="submit" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Spinner />

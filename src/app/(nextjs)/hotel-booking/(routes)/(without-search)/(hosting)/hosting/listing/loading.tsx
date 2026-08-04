@@ -27,7 +27,7 @@ export default function ManagePropertiesSkeleton() {
               <div>
                 {/* Image Banner with Badges */}
                 <div className="relative w-full aspect-16/10">
-                  <Skeleton className="w-full h-full rounded-none" />
+                  <Skeleton className="w-full h-full" />
                   {/* Status Badge (Top-Left) */}
                   <Skeleton className="absolute top-3 left-3 h-6 w-20 rounded-md" />
                   {/* Rating Badge (Top-Right) */}

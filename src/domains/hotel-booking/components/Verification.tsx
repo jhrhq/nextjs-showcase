@@ -1,11 +1,10 @@
 "use client";
 import { CheckCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { type FC, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 
 const loaded = false;
-const VerificationSuccess: FC<object> = () => {
+const VerificationSuccess = () => {
   const router = useRouter();
   const { data: session } = authClient.useSession();
   // useEffect(() => {

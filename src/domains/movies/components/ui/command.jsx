@@ -4,7 +4,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
 import * as React from "react";
 
-import { Dialog, DialogOverlay, DialogPortal } from "@/domains/movies/components/ui/dialog";
+import { Dialog, DialogOverlay, DialogPortal } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
 const Command = React.forwardRef(({ className, ...props }, ref) => (

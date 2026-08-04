@@ -1,5 +1,5 @@
 import Link from "next/link";
-import LoginForm from "@/components/auth/LoginForm";
+import SignInForm from "@/domains/movies/components/auth/SignInForm";
 
 const Login = () => {
   return (
@@ -7,7 +7,7 @@ const Login = () => {
       <div className="w-full max-w-md bg-black/70 rounded-lg p-8 shadow-xl">
         <div className="text-center mb-6">
           <h1 className="text-white text-3xl font-bold mb-4">Sign In</h1>
-          <LoginForm />
+          <SignInForm />
           <div className="mt-4 flex justify-between text-moviedb-gray text-sm">
             <label className="flex items-center">
               <input type="checkbox" className="mr-2" />

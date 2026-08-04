@@ -14,6 +14,7 @@ import {
   SlidersHorizontal,
   Target,
 } from "lucide-react";
+import Link from "next/link";
 import type React from "react";
 import { type SVGProps, useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +27,7 @@ interface ProjectItem {
   name: string;
   desc: string;
   tech: string;
+  href: string;
 }
 
 interface SkillItem {
@@ -65,21 +67,24 @@ const STACK: string[] = [
 const PROJECTS: ProjectItem[] = [
   {
     icon: <BarChart3 className="size-5 text-[#00d4a8]" />,
-    name: "DataBoard",
+    name: "Blog",
     desc: "Real-time analytics dashboard with virtual-scrolled tables, custom chart components, and multi-format CSV/JSON export.",
     tech: "React · TanStack Table · Recharts",
+    href: "/blog",
   },
   {
     icon: <Target className="size-5 text-[#00d4a8]" />,
-    name: "Taskr",
+    name: "Movies",
     desc: "Kanban-style project tool with optimistic drag-and-drop, label filtering, and real-time multi-user state sync.",
     tech: "Next.js · Zustand · dnd-kit",
+    href: "/movies",
   },
   {
     icon: <Key className="size-5 text-[#00d4a8]" />,
-    name: "AuthKit UI",
+    name: "Hotel Booking",
     desc: "Headless auth component library — 12 composable components, full a11y, dark/light theme tokens, and TypeScript generics.",
     tech: "React · TypeScript · Radix UI",
+    href: "/hotel-booking",
   },
 ];
 
@@ -300,20 +305,19 @@ export default function PortfolioPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
             {PROJECTS.map((p) => (
-              <Card
-                key={p.name}
-                className="bg-white/3 border-white/5 rounded-[14px] p-7 cursor-pointer group hover:border-white/20 hover:bg-white/6 hover:-translate-y-1 flex flex-col rv opacity-0 translate-y-6 transition-all duration-700 ease-out shadow-none"
-              >
-                <div className="size-10.5 rounded-lg text-lg bg-[#00d4a8]/5 border border-[#00d4a8]/20 flex items-center justify-center mb-4">
-                  {p.icon}
-                </div>
-                <h3 className="font-display text-lg font-bold tracking-tight text-[#f0f0f2] mb-1.5">{p.name}</h3>
-                <p className="text-[0.84rem] text-[#888892] leading-relaxed flex-1 mb-4">{p.desc}</p>
-                <div className="flex justify-between items-center pt-2">
-                  <span className="font-mono text-[0.68rem] text-[#44444e]">{p.tech}</span>
-                  <ArrowUpRight className="size-4 text-[#44444e] transition-transform duration-200 group-hover:text-[#00d4a8] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </div>
-              </Card>
+              <Link key={p.name} href={p.href}>
+                <Card className="bg-white/3 border-white/5 rounded-[14px] p-7 cursor-pointer group hover:border-white/20 hover:bg-white/6 hover:-translate-y-1 flex flex-col rv opacity-0 translate-y-6 transition-all duration-700 ease-out shadow-none">
+                  <div className="size-10.5 rounded-lg text-lg bg-[#00d4a8]/5 border border-[#00d4a8]/20 flex items-center justify-center mb-4">
+                    {p.icon}
+                  </div>
+                  <h3 className="font-display text-lg font-bold tracking-tight text-[#f0f0f2] mb-1.5">{p.name}</h3>
+                  <p className="text-[0.84rem] text-[#888892] leading-relaxed flex-1 mb-4">{p.desc}</p>
+                  <div className="flex justify-between items-center pt-2">
+                    <span className="font-mono text-[0.68rem] text-[#44444e]">{p.tech}</span>
+                    <ArrowUpRight className="size-4 text-[#44444e] transition-transform duration-200 group-hover:text-[#00d4a8] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>

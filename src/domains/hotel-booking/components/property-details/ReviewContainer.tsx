@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
 import { getReviewsForProperty } from "../../db/queries";
 import ReviewModal from "../ReviewModal";
-import { Button } from "../ui/button";
 import ReviewBody from "./ReviewBody";
 
 interface Props {

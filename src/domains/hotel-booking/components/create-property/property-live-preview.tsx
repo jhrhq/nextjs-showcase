@@ -2,10 +2,10 @@
 
 import { Building2, Loader2, Sparkles } from "lucide-react";
 import { type Control, type FormState, useWatch } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { FieldError } from "@/components/ui/field";
 import type { PropertyFormValues } from "../../validationSchema/property.schema";
-import { Button } from "../ui/button";
-import { FieldError } from "../ui/field";
 
 interface FormProps {
   control: Control<PropertyFormValues>;

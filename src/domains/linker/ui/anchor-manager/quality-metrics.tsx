@@ -1,4 +1,5 @@
 "use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -14,15 +15,15 @@ type QualityMetricProps = {
 
 export function QualityMetric({ label, value, badgeVariant, helperText }: QualityMetricProps) {
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-gray-700">{label}</span>
-        <Badge variant={badgeVariant}>{value}%</Badge>
+    <div className="space-y-3 rounded-xl border bg-card p-4 shadow-2xs transition-all hover:shadow-xs">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-sm font-medium text-foreground leading-tight">{label}</span>
+        <Badge variant={badgeVariant} className="font-semibold px-2.5 py-0.5 shadow-2xs">
+          {value}%
+        </Badge>
       </div>
-
-      <Progress value={value} className="h-2" />
-
-      <p className="text-xs text-gray-500">{helperText}</p>
+      <Progress value={value} className="h-2 bg-muted" />
+      <p className="text-xs text-muted-foreground leading-normal">{helperText}</p>
     </div>
   );
 }
@@ -34,6 +35,7 @@ type QualityMetricItem = {
   badgeVariant: BadgeVariant;
   helperText: string;
 };
+
 const getAnchorMetrics = (metrics: { naturalAnchors: number; overOptimization: number; brandedRatio: number }) =>
   [
     {
@@ -61,14 +63,15 @@ const getAnchorMetrics = (metrics: { naturalAnchors: number; overOptimization: n
 
 export function QualityMetricCard({ data }: { data: QualityMetrics }) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Anchor Quality Metrics</CardTitle>
-        <CardDescription>Analysis of anchor text health and SEO impact</CardDescription>
+    <Card className=" bg-card shadow-2xs">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-lg font-semibold tracking-tight text-foreground">Anchor Quality Metrics</CardTitle>
+        <CardDescription className="text-sm text-muted-foreground">
+          Analysis of anchor text health and SEO impact
+        </CardDescription>
       </CardHeader>
-
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {getAnchorMetrics(data).map((metric) => (
             <QualityMetric
               key={metric.key}

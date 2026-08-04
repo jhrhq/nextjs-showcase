@@ -3,12 +3,14 @@
 import { useParams } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
+
 import { useSubmitInboundUrl } from "@/domains/linker/hooks/use-projects";
 import { InboundSidebar } from "@/domains/linker/ui/inbound/inbound-target/inbound-sidebar";
 import {
   InboundTargetForm,
   type TargetUrlFormHandle,
 } from "@/domains/linker/ui/inbound/inbound-target/inbound-target-form";
+
 import { InboundResultsAccordion } from "./Inbound-results-accordion";
 
 export default function InboundTarget() {
@@ -20,14 +22,25 @@ export default function InboundTarget() {
   const { mutate, data, isPending } = useSubmitInboundUrl();
 
   const handleFormSubmit = (url: string) => {
-    mutate({ projectId, url }, { onSuccess: (data) => setSubmittedUrl(data.post.url) });
+    mutate(
+      { projectId, url },
+      {
+        onSuccess: (responseData) => {
+          setSubmittedUrl(responseData.post.url);
+        },
+        onError: (error) => {
+          console.error("Failed to submit inbound URL:", error);
+          toast.error("Failed to fetch linking opportunities.");
+        },
+      }
+    );
   };
 
   const handleSidebarPostSelect = React.useCallback(async (url: string) => {
     const submitted = formRef.current?.submitWithUrl(url);
 
     if (!submitted) {
-      toast(`Sidebar URL failed validation: ${url}`);
+      toast.error(`Sidebar URL failed validation: ${url}`);
     }
   }, []);
 
@@ -47,7 +60,7 @@ export default function InboundTarget() {
       </div>
 
       <aside
-        className=" bg-background flex flex-col overflow-hidden sticky top-14 h-[calc(100vh-3.5rem)] border-l"
+        className="bg-background flex flex-col overflow-hidden sticky top-14 h-[calc(100vh-3.5rem)] border-l"
         style={{ width: "33.333%" }}
       >
         <InboundSidebar onSelectUrl={handleSidebarPostSelect} />

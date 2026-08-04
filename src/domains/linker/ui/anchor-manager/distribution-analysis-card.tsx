@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import type { Anchor, AnchorType } from "../../types/anchor-manager.types";
 
 type AnchorUIType = AnchorType | "Other";
+
 export const ANCHOR_COLOR_MAP: Record<
   AnchorUIType,
   {
@@ -19,38 +20,33 @@ export const ANCHOR_COLOR_MAP: Record<
 > = {
   "Exact Match": {
     chart: "var(--chart-1)",
-    badge: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300",
-    dot: "bg-emerald-500",
+    badge: "bg-chart-1/10 text-chart-1 border-chart-1/20",
+    dot: "bg-chart-1",
   },
-
   "Partial Match": {
     chart: "var(--chart-2)",
-    badge: "bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300",
-    dot: "bg-indigo-500",
+    badge: "bg-chart-2/10 text-chart-2 border-chart-2/20",
+    dot: "bg-chart-2",
   },
-
   Branded: {
     chart: "var(--chart-3)",
-    badge: "bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-300",
-    dot: "bg-violet-500",
+    badge: "bg-chart-3/10 text-chart-3 border-chart-3/20",
+    dot: "bg-chart-3",
   },
-
   Generic: {
     chart: "var(--chart-4)",
-    badge: "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300",
-    dot: "bg-amber-500",
+    badge: "bg-chart-4/10 text-chart-4 border-chart-4/20",
+    dot: "bg-chart-4",
   },
-
   "Naked URL": {
     chart: "var(--chart-5)",
-    badge: "bg-slate-100 text-slate-700 dark:bg-slate-900 dark:text-slate-300",
-    dot: "bg-slate-500",
+    badge: "bg-chart-5/10 text-chart-5 border-chart-5/20",
+    dot: "bg-chart-5",
   },
-
   Other: {
     chart: "var(--chart-5)",
-    badge: "bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300",
-    dot: "bg-gray-500",
+    badge: "bg-muted text-muted-foreground border-border",
+    dot: "bg-muted-foreground",
   },
 } as const;
 
@@ -69,31 +65,30 @@ export function DistributionAnalysisCard({ data }: { data: TypeDistributionItem[
   }, [data]);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Anchor Text Distribution Analysis</CardTitle>
-        <CardDescription>
+    <Card className="rounded-2xl bg-card shadow-2xs">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-lg font-semibold tracking-tight text-foreground">
+          Anchor Text Distribution Analysis
+        </CardTitle>
+        <CardDescription className="text-sm text-muted-foreground">
           {total.toLocaleString()} total entries across {data.length} active categories
         </CardDescription>
       </CardHeader>
-      <CardContent className="grid grid-cols-1 gap-6 md:grid-cols-[320px_1fr]">
-        {/* Pie Chart Component */}
+      <CardContent className="grid grid-cols-1 gap-6 md:grid-cols-[320px_1fr] items-center">
         <PieCard data={data} />
-
-        {/* Breakdown List */}
-        <div className="space-y-3">
-          <h3 className="text-sm font-medium">Breakdown</h3>
-          {data.map((item) => (
-            <BreakdownCard key={item.name} item={item} total={total} />
-          ))}
-
-          {/* Total row */}
-          <Card className="bg-muted/60 px-4 py-3 font-medium">
-            <div className="flex items-center justify-between">
-              <span>Total</span>
-              <Badge>{total.toLocaleString()}</Badge>
-            </div>
-          </Card>
+        <div className="space-y-2.5">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground px-1">Breakdown</h3>
+          <div className="space-y-2">
+            {data.map((item) => (
+              <BreakdownCard key={item.name} item={item} total={total} />
+            ))}
+          </div>
+          <div className="flex items-center justify-between rounded-xl  bg-muted/40 px-4 py-3 font-medium text-sm text-foreground">
+            <span>Total Entries</span>
+            <Badge variant="outline" className="rounded-full bg-background font-semibold px-3 ">
+              {total.toLocaleString()}
+            </Badge>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -105,49 +100,56 @@ type PieCardProps = {
 };
 
 export function PieCard({ data }: PieCardProps) {
-  // 1. Generate dynamic ChartConfig and map data to use chart color variables
   const { chartConfig, processedData } = React.useMemo(() => {
     const config: ChartConfig = {};
-
     const processed = data.map((item) => {
-      // Creates a safe key name string (e.g., "Exact Match" -> "exact-match")
       const configKey = item.name.toLowerCase().replace(/[^a-z0-9]/g, "-");
-      // Rotates through shadcn theme chart colors (var(--chart-1), var(--chart-2), etc.)
       const colors = getAnchorColors(item.name);
-
-      getAnchorColors;
       config[configKey] = {
         label: item.name,
       };
-
       return {
         ...item,
         fill: colors.chart,
       };
     });
-
     return { chartConfig: config, processedData: processed };
   }, [data]);
 
-  // 2. Calculate grand total for center label display
   const totalEntries = React.useMemo(() => {
     return data.reduce((sum, item) => sum + item.count, 0);
   }, [data]);
 
   return (
-    <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-65 w-full">
+    <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-64 w-full">
       <PieChart>
         <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-        <Pie data={processedData} dataKey="count" nameKey="name" innerRadius={70} outerRadius={100} strokeWidth={5}>
+        <Pie
+          data={processedData}
+          dataKey="count"
+          nameKey="name"
+          innerRadius={70}
+          outerRadius={95}
+          stroke="var(--card)"
+          strokeWidth={4}
+        >
           <Label
             content={({ viewBox }) => {
               if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                 return (
                   <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
-                    <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-3xl font-bold">
+                    <tspan
+                      x={viewBox.cx}
+                      y={viewBox.cy}
+                      className="fill-foreground text-3xl font-semibold tracking-tight"
+                    >
                       {totalEntries.toLocaleString()}
                     </tspan>
-                    <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground text-xs">
+                    <tspan
+                      x={viewBox.cx}
+                      y={(viewBox.cy || 0) + 22}
+                      className="fill-muted-foreground text-xs font-medium uppercase tracking-wider"
+                    >
                       Total
                     </tspan>
                   </text>
@@ -165,21 +167,26 @@ type BreakdownCardProps = {
   item: TypeDistributionItem;
   total: number;
 };
+
 export function BreakdownCard({ item, total }: BreakdownCardProps) {
-  const percent = Math.round((item.count / total) * 100);
+  const percent = total > 0 ? Math.round((item.count / total) * 100) : 0;
   const colors = getAnchorColors(item.name);
+
   return (
-    <Card className=" bg-muted/40 px-4 py-3">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className={cn("h-2.5 w-2.5 rounded-full", colors.dot)} />
-          <div>
-            <div className="text-sm">{item.name}</div>
-            <div className="text-xs text-muted-foreground">{percent}%</div>
-          </div>
+    <div className="flex items-center justify-between rounded-xl bg-card p-3 shadow-2xs transition-all border hover:shadow-xs">
+      <div className="flex items-center gap-3">
+        <span className={cn("size-2.5 rounded-full shrink-0", colors.dot)} />
+        <div>
+          <div className="text-sm font-medium text-foreground leading-tight">{item.name}</div>
+          <div className="text-xs text-muted-foreground mt-0.5">{percent}% of overall anchor profile</div>
         </div>
-        <Badge variant="secondary">{item.count}</Badge>
       </div>
-    </Card>
+      <Badge
+        variant="outline"
+        className={cn("rounded-full px-2.5 py-0.5 text-xs font-medium border shadow-2xs", colors.badge)}
+      >
+        {item.count.toLocaleString()}
+      </Badge>
+    </div>
   );
 }

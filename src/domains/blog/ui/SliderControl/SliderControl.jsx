@@ -1,6 +1,6 @@
 import React from "react";
 
-import Slider from "@/components/blog/Slider";
+import Slider from "@/domains/blog/ui/Slider";
 import styles from "./SliderControl.module.css";
 
 function SliderControl({ label, value, ...delegated }) {

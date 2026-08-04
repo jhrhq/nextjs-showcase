@@ -6,7 +6,7 @@ const CompareMovieSlots = () => {
   const { compareMovie } = useCompare();
   return (
     <>
-      {compareMovie.length == 0 ? (
+      {compareMovie.length === 0 ? (
         <div className=" py-16 ">
           <div className="max-w-lg mx-auto ">
             <h1 className="text-3xl font-semibold text-gray-100  lg:text-4xl">

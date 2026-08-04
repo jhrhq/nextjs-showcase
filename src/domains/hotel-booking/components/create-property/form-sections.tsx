@@ -20,7 +20,8 @@ import { type Control, Controller, type UseFormSetValue, useWatch } from "react-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
   ControlledInput,
@@ -33,8 +34,6 @@ import { AMENITY_OPTIONS, CURRENCIES, PROPERTY_TYPES } from "../../constants/pro
 import type { AmenityKey } from "../../type/property.type";
 import type { PropertyFormValues } from "../../validationSchema/property.schema";
 import { AMENITY_LABELS, AMENITY_MAP } from "../property-details/amenities.map";
-import { FieldError } from "../ui/field";
-import { Input } from "../ui/input";
 
 type FormControl = { control: Control<PropertyFormValues> };
 

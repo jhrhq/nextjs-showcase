@@ -33,8 +33,15 @@ const TOOLS: Tool[] = [
 
 export default function ToolsPage() {
   return (
-    <main className="mt-6 h-svw">
+    <div className="space-y-6 pt-2">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Tools</h1>
+        <p className="text-sm text-muted-foreground">
+          Select a tool to analyze, manage, and optimize your project performance.
+        </p>
+      </div>
+
       <ToolsGrid tools={TOOLS} />
-    </main>
+    </div>
   );
 }

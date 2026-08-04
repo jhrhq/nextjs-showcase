@@ -15,6 +15,7 @@ import {
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
 import type { ProjectStatus, ProjectStatusVariant } from "@/domains/linker/types/project.types";
 import type { ProjectDTO } from "@/domains/linker/validations/projects.validations";
+import { cn } from "@/lib/utils";
 
 type ProjectCardProps = {
   project: ProjectDTO;
@@ -44,7 +45,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
 
   return (
     <Link href={navigatePath}>
-      <Card className="rounded-none shadow-sm dark:bg-zinc-900/40 dark:border-zinc-800 hover:dark:border-zinc-700 transition-colors">
+      <Card className="shadow-xs dark:bg-zinc-900/40 dark:border-zinc-800 hover:dark:border-zinc-700 transition-colors">
         <CardHeader className="space-y-4">
           <div className="flex items-center justify-between">
             <ProjectStatusBadge status={project.status} />
@@ -76,8 +77,8 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 bg-muted/40 dark:bg-zinc-800/40 p-3 border border-transparent dark:border-zinc-800/60 ">
-            <div className="flex size-8 items-center justify-center bg-white dark:bg-zinc-950 border dark:border-zinc-800 shadow-sm ">
+          <div className="flex items-center gap-3 bg-muted/40 dark:bg-zinc-800/40 p-3 rounded-md border border-transparent dark:border-zinc-800/60">
+            <div className="flex size-8 items-center justify-center bg-white dark:bg-zinc-950 border dark:border-zinc-800 shadow-2xs rounded-md">
               <span className="text-xs font-semibold text-zinc-900 dark:text-zinc-50">
                 {project.name.slice(0, 2).toUpperCase()}
               </span>
@@ -118,7 +119,14 @@ const projectStatusVariant: ProjectStatusVariant = {
 
 export function ProjectStatusBadge({ status }: { status: ProjectStatus }) {
   return (
-    <Badge variant={projectStatusVariant[status]} className="capitalize">
+    <Badge
+      variant={projectStatusVariant[status]}
+      className={cn(
+        "capitalize",
+        status === "pending" &&
+          "bg-yellow-100 text-yellow-800 dark:bg-yellow-950/40 dark:text-yellow-400 border-yellow-200 dark:border-yellow-900"
+      )}
+    >
       {status}
     </Badge>
   );

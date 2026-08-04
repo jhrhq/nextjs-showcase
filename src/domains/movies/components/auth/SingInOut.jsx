@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button } from "@/domains/movies/components/ui/button";
+import { Button } from "@/components/ui/button";
 import useAuth from "@/domains/movies/hooks/useAuth";
+import { AUTH_CONFIG } from "../../constants/auth.constant";
 
 const SingInOut = () => {
   const { auth, setAuth } = useAuth();
@@ -11,7 +12,7 @@ const SingInOut = () => {
 
   const logout = () => {
     setAuth(null);
-    router.push("/login");
+    router.push(AUTH_CONFIG.ROUTES.SIGN_IN);
   };
 
   return (

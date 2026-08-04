@@ -2,13 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
-import { Input } from "@/domains/hotel-booking/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Field, FieldError, FieldGroup } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { type SignInInput, signInSchema } from "@/lib/validations/auth.schema";
 import { signInAction } from "../../actions";
 import { bindFormErrors } from "../../utils/form-helpers";
-import { Button } from "../ui/button";
 
 type SignInFormProps = {
   callbackUrl: string;

@@ -14,7 +14,7 @@ export default function PerformanceScoreItem({ label, score }: PerformanceScoreI
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-gray-700">{label}</span>
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-400">{label}</span>
           <Badge variant={getScoreVariant(score)}>{score}</Badge>
         </div>
 

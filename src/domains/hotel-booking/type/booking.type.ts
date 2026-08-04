@@ -28,6 +28,7 @@ export interface IBillingAddress {
 }
 
 export interface IBooking extends BookingFormValues {
+  _id: Types.ObjectId;
   propertyId: Types.ObjectId;
   userId: Types.ObjectId;
   status: BookingStatus;

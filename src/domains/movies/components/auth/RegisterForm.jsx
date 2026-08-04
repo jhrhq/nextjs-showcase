@@ -3,12 +3,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { performRegister } from "@/domains/movies/actions";
 import ErrorAlert from "@/domains/movies/components/auth/ErrorAlert";
-import { Button } from "@/domains/movies/components/ui/button";
-import { Checkbox } from "@/domains/movies/components/ui/checkbox";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/domains/movies/components/ui/form";
-import { Input } from "@/domains/movies/components/ui/input";
 import { signUpSchema } from "@/lib/validations/auth.schema";
 
 const RegisterForm = () => {

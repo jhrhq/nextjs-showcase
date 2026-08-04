@@ -1,4 +1,5 @@
-import RegisterForm from "../../../../domains/movies/components/auth/RegisterForm";
+import Link from "next/link";
+import RegisterForm from "@/domains/movies/components/auth/RegisterForm";
 
 const Register = () => {
   return (
@@ -9,9 +10,9 @@ const Register = () => {
           <RegisterForm />
           <div className="mt-6 text-moviedb-gray">
             Already have an account ?
-            <a href="#" className="ml-1 text-white hover:underline">
+            <Link href="#" className="ml-1 text-white hover:underline">
               Sign in
-            </a>
+            </Link>
           </div>
         </div>
       </div>

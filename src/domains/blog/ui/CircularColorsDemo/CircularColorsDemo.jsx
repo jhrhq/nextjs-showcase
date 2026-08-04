@@ -4,8 +4,8 @@ import clsx from "clsx";
 import { Pause, Play, RotateCcw } from "lucide-react";
 import { motion } from "motion/react";
 import React from "react";
-import Card from "@/components/blog/Card";
 import VisuallyHidden from "@/components/visually-hidden";
+import Card from "@/domains/blog/ui/Card";
 import styles from "./CircularColorsDemo.module.css";
 
 const COLORS = [

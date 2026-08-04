@@ -4,6 +4,7 @@ import Link from "@tiptap/extension-link";
 import { type Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useCallback, useEffect, useRef, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -15,7 +16,7 @@ interface SentenceEditorPanelProps {
 }
 
 const EDITOR_LINK_CLASSES =
-  "min-h-[60px] w-full px-3 py-2 text-sm rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent border rounded-md rounded-t-none p-4 text-justify [&_a]:text-blue-500 [&_a]:p-1 [&_a]:dark:bg-blue-900 [&_a]:dark:text-blue-200 [&_a]:bg-blue-50 [&_a]:border-b [&_a]:font-medium [&_a]:border-primary [&_a]:rounded";
+  "min-h-[60px] w-full px-3 py-2 text-sm rounded-md border border-border bg-card text-card-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent rounded-t-none p-4 text-justify [&_a]:text-primary [&_a]:p-1 [&_a]:bg-accent [&_a]:border-b [&_a]:font-medium [&_a]:border-primary [&_a]:rounded";
 
 const STARTER_KIT_CONFIG = {
   heading: false,
@@ -47,7 +48,6 @@ function normalizeUrl(input: string): string {
 
   try {
     const url = new URL(candidate);
-    /* url.protocol = "https:"; // enforce HTTPS */
     return url.toString();
   } catch {
     return "";
@@ -145,7 +145,7 @@ function Toolbar({
   onRemoveLink,
 }: ToolbarProps) {
   return (
-    <div className="flex flex-wrap items-center gap-1 border border-gray-200 rounded-t-md p-1 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex flex-wrap items-center gap-1 border border-border rounded-t-md p-1 bg-secondary text-secondary-foreground">
       {/* History */}
       <Button
         type="button"
@@ -153,7 +153,7 @@ function Toolbar({
         size="sm"
         onClick={() => editor?.chain().focus().undo().run()}
         disabled={!editor?.can().undo()}
-        className="h-7 px-2 text-xs"
+        className="h-7 px-2 text-xs hover:bg-accent hover:text-accent-foreground"
       >
         ↩ Undo
       </Button>
@@ -163,12 +163,12 @@ function Toolbar({
         size="sm"
         onClick={() => editor?.chain().focus().redo().run()}
         disabled={!editor?.can().redo()}
-        className="h-7 px-2 text-xs"
+        className="h-7 px-2 text-xs hover:bg-accent hover:text-accent-foreground"
       >
         Redo ↪
       </Button>
 
-      <div className="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-0.5" />
+      <div className="w-px h-5 bg-border mx-0.5" />
 
       {/* Link actions */}
       {predefinedUrl && (
@@ -178,7 +178,7 @@ function Toolbar({
           size="sm"
           onClick={onAddPredefined}
           disabled={!hasSelection}
-          className="h-7 px-2 text-xs"
+          className="h-7 px-2 text-xs hover:bg-accent hover:text-accent-foreground"
         >
           Add Default Link
         </Button>
@@ -190,7 +190,7 @@ function Toolbar({
         size="sm"
         onClick={onOpenUrlInput}
         disabled={!hasSelection}
-        className="h-7 px-2 text-xs"
+        className="h-7 px-2 text-xs hover:bg-accent hover:text-accent-foreground"
       >
         {existingHref ? "Edit Link" : "Add Link"}
       </Button>
@@ -201,7 +201,7 @@ function Toolbar({
         size="sm"
         onClick={onRemoveLink}
         disabled={!existingHref}
-        className="h-7 px-2 text-xs text-red-500 hover:text-red-600"
+        className="h-7 px-2 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
       >
         Remove Link
       </Button>
@@ -219,7 +219,7 @@ interface UrlInputRowProps {
 
 function UrlInputRow({ value, onChange, onConfirm, onCancel, inputRef }: UrlInputRowProps) {
   return (
-    <div className="flex items-center gap-2 px-1 py-1 border-x border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-b-none">
+    <div className="flex items-center gap-2 px-2 py-1.5 border-x border-b border-border bg-secondary rounded-b-none">
       <Input
         ref={inputRef}
         type="text"
@@ -230,12 +230,23 @@ function UrlInputRow({ value, onChange, onConfirm, onCancel, inputRef }: UrlInpu
           if (e.key === "Escape") onCancel();
         }}
         placeholder="https://example.com"
-        className="h-8 text-sm max-w-xs"
+        className="h-8 text-sm max-w-xs bg-background border-input text-foreground placeholder:text-muted-foreground"
       />
-      <Button type="button" size="sm" className="h-8 px-3 text-xs" onClick={onConfirm}>
+      <Button
+        type="button"
+        size="sm"
+        className="h-8 px-3 text-xs bg-primary text-primary-foreground hover:bg-primary/90"
+        onClick={onConfirm}
+      >
         OK
       </Button>
-      <Button type="button" variant="ghost" size="sm" className="h-8 px-3 text-xs" onClick={onCancel}>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        className="h-8 px-3 text-xs text-secondary-foreground hover:bg-accent hover:text-accent-foreground"
+        onClick={onCancel}
+      >
         Cancel
       </Button>
     </div>
@@ -276,7 +287,7 @@ export function MiniTipTapEditorPanel({ content, predefinedUrl, onSave, onCancel
   };
 
   return (
-    <div className="mt-1 ">
+    <div className="mt-1">
       <Toolbar
         editor={editor}
         hasSelection={hasSelection}
@@ -300,10 +311,21 @@ export function MiniTipTapEditorPanel({ content, predefinedUrl, onSave, onCancel
       <EditorContent editor={editor} />
 
       <div className="flex justify-end gap-2 mt-2">
-        <Button type="button" variant="outline" size="sm" onClick={onCancel}>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={onCancel}
+          className="border-border bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground"
+        >
           Cancel
         </Button>
-        <Button type="button" size="sm" onClick={handleSave}>
+        <Button
+          type="button"
+          size="sm"
+          onClick={handleSave}
+          className="bg-primary text-primary-foreground hover:bg-primary/90"
+        >
           Save
         </Button>
       </div>

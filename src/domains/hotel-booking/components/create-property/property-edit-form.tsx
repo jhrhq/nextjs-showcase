@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { FieldGroup } from "@/components/ui/field";
 import type { ActionState } from "@/types/shared/action.types";
 import { FormFieldWrapper } from "@/ui/shared/form-field-wrapper";
 import { ControlledTextarea } from "@/ui/shared/form-field-wrappers/form-fields";
@@ -11,7 +12,6 @@ import { AUTH_CONFIG } from "../../constants/auth.constants";
 import type { IProperty } from "../../type/property.type";
 import { bindFormErrors } from "../../utils/form-helpers";
 import { type PropertyFormValues, propertyFormDefaults, propertySchema } from "../../validationSchema/property.schema";
-import { FieldGroup } from "../ui/field";
 import PropertyAmenitiesSelector, {
   LocationSection,
   PropertyCapacityInputs,

@@ -30,10 +30,6 @@ import { fuzzyFilter, fuzzySort } from "@/infra/utils.tanstack-table";
 import { cn } from "@/lib/utils";
 import { AppearsInAudit } from "./appeares-in-audit";
 
-/**
- * Type-safe filter function for nested statuses
- * filterValue is explicitly typed as an array of valid statuses
- */
 const nestedStatusFilterFn: FilterFn<CustomNetworkCollectionValues> = (
   row,
   _columnId,
@@ -45,31 +41,30 @@ const nestedStatusFilterFn: FilterFn<CustomNetworkCollectionValues> = (
   return row.original.nestedData?.some((child) => filterValue.includes(child.status)) ?? false;
 };
 
-// ── State badge ──
 export const STATE_CFG: Record<string, { dot: string; text: string }> = {
-  "In Progress": { dot: "bg-amber-500", text: "text-amber-700 dark:text-amber-400" },
-  "Fully Linked": { dot: "bg-emerald-500", text: "text-emerald-700 dark:text-emerald-400" },
-  Unlinked: { dot: "bg-zinc-400", text: "text-zinc-500 dark:text-zinc-400" },
+  "In Progress": { dot: "bg-chart-3", text: "text-chart-3" },
+  "Fully Linked": { dot: "bg-chart-2", text: "text-chart-2" },
+  Unlinked: { dot: "bg-muted-foreground", text: "text-muted-foreground" },
 };
 
 const STATUS_CONFIG = {
   ACTIVE: {
     label: "Active",
     Icon: CheckCircle2,
-    cls: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/50",
-    iconCls: "size-3 text-emerald-500 dark:text-emerald-400",
+    cls: "bg-chart-2/10 text-chart-2",
+    iconCls: "size-3 text-chart-2",
   },
   STALE: {
     label: "Stale",
     Icon: RefreshCw,
-    cls: "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-900/50",
-    iconCls: "size-3 text-indigo-500 dark:text-indigo-400",
+    cls: "bg-chart-1/10 text-chart-1",
+    iconCls: "size-3 text-chart-1",
   },
   UNLINKED: {
     label: "Unlinked",
     Icon: Unlink,
-    cls: "bg-gray-50 text-zinc-700 border-zinc-200 dark:bg-zinc-900 dark:text-zinc-400 dark:border-zinc-800",
-    iconCls: "size-3 text-zinc-500 dark:text-zinc-400",
+    cls: "bg-muted text-muted-foreground",
+    iconCls: "size-3 text-muted-foreground",
   },
 } as const;
 
@@ -83,7 +78,10 @@ export const NestedStatusBadge = ({ status }: { status: StatusType }) => {
       <Tooltip>
         <TooltipTrigger asChild>
           <div
-            className={cn("inline-flex items-center gap-1.5 text-[11px] font-semibold px-2 py-1 rounded-md ", cfg.cls)}
+            className={cn(
+              "inline-flex items-center gap-1.5 text-[11px] font-semibold px-2 py-1 rounded-lg shadow-2xs",
+              cfg.cls
+            )}
           >
             <Icon size={14} className={cfg.iconCls} />
             <span>{cfg.label}</span>
@@ -132,7 +130,7 @@ export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetwor
     header: () => null,
     cell: ({ row }) => (
       <ChevronRight
-        className={cn("h-4 w-4 transition-transform dark:text-zinc-400", row.getIsExpanded() && "rotate-90")}
+        className={cn("h-4 w-4 transition-transform text-muted-foreground", row.getIsExpanded() && "rotate-90")}
       />
     ),
   },
@@ -142,9 +140,9 @@ export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetwor
     filterFn: fuzzyFilter,
     sortingFn: fuzzySort,
     cell: ({ getValue }) => (
-      <span className="text-blue-600 dark:text-blue-400 text-sm font-medium flex items-center gap-2">
+      <span className="text-primary text-sm font-medium flex items-center gap-2">
         {getValue() as string}
-        <ExternalLink className="size-3 text-muted-foreground/40 dark:text-zinc-500 shrink-0" />
+        <ExternalLink className="size-3 text-muted-foreground/40 shrink-0" />
       </span>
     ),
   },
@@ -162,7 +160,7 @@ export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetwor
     cell: ({ row }) => {
       const children = row.original.nestedData || [];
       const total = children.length;
-      if (total === 0) return <span className="text-[10px] text-zinc-400 dark:text-zinc-500 italic">No links</span>;
+      if (total === 0) return <span className="text-[10px] text-muted-foreground italic">No links</span>;
 
       const activeCount = children.filter((c) => c.status === "ACTIVE").length;
       const staleCount = children.filter((c) => c.status === "STALE").length;
@@ -173,46 +171,43 @@ export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetwor
       const unlinkedP = (unlinkedCount / total) * 100;
 
       return (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div className="w-36 cursor-help space-y-1.5">
-              {/* Segmented Bar */}
-              <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800 shadow-inner">
-                <div
-                  style={{ width: `${activeP}%` }}
-                  className="bg-green-500 shadow-[inset_-1px_0_0_rgba(0,0,0,0.1)]"
-                />
-                <div style={{ width: `${staleP}%` }} className="bg-amber-400 shadow-[inset_-1px_0_0_rgba(0,0,0,0.1)]" />
-                <div style={{ width: `${unlinkedP}%` }} className="bg-zinc-300 dark:bg-zinc-600" />
-              </div>
-              {/* Labels */}
-              <div className="flex justify-between items-center text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
-                <span className="tabular-nums">{total} Links</span>
-                <div className="flex gap-1.5">
-                  {activeCount > 0 && <span className="text-green-600 dark:text-emerald-400">{activeCount}A</span>}
-                  {staleCount > 0 && <span className="text-amber-600 dark:text-amber-400">{staleCount}S</span>}
-                  {unlinkedCount > 0 && <span className="text-zinc-400 dark:text-zinc-500">{unlinkedCount}U</span>}
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="w-36 cursor-help space-y-1.5">
+                <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-muted shadow-inner">
+                  <div style={{ width: `${activeP}%` }} className="bg-chart-2 shadow-2xs" />
+                  <div style={{ width: `${staleP}%` }} className="bg-chart-1 shadow-2xs" />
+                  <div style={{ width: `${unlinkedP}%` }} className="bg-muted-foreground/30" />
+                </div>
+                <div className="flex justify-between items-center text-[10px] font-bold text-muted-foreground">
+                  <span className="tabular-nums">{total} Links</span>
+                  <div className="flex gap-1.5">
+                    {activeCount > 0 && <span className="text-chart-2">{activeCount}A</span>}
+                    {staleCount > 0 && <span className="text-chart-1">{staleCount}S</span>}
+                    {unlinkedCount > 0 && <span className="text-muted-foreground">{unlinkedCount}U</span>}
+                  </div>
                 </div>
               </div>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent className="p-3 bg-zinc-900 text-white dark:bg-zinc-950 dark:text-zinc-50 border-none shadow-xl">
-            <div className="space-y-1 text-xs">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500" />
-                <span className="dark:text-zinc-200">{activeCount} Active Links</span>
+            </TooltipTrigger>
+            <TooltipContent className="p-3 bg-popover text-popover-foreground shadow-xl rounded-xl">
+              <div className="space-y-1 text-xs">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-chart-2" />
+                  <span>{activeCount} Active Links</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-chart-1" />
+                  <span>{staleCount} Stale Links</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-muted-foreground" />
+                  <span>{unlinkedCount} Unlinked Links</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-amber-400" />
-                <span className="dark:text-zinc-200">{staleCount} Stale Links</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-slate-400 dark:bg-zinc-500" />
-                <span className="dark:text-zinc-200">{unlinkedCount} Unlinked Links</span>
-              </div>
-            </div>
-          </TooltipContent>
-        </Tooltip>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       );
     },
   },
@@ -225,7 +220,7 @@ export const getColumns = ({ urlUsageMap }: ColumnProps): ColumnDef<CustomNetwor
       const cfg = STATE_CFG[state] ?? STATE_CFG.Unlinked;
       return (
         <div className="flex items-center gap-1.5">
-          <span className={cn("size-1.5 rounded-full shrink-0", cfg.dot)} />
+          <span className={cn("size-1.5 rounded-full shrink-0 shadow-2xs", cfg.dot)} />
           <span className={cn("text-xs font-medium", cfg.text)}>{state}</span>
         </div>
       );
@@ -275,7 +270,7 @@ function DeleteRow({ row }: { row: Row<CustomNetworkCollectionValues> }) {
       <AlertDialogTrigger asChild>
         <Button
           variant="destructive"
-          className="bg-transparent hover:bg-transparent text-rose-500 dark:text-rose-400 dark:hover:text-rose-300"
+          className="bg-transparent hover:bg-destructive/10 text-destructive shadow-2xs"
           onClick={(e) => {
             e.stopPropagation();
           }}
@@ -283,21 +278,31 @@ function DeleteRow({ row }: { row: Row<CustomNetworkCollectionValues> }) {
           Delete
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent size="sm">
+      <AlertDialogContent size="sm" className="bg-card shadow-xl rounded-2xl">
         <AlertDialogHeader>
-          <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+          <AlertDialogMedia className="bg-destructive/10 text-destructive rounded-xl shadow-2xs">
             <Trash2Icon />
           </AlertDialogMedia>
-          <AlertDialogTitle>Delete Row?</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogTitle className="text-foreground">Delete Row?</AlertDialogTitle>
+          <AlertDialogDescription className="text-muted-foreground">
             This will permanently delete this Row. All nested data will also be deleted!
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isPending} variant="outline" onClick={(e) => e.stopPropagation()}>
+          <AlertDialogCancel
+            disabled={isPending}
+            variant="outline"
+            onClick={(e) => e.stopPropagation()}
+            className="hover:bg-accent text-foreground shadow-2xs"
+          >
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction disabled={isPending} variant="destructive" onClick={handleDeleteConfirm}>
+          <AlertDialogAction
+            disabled={isPending}
+            variant="destructive"
+            onClick={handleDeleteConfirm}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-2xs"
+          >
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
+import Image from "next/image";
 import { ImageResponse } from "next/og";
 import { getSelectedMovieDetails } from "@/domains/movies/lib/movie-info";
 
@@ -27,7 +28,7 @@ export async function GET(request) {
     <div tw="flex flex-row p-[48px] w-full h-full bg-white">
       <div tw="flex">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img tw="w-96 h-full" src={posterPath} alt={title ?? "movie title"} />
+        <Image height={500} width={500} tw="w-96 h-full" src={posterPath} alt={title ?? "movie title"} />
       </div>
       <div tw="flex flex-col w-[50%] h-full">
         <p tw="text-[72px]">{title}</p>

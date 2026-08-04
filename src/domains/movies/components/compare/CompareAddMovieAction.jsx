@@ -31,7 +31,7 @@ const SearchResults = ({ query, compareId }) => {
   );
 
   const handleAddToCompare = (movie) => {
-    setCompareMovie((prev) => prev.map((item) => (item.id == compareId ? { ...item, ...movie } : item)));
+    setCompareMovie((prev) => prev.map((item) => (item.id === compareId ? { ...item, ...movie } : item)));
   };
 
   if (isLoading) {
@@ -62,7 +62,7 @@ const SearchResults = ({ query, compareId }) => {
     );
   }
 
-  if (data?.length == 0) {
+  if (data?.length === 0) {
     return (
       <CommandList>
         <CommandEmpty>
@@ -110,7 +110,7 @@ const CompareAddMovieAction = ({ compareId }) => {
         <Command shouldFilter={false}>
           <div className="bg-zinc-900 p-6 rounded-lg w-full max-w-2xl">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="!text-xl !font-bold text-background">Search Movie</h2>
+              <h2 className="text-xl! font-bold! text-background">Search Movie</h2>
             </div>
 
             <CommandInput

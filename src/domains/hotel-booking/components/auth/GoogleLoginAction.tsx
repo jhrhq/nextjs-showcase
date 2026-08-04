@@ -1,7 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { GoogleSvg } from "@/domains/hotel-booking/components/svg-component/GoogleSvg";
-import { Button } from "@/domains/hotel-booking/components/ui/button";
 
 const GoogleLoginAction = () => {
   // const handleAuth = () => {

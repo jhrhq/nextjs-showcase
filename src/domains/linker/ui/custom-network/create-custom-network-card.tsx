@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus } from "lucide-react";
+
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -32,7 +33,7 @@ export default function CreateCustomNetworkCard({ onClick, isEmpty }: CreateCust
         isEmpty ? "min-h-85 p-10" : "min-h-65 p-8"
       )}
     >
-      <div className="size-14  flex items-center justify-center mb-4 bg-muted transition-all duration-300 group-hover:bg-primary group-hover:scale-110 group-hover:shadow-lg">
+      <div className="size-14 flex items-center justify-center mb-4 bg-primary/15 transition-all duration-300 group-hover:bg-primary group-hover:scale-110 group-hover:shadow-lg group-hover:text-white text-primary dark:text-white rounded-lg">
         <Plus className="size-7" />
       </div>
 

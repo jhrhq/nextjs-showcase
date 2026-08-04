@@ -22,6 +22,8 @@ export const technicalSeoColumns: ColumnDef<TechnicalSeoMetric>[] = [
   {
     accessorKey: "recommendation",
     header: "Recommendation",
-    cell: ({ row }) => <span className="text-sm text-gray-600">{row.getValue("recommendation")}</span>,
+    cell: ({ row }) => (
+      <span className="text-sm text-gray-600 dark:text-gray-300">{row.getValue("recommendation")}</span>
+    ),
   },
 ];

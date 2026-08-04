@@ -102,38 +102,56 @@ function EmptyState({ onCreate }: { onCreate: () => void }) {
 interface PageHeaderProps {
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
+  hasNetworks: boolean;
+  networks: number;
 }
 
-function PageHeader({ viewMode, onViewModeChange }: PageHeaderProps) {
+function PageHeader({ hasNetworks, networks = 0, viewMode, onViewModeChange }: PageHeaderProps) {
   return (
     <header className="sticky top-12 z-40 border-b py-4 backdrop-blur-md">
-      <div className="flex flex-col items-center justify-between gap-4">
-        <ToggleGroup
-          type="single"
-          value={viewMode}
-          onValueChange={(value) => {
-            if (value) {
-              onViewModeChange(value as ViewMode);
-            }
-          }}
-          className="flex self-end gap-1 border p-1"
-        >
-          <ToggleGroupItem
-            value="empty"
-            aria-label="Toggle empty state"
-            className="h-7 px-3 text-xs font-medium data-[state=off]:bg-transparent data-[state=off]:hover:bg-muted/50 data-[state=on]:bg-primary/10 data-[state=on]:text-primary data-[state=on]:shadow-sm"
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl sm:text-base font-bold tracking-tight text-foreground truncate">
+            Your Network Items
+            {hasNetworks && (
+              <span className="ms-3 text-sm sm:text-base font-normal text-muted-foreground">
+                {networks} cluster
+                {networks !== 1 ? "s" : ""}
+              </span>
+            )}
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Organize URLs into networked clusters for powerful internal linking.
+          </p>
+        </div>
+        <div className="flex items-center shrink-0">
+          <ToggleGroup
+            type="single"
+            value={viewMode}
+            onValueChange={(value) => {
+              if (value) {
+                onViewModeChange(value as ViewMode);
+              }
+            }}
+            className="flex gap-1 border border-border bg-card p-1 rounded-xl shadow-2xs"
           >
-            Create
-          </ToggleGroupItem>
+            <ToggleGroupItem
+              value="empty"
+              aria-label="Toggle empty state"
+              className="h-8 px-3.5 text-xs font-medium rounded-lg transition-all data-[state=off]:bg-transparent data-[state=off]:text-muted-foreground data-[state=off]:hover:bg-muted/50 data-[state=off]:hover:text-foreground data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-sm"
+            >
+              Create
+            </ToggleGroupItem>
 
-          <ToggleGroupItem
-            value="filled"
-            aria-label="Toggle network items"
-            className="h-7 px-3 text-xs font-medium data-[state=off]:bg-transparent data-[state=off]:hover:bg-muted/50 data-[state=on]:bg-primary/10 data-[state=on]:text-primary data-[state=on]:shadow-sm"
-          >
-            Networks
-          </ToggleGroupItem>
-        </ToggleGroup>
+            <ToggleGroupItem
+              value="filled"
+              aria-label="Toggle network items"
+              className="h-8 px-3.5 text-xs font-medium rounded-lg transition-all data-[state=off]:bg-transparent data-[state=off]:text-muted-foreground data-[state=off]:hover:bg-muted/50 data-[state=off]:hover:text-foreground data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-sm"
+            >
+              Networks
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
       </div>
     </header>
   );
@@ -166,28 +184,17 @@ export default function NetworkItemPage() {
 
   return (
     <>
-      <PageHeader viewMode={viewMode} onViewModeChange={setViewMode} />
+      {/*<PageHeader
+        hasNetworks={hasNetworks}
+        networks={networks.length}
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+      />*/}
 
       {viewMode === "empty" ? (
         <EmptyState onCreate={handleCreateNetworkItem} />
       ) : (
         <>
-          <div className="mb-8">
-            <h1 className="text-[28px] font-bold tracking-tight">
-              Your Network Items
-              {hasNetworks && (
-                <span className="ms-3 text-base font-normal text-muted-foreground">
-                  {networks.length} cluster
-                  {networks.length !== 1 ? "s" : ""}
-                </span>
-              )}
-            </h1>
-
-            <p className="mt-1 text-sm text-muted-foreground">
-              Organize URLs into networked clusters for powerful internal linking.
-            </p>
-          </div>
-
           {query.isFetching && <CustomNetworkSkeletonPage />}
 
           {query.isError && <QueryErrorState query={query} />}

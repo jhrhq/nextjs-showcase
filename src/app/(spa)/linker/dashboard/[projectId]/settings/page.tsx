@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useMemo } from "react";
 import { toast } from "sonner";
 import { useProjects, useUpdateProject } from "@/domains/linker/hooks/use-projects";
 import { QueryErrorState } from "@/domains/linker/query-error-state";
@@ -19,54 +20,68 @@ export default function ProjectSettingsPage() {
   const projectId = params.projectId as string;
 
   const query = useProjects();
-  const project = query.data?.find((p) => p.id === projectId);
-  const udpateProject = useUpdateProject(projectId);
+  const updateProject = useUpdateProject(projectId);
 
-  async function handleStatusToggle(checked: boolean) {
-    try {
-      udpateProject.mutate(
-        { status: checked ? "active" : "inactive", projectId },
-        {
-          onSuccess: () => toast.success("Status update successfull"),
-          onError: () => toast.error("Status update failed!"),
-        }
-      );
-    } catch (error) {
-      console.error("API call failed:", error);
-    }
+  // Memoize project lookup to prevent unnecessary recalculations on re-render
+  const project = useMemo(() => query.data?.find((p) => p.id === projectId), [query.data, projectId]);
+
+  function handleStatusToggle(checked: boolean) {
+    updateProject.mutate(
+      { status: checked ? "active" : "inactive", projectId },
+      {
+        onSuccess: () => toast.success("Status update successful"),
+        onError: (error) => {
+          console.error("Status update failed:", error);
+          toast.error("Status update failed!");
+        },
+      }
+    );
   }
 
   if (query.isLoading) {
     return <ProjectsListSkeleton />;
   }
+
   if (query.isError) {
     return <QueryErrorState query={query} />;
   }
 
-  if (!query.data || query.data.length === 0 || !project) {
+  // Handle empty state vs. specific project not found
+  if (!query.data || query.data.length === 0) {
     return <ProjectsEmpty />;
   }
 
+  if (!project) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <h2 className="text-lg font-semibold text-foreground">Project Not Found</h2>
+        <p className="text-sm text-muted-foreground mt-1">
+          The project you are looking for does not exist or has been removed.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-6 mt-6">
-      <div>
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-slate-200">Project Settings</h1>
-        <p className="text-slate-600 mt-1">Manage your project configuration</p>
+    <div className="max-w-4xl space-y-6 pt-2 pb-10">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Project Settings</h1>
+        <p className="text-sm text-muted-foreground">
+          Manage your project configuration, integrations, and preferences.
+        </p>
       </div>
 
-      <SettingsGeneral project={project} />
-
-      <SettingsGeneralStatus
-        project={project}
-        onToggleStatus={handleStatusToggle}
-        isLoading={udpateProject.isPending}
-      />
-
-      <SettingsDetails project={project} />
-
-      <SettingsUsage project={project} />
-
-      <SettingsProjectDelete project={project} />
+      <div className="space-y-6">
+        <SettingsGeneral project={project} />
+        <SettingsGeneralStatus
+          project={project}
+          onToggleStatus={handleStatusToggle}
+          isLoading={updateProject.isPending}
+        />
+        <SettingsDetails project={project} />
+        <SettingsUsage project={project} />
+        <SettingsProjectDelete project={project} />
+      </div>
     </div>
   );
 }

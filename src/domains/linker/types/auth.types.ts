@@ -33,7 +33,6 @@ export interface User {
   createdAt: string;
 }
 
-
 export interface AuthResponse {
   error: string | undefined;
   fieldErrors: {

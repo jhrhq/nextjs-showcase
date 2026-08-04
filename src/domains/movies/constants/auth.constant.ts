@@ -27,7 +27,7 @@ export const AUTH_CONFIG = {
     MAX_LENGTH: 255,
   },
   ROUTES: {
-    SIGN_IN: "/movies/sign-in",
+    SIGN_IN: "/movies/signin",
     VERIFY_EMAIL: "/movies/verify-email",
     HOME: "/movies",
     COMPARE: "/movies/compare",

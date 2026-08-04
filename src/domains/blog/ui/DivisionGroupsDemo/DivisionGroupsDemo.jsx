@@ -4,8 +4,8 @@
 import clsx from "clsx";
 import { LayoutGroup, motion } from "motion/react";
 import React from "react";
-import Card from "@/components/blog/Card";
-import SliderControl from "@/components/blog/SliderControl";
+import Card from "@/domains/blog/ui/Card";
+import SliderControl from "@/domains/blog/ui/SliderControl";
 import { range } from "@/utils";
 import styles from "./DivisionGroupsDemo.module.css";
 import Equation from "./Equation";

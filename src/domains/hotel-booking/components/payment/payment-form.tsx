@@ -3,12 +3,12 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { FieldError } from "@/components/ui/field";
 import { authClient } from "@/lib/auth-client";
 import { createCheckoutSession } from "../../actions";
 import { useBookingParams } from "../../hooks/use-booking-params";
 import type { PaymentInput } from "../../validationSchema/payment-form.schema";
-import { Button } from "../ui/button";
-import { FieldError } from "../ui/field";
 import CheckoutClient from "./checkout-client";
 
 interface IPropertyPricing {

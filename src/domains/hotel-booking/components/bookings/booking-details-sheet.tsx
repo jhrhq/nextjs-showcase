@@ -1,12 +1,12 @@
 import { Calendar, CheckCircle2, Clock, MapPin, Receipt, Users } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import type { UserBookingDTO } from "../../mappers/booking.mappers";
 import { DownloadReceiptButton } from "../download-receipt-button";
-import { Button } from "../ui/button";
 
 interface BookingDetailsSheetProps {
   booking: UserBookingDTO;

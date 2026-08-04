@@ -1,4 +1,4 @@
-import { Skeleton } from "@/domains/movies/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function HeroMovieSkeletonCard() {
   return (

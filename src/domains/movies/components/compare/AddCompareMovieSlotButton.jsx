@@ -7,11 +7,11 @@ import useCompare from "@/domains/movies/hooks/useCompare";
 const AddCompareMovieSlotButton = () => {
   const { compareMovie, setCompareMovie } = useCompare();
   const addCompareSlot = () => {
-    if (compareMovie.length == 0) {
+    if (compareMovie.length === 0) {
       setCompareMovie([{ id: 1 }]);
-    } else if (compareMovie.length == 1) {
+    } else if (compareMovie.length === 1) {
       setCompareMovie([...compareMovie, { id: 2 }]);
-    } else if (compareMovie.length == 2) {
+    } else if (compareMovie.length === 2) {
       setCompareMovie([...compareMovie, { id: 3 }]);
     } else {
       toast.success("Please remove a slot before add one.");

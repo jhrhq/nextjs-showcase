@@ -1,11 +1,11 @@
 "use client";
 
 import type { DateRange } from "react-day-picker";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useBookingParams } from "../../hooks/use-booking-params";
 import { formatStayDuration, isPastDate } from "../../utils/date-time-utils";
-import { Button } from "../ui/button";
-import { Calendar } from "../ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { GuestStepper } from "./guest-stepper";
 
 export default function EditTripInfo({ maxGuests }: { maxGuests: number }) {

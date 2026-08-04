@@ -19,7 +19,7 @@ export default function ExpandablecellDataTable<TData>({
   emptyMessage = "No results found.",
 }: DataTableProps<TData>) {
   return (
-    <div className="border shadow-sm overflow-hidden">
+    <div className="border overflow-hidden rounded-md">
       <div className="overflow-x-auto">
         <Table className="w-full">
           <TableHeader>

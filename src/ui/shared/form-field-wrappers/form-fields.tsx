@@ -1,15 +1,9 @@
 import { type Control, Controller, type FieldPath, type FieldValues } from "react-hook-form";
 import { Field, FieldContent, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Input } from "@/domains/hotel-booking/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/domains/hotel-booking/components/ui/select";
-import { Textarea } from "@/domains/hotel-booking/components/ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 
 interface ControlledFieldProps<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>> {
   control: Control<TFieldValues>;

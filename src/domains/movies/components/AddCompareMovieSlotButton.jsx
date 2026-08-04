@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from "sonner";
-import { Button } from "@/domains/movies/components/ui/button";
+import { Button } from "@/components/ui/button";
 import useCompare from "@/domains/movies/hooks/useCompare";
 
 const AddCompareMovieSlotButton = () => {

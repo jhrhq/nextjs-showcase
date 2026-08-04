@@ -7,7 +7,6 @@ import React from "react";
 import { type SubmitHandler, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { FieldError } from "@/components/ui/field";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -144,30 +143,32 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
 
   return (
     <TooltipProvider delayDuration={200}>
-      <div className="space-y-4">
-        {/* Page heading */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="size-9 bg-primary flex items-center justify-center" aria-hidden="true">
-            <Globe className="size-4 text-primary-foreground" />
+      <div className="space-y-4 text-foreground bg-background">
+        <div className="flex items-center gap-3 mb-6 bg-card p-4 rounded-xl border border-border shadow-2xs">
+          <div
+            className="size-9 bg-primary text-primary-foreground flex items-center justify-center rounded-lg shadow-2xs"
+            aria-hidden="true"
+          >
+            <Globe className="size-4" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold tracking-tight">URL Manager</h1>
+            <h1 className="text-xl font-semibold tracking-tight text-foreground">URL Manager</h1>
             <p className="text-sm text-muted-foreground">Organise and validate multiple links in one place</p>
           </div>
         </div>
 
-        {/* Accessibility: Live region for screen readers */}
         {/*<div className="sr-only" aria-live="polite" aria-atomic="true">
-        {fields.length} URLs total, {validCount} valid, {duplicateIndices.size} duplicates detected
-      </div>*/}
+            {fields.length} URLs total, {validCount} valid, {duplicateIndices.size} duplicates detected
+          </div>*/}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/*  Collection details */}
-          <Card>
+          <Card className="bg-card border-border shadow-2xs rounded-xl">
             <CardHeader className="pb-3">
-              <CardTitle className="text-base">Collection details</CardTitle>
-              <CardDescription>Give this group of URLs a name so you can identify it later.</CardDescription>
-              <CardContent className="p-0">
+              <CardTitle className="text-base text-foreground font-semibold">Collection details</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                Give this group of URLs a name so you can identify it later.
+              </CardDescription>
+              <CardContent className="p-0 pt-3">
                 <FormFieldWrapper<CreateCustomNetworkFormValues>
                   control={control}
                   name="collectionName"
@@ -180,22 +181,21 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
             </CardHeader>
           </Card>
 
-          {/* Card 2: Quick import */}
           <BulkImportInput onImport={handleBulkImport} disabled={isSubmitting} />
-          {/* URL list */}
-          <Card>
+
+          <Card className="bg-card border-border shadow-2xs rounded-xl">
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <CardTitle className="text-base">URL list</CardTitle>
-                  <CardDescription className="mt-1">
+                  <CardTitle className="text-base text-foreground font-semibold">URL list</CardTitle>
+                  <CardDescription className="mt-1 text-muted-foreground">
                     Add, edit, or remove individual URLs. Click any card in the sidebar to add it instantly.
                   </CardDescription>
                 </div>
                 <UrlStatsBadges total={fields.length} valid={validCount} duplicates={duplicateIndices.size} />
               </div>
             </CardHeader>
-            <Separator />
+            <Separator className="bg-border" />
             <CardContent className="pt-4 space-y-4">
               {fields.map((field, index) => {
                 const currentUrl = watchedUrls[index]?.url ?? "";
@@ -218,19 +218,19 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
                   </React.Fragment>
                 );
               })}
-
-              {/*{errors.urls?.root?.message && (
-                <FieldError>
-                  <FormError error={errors.urls.root.message} />
-                </FieldError>
-              )}*/}
+              {/*
+              {errors.urls?.root?.message && (
+                    <FieldError>
+                      <FormError error={errors.urls.root.message} />
+                    </FieldError>
+                  )}*/}
 
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
                 onClick={() => append({ url: "" })}
-                className="w-full mt-1 gap-2 border-dashed text-muted-foreground"
+                className="w-full mt-1 gap-2 border-dashed border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground shadow-2xs"
               >
                 <Plus className="size-3.5" aria-hidden="true" />
                 Add another URL
@@ -238,22 +238,26 @@ export default function CreateCustomNetworkForm({ pendingUrls = [], onPendingCon
             </CardContent>
 
             <DuplicateWarning count={duplicateIndices.size} />
-            <Separator />
+            <Separator className="bg-border" />
 
             <CardFooter className="justify-between pt-4">
               <Button
                 type="button"
-                variant="default-lighter"
+                variant="outline"
                 size="sm"
                 onClick={() => reset(CREATE_CUSTOM_NETWORK_FORM_DEFAULTS)}
-                className="text-muted-foreground"
+                className="text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground shadow-2xs"
               >
                 Reset form
               </Button>
-              <Button type="submit" disabled={!canSubmit || submitUrls.isPending} className="gap-2 min-w-32">
+              <Button
+                type="submit"
+                disabled={!canSubmit || submitUrls.isPending}
+                className="gap-2 min-w-32 bg-primary text-primary-foreground hover:bg-primary/90 shadow-2xs"
+              >
                 {isSubmitting || submitUrls.isPending ? (
                   <>
-                    <Spinner />
+                    {/* <Spinner /> */}
                     Saving…
                   </>
                 ) : isSubmitSuccessful ? (

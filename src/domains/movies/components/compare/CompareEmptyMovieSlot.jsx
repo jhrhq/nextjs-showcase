@@ -1,7 +1,7 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import CompareAddMovieAction from "@/domains/movies/components/compare/CompareAddMovieAction";
 import CompareSelectedMovieCard from "@/domains/movies/components/compare/CompareSelectedMovieCard";
-import { Button } from "@/domains/movies/components/ui/button";
 import useCompare from "@/domains/movies/hooks/useCompare";
 
 const CompareEmptyMovieSlot = ({ id, movie }) => {

@@ -16,13 +16,13 @@ export default function LinkMetricItem({ label, value, total, badgeVariant, foot
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-gray-700">{label}</span>
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
         <Badge variant={badgeVariant}>{value.toLocaleString()}</Badge>
       </div>
 
       <Progress value={percentage} className="h-2" />
 
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-gray-500 dark:text-gray-300">
         {percentage.toFixed(1)}% {footerText}
       </p>
     </div>

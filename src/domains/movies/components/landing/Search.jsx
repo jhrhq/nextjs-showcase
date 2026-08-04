@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Input } from "@/domains/movies/components/ui/input";
+import { Input } from "@/components/ui/input";
 import { AUTH_CONFIG } from "@/domains/movies/constants/auth.constant";
 import useDebounce from "@/domains/movies/hooks/useDebounce";
 
