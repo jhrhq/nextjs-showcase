@@ -1,8 +1,10 @@
 const SearchHeader = ({ text, movieLength = 0 }) => {
   return (
-    <div className="mb-6">
-      <h1 className="text-2xl font-bold">Search Results for &quot;{text}&quot;</h1>
-      <p className="text-gray-400">Found {movieLength} results</p>
+    <div className="mb-8">
+      <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">Search Results for &quot;{text}&quot;</h1>
+      <p className="text-sm font-medium text-muted-foreground">
+        Found {movieLength} {movieLength === 1 ? "result" : "results"}
+      </p>
     </div>
   );
 };

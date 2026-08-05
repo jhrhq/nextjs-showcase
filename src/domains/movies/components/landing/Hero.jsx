@@ -9,21 +9,31 @@ const Hero = async () => {
   return (
     <div
       id="hero"
-      className="relative h-screen"
+      className="relative h-screen bg-background"
       style={{
         backgroundImage: `url(${fullMoviePath})`,
         backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
-      <div className="absolute inset-0 bg-linear-to-t from-black" />
-      <div className="absolute bottom-0 left-0 p-12">
-        <h1 id="heroTitle" className="text-5xl font-bold mb-4">
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+      <div className="absolute bottom-0 left-0 p-8 md:p-12 max-w-4xl z-10">
+        <h1
+          id="heroTitle"
+          className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-foreground tracking-tight drop-shadow-md"
+        >
           {popularMovie.title}
         </h1>
-        <p id="heroOverview" className="text-lg max-w-2xl mb-4">
+        <p
+          id="heroOverview"
+          className="text-base md:text-lg max-w-2xl mb-6 text-muted-foreground line-clamp-3 drop-shadow"
+        >
           {popularMovie.overview}
         </p>
-        <button type="button" className="bg-white text-black px-8 py-2 rounded-lg font-bold hover:bg-opacity-80">
+        <button
+          type="button"
+          className="bg-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors shadow-lg cursor-pointer flex items-center gap-2"
+        >
           ▶ Play
         </button>
       </div>

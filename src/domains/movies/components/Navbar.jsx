@@ -5,15 +5,15 @@ import NavLinks from "@/domains/movies/components/NavLinks";
 
 const Navbar = () => {
   return (
-    <nav className="fixed w-full z-50 bg-linear-to-b from-black to-transparent">
-      <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-        <div className="flex items-center">
-          <Link href="/movies" className="text-red-600 text-4xl font-bold">
+    <nav className="fixed w-full z-50 bg-background/80 backdrop-blur-md border-b border-border transition-colors duration-200">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="flex items-center gap-6">
+          <Link href="/movies" className="text-primary text-3xl font-bold tracking-tight">
             MOVIE DB
           </Link>
           <NavLinks />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Search />
           <SingInOut />
         </div>

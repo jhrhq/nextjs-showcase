@@ -1,73 +1,86 @@
 "use client";
 import Image from "next/image";
 
-// import { useRouter } from "next/router";
-
-// https://x.com/intent/tweet?text=${text}: ${url}
-// https://threads.net/intent/post?source=${url}&url=${url}&text=${text}: ${url}
-// https://web.whatsapp.com/send?text=${text}: ${url}
-// http://www.reddit.com/submit?url=${url}&title=${text}: ${url}
-// https://t.me/share/url&text=${text}: ${url}
-// https://www.facebook.com/sharer/share...{url}&quote=${text}: ${url}
-
 const SocialMedia = ({ title, description }) => {
-  // const router = useRouter();
-
   const handleShare = (platform) => {
-    // Capture the current page URL
     const currentUrl = window.location.href;
+    const text = title ? `${title}${description ? ` - ${description}` : ""}` : "";
     let shareUrl = "";
 
-    // Determine the correct URL based on the platform
     switch (platform) {
       case "linkedin":
-        shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(currentUrl)}`;
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
         break;
       case "facebook":
         shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
         break;
       case "x":
-        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}`;
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(text)}`;
         break;
       default:
         break;
     }
-    window.open(shareUrl, "_blank", "noopener,noreferrer");
+
+    if (shareUrl) {
+      window.open(shareUrl, "_blank", "noopener,noreferrer");
+    }
   };
 
   return (
-    <div className="mb-6">
-      <h3 className="text-gray-400 mb-2">Share on social media</h3>
+    <div className="mb-8">
+      <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+        Share on social media
+      </h3>
       <div className="flex flex-wrap gap-4">
-        <button onClick={() => handleShare("facebook")} className="text-center cursor-pointer">
-          <Image
-            height={100}
-            width={100}
-            src="/icons/facebook.png"
-            alt="Facebook"
-            className="w-8 h-8 rounded-full object-cover mb-2 mx-auto"
-          />
-          <p className="text-sm">Facebook</p>
+        <button
+          type="button"
+          onClick={() => handleShare("facebook")}
+          className="flex flex-col items-center text-center cursor-pointer group"
+        >
+          <div className="relative w-10 h-10 rounded-full overflow-hidden bg-secondary/80 flex items-center justify-center mb-1.5 border border-border group-hover:border-primary transition-colors shadow-sm">
+            <Image
+              height={100}
+              width={100}
+              src="/icons/facebook.png"
+              alt="Facebook"
+              className="w-5 h-5 object-contain"
+            />
+          </div>
+          <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+            Facebook
+          </span>
         </button>
-        <button onClick={() => handleShare("x")} className="text-center cursor-pointer">
-          <Image
-            height={100}
-            width={100}
-            src="/icons/x.png"
-            alt="x"
-            className="w-8 h-8 rounded-full object-cover mb-2 mx-auto"
-          />
-          <p className="text-sm">X</p>
+
+        <button
+          type="button"
+          onClick={() => handleShare("x")}
+          className="flex flex-col items-center text-center cursor-pointer group"
+        >
+          <div className="relative w-10 h-10 rounded-full overflow-hidden bg-secondary/80 flex items-center justify-center mb-1.5 border border-border group-hover:border-primary transition-colors shadow-sm">
+            <Image height={100} width={100} src="/icons/x.png" alt="X" className="w-5 h-5 object-contain" />
+          </div>
+          <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+            X
+          </span>
         </button>
-        <button onClick={() => handleShare("linkedin")} className="text-center cursor-pointer">
-          <Image
-            height={100}
-            width={100}
-            src="/icons/linkedin.png"
-            alt="linkedin"
-            className="w-8 h-8 rounded-full object-cover mb-2 mx-auto"
-          />
-          <p className="text-sm">Linkedin</p>
+
+        <button
+          type="button"
+          onClick={() => handleShare("linkedin")}
+          className="flex flex-col items-center text-center cursor-pointer group"
+        >
+          <div className="relative w-10 h-10 rounded-full overflow-hidden bg-secondary/80 flex items-center justify-center mb-1.5 border border-border group-hover:border-primary transition-colors shadow-sm">
+            <Image
+              height={100}
+              width={100}
+              src="/icons/linkedin.png"
+              alt="LinkedIn"
+              className="w-5 h-5 object-contain"
+            />
+          </div>
+          <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+            LinkedIn
+          </span>
         </button>
       </div>
     </div>

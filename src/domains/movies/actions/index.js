@@ -1,7 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createUser, findUserByCredentials, updateWatchList } from "@/domains/movies/db/queries";
+import { AUTH_CONFIG } from "@/domains/movies/constants/auth.constant";
+import { createUser, findUserByCredentials, removeFromWatchList, updateWatchList } from "@/domains/movies/db/queries";
 import { signUpSchema } from "@/lib/validations/auth.schema";
 
 async function performRegister(data) {
@@ -52,8 +53,23 @@ async function addToWatchList(movieId, authId, movie) {
   } catch (error) {
     console.log(error);
   }
-  // Todo revalidate to movie details
-  revalidatePath("/");
+  revalidatePath(AUTH_CONFIG.ROUTES.DETAILS(movieId));
+  revalidatePath(AUTH_CONFIG.ROUTES.WATCHLATER);
 }
 
-export { addToWatchList, performLogin, performRegister };
+async function removeFromWatchListAction(movieId, authId) {
+  try {
+    await removeFromWatchList(movieId, authId);
+
+    // Explicitly revalidate the specific page routes
+    revalidatePath(AUTH_CONFIG.ROUTES.DETAILS(movieId), "page");
+    revalidatePath(AUTH_CONFIG.ROUTES.WATCHLATER, "page");
+
+    return { success: true, message: "Removed from watchlist successfully." };
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to remove from watchlist");
+  }
+}
+
+export { addToWatchList, performLogin, performRegister, removeFromWatchListAction };

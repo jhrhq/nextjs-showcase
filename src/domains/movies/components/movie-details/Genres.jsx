@@ -1,11 +1,14 @@
 const Genres = ({ genres }) => {
-  if (!genres) return null;
+  if (!genres || genres.length === 0) return null;
   return (
-    <div className="mb-6">
-      <h3 className="text-gray-400 mb-2">Genres</h3>
+    <div className="mb-8">
+      <h3 className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">Genres</h3>
       <div className="flex flex-wrap gap-2">
         {genres.map((genre) => (
-          <span key={genre.id} className="px-3 py-1 bg-gray-800 rounded-full text-sm">
+          <span
+            key={genre.id}
+            className="px-3.5 py-1.5 bg-secondary/80 text-secondary-foreground hover:bg-secondary rounded-full text-xs font-medium border border-border transition-colors"
+          >
             {genre.name}
           </span>
         ))}

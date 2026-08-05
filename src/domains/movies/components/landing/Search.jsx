@@ -29,14 +29,17 @@ const Search = () => {
       <Input
         id="searchInput"
         type="text"
-        placeholder="Search an Event"
-        className="bg-black bg-opacity-50 text-white px-4 py-2 rounded border border-gray-600 focus:outline-none focus:border-white"
+        placeholder="Search movies..."
+        className="bg-secondary/50 text-foreground px-4 py-2 rounded-md border border-border placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
         onChange={(e) => {
           handleSearch(e.target.value);
         }}
         defaultValue={searchParams.get("query")?.toString()}
       />
-      <div id="searchResults" className="absolute w-full mt-2 bg-black bg-opacity-90 rounded-lg hidden" />
+      <div
+        id="searchResults"
+        className="absolute w-full mt-2 bg-card/90 backdrop-blur-md rounded-lg shadow-xl border border-border hidden"
+      />
     </div>
   );
 };

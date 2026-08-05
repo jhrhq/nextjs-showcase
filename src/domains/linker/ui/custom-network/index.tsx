@@ -106,7 +106,7 @@ interface PageHeaderProps {
   networks: number;
 }
 
-function PageHeader({ hasNetworks, networks = 0, viewMode, onViewModeChange }: PageHeaderProps) {
+export function PageHeader({ hasNetworks, networks = 0, viewMode, onViewModeChange }: PageHeaderProps) {
   return (
     <header className="sticky top-12 z-40 border-b py-4 backdrop-blur-md">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

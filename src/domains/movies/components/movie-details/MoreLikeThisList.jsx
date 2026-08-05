@@ -4,14 +4,17 @@ import { getMoreLikeMovies } from "@/domains/movies/lib/movie-info";
 
 const MoreLikeThisList = async ({ movieId }) => {
   const data = await getMoreLikeMovies(movieId);
+  const movies = data?.results || [];
+
+  if (movies.length === 0) {
+    return <MoreLikeThisNotFound />;
+  }
 
   return (
-    <div className="flex space-x-4 overflow-x-auto pb-4">
-      {data.results.length === 0 ? (
-        <MoreLikeThisNotFound />
-      ) : (
-        data.results.map((movie) => <MovieCard key={movie.id} {...movie} />)
-      )}
+    <div className="flex space-x-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent">
+      {movies.map((movie) => (
+        <MovieCard key={movie.id} {...movie} />
+      ))}
     </div>
   );
 };

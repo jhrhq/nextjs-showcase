@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SignInForm from "@/domains/movies/components/auth/SignInForm";
+import { AUTH_CONFIG } from "@/domains/movies/constants/auth.constant";
 
 const Login = () => {
   return (
@@ -19,8 +20,8 @@ const Login = () => {
           </div>
           <div className="mt-6 text-moviedb-gray">
             New to moviedb?
-            <Link href="/register" className="text-white hover:underline">
-              Sign up now
+            <Link href={AUTH_CONFIG.ROUTES.SIGN_UP} className="text-white hover:underline">
+              Sign up
             </Link>
           </div>
         </div>

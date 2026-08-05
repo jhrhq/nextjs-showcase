@@ -18,6 +18,7 @@ const LoggedInUsersWatchList = ({ userId }) => {
   if (foundWatLaterMovies?.length === 0) {
     return <EmptyWatchList />;
   }
+
   return (
     <>
       <WatchLaterHeader />

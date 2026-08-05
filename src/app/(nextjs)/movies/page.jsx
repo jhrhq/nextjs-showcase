@@ -10,31 +10,34 @@ import { MovieSkeletonCardList } from "@/domains/movies/components/skeletons/Mov
 
 export default async function Home() {
   return (
-    <>
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-200">
       <Navbar />
+
       {/* Hero Section */}
       <Suspense fallback={<HeroMovieSkeletonCard />}>
         <Hero />
       </Suspense>
 
       {/* Movie Sections */}
-      <div className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 space-y-12">
         <HomeSections sectionTitle={"Trending Now"}>
           <Suspense fallback={<MovieSkeletonCardList />}>
             <Trending />
           </Suspense>
         </HomeSections>
+
         <HomeSections sectionTitle={"Popular on MOVIE DB"}>
           <Suspense fallback={<MovieSkeletonCardList />}>
             <PopularMovie />
           </Suspense>
         </HomeSections>
+
         <HomeSections sectionTitle={"Top Rated"}>
           <Suspense fallback={<MovieSkeletonCardList />}>
             <TopRatedMovies />
           </Suspense>
         </HomeSections>
-      </div>
-    </>
+      </main>
+    </div>
   );
 }

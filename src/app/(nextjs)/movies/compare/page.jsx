@@ -5,23 +5,26 @@ import CompareMovieProvider from "@/domains/movies/context-providers/CompareMovi
 
 const ComparePage = () => {
   return (
-    <>
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Navbar />
-      {/* Main Content */}
       <CompareMovieProvider>
-        <main className="container mx-auto px-4 pt-24 pb-8">
-          <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold">Compare Movies</h1>
+        <main className="container mx-auto px-4 pt-28 pb-16 grow">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight text-foreground">Compare Movies</h1>
+              <p className="text-sm font-medium text-muted-foreground mt-1">
+                Select up to 3 movies to compare ratings, release dates, and details side-by-side.
+              </p>
+            </div>
             <AddCompareMovieSlotButton />
           </div>
-          {/* Movie Comparison Container */}
-          <div className="grid gap-6 md:grid-cols-2">
+
+          <div className="w-full">
             <CompareMovieSlots />
           </div>
         </main>
       </CompareMovieProvider>
-      {/* Movie Search Modal */}
-    </>
+    </div>
   );
 };
 

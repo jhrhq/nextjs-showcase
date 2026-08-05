@@ -28,10 +28,12 @@ export const AUTH_CONFIG = {
   },
   ROUTES: {
     SIGN_IN: "/movies/signin",
+    SIGN_UP: "/movies/signup",
     VERIFY_EMAIL: "/movies/verify-email",
     HOME: "/movies",
     COMPARE: "/movies/compare",
     SEARCHRESULT: "/movies/searchResult",
+    DETAILS: (id: string) => `/movies/${id}`,
     WATCHLATER: "/movies/watchlater",
   },
   API: {

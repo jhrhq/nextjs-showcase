@@ -1,29 +1,28 @@
 "use client";
 
+import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import useCompare from "@/domains/movies/hooks/useCompare";
 
 const AddCompareMovieSlotButton = () => {
   const { compareMovie, setCompareMovie } = useCompare();
+
   const addCompareSlot = () => {
-    if (compareMovie.length === 0) {
-      setCompareMovie([{ id: 1 }]);
-    } else if (compareMovie.length === 1) {
-      setCompareMovie([...compareMovie, { id: 2 }]);
-    } else if (compareMovie.length === 2) {
-      setCompareMovie([...compareMovie, { id: 3 }]);
+    if (compareMovie.length < 3) {
+      setCompareMovie([...compareMovie, { id: compareMovie.length + 1 }]);
     } else {
-      toast.success("Please remove a slot before add one.");
+      toast.error("Please remove a slot before adding a new one.");
     }
   };
 
   return (
     <Button
+      type="button"
       onClick={addCompareSlot}
-      className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition-colors"
+      className="bg-primary text-primary-foreground px-5 py-2.5 rounded-lg hover:bg-primary/90 transition-all shadow-md font-semibold text-sm cursor-pointer"
     >
-      Add Movie +
+      <Plus /> Add Movie
     </Button>
   );
 };

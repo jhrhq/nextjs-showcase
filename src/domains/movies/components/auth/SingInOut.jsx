@@ -10,23 +10,35 @@ const SingInOut = () => {
   const { auth, setAuth } = useAuth();
   const router = useRouter();
 
-  const logout = () => {
+  const singout = () => {
     setAuth(null);
     router.push(AUTH_CONFIG.ROUTES.SIGN_IN);
   };
 
   return (
-    <div className="ml-2">
+    <div className="flex items-center gap-2 ml-2">
       {auth ? (
-        <>
-          <span>Hello, {auth?.name}</span>
-          <span className="mx-1">|</span>
-          <Button className="cursor-pointer border border-zinc-700 rounded-md px-2 py-1" onClick={logout}>
-            Logout
+        <div className="flex items-center gap-3">
+          <span className="text-sm font-medium text-foreground">
+            Hello, <span className="font-semibold text-primary">{auth?.name}</span>
+          </span>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={singout}
+            className="cursor-pointer border-border bg-secondary/50 hover:bg-secondary text-foreground text-xs font-medium px-3 py-1.5 h-auto rounded-lg transition-colors"
+          >
+            Sign out
           </Button>
-        </>
+        </div>
       ) : (
-        <Link href={"/login"}>Login</Link>
+        <Link
+          href={AUTH_CONFIG.ROUTES.SIGN_IN}
+          className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
+        >
+          Sign in
+        </Link>
       )}
     </div>
   );

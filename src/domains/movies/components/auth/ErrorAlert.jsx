@@ -1,16 +1,17 @@
 import { CirclePlus } from "lucide-react";
 
 const ErrorAlert = ({ message }) => {
-  if (!message) return;
+  if (!message) return null;
 
   return (
-    <div className="inline-flex w-full rounded-lg bg-red-100 px-[18px] py-4 mb-4 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.08)]">
-      <p className="flex items-center text-sm font-medium text-[#BC1C21]">
-        <span className="mr-3 flex h-5 w-5 items-center justify-center rounded-full bg-red">
-          <CirclePlus className="rotate-45" />
-        </span>
-        <span className="text-left">{message}</span>
-      </p>
+    <div
+      role="alert"
+      className="inline-flex w-full items-center gap-3 rounded-lg bg-destructive/10 border border-destructive/20 px-4 py-3.5 mb-4 shadow-sm"
+    >
+      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-destructive text-destructive-foreground">
+        <CirclePlus className="w-3.5 h-3.5 rotate-45" />
+      </span>
+      <p className="text-sm font-medium text-destructive text-left leading-normal">{message}</p>
     </div>
   );
 };

@@ -5,8 +5,8 @@ import { MovieSkeletonCardList } from "@/domains/movies/components/skeletons/Mov
 
 const MoreLikeThis = ({ movieId }) => {
   return (
-    <div className="container mx-auto px-4 pb-8 pt-12 mt-4">
-      <HomeSections sectionTitle={"More Like This"}>
+    <div className="container mx-auto px-4 pb-12 pt-8 mt-6 border-t border-border">
+      <HomeSections sectionTitle="More Like This">
         <Suspense fallback={<MovieSkeletonCardList />}>
           <MoreLikeThisList movieId={movieId} />
         </Suspense>

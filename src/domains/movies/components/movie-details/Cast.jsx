@@ -3,15 +3,19 @@ import { TMDB_MOVIE_POSTER_ORIGINAL_PATH } from "@/domains/movies/constants/cons
 
 const Cast = ({ name, profile_path }) => {
   return (
-    <div className="text-center">
-      <Image
-        src={`${TMDB_MOVIE_POSTER_ORIGINAL_PATH}${profile_path}`}
-        alt={name}
-        className="w-24 h-24 rounded-full object-cover mb-2"
-        width={200}
-        height={200}
-      />
-      <p className="text-sm">{name}</p>
+    <div className="flex flex-col items-center text-center group">
+      <div className="relative w-24 h-24 rounded-full overflow-hidden bg-muted mb-2 shadow-md border border-border group-hover:border-primary transition-colors">
+        <Image
+          src={`${TMDB_MOVIE_POSTER_ORIGINAL_PATH}${profile_path}`}
+          alt={name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          width={200}
+          height={200}
+        />
+      </div>
+      <p className="text-sm font-medium text-foreground tracking-tight group-hover:text-primary transition-colors">
+        {name}
+      </p>
     </div>
   );
 };

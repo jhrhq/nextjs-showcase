@@ -15,7 +15,7 @@ export default async function RootLayout({ children }) {
   // TODO: ADD authentication
   return (
     <html lang="en">
-      <body className="antialiased bg-black text-white">
+      <body className="antialiased bg-background text-foreground transition-colors duration-200">
         {/* <AuthProvider>{children}</AuthProvider>*/}
         {children}
         <Toaster />

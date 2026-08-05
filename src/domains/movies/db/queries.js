@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { watchListModel } from "@/domains/movies/models/movie-watchlist-models";
 import { userModel } from "@/domains/movies/models/user-model";
 import { replaceMongoIdInObject } from "@/domains/movies/utils/data-utils";
@@ -27,9 +26,9 @@ async function updateWatchList(movieId, authId, movie) {
     const foundUsers = found.watchList_ids.find((id) => id.toString() === authId);
 
     if (foundUsers) {
-      found.watchList_ids.pull(new mongoose.Types.ObjectId(authId));
+      found.watchList_ids.pull(authId);
     } else {
-      found.watchList_ids.push(new mongoose.Types.ObjectId(authId));
+      found.watchList_ids.push(authId);
     }
 
     found.save();
@@ -39,4 +38,12 @@ async function updateWatchList(movieId, authId, movie) {
   }
 }
 
-export { createUser, findUserByCredentials, getAllWatchLists, updateWatchList };
+async function removeFromWatchList(movieId, authId) {
+  const found = await watchListModel.findOne({ id: movieId });
+  if (found) {
+    found.watchList_ids.pull(authId);
+    await found.save();
+  }
+}
+
+export { createUser, findUserByCredentials, getAllWatchLists, removeFromWatchList, updateWatchList };

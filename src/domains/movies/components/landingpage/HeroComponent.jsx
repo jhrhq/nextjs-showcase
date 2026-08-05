@@ -4,27 +4,41 @@ import { getPopularMovies } from "@/domains/movies/lib/movie-info";
 
 const HeroComponent = async () => {
   const data = await getPopularMovies();
-  const heroImage = `https://image.tmdb.org/t/p/w500${data.results?.[0].backdrop_path}`;
+  const movie = data.results?.[0];
+  const heroImage = `https://image.tmdb.org/t/p/original${movie?.backdrop_path || movie?.poster_path}`;
+
   return (
     <Suspense fallback={<HeroMovieSkeletonCard />}>
       <div
         id="hero"
-        className="relative h-screen"
+        className="relative h-screen bg-background"
         style={{
           backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black" />
-        <div className="absolute bottom-0 left-0 p-12">
-          <h1 id="heroTitle" className="text-5xl font-bold mb-4">
-            Venom: The Last Dance
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <div className="absolute bottom-0 left-0 p-8 md:p-12 max-w-4xl z-10">
+          <h1
+            id="heroTitle"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-foreground tracking-tight drop-shadow-md"
+          >
+            {movie?.title || "Venom: The Last Dance"}
           </h1>
-          <p id="heroOverview" className="text-lg max-w-2xl mb-4">
-            Eddie and Venom are on the run. Hunted by both of their worlds and with the net closing in, the duo are
-            forced into a devastating decision that will bring the curtains down on Venom and Eddie&apos;s last dance.
+          <p
+            id="heroOverview"
+            className="text-base md:text-lg max-w-2xl mb-6 text-muted-foreground line-clamp-3 drop-shadow"
+          >
+            {movie?.overview ||
+              "Eddie and Venom are on the run. Hunted by both of their worlds and with the net closing in, the duo are forced into a devastating decision that will bring the curtains down on Venom and Eddie's last dance."}
           </p>
-          <button className="bg-white text-black px-8 py-2 rounded-lg font-bold hover:bg-opacity-80">▶ Play</button>
+          <button
+            type="button"
+            className="bg-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors shadow-lg cursor-pointer flex items-center gap-2"
+          >
+            ▶ Play
+          </button>
         </div>
       </div>
     </Suspense>
