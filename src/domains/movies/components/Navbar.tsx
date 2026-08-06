@@ -2,6 +2,7 @@ import Link from "next/link";
 // import SingInOut from "@/domains/movies/components/auth/SingInOut";
 import Search from "@/domains/movies/components/landing/Search";
 import NavLinks from "@/domains/movies/components/NavLinks";
+import { ModeToggle } from "@/ui/shared/theme-toggle";
 
 const Navbar = () => {
   return (
@@ -15,6 +16,7 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-3">
           <Search />
+          <ModeToggle />
           {/*<SingInOut />*/}
         </div>
       </div>
