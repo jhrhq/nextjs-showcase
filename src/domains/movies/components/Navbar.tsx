@@ -1,5 +1,5 @@
 import Link from "next/link";
-import SingInOut from "@/domains/movies/components/auth/SingInOut";
+// import SingInOut from "@/domains/movies/components/auth/SingInOut";
 import Search from "@/domains/movies/components/landing/Search";
 import NavLinks from "@/domains/movies/components/NavLinks";
 
@@ -15,7 +15,7 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-3">
           <Search />
-          <SingInOut />
+          {/*<SingInOut />*/}
         </div>
       </div>
     </nav>
