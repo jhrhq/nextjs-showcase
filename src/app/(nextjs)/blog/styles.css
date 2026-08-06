@@ -47,7 +47,9 @@ html {
   --outer-content-width: 80rem;
   --viewport-padding: 16px;
   --header-height: 5rem;
-  --trimmed-content-width: calc(var(--content-width) - var(--viewport-padding) * 2);
+  --trimmed-content-width: calc(
+    var(--content-width) - var(--viewport-padding) * 2
+  );
 }
 
 @media (min-width: 35rem) {
@@ -92,7 +94,11 @@ body::before {
   left: 0;
   right: 0;
   height: 50vh;
-  background: linear-gradient(to top, var(--color-backdrop), var(--color-backdrop-highlight));
+  background: linear-gradient(
+    to top,
+    var(--color-backdrop),
+    var(--color-backdrop-highlight)
+  );
 }
 
 body > main {
@@ -160,4 +166,16 @@ button {
   h3 {
     font-size: 1.5rem;
   }
+}
+
+.visually-hidden {
+  display: inline-block;
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
 }

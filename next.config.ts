@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     useTypeScriptCli: true,
+    optimizePackageImports: ["lucide-react"],
   },
   /* config options here */
   images: {
