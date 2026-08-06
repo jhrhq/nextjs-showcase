@@ -1,9 +1,16 @@
 "use client";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AUTH_CONFIG } from "@/domains/movies/constants/auth.constant";
+import { useGetMovie } from "../../hooks/useMovies";
+import type { TMDBMovie } from "../../types/tmdb-movie.types";
 
-const Details = ({ isLoading, title, description }) => {
+type DetailsProps = {
+  isLoading: boolean;
+  title: string;
+  description: React.ReactNode;
+};
+
+const Details = ({ isLoading, title, description }: DetailsProps) => {
   if (isLoading) {
     return (
       <div className="bg-secondary/40 border border-border/60 p-2.5 rounded-xl flex items-center justify-between gap-2 w-full">
@@ -21,7 +28,12 @@ const Details = ({ isLoading, title, description }) => {
   );
 };
 
-const Genres = ({ isLoading, genres }) => {
+type GenresProps = {
+  isLoading: boolean;
+  genres?: Array<{ id: number; name: string }>;
+};
+
+const Genres = ({ isLoading, genres }: GenresProps) => {
   if (isLoading) {
     return (
       <div className="bg-secondary/40 border border-border/60 p-2.5 rounded-xl space-y-2 w-full">
@@ -53,8 +65,10 @@ const Genres = ({ isLoading, genres }) => {
   );
 };
 
-const CompareSelectedMovieCard = ({ id, title, poster_path, vote_average, release_date }) => {
-  const { data, isLoading } = useFetch(() => (id ? `${AUTH_CONFIG.API.MOVIE}?movieId=${id}` : null), fetcher);
+type Props = TMDBMovie;
+
+const CompareSelectedMovieCard = ({ id, title, poster_path, vote_average }: Props) => {
+  const { data, isLoading } = useGetMovie(String(id));
 
   return (
     <div className="flex flex-col items-center w-full max-w-full overflow-hidden">
@@ -83,6 +97,7 @@ const CompareSelectedMovieCard = ({ id, title, poster_path, vote_average, releas
       {/* Details List Stack */}
       <div className="w-full flex flex-col space-y-2">
         <Details
+          isLoading={isLoading}
           title="Rating"
           description={
             vote_average ? (
@@ -94,17 +109,21 @@ const CompareSelectedMovieCard = ({ id, title, poster_path, vote_average, releas
             )
           }
         />
-        <Details title="Release Year" description={release_date ? new Date(release_date).getFullYear() : "Unknown"} />
         <Details isLoading={isLoading} title="Runtime" description={data?.runtime ? `${data.runtime}m` : "N/A"} />
         <Details
           isLoading={isLoading}
           title="Budget"
-          description={data?.budget ? `$${data.budget.toLocaleString()}` : "N/A"}
+          description={data?.budget ? `$${data.budget.toString()}` : "N/A"}
         />
         <Details
           isLoading={isLoading}
           title="Revenue"
-          description={data?.revenue ? `$${data.revenue.toLocaleString()}` : "N/A"}
+          description={data?.revenue ? `$${data.revenue.toString()}` : "N/A"}
+        />
+        <Details
+          isLoading={isLoading}
+          title="Release Date"
+          description={data?.release_date ? new Date(data.release_date).toLocaleDateString() : "N/A"}
         />
         <Genres isLoading={isLoading} genres={data?.genres} />
       </div>

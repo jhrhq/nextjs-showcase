@@ -1,4 +1,6 @@
-const Genres = ({ genres }) => {
+import type { TMDBMovieDetails } from "../../types/tmdb-movi-details.types";
+
+const Genres = ({ genres }: { genres: TMDBMovieDetails["genres"] }) => {
   if (!genres || genres.length === 0) return null;
   return (
     <div className="mb-8">

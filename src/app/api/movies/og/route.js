@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ImageResponse } from "next/og";
-import { getSelectedMovieDetails } from "@/domains/movies/lib/movie-info";
+import { getSelectedMovieDetails } from "@/domains/movies/services/tmdb";
 
 export const contentType = "image/jpg";
 

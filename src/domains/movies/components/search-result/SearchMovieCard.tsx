@@ -1,14 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AUTH_CONFIG } from "@/domains/movies/constants/auth.constant";
+import type { TMDBMovie } from "../../types/tmdb-movie.types";
 
-const SearchMovieCard = async ({ id, title, poster_path, release_date, vote_average }) => {
+type Props = TMDBMovie;
+const SearchMovieCard = async ({ id, title, poster_path, release_date, vote_average }: Props) => {
   return (
     <Link
       href={`${AUTH_CONFIG.ROUTES.HOME}/${id}`}
       className="group bg-card rounded-lg overflow-hidden border border-border shadow-md hover:shadow-xl hover:border-primary/50 transition-all duration-300 flex flex-col"
     >
-      <div className="relative w-full aspect-[2/3] overflow-hidden bg-muted">
+      <div className="relative w-full aspect-2/3 overflow-hidden bg-muted">
         <Image
           width={500}
           height={500}
@@ -17,7 +19,7 @@ const SearchMovieCard = async ({ id, title, poster_path, release_date, vote_aver
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
-      <div className="p-4 flex flex-col flex-grow justify-between">
+      <div className="p-4 flex flex-col grow justify-between">
         <h3 className="font-semibold text-sm text-foreground mb-2 truncate group-hover:text-primary transition-colors">
           {title}
         </h3>

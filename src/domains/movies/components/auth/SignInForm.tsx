@@ -1,21 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { performLogin } from "@/domains/movies/actions";
-import useAuth from "@/domains/movies/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { signInSchema } from "@/lib/validations/auth.schema";
-import { AUTH_CONFIG } from "../../constants/auth.constant";
 
 const SignInForm = () => {
-  const { setAuth } = useAuth();
-  const router = useRouter();
-
   const form = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -27,32 +20,7 @@ const SignInForm = () => {
   const pending = form.formState.isSubmitting;
   const rootError = form.formState.errors?.root?.random || form.formState.errors?.root?.serverError;
 
-  async function onSubmit(data) {
-    // Clear root errors before new attempt
-    form.clearErrors("root");
-
-    try {
-      const response = await performLogin(data);
-      if (response && response.errors) {
-        Object.entries(response.errors).forEach(([key, value]) =>
-          form.setError(key, { type: "manual", message: value })
-        );
-      } else if (response == null) {
-        form.setError("root.random", {
-          type: "random",
-          message: "Email or password is not correct!",
-        });
-      } else {
-        setAuth(response);
-        router.push(AUTH_CONFIG.ROUTES.HOME);
-      }
-    } catch (err) {
-      form.setError("root.random", {
-        type: "random",
-        message: err.message || "An unexpected error occurred. Please try again.",
-      });
-    }
-  }
+  async function onSubmit() {}
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">

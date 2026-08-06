@@ -1,7 +1,7 @@
 import Cast from "@/domains/movies/components/movie-details/Cast";
 import { getSelectedMovieCasts } from "@/domains/movies/services/tmdb";
 
-const CastList = async ({ movieId }) => {
+const CastList = async ({ movieId }: { movieId: string }) => {
   const casts = await getSelectedMovieCasts(movieId);
   const shortCasts = casts?.cast?.slice(0, 5) || [];
 

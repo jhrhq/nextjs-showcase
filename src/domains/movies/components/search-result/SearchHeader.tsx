@@ -1,4 +1,4 @@
-const SearchHeader = ({ text, movieLength = 0 }) => {
+const SearchHeader = ({ text, movieLength = 0 }: { text: string; movieLength: number }) => {
   return (
     <div className="mb-8">
       <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">Search Results for &quot;{text}&quot;</h1>

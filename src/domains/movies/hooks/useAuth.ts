@@ -1,12 +1,18 @@
 "use client";
 import { useState } from "react";
 
-const initialState = {
+type initialStateType = {
+  id: string;
+  name: string;
+};
+
+const initialState: initialStateType | null = {
   id: "id1234",
   name: "mock-user",
 };
+
 const useAuth = () => {
-  const [auth, setAuth] = useState(initialState);
+  const [auth, setAuth] = useState<initialStateType | null>(initialState);
 
   return { auth, setAuth };
 };

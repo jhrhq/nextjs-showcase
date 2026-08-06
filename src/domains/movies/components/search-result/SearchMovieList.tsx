@@ -1,6 +1,9 @@
 import SearchMovieCard from "@/domains/movies/components/search-result/SearchMovieCard";
+import type { TMDBMovie } from "../../types/tmdb-movie.types";
 
-const SearchMovieList = ({ data }) => {
+type Props = { data: TMDBMovie[] };
+
+const SearchMovieList = ({ data }: Props) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
       {data.map((movie) => (

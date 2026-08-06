@@ -2,7 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 
-export default function ErrorPage({ error, reset }) {
+type ErrorPageProps = {
+  error: Error & { digest?: string };
+  reset: () => void;
+};
+
+export default function ErrorPage({ error, reset }: ErrorPageProps) {
   return (
     <div className="flex h-screen flex-col ">
       <div className="flex flex-1 items-center justify-center">

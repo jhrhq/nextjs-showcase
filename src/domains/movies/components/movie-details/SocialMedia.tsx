@@ -1,8 +1,11 @@
 "use client";
 import Image from "next/image";
+import type { TMDBMovieDetails } from "../../types/tmdb-movi-details.types";
 
-const SocialMedia = ({ title, description }) => {
-  const handleShare = (platform) => {
+type Props = TMDBMovieDetails & { description: string };
+
+const SocialMedia = ({ title, description }: Props) => {
+  const handleShare = (platform: string) => {
     const currentUrl = window.location.href;
     const text = title ? `${title}${description ? ` - ${description}` : ""}` : "";
     let shareUrl = "";

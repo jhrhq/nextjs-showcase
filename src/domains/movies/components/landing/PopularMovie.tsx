@@ -1,5 +1,5 @@
-import MovieCard from "@/components/landing/MovieCard";
 import { getPopularMovies } from "@/domains/movies/services/tmdb";
+import MovieCard from "./MovieCard";
 
 const PopularMovie = async () => {
   const data = await getPopularMovies();

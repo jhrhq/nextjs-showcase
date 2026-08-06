@@ -1,6 +1,8 @@
 import Image from "next/image";
+import type { TMDBMovie } from "../../types/tmdb-movie.types";
 
-const CompareSearchResultCard = ({ title, poster_path, release_date }) => {
+type props = TMDBMovie;
+const CompareSearchResultCard = ({ title, poster_path, release_date }: props) => {
   return (
     <>
       <Image

@@ -4,7 +4,11 @@ import SearchMessage from "@/domains/movies/components/search-result/SearchMessa
 import SearchMovieResult from "@/domains/movies/components/search-result/SearchMovieResult";
 import SearchMovieSkeleton from "@/domains/movies/components/search-result/SearchMovieSkeleton";
 
-const SearchResult = async ({ searchParams }) => {
+type Props = {
+  searchParams: Promise<{ query: string }>;
+};
+
+const SearchResult = async ({ searchParams }: Props) => {
   const { query } = await searchParams;
 
   return (

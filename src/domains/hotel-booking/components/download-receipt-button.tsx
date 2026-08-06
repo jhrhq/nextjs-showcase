@@ -1,14 +1,14 @@
 import { Download } from "lucide-react";
-import { Button, type ButtonProps } from "@/components/ui/button";
+import type { ComponentProps } from "react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AUTH_CONFIG } from "../constants/auth.constants";
 
-interface DownloadReceiptButtonProps extends Omit<ButtonProps, "asChild"> {
+export interface DownloadReceiptButtonProps extends Omit<ComponentProps<typeof Button>, "asChild"> {
   bookingId: string;
   label?: string;
   iconClassName?: string;
 }
-
 export function DownloadReceiptButton({
   bookingId,
   label = "Download Receipt",

@@ -1,19 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { performRegister } from "@/domains/movies/actions";
 import { cn } from "@/lib/utils";
 import { signUpSchema } from "@/lib/validations/auth.schema";
 
 const SignUpForm = () => {
-  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -21,33 +16,15 @@ const SignUpForm = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      policyAgreement: false,
     },
   });
 
   const pending = form.formState.isSubmitting;
   const rootError = form.formState.errors?.root?.random || form.formState.errors?.root?.serverError;
 
-  async function onSubmit(data) {
+  async function onSubmit() {
     // Clear root errors before new attempt
     form.clearErrors("root");
-
-    try {
-      const response = await performRegister(data);
-      if (response && response.errors) {
-        Object.entries(response.errors).forEach(([key, value]) =>
-          form.setError(key, { type: "manual", message: value })
-        );
-      } else {
-        toast.success(response?.message || "Registration successful!");
-        router.push("/login");
-      }
-    } catch (err) {
-      form.setError("root.random", {
-        type: "random",
-        message: err.message || "An unexpected error occurred. Please try again.",
-      });
-    }
   }
 
   return (
@@ -136,21 +113,6 @@ const SignUpForm = () => {
                 aria-invalid={fieldState.invalid}
                 autoComplete="new-password"
               />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-
-        {/* Policy Agreement Checkbox Field */}
-        <Controller
-          name="policyAgreement"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="space-y-1.5 text-left text-sm">
-              <label className="flex items-center gap-2.5 font-normal text-muted-foreground cursor-pointer select-none">
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} aria-invalid={fieldState.invalid} />
-                <span className="text-xs leading-relaxed">I agree to the Terms of Service and Privacy Policy</span>
-              </label>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}

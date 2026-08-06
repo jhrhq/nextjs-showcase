@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -13,21 +13,23 @@ import {
 } from "@/components/ui/command";
 import CompareSearchResultCard from "@/domains/movies/components/compare/CompareSearchResultCard";
 import { CompareSearchResultSkeletonList } from "@/domains/movies/components/compare/CompareSearchResultSkeleton";
-import { AUTH_CONFIG } from "@/domains/movies/constants/auth.constant";
 import useCompare from "@/domains/movies/hooks/useCompare";
-import { useDebouncedValue } from "@/domains/movies/hooks/useDebounce";
+import { useDebouncedValue } from "@/hooks/useDebounce";
+import { useSearchMovies } from "../../hooks/useMovies";
+import type { TMDBMovie } from "../../types/tmdb-movie.types";
 
-const SearchResults = ({ query, compareId, onSelect }) => {
+type searchResultProps = {
+  query: string;
+  compareId: number;
+  onSelect: () => void;
+};
+const SearchResults = ({ query, compareId, onSelect }: searchResultProps) => {
   const { setCompareMovie } = useCompare();
-  const debouncedSearchQuery = useDebouncedValue(query, 500);
-  const enabled = !!debouncedSearchQuery;
+  const debouncedSearchQuery: string = useDebouncedValue(query, 500);
 
-  const { data, isLoading, error } = useFetch(
-    () => (enabled ? `${AUTH_CONFIG.API.SEARCH}?movieName=${debouncedSearchQuery}` : null),
-    fetcher
-  );
+  const { data, isLoading, error } = useSearchMovies(debouncedSearchQuery);
 
-  const handleAddToCompare = (movie) => {
+  const handleAddToCompare = (movie: TMDBMovie) => {
     setCompareMovie((prev) => prev.map((item) => (item.id === compareId ? { ...item, movie } : item)));
     onSelect?.();
   };
@@ -86,19 +88,25 @@ const SearchResults = ({ query, compareId, onSelect }) => {
   );
 };
 
-const CompareAddMovieActionCard = ({ compareId, externalOpen, onExternalOpenChange }) => {
+type props = {
+  onExternalOpenChange: Dispatch<SetStateAction<boolean>>;
+  compareId: number;
+  externalOpen: boolean;
+};
+
+const CompareAddMovieActionCard = ({ compareId, externalOpen, onExternalOpenChange }: props) => {
   const [internalOpen, setInternalOpen] = useState(false);
   const [value, setValue] = useState("");
 
   const isOpen = externalOpen !== undefined ? externalOpen : internalOpen;
-  const setIsOpen = (open) => {
+  const setIsOpen = (open: boolean) => {
     if (onExternalOpenChange) {
       onExternalOpenChange(open);
     }
     setInternalOpen(open);
   };
 
-  const handleOpenChange = (isOpenState) => {
+  const handleOpenChange = (isOpenState: boolean) => {
     setIsOpen(isOpenState);
     if (!isOpenState) {
       setValue("");

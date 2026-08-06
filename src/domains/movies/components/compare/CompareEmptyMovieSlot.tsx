@@ -1,4 +1,5 @@
 // biome-ignore-all lint/a11y/useSemanticElements: false flag
+// biome-ignore-all lint/a11y/useFocusableInteractive: false flag
 "use client";
 import { X } from "lucide-react";
 import { useState } from "react";
@@ -6,8 +7,13 @@ import { Button } from "@/components/ui/button";
 import CompareAddMovieActionCard from "@/domains/movies/components/compare/CompareAddMovieActionCard";
 import CompareSelectedMovieCard from "@/domains/movies/components/compare/CompareSelectedMovieCard";
 import useCompare from "@/domains/movies/hooks/useCompare";
+import type { TMDBMovie } from "../../types/tmdb-movie.types";
 
-const CompareEmptyMovieSlot = ({ id, movie }) => {
+type Props = {
+  id: number;
+  movie?: TMDBMovie;
+};
+const CompareEmptyMovieSlot = ({ id, movie }: Props) => {
   const { setCompareMovie } = useCompare();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 

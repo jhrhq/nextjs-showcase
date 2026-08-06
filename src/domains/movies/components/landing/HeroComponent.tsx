@@ -1,6 +1,7 @@
 import { Suspense } from "react";
-import { HeroMovieSkeletonCard } from "@/components/skeletons/HeroMovieSkeleton";
+
 import { getPopularMovies } from "@/domains/movies/services/tmdb";
+import HeroSkeleton from "../skeletons/HeroMovieSkeleton";
 
 const HeroComponent = async () => {
   const data = await getPopularMovies();
@@ -8,7 +9,7 @@ const HeroComponent = async () => {
   const heroImage = `https://image.tmdb.org/t/p/original${movie?.backdrop_path || movie?.poster_path}`;
 
   return (
-    <Suspense fallback={<HeroMovieSkeletonCard />}>
+    <Suspense fallback={<HeroSkeleton />}>
       <div
         id="hero"
         className="relative h-screen bg-background"
@@ -18,7 +19,7 @@ const HeroComponent = async () => {
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-background via-background/40 to-transparent" />
         <div className="absolute bottom-0 left-0 p-8 md:p-12 max-w-4xl z-10">
           <h1
             id="heroTitle"

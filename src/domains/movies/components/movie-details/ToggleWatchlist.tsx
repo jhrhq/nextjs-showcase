@@ -15,7 +15,7 @@ type Props = {
 const ToggleWatchList = ({ movieId, movie }: Props) => {
   const { auth } = useAuth();
   const router = useRouter();
-  const { data, isLoading } = useGetWatchlists(auth.id);
+  const { data, isLoading } = useGetWatchlists(auth?.id || "");
   const current = data?.find((item) => item.id === Number(movieId));
 
   const isInterested = current?.watchlist_ids?.some((id) => id === auth?.id);

@@ -33,7 +33,7 @@ const CompareMovieSlots = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {compareMovie.map((item) => (
-        <CompareEmptyMovieSlot key={item.id} id={item.id} movie={item.movie} />
+        <CompareEmptyMovieSlot key={item.id} id={item.id} movie={item?.movie} />
       ))}
     </div>
   );

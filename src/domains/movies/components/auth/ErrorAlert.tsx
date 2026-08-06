@@ -1,6 +1,6 @@
 import { CirclePlus } from "lucide-react";
 
-const ErrorAlert = ({ message }) => {
+const ErrorAlert = ({ message }: { message?: string }) => {
   if (!message) return null;
 
   return (

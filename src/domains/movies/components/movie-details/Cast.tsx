@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { TMDB_MOVIE } from "../../constants/tmdb.constant";
+import type { TMDBMovieCastMember } from "../../types/tmdb-movie.types";
 
-const Cast = ({ name, profile_path }) => {
+type Props = TMDBMovieCastMember;
+const Cast = ({ name, profile_path }: Props) => {
   return (
     <div className="flex flex-col items-center text-center group">
       <div className="relative w-24 h-24 rounded-full overflow-hidden bg-muted mb-2 shadow-md border border-border group-hover:border-primary transition-colors">

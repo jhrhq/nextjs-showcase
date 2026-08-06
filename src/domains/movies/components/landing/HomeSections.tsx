@@ -1,6 +1,4 @@
-// import MovieCard from "@/domains/movies/components/landing/MovieCard";
-
-const HomeSections = ({ sectionTitle, children }) => {
+const HomeSections = ({ sectionTitle, children }: { sectionTitle: string; children: React.ReactNode }) => {
   return (
     <section className="mb-10">
       <h2 className="text-2xl md:text-3xl font-bold mb-6 text-foreground tracking-tight">{sectionTitle}</h2>

@@ -1,10 +1,16 @@
+"use client";
+
 import { useContext } from "react";
-import { CompareMovieContext } from "@/domains/movies/context-providers/CompareMovieSlotProvider";
+import { CompareMovieContext, type CompareMovieContextType } from "../context-providers/CompareMovieSlotProvider";
 
-const useCompare = () => {
-  const { compareMovie, setCompareMovie } = useContext(CompareMovieContext);
+const useCompare = (): CompareMovieContextType => {
+  const context = useContext(CompareMovieContext);
 
-  return { compareMovie, setCompareMovie };
+  if (context === undefined) {
+    throw new Error("useCompare must be used within a CompareMovieProvider");
+  }
+
+  return context;
 };
 
 export default useCompare;

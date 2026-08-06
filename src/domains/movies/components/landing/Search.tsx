@@ -1,17 +1,37 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import React from "react";
 import { Input } from "@/components/ui/input";
 import { AUTH_CONFIG } from "@/domains/movies/constants/auth.constant";
-import useDebounce from "@/domains/movies/hooks/useDebounce";
+export function useDebounce<T extends (...args: Parameters<T>) => ReturnType<T>>(
+  callback: T,
+  delay: number
+): (...args: Parameters<T>) => void {
+  const callbackRef = React.useRef(callback);
+
+  React.useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
+
+  return React.useMemo(() => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: Parameters<T>) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        callbackRef.current(...args);
+      }, delay);
+    };
+  }, [delay]);
+}
 
 const Search = () => {
   const searchParams = useSearchParams();
   const { push } = useRouter();
 
-  const doSearch = useDebounce((term) => {
-    const params = new URLSearchParams(searchParams);
-    if (term) {
+  const doSearch = useDebounce((term: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (term.trim()) {
       params.set("query", term);
     } else {
       params.delete("query");
@@ -20,7 +40,7 @@ const Search = () => {
     push(`${AUTH_CONFIG.ROUTES.SEARCHRESULT}?${params.toString()}`);
   }, 500);
 
-  function handleSearch(term) {
+  function handleSearch(term: string) {
     doSearch(term);
   }
 

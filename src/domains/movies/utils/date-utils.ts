@@ -13,7 +13,7 @@ const months = [
   "November",
   "December",
 ];
-export function formatDate(dateString) {
+export function formatDate(dateString: string) {
   // Create a Date object from the input string
   const date = new Date(dateString);
 

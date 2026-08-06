@@ -2,7 +2,7 @@ import SearchHeader from "@/domains/movies/components/search-result/SearchHeader
 import SearchMovieList from "@/domains/movies/components/search-result/SearchMovieList";
 import { getMovieWithKeyWord } from "@/domains/movies/services/tmdb";
 
-const SearchMovieResult = async ({ query }) => {
+const SearchMovieResult = async ({ query }: { query: string }) => {
   const data = await getMovieWithKeyWord(query);
 
   return (

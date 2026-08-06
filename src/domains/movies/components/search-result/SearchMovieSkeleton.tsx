@@ -1,7 +1,7 @@
 import SearchHeader from "@/domains/movies/components/search-result/SearchHeader";
-import { MovieSkeletonCardList } from "@/domains/movies/components/skeletons/MovieSkeleton";
+import { MovieSkeletonCardList } from "../skeletons/HeroMovieSkeleton";
 
-const SearchMovieSkeleton = ({ text, movieLength }) => {
+const SearchMovieSkeleton = ({ text, movieLength = 0 }: { text: string; movieLength?: number }) => {
   return (
     <main className="container mx-auto px-4 pt-24 pb-8">
       <SearchHeader text={text} movieLength={movieLength} />
