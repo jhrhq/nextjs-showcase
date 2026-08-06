@@ -3,10 +3,10 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import z from "zod";
+import { actionCreator } from "@/lib/actions/action-creator";
 import { auth } from "@/lib/auth";
 import { resolveCallbackUrlFromString } from "@/lib/callback-urls";
 import { signInSchema, signUpSchema } from "@/lib/validations/auth.schema";
-import { actionCreator } from "./action-creator";
 
 const withCallbackUrl = z.object({
   callbackUrl: z.string().optional(),
