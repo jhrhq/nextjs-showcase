@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Suspense } from "react";
-
 import Footer from "@/domains/hotel-booking/components/Footer";
 import BookingCard from "@/domains/hotel-booking/components/property-details/BookingCard";
 import { BookingForm } from "@/domains/hotel-booking/components/property-details/BookingForm";
@@ -12,7 +12,7 @@ import ReviewContainer from "@/domains/hotel-booking/components/property-details
 import ReviewHeader from "@/domains/hotel-booking/components/property-details/ReviewHeader";
 import ReviewsSkeleton from "@/domains/hotel-booking/components/property-details/review-skeleton";
 import { getSelectedPropertyBookinDetails, getSelectedPropertyDetails } from "@/domains/hotel-booking/db/queries";
-import { verifySession } from "@/lib/dal";
+import { auth } from "@/lib/auth";
 
 interface Props {
   params: Promise<{
@@ -59,14 +59,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const PropertyDetails = async ({ params }: Props) => {
-  const session = await verifySession();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   const { id } = await params;
   const bookingData = await getSelectedPropertyBookinDetails(id);
   const data = await getSelectedPropertyDetails(id);
   if (!data) return null;
   let isBooked = false;
 
-  const userId = session?.userId;
+  const userId = session?.user.id;
   const isHost = userId === data.host.userId.toString();
 
   if (bookingData) {

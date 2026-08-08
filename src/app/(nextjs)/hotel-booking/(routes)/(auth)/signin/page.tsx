@@ -24,7 +24,6 @@ const SignInPage = async ({ searchParams }: SignInPageProps) => {
   if (session?.user) {
     redirect(callbackUrl);
   }
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="bg-white rounded-xl shadow w-96 p-6 relative ">

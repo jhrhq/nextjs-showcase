@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     useTypeScriptCli: true,
     optimizePackageImports: ["lucide-react"],
   },
+  serverExternalPackages: ["better-auth"],
   /* config options here */
   images: {
     remotePatterns: [
