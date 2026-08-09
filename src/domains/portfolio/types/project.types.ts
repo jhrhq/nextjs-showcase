@@ -1,38 +1,30 @@
-export interface Project {
-  id: string;
+import type React from "react";
+
+export interface TechItem {
   name: string;
-  domain: string;
-  description?: string;
-  status: "active" | "inactive" | "pending";
-  totalLinks: number;
-  totalCustomNetworks: number;
-  lastCrawled?: string;
-  createdAt: string;
-  updatedAt: string;
+  icon?: React.ElementType;
 }
 
-export interface InboundLink {
-  id: string;
-  sourceUrl: string;
-  targetUrl: string;
-  anchorText: string;
-  doFollow: boolean;
-  status: "active" | "broken" | "redirect";
-  discoveredAt: string;
-}
-
-export interface CustomNetworkStructure {
-  id: string;
-  name: string;
-  pages: CustomNetworkPage[];
-  depth: number;
-  totalLinks: number;
-}
-
-export interface CustomNetworkPage {
-  id: string;
-  url: string;
+export interface ProjectHighlight {
   title: string;
-  level: number;
-  children: string[];
+  description: string;
+  icon: React.ElementType;
+}
+
+export interface ProjectLinks {
+  website?: string;
+  github?: string;
+  demo?: string;
+}
+
+export interface ProjectData {
+  title: string;
+  badgeLabel: string;
+  roleMeta: string;
+  description: React.ReactNode[];
+  callout?: React.ReactNode;
+  links: ProjectLinks;
+  highlights: ProjectHighlight[];
+  technologies: TechItem[];
+  previewContent?: React.ReactNode;
 }

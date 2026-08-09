@@ -1,14 +1,17 @@
-import { CssIcon, HtmlIcon, JavascriptIcon, NextjsIcon, ReactIcon, TailwindIcon, ViteIcon } from "@/ui/shared/icons";
+import { Zap } from "lucide-react";
+import {
+  GitIcon,
+  JavascriptIcon,
+  NextjsIcon,
+  ReactIcon,
+  ReduxIcon,
+  TailwindIcon,
+  TanstackQueryIcon,
+  TypescriptIcon,
+  ViteIcon,
+} from "@/ui/shared/icons";
 
 const technologies = [
-  {
-    name: "HTML5",
-    icon: HtmlIcon,
-  },
-  {
-    name: "CSS3 / SCSS",
-    icon: CssIcon,
-  },
   {
     name: "JavaScript",
     icon: JavascriptIcon,
@@ -16,6 +19,14 @@ const technologies = [
   {
     name: "React",
     icon: ReactIcon,
+  },
+  {
+    name: "Tanstack",
+    icon: TanstackQueryIcon,
+  },
+  {
+    name: "Zustand",
+    icon: Zap,
   },
   {
     name: "Next.js",
@@ -29,12 +40,25 @@ const technologies = [
     name: "Vite",
     icon: ViteIcon,
   },
+  {
+    name: "Typescript",
+    icon: TypescriptIcon,
+  },
+  {
+    name: "Redux",
+    icon: ReduxIcon,
+  },
+  {
+    name: "Git",
+    icon: GitIcon,
+  },
 ];
+
 export function TechStack() {
   return (
     <section id="stack" className="border-y border-border">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-10">
           {technologies.map((technology) => {
             const Icon = technology.icon;
 

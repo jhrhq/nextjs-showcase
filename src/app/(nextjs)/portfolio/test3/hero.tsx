@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { PORTFO_CONFIG } from "@/domains/portfolio/constants/constants";
 import { GithubIcon, LinkedinIcon } from "@/ui/shared/icons";
 
 export function Hero() {
@@ -16,18 +17,18 @@ export function Hero() {
             Self-taught Frontend Developer
           </div>
 
-          <h1 className="text-balance text-5xl font-semibold tracking-[-0.045em] text-foreground sm:text-6xl lg:text-8xl">
-            Building high-performance
-            <br className="hidden sm:block" />
-            web experiences
-            <br className="hidden sm:block" />
-            <span className="text-muted-foreground">with precision.</span>
-          </h1>
+          <div className="space-y-4">
+            <h1 className="text-balance text-5xl font-semibold tracking-[-0.045em] text-foreground sm:text-6xl lg:text-8xl">
+              Frontend Developer
+            </h1>
+            <p className="text-xl sm:text-2xl text-muted-foreground font-medium tracking-tight">
+              Currently building with React & Next.js
+            </p>
+          </div>
 
           <p className="mt-8 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-            I&apos;m a self-taught frontend developer specializing in React, Next.js, and high-performance web
-            applications. I care about clean architecture, thoughtful interfaces, and turning complex requirements into
-            reliable products.
+            Passionate about creating intuitive and engaging user experiences. Specialize in transforming ideas into
+            beautifully crafted products.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -49,7 +50,7 @@ export function Hero() {
 
           <div className="mt-10 flex items-center gap-4">
             <Link
-              href="https://github.com"
+              href={PORTFO_CONFIG.SOCIAL.GITHUB}
               target="_blank"
               rel="noreferrer"
               aria-label="GitHub"
@@ -59,7 +60,7 @@ export function Hero() {
             </Link>
 
             <Link
-              href="https://linkedin.com"
+              href={PORTFO_CONFIG.SOCIAL.LINKEDIN}
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn"
