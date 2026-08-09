@@ -1,0 +1,32 @@
+import { FlagshipProjectCard } from "./flagship-project-card";
+import { projects } from "./portfolio-data";
+import { ProjectCard } from "./project-card";
+
+const standardProjects = projects.filter((project) => project.id !== "flagship-saas" && project.featured);
+
+export function FeaturedProjects() {
+  return (
+    <section id="projects" className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8">
+      <div className="mb-12 max-w-2xl">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">01 / Featured Work</p>
+
+        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          Work that represents how I build.
+        </h2>
+
+        <p className="mt-4 text-sm leading-6 text-muted-foreground">
+          From production SaaS architecture to full-stack products and frontend experiments, these projects represent
+          the depth and range of my development experience.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <FlagshipProjectCard />
+
+        {standardProjects.map((project) => (
+          <ProjectCard key={project.id} project={project} />
+        ))}
+      </div>
+    </section>
+  );
+}

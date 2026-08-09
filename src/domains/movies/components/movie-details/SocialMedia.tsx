@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { LinkedinIcon } from "@/ui/shared/icons";
 import type { TMDBMovieDetails } from "../../types/tmdb-movi-details.types";
 
 type Props = TMDBMovieDetails & { description: string };
@@ -82,7 +83,7 @@ const SocialMedia = ({ title, description }: Props) => {
             />
           </div>
           <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-            LinkedIn
+            <LinkedinIcon />
           </span>
         </button>
       </div>
