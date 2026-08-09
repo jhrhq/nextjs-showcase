@@ -8,7 +8,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <article className="group flex min-h-96 flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <article className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       <div className="relative h-48 overflow-hidden border-b border-border bg-muted">
         <div className="absolute inset-5 overflow-hidden rounded-lg border border-border bg-background shadow-sm transition-transform duration-500 group-hover:scale-[1.02]">
           <div className="flex h-8 items-center gap-1.5 border-b border-border px-3">

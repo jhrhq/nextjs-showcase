@@ -9,8 +9,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Jhr — Frontend Developer",
-  description:
-    "Self-taught frontend developer specialising in React, Next.js, and high-performance web applications. 40+ shipped projects.",
+  description: "Self-taught frontend developer specialising in React, Next.js, and web applications.",
 };
 export default function Home() {
   return (

@@ -12,7 +12,7 @@ const projectTechnologies = [
 
 export function FlagshipProjectCard() {
   return (
-    <article className="group relative overflow-hidden rounded-2xl border border-border bg-card text-card-foreground transition-all duration-500 hover:-translate-y-1 hover:shadow-xl lg:col-span-2">
+    <article className="group relative overflow-hidden rounded-2xl border border-border bg-card text-card-foreground transition-all duration-500 hover:-translate-y-1 hover:shadow-xl sm:col-span-full lg:col-span-2">
       {/* Preview */}
       <div className="relative min-h-80 overflow-hidden border-b border-border bg-muted p-5 sm:p-8">
         {/* Decorative interface */}

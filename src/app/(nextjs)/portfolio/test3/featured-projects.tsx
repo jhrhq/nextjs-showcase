@@ -20,10 +20,18 @@ export function FeaturedProjects() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <FlagshipProjectCard />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="sm:col-span-2 lg:col-span-2">
+          <FlagshipProjectCard />
+        </div>
 
-        {standardProjects.map((project) => (
+        <div className="col-span-full grid gap-4 sm:grid-cols-2 lg:col-span-1 lg:grid-cols-1 lg:grid-rows-2">
+          {standardProjects.slice(0, 2).map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+
+        {standardProjects.slice(2).map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </div>
