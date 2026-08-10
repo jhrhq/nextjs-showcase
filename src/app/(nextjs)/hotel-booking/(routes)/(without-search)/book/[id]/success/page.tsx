@@ -37,7 +37,6 @@ export default async function BookingConfirmationPage({ params, searchParams }: 
   if (!rawBookingId || !rawSessionId) {
     notFound();
   }
-
   const result = await fetchBookingConfirmationData(rawBookingId, rawSessionId);
 
   if (result.status === "INVALID_INPUT" || result.status === "ERROR") {
@@ -53,7 +52,6 @@ export default async function BookingConfirmationPage({ params, searchParams }: 
   }
 
   const { booking, property } = result;
-
   return (
     <main className="max-w-3xl mx-auto">
       <SuccessHeader />
@@ -67,7 +65,7 @@ export default async function BookingConfirmationPage({ params, searchParams }: 
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <DownloadReceiptButton
-          bookingId={rawBookingId}
+          bookingId={booking._id.toString()}
           className="px-6 py-3 bg-primary text-primary-foreground hover:brightness-95 active:scale-[0.98] shadow-xs cursor-pointer"
         />
       </div>
