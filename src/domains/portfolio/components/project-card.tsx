@@ -1,5 +1,6 @@
 import { ArrowUpRight, Globe } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/domains/portfolio/components/portfolio-data";
 import { GithubIcon } from "@/ui/shared/icons";
@@ -71,7 +72,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
           <div className="flex shrink-0 items-center gap-2">
             {project.github && (
-              <a
+              <Link
                 href={project.github}
                 target="_blank"
                 rel="noreferrer"
@@ -79,19 +80,19 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >
                 <GithubIcon />{" "}
-              </a>
+              </Link>
             )}
 
             {project.demo && (
-              <a
+              <Link
                 href={project.demo}
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`${project.title} live demo`}
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >
-                <Globe className="size-4" />
-              </a>
+                <Globe className="size-7 stroke-[1.3]" />
+              </Link>
             )}
           </div>
         </div>

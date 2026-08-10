@@ -51,7 +51,7 @@ export function Footer() {
         </div>
 
         {/* Copyright */}
-        <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Tafhim. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Jhr. All rights reserved.</p>
       </div>
     </footer>
   );

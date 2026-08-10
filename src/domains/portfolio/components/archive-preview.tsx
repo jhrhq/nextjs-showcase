@@ -50,7 +50,7 @@ export function ArchivePreview() {
                     className="flex items-center justify-between border-b border-border p-6 last:border-b-0 sm:p-8"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="flex size-10 items-center justify-center rounded-md border border-border bg-background text-muted-foreground">
+                      <div className="flex size-10 items-center justify-center rounded-full border border-border bg-background text-muted-foreground">
                         <Icon className="size-4" />
                       </div>
 

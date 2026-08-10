@@ -3,7 +3,6 @@ import type { ElementType } from "react";
 import {
   AxiosIcon,
   BetterAuthIcon,
-  CssIcon,
   HtmlIcon,
   JavascriptIcon,
   MongodbIcon,
@@ -16,7 +15,6 @@ import {
   TailwindIcon,
   TanstackQueryIcon,
   TypescriptIcon,
-  ViteIcon,
 } from "@/ui/shared/icons";
 import { PORTFO_CONFIG } from "../constants/constants";
 import type { ProjectScreenshots } from "../types/project.types";
@@ -160,49 +158,24 @@ export const projects: Project[] = [
     demo: PORTFO_CONFIG.PROJECTS.MOVIES,
     github: PORTFO_CONFIG.PROJECTS_GITHUB.MOVIES,
   },
-
-  {
-    id: "online-courses",
-    title: "Online Courses",
-    description: "A React-based course browsing experience built around reusable components and responsive layouts.",
-    category: "React/Vite",
-    featured: true,
-    screenshots: {
-      light: "/portfolio/linker-light.png",
-      dark: "/portfolio/linker-dark.png",
-      alt: "Linkboss SaaS application interface preview",
-    },
-    technologies: [
-      {
-        name: "React",
-        icon: ReactIcon,
-      },
-      {
-        name: "Vite",
-        icon: ViteIcon,
-      },
-    ],
-    demo: "#",
-    github: "#",
-  },
 ];
 
 export const archiveStats = [
   {
-    count: "22",
+    count: 22,
     label: "React / Vite Apps",
     icon: ReactIcon,
   },
   {
-    count: "8",
+    count: 8,
     label: "JavaScript Projects",
     icon: JavascriptIcon,
   },
   {
-    count: "11",
+    count: 9,
     label: "HTML / CSS / SCSS Builds",
     icon: HtmlIcon,
   },
 ];
 
-export const totalArchiveProjects = 41;
+export const totalArchiveProjects = 39;
