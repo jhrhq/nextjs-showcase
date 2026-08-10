@@ -9,7 +9,6 @@ import { NavUser } from "@/ui/shared/nav-user";
 import { NavProjects } from "./nav-projects";
 import { TeamSwitcher } from "./team-switcher";
 
-// This is sample data.
 const data = {
   user: {
     name: "mock user",

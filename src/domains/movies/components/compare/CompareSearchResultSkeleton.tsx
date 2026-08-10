@@ -1,0 +1,25 @@
+import { Skeleton } from "@/components/ui/skeleton";
+
+export const CompareSearchResultSkeleton = () => {
+  return (
+    <div className="flex items-center gap-4 p-2  rounded">
+      <Skeleton className=" rounded w-16 h-24" />
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-62.5" />
+        <Skeleton className="h-4 w-37.5" />
+      </div>
+    </div>
+  );
+};
+
+export function CompareSearchResultSkeletonList({ cardLength = 5 }) {
+  const arrayOfFives = new Array(cardLength).fill(cardLength);
+
+  return (
+    <>
+      {arrayOfFives.map((_, indx) => (
+        <CompareSearchResultSkeleton key={indx} />
+      ))}
+    </>
+  );
+}

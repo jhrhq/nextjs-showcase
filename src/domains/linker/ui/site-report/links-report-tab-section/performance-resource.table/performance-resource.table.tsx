@@ -18,12 +18,11 @@ export function PerformanceResourceTable({ data }: PerformanceResourceTableProps
   });
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Resource Breakdown</CardTitle>
-        <CardDescription>Analysis of page resources</CardDescription>
+    <Card className="border border-border bg-card shadow-2xs">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg font-semibold tracking-tight text-foreground">Resource Breakdown</CardTitle>
+        <CardDescription className="text-sm text-muted-foreground">Analysis of page resources</CardDescription>
       </CardHeader>
-
       <CardContent>
         <DataTable table={table} emptyMessage="No resource data available" />
       </CardContent>

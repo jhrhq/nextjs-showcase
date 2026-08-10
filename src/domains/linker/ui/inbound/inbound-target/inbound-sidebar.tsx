@@ -4,6 +4,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import React from "react";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -118,10 +119,6 @@ export function InboundSidebar({ onSelectUrl }: { onSelectUrl: (url: string) => 
                     <Badge variant="outline" className="text-[10px]">
                       Post
                     </Badge>
-
-                    {/*   <Button variant="ghost" size="icon" className="size-6" onClick={(e) => e.stopPropagation()}>
-                      ✕
-                    </Button> */}
                   </div>
 
                   <p className="text-sm font-medium line-clamp-2">{post.title}</p>

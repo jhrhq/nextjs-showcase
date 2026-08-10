@@ -24,7 +24,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   ICON_COLOR_MAP_CREATE_CUSTOM_NETWORK,
   ROW_BORDER_MAP_CUSTOM_NETWORK,
@@ -106,17 +106,19 @@ export const UrlRow = React.memo(function UrlRow({
         {/* ── Right addon: status badge + remove button ── */}
         <InputGroupAddon align="inline-end" className="flex items-center gap-1.5 pr-2">
           {isDuplicate && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Badge
-                  variant="outline"
-                  className="text-amber-600 border-amber-300 bg-amber-50 text-[10px] cursor-default select-none px-1.5 shrink-0"
-                >
-                  DUPLICATE
-                </Badge>
-              </TooltipTrigger>
-              <TooltipContent>This URL appears more than once</TooltipContent>
-            </Tooltip>
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Badge
+                    variant="outline"
+                    className="text-amber-600 border-amber-300 bg-amber-50 text-[10px] cursor-default select-none px-1.5 shrink-0"
+                  >
+                    DUPLICATE
+                  </Badge>
+                </TooltipTrigger>
+                <TooltipContent>This URL appears more than once</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
 
           {/*{isInvalid && !isDuplicate && errorMessage && (

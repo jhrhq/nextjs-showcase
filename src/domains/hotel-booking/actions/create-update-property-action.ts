@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
+import { actionCreator } from "@/lib/actions/action-creator";
 import { auth } from "@/lib/auth";
 import { verifySession } from "@/lib/dal";
 import { connectToDatabase } from "../config/database";
@@ -10,7 +11,6 @@ import { AUTH_CONFIG } from "../constants/auth.constants";
 import { PROPERTY_MESSAGES } from "../constants/property.constants";
 import { Property } from "../models";
 import { propertySchema } from "../validationSchema/property.schema";
-import { actionCreator } from "./action-creator";
 
 const updatePropertySchema = propertySchema.extend({
   propertyId: z.string().min(1, "Property ID is required."),

@@ -1,6 +1,6 @@
 import "./globals.css";
 
-import { Toaster } from "@/domains/hotel-booking/components/ui/sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { connectToDatabase } from "@/domains/hotel-booking/config/database";
 
 export default async function RootLayout({

@@ -2,12 +2,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 // import { generatePassResetLinkAction } from "@/domains/hotel-booking/actions/password-reset";
-import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
-import { Input } from "@/domains/hotel-booking/components/ui/input";
+import { Field, FieldError, FieldGroup } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { type ForgetPasswordInput, forgetPasswordSchema } from "@/lib/validations/auth.schema";
-import { Button } from "../ui/button";
 
 const ForgetPasswordForm = () => {
   const {

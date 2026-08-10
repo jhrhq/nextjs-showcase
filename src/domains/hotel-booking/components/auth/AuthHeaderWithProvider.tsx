@@ -23,11 +23,11 @@ const AuthHeaderWithProvider = ({ children, isSignIn, callbackUrl, modal }: Sign
           {isSignIn ? "Welcome back! Let's get you signed in." : "Let's get you signed up."}
         </p>
       </div>
-      <div className="flex items-center mt-4">
+      {/*<div className="flex items-center mt-4">
         <div className="grow border-t border-gray-300" />
         <span className="mx-4 text-gray-500 text-sm">or</span>
         <div className="grow border-t border-gray-300" />
-      </div>
+      </div>*/}
       {children}
       <div className="text-center text-sm text-gray-600 mt-2">
         <p>

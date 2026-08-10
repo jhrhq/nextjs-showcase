@@ -17,9 +17,7 @@
  */
 
 import { betterAuth } from "better-auth";
-import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { z } from "zod/v4";
-import { getMongoClient } from "@/lib/db/mongoose";
 
 // ---------------------------------------------------------------------------
 // Environment validation (Zod v4 — mapped to .env keys)
@@ -65,9 +63,9 @@ export const hotelAuth = betterAuth({
   baseURL: env.BETTER_AUTH_URL,
   basePath: "/api/auth/hotel-bookin",
 
-  database: mongodbAdapter(getMongoClient(), {
-    dbName: process.env.HOTEL_BOOKING_MONGODB_DATABASE_NAME,
-  }),
+  // database: mongodbAdapter(getMongoClient(), {
+  //   dbName: process.env.HOTEL_BOOKING_MONGODB_DATABASE_NAME,
+  // }),
 
   socialProviders: {
     google: {

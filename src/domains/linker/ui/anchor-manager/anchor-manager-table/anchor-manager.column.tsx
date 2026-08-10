@@ -37,6 +37,7 @@ export const anchorColumns: ColumnDef<Anchor>[] = [
   {
     accessorKey: "anchorText",
     header: "Anchor",
+    cell: ({ getValue }) => <span className="font-medium text-foreground">{getValue() as string}</span>,
   },
   {
     accessorKey: "inbound",
@@ -44,11 +45,10 @@ export const anchorColumns: ColumnDef<Anchor>[] = [
     cell: ({ getValue, cell, row }) => {
       const content = <AnchorList title="Internal Links" items={row.original.inbound} />;
       const totalInbounds = getValue() as LinkDetail[];
-
       return (
         <ExpandableCell
           value={
-            <span className="inline-flex rounded-full bg-blue-100 dark:bg-blue-950/40 px-2 py-1 text-xs font-medium text-blue-800 dark:text-blue-400">
+            <span className="inline-flex items-center rounded-full border border-chart-1/20 bg-chart-1/10 px-2.5 py-0.5 text-xs font-semibold text-chart-1 shadow-2xs">
               {totalInbounds.length}
             </span>
           }
@@ -65,11 +65,10 @@ export const anchorColumns: ColumnDef<Anchor>[] = [
     cell: ({ getValue, cell, row }) => {
       const content = <AnchorList title="External Links" items={row.original.outbound} />;
       const totalOutbounds = getValue() as LinkDetail[];
-
       return (
         <ExpandableCell
           value={
-            <span className="inline-flex rounded-full bg-blue-100 dark:bg-blue-950/40 px-2 py-1 text-xs font-medium text-blue-800 dark:text-blue-400">
+            <span className="inline-flex items-center rounded-full border border-chart-2/20 bg-chart-2/10 px-2.5 py-0.5 text-xs font-semibold text-chart-2 shadow-2xs">
               {totalOutbounds.length}
             </span>
           }
@@ -86,11 +85,15 @@ export const anchorColumns: ColumnDef<Anchor>[] = [
     cell: ({ getValue }) => {
       const anchorType = getValue() as string;
       const colors = getAnchorColors(anchorType);
-
-      return <Badge className={cn("rounded-md border-0", colors.badge)}>{anchorType}</Badge>;
+      return (
+        <Badge variant="outline" className={cn("font-medium shadow-2xs border", colors.badge)}>
+          {anchorType}
+        </Badge>
+      );
     },
   },
 ];
+
 function ExpandableCell({
   value,
   isExpanded,
@@ -102,13 +105,14 @@ function ExpandableCell({
 }) {
   return (
     <div
-      className="flex items-center justify-between cursor-pointer group hover:bg-zinc-50 dark:hover:bg-zinc-900 p-2 -m-2 transition-colors rounded"
+      className="flex items-center justify-between cursor-pointer group p-1.5 -m-1.5 transition-colors rounded-lg hover:bg-accent hover:text-accent-foreground"
       onClick={onToggle}
     >
       <div className="flex-1 truncate">{value}</div>
       <Button
-        variant="link"
-        className="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 p-0 h-auto"
+        variant="ghost"
+        size="icon"
+        className="size-7 text-muted-foreground hover:text-foreground hover:bg-accent p-0"
         aria-label={isExpanded ? "Collapse cell" : "Expand cell"}
       >
         {isExpanded ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
@@ -119,32 +123,45 @@ function ExpandableCell({
 
 function AnchorList({ title, items }: { title: string; items: LinkDetail[] }) {
   if (items.length === 0) {
-    return <div className="text-xs text-zinc-500 dark:text-zinc-500 italic">No {title.toLowerCase()} links</div>;
+    return <div className="text-xs text-muted-foreground italic px-1 py-2">No {title.toLowerCase()} links</div>;
   }
 
   return (
-    <div className="space-y-2">
-      <div className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">{title}</div>
-      <ScrollArea className="h-40 rounded border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
-        <div className="space-y-2 p-2 text-xs">
+    <div className="space-y-2.5">
+      <div className="flex items-center justify-between px-1">
+        <h3 className="text-sm font-medium tracking-tight text-foreground">{title}</h3>
+        <span className="text-xs text-muted-foreground">
+          {items.length} {items.length === 1 ? "item" : "items"}
+        </span>
+      </div>
+
+      <ScrollArea className="h-60 rounded-xl border border-border bg-muted/20 shadow-2xs">
+        <div className="space-y-2 p-2.5 text-xs">
           {items.map((link) => (
             <div
               key={link.id}
-              className="rounded bg-zinc-50 dark:bg-zinc-900 p-2 space-y-1 border border-transparent dark:border-zinc-800/50"
+              className="group rounded-lg border border-border bg-card p-3.5 shadow-2xs transition-all hover:border-primary/40 hover:shadow-xs"
             >
-              <div className="font-medium text-zinc-700 dark:text-zinc-200">{link.anchorText}</div>
-              <div className="text-zinc-500 dark:text-zinc-400 truncate">
-                Anchor URL:{" "}
-                <a
-                  href={link.anchorUrl}
-                  target="_blank"
-                  className="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300"
-                  rel="noopener"
-                >
-                  {link.anchorUrl}
-                </a>
+              <div className="font-semibold text-foreground leading-snug">{link.anchorText}</div>
+
+              <div className="mt-2.5 space-y-1.5 text-muted-foreground">
+                <div className="flex items-center gap-1.5 truncate">
+                  <span className="font-medium shrink-0 text-foreground/80">Anchor URL:</span>
+                  <a
+                    href={link.anchorUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="truncate font-mono text-primary hover:underline hover:text-primary/90 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-sm"
+                  >
+                    {link.anchorUrl}
+                  </a>
+                </div>
+
+                <div className="flex items-center gap-1.5 truncate">
+                  <span className="font-medium shrink-0 text-foreground/80">Content URL:</span>
+                  <span className="truncate font-mono text-muted-foreground/90">{link.contentUrl}</span>
+                </div>
               </div>
-              <div className="text-zinc-500 dark:text-zinc-400 truncate">Content URL: {link.contentUrl}</div>
             </div>
           ))}
         </div>

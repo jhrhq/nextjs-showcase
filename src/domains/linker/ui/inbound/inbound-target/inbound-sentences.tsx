@@ -2,7 +2,9 @@
 import { Check, ChevronRight, Copy, Edit2, FileText, Loader2, SendHorizontal } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetSuggestedSentences, useSumbitSentence } from "@/domains/linker/hooks/use-projects";
@@ -22,6 +24,7 @@ export function SentenceList({
 }) {
   const { data, isLoading, isError, error, refetch } = useGetSuggestedSentences(payload);
   const [sentSentences, setSentSentences] = React.useState<Set<string>>(new Set());
+
   const handleSentSentences = (id: string) => {
     setSentSentences((prev) => {
       const next = new Set(prev);
@@ -39,6 +42,7 @@ export function SentenceList({
       </div>
     );
   }
+
   if (isError) {
     return (
       <div className="p-4 border border-destructive/50 bg-destructive/10 rounded-md">
@@ -51,7 +55,8 @@ export function SentenceList({
       </div>
     );
   }
-  if (!data || (data && data.length === 0)) {
+
+  if (!data || data.length === 0) {
     return (
       <Empty>
         <EmptyHeader className="flex-row">
@@ -101,7 +106,7 @@ export function SentenceItem({ payload, sentence, predefinedUrl, isSent, onSentS
     setIsEditing(false);
   };
 
-  const hadleSave = (content: string) => {
+  const handleSave = (content: string) => {
     setDraft(content);
     handleCancel();
   };
@@ -124,7 +129,7 @@ export function SentenceItem({ payload, sentence, predefinedUrl, isSent, onSentS
               content: "flex flex-col gap-2",
             },
             style: {
-              "--border-radius": "calc(var(--radius)  + 4px)",
+              "--border-radius": "calc(var(--radius) + 4px)",
             } as React.CSSProperties,
           });
         },
@@ -137,40 +142,42 @@ export function SentenceItem({ payload, sentence, predefinedUrl, isSent, onSentS
   }
 
   return (
-    <div className="border bg-muted/40 px-3 py-2.5 text-sm">
-      <div className="flex items-start gap-2">
-        <ChevronRight className="mt-1 text-blue-500 shrink-0" />
+    <Card className=" border bg-muted/40 text-sm shadow-none p-2">
+      <CardContent className="px-3 py-2.5">
+        <div className="flex items-start gap-2">
+          <ChevronRight className="mt-1 text-blue-500 shrink-0" />
 
-        <div className="flex-1 space-y-2">
-          {!isEditing ? (
-            <div
-              className="leading-relaxed [&_a]:text-blue-600 [&_a]:underline"
-              // biome-ignore lint/security/noDangerouslySetInnerHtml: sanitized
-              dangerouslySetInnerHTML={{ __html: draft }}
-            />
-          ) : (
-            <MiniTipTapEditorPanel
-              content={draft}
-              predefinedUrl={predefinedUrl}
-              onSave={hadleSave}
-              onCancel={handleCancel}
-            />
-          )}
-
-          {!isEditing && (
-            <div className="place-items-end">
-              <SentenceActions
-                sentence={draft}
-                isSent={isSent}
-                isSending={false}
-                onEdit={handleEdit}
-                onSend={handleOnSend}
+          <div className="flex-1">
+            {!isEditing ? (
+              <div
+                className="leading-relaxed [&_a]:text-blue-600 [&_a]:underline"
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: sanitized
+                dangerouslySetInnerHTML={{ __html: draft }}
               />
-            </div>
-          )}
+            ) : (
+              <MiniTipTapEditorPanel
+                content={draft}
+                predefinedUrl={predefinedUrl}
+                onSave={handleSave}
+                onCancel={handleCancel}
+              />
+            )}
+
+            {!isEditing && (
+              <div className="flex justify-end">
+                <SentenceActions
+                  sentence={draft}
+                  isSent={isSent}
+                  isSending={sendMutation.isPending}
+                  onEdit={handleEdit}
+                  onSend={handleOnSend}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -184,28 +191,28 @@ type SentenceActionsProps = {
 
 export function SentenceActions({ sentence, isSent, isSending, onEdit, onSend }: SentenceActionsProps) {
   return (
-    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+    <div className="flex items-center gap-2 text-xs text-muted-foreground">
       <CopyClipboard value={sentence} timeout={2000}>
         {({ copied, copy }) => (
-          <Button size="icon" variant="ghost" onClick={copy}>
+          <Button size="icon" variant="ghost" onClick={copy} aria-label="Copy sentence">
             {copied ? <Check /> : <Copy />}
           </Button>
         )}
       </CopyClipboard>
 
-      <Button size="icon" variant="ghost" onClick={onEdit} disabled={isSending || isSent}>
+      <Button size="icon" variant="ghost" onClick={onEdit} disabled={isSending || isSent} aria-label="Edit sentence">
         <Edit2 />
       </Button>
 
       {!isSent && (
-        <Button size="icon" variant="ghost" onClick={onSend} disabled={isSending || isSent}>
+        <Button size="icon" variant="ghost" onClick={onSend} disabled={isSending || isSent} aria-label="Send sentence">
           {isSending ? <Loader2 className="animate-spin" /> : <SendHorizontal />}
         </Button>
       )}
 
       {isSent && (
-        <span className="font-medium">
-          <Check className="text-green-500" /> Sent
+        <span className="font-medium flex items-center gap-1 text-green-500">
+          <Check /> Sent
         </span>
       )}
     </div>

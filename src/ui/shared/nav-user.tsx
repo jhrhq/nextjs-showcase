@@ -76,7 +76,7 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <button type="button" onClick={store.logout}>
+              <button type="button" onClick={store.logout} className="w-full">
                 <LogOut />
                 Log out
               </button>

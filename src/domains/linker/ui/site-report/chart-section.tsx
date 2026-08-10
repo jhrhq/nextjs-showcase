@@ -8,8 +8,9 @@ export default function ChartSection({ report }: { report: SiteReport }) {
     { name: "Internal Links", value: report.totalInternalLinks },
     { name: "External Links", value: report.totalExternalLinks },
   ];
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <CategoryBarChart data={report.categoryDistribution} />
       <LinksDistributionPieChart data={linksPieData} />
     </div>

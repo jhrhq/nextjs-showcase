@@ -11,7 +11,7 @@ interface DataTableProps<TData> {
 
 export function DataTable<TData>({ table, emptyMessage = "No results." }: DataTableProps<TData>) {
   return (
-    <div className="border">
+    <div className=" rounded-md">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

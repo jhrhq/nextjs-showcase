@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/domains/hotel-booking/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 const ResultsNotFound = ({ searchTerm }: { [key: string]: string | string[] | undefined }) => {
   return (

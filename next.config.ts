@@ -3,7 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     useTypeScriptCli: true,
+    optimizePackageImports: ["lucide-react"],
   },
+  serverExternalPackages: ["better-auth"],
   /* config options here */
   images: {
     remotePatterns: [

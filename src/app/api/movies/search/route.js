@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getMovieWithKeyWord } from "@/domains/movies/lib/movie-info";
+import { getMovieWithKeyWord } from "@/domains/movies/services/tmdb";
 
 export async function GET(request) {
   const url = new URL(request.url);

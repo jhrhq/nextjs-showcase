@@ -1,14 +1,6 @@
 import Verification from "@/domains/hotel-booking/components/Verification";
 
-interface Props {
-  searchParams: Promise<{
-    token: string;
-    userId: string;
-  }>;
-}
-
-const Verify = async ({ searchParams }: Props) => {
-  const { token, userId } = await searchParams;
+const Verify = async () => {
   // try {
   //   const verificationToken = await VerificationTokenModel.findOne({ userId });
   //   if (verificationToken?.compare(token)) {

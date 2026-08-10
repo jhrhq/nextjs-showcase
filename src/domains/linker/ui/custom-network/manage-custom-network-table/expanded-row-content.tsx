@@ -85,6 +85,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
       },
     });
   };
+
   const handleAddLink = (
     nestedId: string,
     status: CustomNetworkNestedLinkPayloadValues["status"],
@@ -109,7 +110,6 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
     });
   };
 
-  // 1. Synchronized Filtering Logic
   const filteredChildren = React.useMemo(() => {
     return (row.original.nestedData ?? []).filter((child) => {
       const search = globalFilter.toLowerCase();
@@ -122,7 +122,6 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
     });
   }, [row.original.nestedData, globalFilter, statusFilter]);
 
-  // 2. Action Buttons Helper
   const renderActions = (child: CustomNetworkNestedLinkValues) => {
     return (
       <div className="flex items-center justify-end gap-1">
@@ -131,7 +130,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
             <Button
               variant="link"
               size="sm"
-              className="h-7 hover:no-underline text-xs px-2.5 font-semibold text-blue-600"
+              className="h-7 hover:no-underline text-xs px-2.5 font-semibold text-primary"
               disabled={isPending && loadingId === child.id}
               onClick={() => handleAddLink(child.id, "ACTIVE", "new added anchor")}
             >
@@ -140,7 +139,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
             <Button
               variant="link"
               size="sm"
-              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive dark:text-rose-800 dark:hover:text-rose-900 hover:no-underline font-semibold"
+              className="h-7 text-xs px-2.5 text-destructive hover:text-destructive/80 hover:no-underline font-semibold"
               disabled={deleteIsPending && deleteTarget?.id === child.id}
               onClick={() => setDeleteTarget(child)}
             >
@@ -151,9 +150,9 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
         {child.status === "STALE" && (
           <>
             <Button
-              variant="secondary"
+              variant="default"
               size="sm"
-              className="h-7 bg-transparent hover:bg-transparent  border-none gap-1 text-xs px-2.5 font-semibold"
+              className="h-7 bg-primary text-primary-foreground hover:bg-primary/90 gap-1 text-xs px-2.5 font-semibold shadow-2xs"
               disabled={isPending && loadingId === child.id}
               onClick={() => handleStaus(child.id, "ACTIVE")}
             >
@@ -162,7 +161,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
             <Button
               variant="link"
               size="sm"
-              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold dark:text-rose-800 dark:hover:text-rose-900"
+              className="h-7 text-xs px-2.5 text-destructive hover:text-destructive/80 hover:no-underline font-semibold"
               disabled={deleteIsPending && deleteTarget?.id === child.id}
               onClick={() => setDeleteTarget(child)}
             >
@@ -175,7 +174,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
             <Button
               variant="secondary"
               size="sm"
-              className="h-7 bg-transparent hover:bg-transparent border-none gap-1 text-xs text-violet-500 px-2.5 font-semibold"
+              className="h-7 bg-chart-1/10 hover:bg-chart-1/20 text-chart-1 border-none gap-1 text-xs px-2.5 font-semibold shadow-2xs"
               disabled={isPending && loadingId === child.id}
               onClick={() => handleStaus(child.id, "STALE")}
             >
@@ -184,7 +183,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
             <Button
               variant="link"
               size="sm"
-              className="h-7 text-xs px-2.5 text-rose-400 hover:text-destructive hover:no-underline font-semibold dark:text-rose-800 dark:hover:text-rose-900"
+              className="h-7 text-xs px-2.5 text-destructive hover:text-destructive/80 hover:no-underline font-semibold"
               disabled={deleteIsPending && deleteTarget?.id === child.id}
               onClick={() => setDeleteTarget(child)}
             >
@@ -198,50 +197,41 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
 
   return (
     <TableRow>
-      <TableCell colSpan={row.getVisibleCells().length}>
-        <div className="border  shadow-sm overflow-hidden rounded-md">
-          {/* Sub-Header */}
-          <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/40 px-4 py-2">
-            <div className="text-[10px] font-bold uppercase text-blue-600 dark:text-blue-400 flex items-center gap-2">
+      <TableCell colSpan={row.getVisibleCells().length} className="p-2">
+        <div className="bg-card shadow-xl overflow-hidden rounded-2xl">
+          <div className="flex items-center justify-between border-b border-border bg-muted/30 px-4 py-2.5">
+            <div className="text-[10px] font-bold uppercase text-primary flex items-center gap-2">
               <span className="text-xs">🔗</span> Target Links for {row.original.url}
             </div>
-            <span className="text-[10px] bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full border border-blue-100 dark:border-blue-900/50 font-mono">
+            <span className="text-[10px] bg-primary/10 text-primary px-2.5 py-0.5 rounded-full font-mono shadow-2xs">
               Showing {filteredChildren.length} of {row.original.nestedData?.length ?? 0}
             </span>
           </div>
 
           <table className="w-full text-left">
-            <thead className="bg-zinc-50/50 dark:bg-zinc-950/20 text-[10px] uppercase text-zinc-400 dark:text-zinc-500 border-b border-zinc-200 dark:border-zinc-800">
+            <thead className="bg-muted/10 text-[10px] uppercase text-muted-foreground border-b border-border">
               <tr>
-                <th className="px-4 py-2 font-semibold">Page Title & URL</th>
-                <th className="px-4 py-2 font-semibold">Anchor Text</th>
-                <th className="px-4 py-2 font-semibold">Status</th>
-                <th className="px-4 py-2 text-right font-semibold pr-6">Actions</th>
+                <th className="px-4 py-2.5 font-semibold">Page Title & URL</th>
+                <th className="px-4 py-2.5 font-semibold">Anchor Text</th>
+                <th className="px-4 py-2.5 font-semibold">Status</th>
+                <th className="px-4 py-2.5 text-right font-semibold pr-6">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
+            <tbody className="divide-y divide-border">
               {filteredChildren.length > 0 ? (
                 filteredChildren.map((child) => (
-                  <tr
-                    key={child.id}
-                    className="text-sm group/child hover:bg-zinc-50/80 dark:hover:bg-zinc-800/50 transition-colors"
-                  >
+                  <tr key={child.id} className="text-sm group/child hover:bg-muted/50 transition-colors">
                     <td className="px-4 py-3">
-                      <div className="font-bold text-zinc-800 dark:text-zinc-200">{child.title}</div>
-                      <div className="text-xs text-blue-500 dark:text-blue-400 truncate max-w-50">{child.url}</div>
+                      <div className="font-bold text-foreground">{child.title}</div>
+                      <div className="text-xs text-primary truncate max-w-50">{child.url}</div>
                     </td>
-                    <td className="px-4 py-3 text-zinc-500 dark:text-zinc-400 italic text-xs">
+                    <td className="px-4 py-3 text-muted-foreground italic text-xs">
                       {child.anchor ? `"${child.anchor}"` : "—"}
                     </td>
                     <td className="px-4 py-3">
                       <NestedStatusBadge status={child.status} />
                     </td>
                     <td className="px-4 py-3 text-right pr-6">{renderActions(child)}</td>
-                    <ConfirmDelete
-                      deleteTarget={deleteTarget}
-                      setDeleteTarget={setDeleteTarget}
-                      onDelete={handleDeleteConfirm}
-                    />
                   </tr>
                 ))
               ) : (
@@ -249,7 +239,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
                   <td colSpan={4} className="p-12 text-center">
                     <div className="flex flex-col items-center gap-2">
                       <span className="text-2xl opacity-50">🔍</span>
-                      <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium">
+                      <p className="text-xs text-muted-foreground font-medium">
                         No links in this row match your current filters.
                       </p>
                     </div>
@@ -259,6 +249,7 @@ export const ExpandedRowContent = ({ row, table }: ExpandedRowContentProps) => {
             </tbody>
           </table>
         </div>
+        <ConfirmDelete deleteTarget={deleteTarget} setDeleteTarget={setDeleteTarget} onDelete={handleDeleteConfirm} />
       </TableCell>
     </TableRow>
   );
@@ -280,16 +271,23 @@ function ConfirmDelete({
         if (!open) setDeleteTarget(null);
       }}
     >
-      <AlertDialogContent>
+      <AlertDialogContent className="bg-card shadow-xl rounded-2xl">
         <AlertDialogHeader>
-          <AlertDialogTitle>Remove Link?</AlertDialogTitle>
-
-          <AlertDialogDescription>This action will remove the selected nested link.</AlertDialogDescription>
+          <AlertDialogTitle className="text-foreground">Remove Link?</AlertDialogTitle>
+          <AlertDialogDescription className="text-muted-foreground">
+            This action will remove the selected nested link.
+          </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
-          <AlertDialogAction variant="destructive" onClick={onDelete}>
+          <AlertDialogCancel variant="outline" className="hover:bg-accent text-foreground shadow-2xs">
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction
+            variant="destructive"
+            onClick={onDelete}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-2xs"
+          >
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -183,6 +183,7 @@ type FormFieldWrapperPasswordProps<TFieldValues extends FieldValues> = FormField
   showToggle?: boolean;
   defaultVisible?: boolean;
   lockIcon?: React.ReactNode;
+  isLeftIcon?: boolean;
   showIcon?: React.ReactNode;
   hideIcon?: React.ReactNode;
 };
@@ -200,8 +201,10 @@ export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
   showToggle = true,
   defaultVisible = false,
   lockIcon = <Lock className="size-4 text-muted-foreground" />,
+  isLeftIcon = true,
   showIcon = <LucideEye className="size-4" />,
   hideIcon = <LucideEyeOff className="size-4" />,
+  inputGroupClassName,
 }: FormFieldWrapperPasswordProps<TFieldValues>) {
   const id = React.useId();
   const userHtmlFor = htmlFor || id;
@@ -232,9 +235,9 @@ export function FormFieldWrapperPassword<TFieldValues extends FieldValues>({
             </FieldLabel>
           )}
 
-          <InputGroup>
+          <InputGroup className={inputGroupClassName}>
             {/* Left icon */}
-            <InputGroupAddon>{lockIcon}</InputGroupAddon>
+            {isLeftIcon && <InputGroupAddon>{lockIcon}</InputGroupAddon>}
 
             <InputGroupInput
               {...field}

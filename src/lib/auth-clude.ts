@@ -15,7 +15,7 @@
  *  Always await connectDB() before importing / referencing `hotelAuth` so that
  *  getMongoClient() finds a live connection.
  */
-
+/*
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { z } from "zod/v4";
@@ -33,7 +33,6 @@ const EnvSchema = z.object({
   HOTEL_BOOKING_GOOGLE_CLIENT_SECRET: z.string().min(1, "Google Client Secret is required"),
   HOTEL_BOOKING_VERIFICATION_MAIL: z.email("Invalid verification mail address"),
 });
-
 type Env = z.infer<typeof EnvSchema>;
 
 function parseEnv(): Env {
@@ -53,13 +52,14 @@ function parseEnv(): Env {
 
   return result.data;
 }
+ */
 
-const env = parseEnv();
+// const env = parseEnv();
 
 // ---------------------------------------------------------------------------
 // Better Auth Server Instance
 // ---------------------------------------------------------------------------
-
+/*
 export const hotelAuth = betterAuth({
   secret: env.BETTER_AUTH_SECRET,
   baseURL: env.BETTER_AUTH_URL,
@@ -80,3 +80,4 @@ export const hotelAuth = betterAuth({
     cookiePrefix: "hotel-booking",
   },
 });
+*/

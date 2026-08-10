@@ -25,7 +25,7 @@ import LinkerSBreadcrumbs from "../linker-bread-crumb";
 
 export function Topbar() {
   return (
-    <header className="flex sticky top-0 z-50   items-center justify-between border-b bg-background px-6 py-3">
+    <header className="flex sticky top-0 z-50 items-center justify-between border-b bg-background px-6 py-3">
       <div className="flex items-center gap-2 px-3">
         <SidebarTrigger />
         <div className="flex items-center">
@@ -65,7 +65,7 @@ export function ProjectsHeader({ projects, tab, sort, onTabChange, onSortChange 
     inactive: projects.filter((p) => p.status === "inactive").length,
   };
   return (
-    <div className="flex items-center justify-between  h-16 border-y">
+    <div className="flex items-center justify-between h-16 border-y">
       <ProjectsTabs value={tab} counts={counts} onChange={onTabChange} />
       <div className="flex gap-2">
         <ProjectsFilterSort sort={sort} onSortChange={onSortChange} />
@@ -86,13 +86,13 @@ export function ProjectsTabs({ value, counts, onChange }: ProjectTabProps) {
 
   return (
     <Tabs value={value} onValueChange={(v) => onChange(v as ProjectStatus | "all")}>
-      <TabsList className="rounded-none h-auto bg-transparent p-0 gap-6">
+      <TabsList className="h-auto bg-transparent p-0 gap-6">
         {items.map((k) => (
           <TabsTrigger
             key={k}
             value={k}
             className={cn(
-              "rounded-none p-0 px-2 data-[state=active]:text-primary data-[state=active]:border-b-primary data-[state=active]:border-b-2 data-[state=active]:bg-primary/10 font-medium text-base h-16 capitalize"
+              "p-0 px-2 data-[state=active]:text-primary data-[state=active]:border-b-primary data-[state=active]:border-b-2 data-[state=active]:bg-primary/10 font-medium text-base h-16 capitalize"
             )}
           >
             {k}
@@ -109,7 +109,7 @@ export function ProjectsFilterSort({ sort, onSortChange }: { sort: SortOrder; on
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="rounded-none">
+        <Button variant="outline">
           <SlidersHorizontal className="mr-2 size-4 font-medium text-base text-slate-600" />
           Filter & Sort
         </Button>

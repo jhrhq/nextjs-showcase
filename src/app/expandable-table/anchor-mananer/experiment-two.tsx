@@ -28,10 +28,6 @@ interface AnchorSummary {
   external: number;
 }
 
-/* =============================
-   DATA (ADJUSTED MODEL)
-============================= */
-
 const anchorSummaries: AnchorSummary[] = [
   {
     id: 1,
@@ -76,10 +72,6 @@ const DISTRIBUTION = [
   { name: "Branded", value: 19, color: "#22c55e" },
   { name: "Generic", value: 8, color: "#38bdf8" },
 ];
-
-/* =============================
-   PAGE
-============================= */
 
 export default function AnchorManagerPage() {
   const summaryColumns = React.useMemo<ColumnDef<AnchorSummary>[]>(

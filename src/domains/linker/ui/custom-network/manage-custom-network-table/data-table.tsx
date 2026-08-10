@@ -146,8 +146,7 @@ export function RegistryDataTable({ data }: { data: CustomNetworkCollectionValue
         onReset={handleReset}
       />
 
-      {/* THE TABLE */}
-      <div className=" border shadow-sm">
+      <div className=" border shadow-sm rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

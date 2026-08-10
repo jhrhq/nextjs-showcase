@@ -2,6 +2,7 @@ import { Building, Calendar, Menu, PlusCircle } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +14,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { auth } from "@/lib/auth";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
-import { Button } from "../ui/button";
 import Logout from "./logout";
 
 function getInitials(name?: string | null, email?: string | null): string {

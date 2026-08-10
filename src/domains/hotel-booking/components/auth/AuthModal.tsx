@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { Dialog, DialogContent } from "@/domains/hotel-booking/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 type SignInModalProps = {
   children: React.ReactNode;

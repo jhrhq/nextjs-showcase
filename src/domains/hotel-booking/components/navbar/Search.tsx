@@ -3,8 +3,8 @@
 import { Search as SearchIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Button } from "@/domains/hotel-booking/components/ui/button";
-import { Input } from "@/domains/hotel-booking/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
 
 const Search = () => {
@@ -36,7 +36,7 @@ const Search = () => {
 
   return (
     <div className="row-start-2 col-span-2 border-0 md:w-full md:border flex shadow-sm hover:shadow-md transition-all md:rounded-full items-center pl-2 pr-1 justify-between">
-      <form id="navbar-search-form" onSubmit={handleSubmit}  className="w-full">
+      <form id="navbar-search-form" onSubmit={handleSubmit} className="w-full">
         <Input
           type="text"
           value={searchValue}

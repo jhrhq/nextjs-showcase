@@ -1,11 +1,6 @@
 import { CreditCard, Link, Users } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function SettingsPage() {
@@ -20,15 +15,17 @@ export default function SettingsPage() {
 
       {/* Settings Navigation Tabs */}
       <Tabs
-        defaultValue="account"
-        className="animate-in fade-in slide-in-from-bottom-2 flex-none duration-300  mt-4 space-y-6"
+        defaultValue="billing"
+        className="animate-in fade-in slide-in-from-bottom-2 flex-none duration-300 mt-4 space-y-6"
       >
-        <TabsList className="border-b p-0 w-full rounded-none inline-block group-data-[orientation=horizontal]/tabs:h-fit space-x-2.5 ">
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="billing">Billing & Usage</TabsTrigger>
+        <TabsList className="border-b p-1.5 w-full inline-block group-data-[orientation=horizontal]/tabs:h-fit space-x-2.5 ">
+          {/*<TabsTrigger value="account">Account</TabsTrigger>*/}
+          <TabsTrigger className="p-4" value="billing">
+            Billing & Usage
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="account" className="space-y-6">
+        {/*<TabsContent value="account" className="space-y-6">
           <Card className="bg-card text-card-foreground border-muted">
             <CardHeader>
               <CardTitle>Profile Details</CardTitle>
@@ -83,7 +80,7 @@ export default function SettingsPage() {
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </TabsContent>*/}
 
         <TabsContent value="billing" className="space-y-6">
           <div className="grid gap-4 md:grid-cols-3">

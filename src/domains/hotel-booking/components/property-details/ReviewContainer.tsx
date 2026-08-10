@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
 import { getReviewsForProperty } from "../../db/queries";
 import ReviewModal from "../ReviewModal";
-import { Button } from "../ui/button";
 import ReviewBody from "./ReviewBody";
 
 interface Props {
@@ -15,6 +15,7 @@ interface Props {
 const ReviewContainer = async ({ userId, bookingId, propertyId, isHost }: Props) => {
   const reviews = await getReviewsForProperty(propertyId);
   const isCurrentUserReview = reviews.some((review) => review.authorId.toString() === userId);
+  const currentPath = AUTH_CONFIG.ROUTES.PROPERTY(propertyId);
 
   return (
     <>
@@ -25,7 +26,7 @@ const ReviewContainer = async ({ userId, bookingId, propertyId, isHost }: Props)
             variant="outline"
             asChild
           >
-            <Link href={AUTH_CONFIG.ROUTES.SIGN_IN}>Write a Review</Link>
+            <Link href={`${AUTH_CONFIG.ROUTES.SIGN_IN}?callbackUrl=${currentPath}`}>Write a Review</Link>
           </Button>
         ) : !isHost ? (
           <ReviewModal propertyId={propertyId} bookingId={bookingId} isCurrentUserReview={isCurrentUserReview} />

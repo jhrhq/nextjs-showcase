@@ -1,12 +1,22 @@
 "use client";
+
 export default function ReportHeader({ projectName, generatedDate }: { projectName: string; generatedDate: string }) {
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-200">Site Report</h1>
-      <p className="text-zinc-600 dark:text-zinc-100 mt-1">Comprehensive SEO analysis for {projectName}</p>
-      <p className="text-sm text-gray-500 dark:text-zinc-200 mt-1">
-        Generated {new Date(generatedDate).toLocaleString()}
+    <div className="space-y-1.5">
+      <div className="flex flex-wrap items-center gap-2.5">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">Site Report</h1>
+        {projectName && (
+          <span className="inline-flex items-center rounded-full bg-accent px-2.5 py-0.5 text-xs font-medium text-accent-foreground">
+            {projectName}
+          </span>
+        )}
+      </div>
+
+      <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground">
+        Comprehensive SEO analysis for {projectName}
       </p>
+
+      <p className="text-xs text-muted-foreground/80">Generated {new Date(generatedDate).toLocaleString()}</p>
     </div>
   );
 }

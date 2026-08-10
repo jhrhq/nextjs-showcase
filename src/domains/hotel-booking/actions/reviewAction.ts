@@ -4,12 +4,12 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import z from "zod";
 import Booking from "@/domains/hotel-booking/models/Booking.model";
+import { actionCreator } from "@/lib/actions/action-creator";
 import { auth } from "@/lib/auth";
 import { connectToDatabase } from "../config/database";
 import { REVIEW_MESSAGES } from "../constants/review.constants";
 import { Review } from "../models";
 import { ReviewInputSchema } from "../validationSchema/review.schema";
-import { actionCreator } from "./action-creator";
 
 const createReviewSchema = ReviewInputSchema.extend({
   path: z.string().min(1, "Path is required."),

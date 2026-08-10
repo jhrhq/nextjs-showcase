@@ -1,4 +1,5 @@
 "use client";
+
 import type { LucideIcon } from "lucide-react";
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -18,19 +19,19 @@ const LOAD_TIME_RULES: LoadTimeRule[] = [
   {
     max: 2,
     Icon: TrendingDown,
-    color: "text-green-600",
+    color: "text-emerald-600 dark:text-emerald-400",
     label: "Excellent",
   },
   {
     max: 3,
     Icon: Minus,
-    color: "text-yellow-600",
+    color: "text-amber-600 dark:text-amber-400",
     label: "Good",
   },
   {
     max: Infinity,
     Icon: TrendingUp,
-    color: "text-red-600",
+    color: "text-destructive",
     label: "Needs improvement",
   },
 ];
@@ -41,46 +42,40 @@ function getLoadTimeRule(avgLoadTime: number): LoadTimeRule {
       return rule;
     }
   }
-
   return LOAD_TIME_RULES[LOAD_TIME_RULES.length - 1];
 }
 
 export default function ReportStatsSection({ report }: { report: SiteReport }) {
   const indexingPageRate = report.totalPages > 0 ? (report.indexedPages / report.totalPages) * 100 : 0;
-
   const { Icon, color, label } = getLoadTimeRule(report.avgLoadTime);
-
   const getSeoScoreLabel = getSeoScoreStatus(report.seoScore);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <StatsCard title="Total Pages" value={report.totalPages} />
-
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <StatsCard title="Total Pages" value={report.totalPages} valueClassName="text-foreground" />
       <StatsCard
         title="Indexed Pages"
         value={report.indexedPages}
-        valueClassName="text-blue-600"
+        valueClassName="text-chart-1"
         footer={`${indexingPageRate.toFixed(1)}% indexed`}
       />
-
       <StatsCard
         title="Avg Load Time"
         value={`${report.avgLoadTime}s`}
-        valueClassName="text-purple-600"
+        valueClassName="text-chart-5"
         footer={
-          <div className="flex items-center">
-            <Icon className={cn(color)} />
-            <span className="ml-1 text-xs text-gray-500">{label}</span>
+          <div className="flex items-center gap-1.5">
+            <Icon className={cn("size-3.5 shrink-0", color)} />
+            <span className="text-xs text-muted-foreground">{label}</span>
           </div>
         }
       />
-
       <StatsCard
         title="SEO Score"
         value={report.seoScore}
         valueClassName={getScoreColor(report.seoScore)}
         footer={
-          <Badge variant={getScoreVariant(report.seoScore)} className="mt-2">
+          <Badge variant={getScoreVariant(report.seoScore)} className="mt-1 font-medium shadow-2xs">
             {getSeoScoreLabel}
           </Badge>
         }

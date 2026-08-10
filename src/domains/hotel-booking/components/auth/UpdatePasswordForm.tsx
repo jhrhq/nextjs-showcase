@@ -2,12 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-
-import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
-import { Input } from "@/domains/hotel-booking/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Field, FieldError, FieldGroup } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { type UpdatePasswordInput, updatePasswordSchema } from "@/lib/validations/auth.schema";
-import { Button } from "../ui/button";
 
 export default function UpdatePasswordForm() {
   const form = useForm({

@@ -4,6 +4,7 @@ packages:
 allowBuilds:
   "@parcel/watcher": true
   "@swc/core": true
+  core-js: set this to true or false
   msw: true
   sharp: true
 

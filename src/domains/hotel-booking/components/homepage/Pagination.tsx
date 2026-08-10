@@ -1,10 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@/domains/hotel-booking/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
 

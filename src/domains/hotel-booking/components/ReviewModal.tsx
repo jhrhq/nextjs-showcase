@@ -6,8 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Button } from "@/domains/hotel-booking/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -15,8 +14,9 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-} from "@/domains/hotel-booking/components/ui/dialog";
-import { Textarea } from "@/domains/hotel-booking/components/ui/textarea";
+} from "@/components/ui/dialog";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Textarea } from "@/components/ui/textarea";
 import { type PropertyReview, ReviewInputSchema } from "@/domains/hotel-booking/validationSchema/review.schema";
 import { cn } from "@/lib/utils";
 import { createReviewAction } from "../actions";

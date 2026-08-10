@@ -3,6 +3,7 @@
 import { ChevronDown, ChevronUp, Link2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import React from "react";
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -137,11 +138,6 @@ function LinkAccordionItem({ item }: { item: InboundSuggestions }) {
   const params = useParams<{ projectId: string }>();
   const projectId = params.projectId;
 
-  /**
-   * projectId,
-   * postId(from suggestions post's, selected post's item.id)
-   * targetId(from suggestions post's, selected post's item._postId ),
-   */
   const payload = React.useMemo(
     () => ({
       projectId,
@@ -154,7 +150,7 @@ function LinkAccordionItem({ item }: { item: InboundSuggestions }) {
   const { prefetch } = useGetSuggestedSentences(payload, { enabled: false });
 
   return (
-    <AccordionItem key={item.id} value={item.id} className="border-0  animate-in fade-in duration-200">
+    <AccordionItem value={item.id} className="border-0 animate-in fade-in duration-200">
       <AccordionTrigger
         onMouseEnter={prefetch}
         onFocus={prefetch}
@@ -170,7 +166,7 @@ function LinkAccordionItem({ item }: { item: InboundSuggestions }) {
           </div>
         </div>
       </AccordionTrigger>
-      <AccordionContent className="data-[state=open]:overflow-visible overflow-visible h-auto">
+      <AccordionContent className="data-[state=open]:overflow-visible overflow-visible h-auto space-y-2 ">
         <SentenceList item={item} payload={payload} />
       </AccordionContent>
     </AccordionItem>

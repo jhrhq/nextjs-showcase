@@ -26,12 +26,17 @@ export const AUTH_CONFIG = {
   EMAIL: {
     MAX_LENGTH: 255,
   },
+  FETCH_REVALIDATIONS: {
+    REVALIDATE_SECONDS: 24 * 3600,
+  },
   ROUTES: {
-    SIGN_IN: "/movies/sign-in",
+    SIGN_IN: "/movies/signin",
+    SIGN_UP: "/movies/signup",
     VERIFY_EMAIL: "/movies/verify-email",
     HOME: "/movies",
     COMPARE: "/movies/compare",
     SEARCHRESULT: "/movies/searchResult",
+    DETAILS: (id: string) => `/movies/${id}`,
     WATCHLATER: "/movies/watchlater",
   },
   API: {
@@ -40,10 +45,10 @@ export const AUTH_CONFIG = {
     VERIFY_EMAIL: "/auth/verify-email",
     REFRESH: "/auth/refresh",
     LOGOUT: "/auth/logout",
-    OG: "/api/movies/og",
-    MOVIE: "/api/movies/og/movie",
-    SEARCH: "/api/movies/search",
-    WATCHLIST: "/api/movies/watchlist",
+    OG: "/movies/og",
+    MOVIE: "/movies/og/movie",
+    SEARCH: "/movies/search",
+    WATCHLIST: "/movies/watchlist",
   },
 } as const;
 

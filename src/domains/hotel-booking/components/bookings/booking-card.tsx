@@ -21,7 +21,6 @@ export function BookingCard({ booking }: { booking: UserBookingDTO }) {
   const stayDuration = formatStayDuration(checkin, checkout);
   const calculatedNights = calculateNights(checkin, checkout);
 
-  // Status Badge Styling
   const isPending = status.toLowerCase() === "pending";
 
   return (

@@ -10,6 +10,7 @@ import { Topbar } from "@/domains/linker/ui/dashboard/project-header";
 import { useAuthStore } from "@/store/linker/auth-store";
 import { AppSidebar } from "@/ui/shared/app-sidebar";
 import "../dashboard.css";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -36,14 +37,16 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <Topbar />
-        <div>
-          <div className="flex flex-1 flex-col gap-4 pt-0 p-8 mx-auto">{children}</div>
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+    <TooltipProvider delayDuration={200}>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <Topbar />
+          <div>
+            <div className="flex flex-1 flex-col gap-4 pt-0 p-8 mx-auto">{children}</div>
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
+    </TooltipProvider>
   );
 }

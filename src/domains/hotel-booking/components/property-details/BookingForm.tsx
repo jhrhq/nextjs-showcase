@@ -6,10 +6,10 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
-import { Button } from "@/domains/hotel-booking/components/ui/button";
-import { Calendar } from "@/domains/hotel-booking/components/ui/calendar";
-import { Field, FieldError, FieldGroup } from "@/domains/hotel-booking/components/ui/field";
-import { Popover, PopoverContent, PopoverTrigger } from "@/domains/hotel-booking/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Field, FieldError, FieldGroup } from "@/components/ui/field";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 import { AUTH_CONFIG } from "../../constants/auth.constants";
@@ -31,14 +31,12 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // 1. Shared Booking Hook (handles URL parsing + clamping)
   const {
     startDate: urlStartDate,
     endDate: urlEndDate,
     guestsCount: urlGuestsCount,
   } = useBookingParams(maxGuests, guests);
 
-  // 2. Initial values prioritize URL state, fallback to props
   const initialValues = useMemo(
     () => ({
       checkin: urlStartDate ?? parseUrlDate(checkin),
@@ -48,7 +46,6 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
     [urlStartDate, urlEndDate, urlGuestsCount, checkin, checkout]
   );
 
-  // 3. Shared Zod Validation Schema
   const formSchema = useMemo(() => createBookingSchema(maxGuests), [maxGuests]);
 
   const form = useForm<BookingFormValues>({
@@ -56,7 +53,6 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
     defaultValues: initialValues,
   });
 
-  // Sync form when search parameters change externally
   useEffect(() => {
     form.reset(initialValues);
   }, [initialValues, form.reset]);
