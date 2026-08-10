@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "nextjs-study",
+  "name": "nextjs-shocase",
   "description": "multiple applications with centralized deployment and a unified entry point",
-  "author": "Johir Haq <jhr.haqe@example.com>",
+  "author": "Johir Haq <jhr.code@gmail.com>",
   "version": "0.1.2",
   "private": true,
   "scripts": {
