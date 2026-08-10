@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Search from "@/domains/hotel-booking/components/navbar/Search";
 import UserDropdownMenu from "@/domains/hotel-booking/components/navbar/UserDropdownMenu";
+import { ModeToggle } from "@/ui/shared/theme-toggle";
 
 const Navbar = async ({ showSearch }: { showSearch: boolean }) => {
   return (
@@ -23,6 +24,7 @@ const Navbar = async ({ showSearch }: { showSearch: boolean }) => {
 
       <div className="flex items-center space-x-4 relative justify-end">
         <UserDropdownMenu />
+        <ModeToggle />
       </div>
     </nav>
   );

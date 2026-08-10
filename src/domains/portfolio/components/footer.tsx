@@ -1,7 +1,8 @@
 import { Mail } from "lucide-react";
 import Link from "next/link";
 import { GithubIcon, LinkedinIcon } from "@/ui/shared/icons";
-
+import { PORTFO_CONFIG } from "../constants/constants";
+// TODO: add copy button for mail icon to copy email
 export function Footer() {
   return (
     <footer id="contact" className="border-t border-border">
@@ -20,33 +21,33 @@ export function Footer() {
 
         {/* Social */}
         <div className="flex items-center gap-4">
-          <a
-            href="https://github.com"
+          <Link
+            href={PORTFO_CONFIG.SOCIAL.GITHUB}
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
             <GithubIcon />
-          </a>
+          </Link>
 
-          <a
-            href="https://linkedin.com"
+          <Link
+            href={PORTFO_CONFIG.SOCIAL.LINKEDIN}
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
             <LinkedinIcon />
-          </a>
+          </Link>
 
-          <a
-            href="mailto:hello@example.com"
+          <Link
+            href={PORTFO_CONFIG.SOCIAL.GMAIL}
             aria-label="Email"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            <Mail className="size-4" />
-          </a>
+            <Mail className="size-8 stroke-2" />
+          </Link>
         </div>
 
         {/* Copyright */}

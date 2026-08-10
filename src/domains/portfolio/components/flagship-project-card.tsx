@@ -1,9 +1,21 @@
-import { Activity, Code2, Layers, Zap } from "lucide-react";
+import { Activity, ArrowUpRight, Code2, Globe, Layers, Zap } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { PORTFO_CONFIG } from "@/domains/portfolio/constants/constants";
+import type {
+  ProjectData,
+  ProjectHighlight,
+  ProjectLinks,
+  ProjectScreenshots,
+  TechItem,
+} from "@/domains/portfolio/types/project.types";
 import {
   AxiosIcon,
+  GithubIcon,
   ReactIcon,
   ShadcnIcon,
   TailwindIcon,
@@ -83,21 +95,6 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
     { name: "Vite", icon: ViteIcon },
   ],
 };
-
-import { ArrowUpRight, Globe } from "lucide-react";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import type {
-  ProjectData,
-  ProjectHighlight,
-  ProjectLinks,
-  ProjectScreenshots,
-  TechItem,
-} from "@/domains/portfolio/types/project.types";
-import { GithubIcon } from "@/ui/shared/icons";
 
 export function ProjectActionLinks({ links }: { links: ProjectLinks }) {
   return (
