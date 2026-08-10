@@ -11,6 +11,12 @@ export interface ProjectHighlight {
   icon: React.ElementType;
 }
 
+export interface ProjectScreenshots {
+  light: string;
+  dark: string;
+  alt: string;
+}
+
 export interface ProjectLinks {
   website?: string;
   github?: string;
@@ -24,6 +30,7 @@ export interface ProjectData {
   description: React.ReactNode[];
   callout?: React.ReactNode;
   links: ProjectLinks;
+  screenshots: ProjectScreenshots;
   highlights: ProjectHighlight[];
   technologies: TechItem[];
   previewContent?: React.ReactNode;

@@ -1,9 +1,10 @@
+import { ArchivePreview } from "@/domains/portfolio/components/archive-preview";
+import { FeaturedProjects } from "@/domains/portfolio/components/featured-projects";
+
 import { Footer } from "@/domains/portfolio/components/footer";
-import { ArchivePreview } from "./archive-preview";
-import { FeaturedProjects } from "./featured-projects";
-import { Hero } from "./hero";
-import { Navbar } from "./navbar";
-import { TechStack } from "./tech-stack";
+import { Hero } from "@/domains/portfolio/components/hero";
+import { Navbar } from "@/domains/portfolio/components/navbar";
+import { TechStack } from "@/domains/portfolio/components/tech-stack";
 
 export default function Home() {
   return (

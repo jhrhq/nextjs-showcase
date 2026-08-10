@@ -1,37 +1,56 @@
-import { Braces, Code2, Database, Globe, Layers, Server, Wind } from "lucide-react";
+import { Zap } from "lucide-react";
+import {
+  GitIcon,
+  JavascriptIcon,
+  NextjsIcon,
+  ReactIcon,
+  ReduxIcon,
+  TailwindIcon,
+  TanstackQueryIcon,
+  TypescriptIcon,
+  ViteIcon,
+} from "@/ui/shared/icons";
 
 const technologies = [
   {
-    name: "HTML5",
-    icon: Globe,
-  },
-  {
-    name: "CSS3",
-    icon: Layers,
-  },
-  {
     name: "JavaScript",
-    icon: Braces,
+    icon: JavascriptIcon,
   },
   {
     name: "React",
-    icon: Code2,
+    icon: ReactIcon,
+  },
+  {
+    name: "Tanstack",
+    icon: TanstackQueryIcon,
+  },
+  {
+    name: "Zustand",
+    icon: Zap,
   },
   {
     name: "Next.js",
-    icon: Globe,
+    icon: NextjsIcon,
   },
   {
     name: "Tailwind CSS",
-    icon: Wind,
+    icon: TailwindIcon,
   },
   {
-    name: "Node.js",
-    icon: Server,
+    name: "Vite",
+    icon: ViteIcon,
   },
   {
-    name: "Databases",
-    icon: Database,
+    name: "Typescript",
+    icon: TypescriptIcon,
+  },
+  {
+    name: "Redux",
+    icon: ReduxIcon,
+  },
+  {
+    name: "Git",
+    icon: GitIcon,
   },
 ];
 
@@ -39,16 +58,16 @@ export function TechStack() {
   return (
     <section id="stack" className="border-y border-border">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-10">
           {technologies.map((technology) => {
             const Icon = technology.icon;
 
             return (
               <div
                 key={technology.name}
-                className="flex h-28 flex-col items-center justify-center gap-3 border-r border-b border-border text-muted-foreground transition-colors hover:bg-card hover:text-foreground sm:last:border-r-0 lg:border-b-0"
+                className="group flex h-28 flex-col items-center justify-center gap-3 border-b border-r border-border text-muted-foreground transition-colors hover:bg-card hover:text-foreground lg:border-b-0"
               >
-                <Icon className="size-5" />
+                <Icon className="size-5 transition-transform duration-300 group-hover:scale-110" />
 
                 <span className="text-xs font-medium">{technology.name}</span>
               </div>

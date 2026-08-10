@@ -2,12 +2,11 @@
 
 import { ArrowUpRight } from "lucide-react";
 import { useMemo, useState } from "react";
-
-import { type ProjectCategory, projects } from "../lib/portfolio-data";
+import { type ProjectCategory, projects } from "@/domains/portfolio/components/portfolio-data";
 
 type Filter = "All" | ProjectCategory;
 
-const filters: Filter[] = ["All", "Next.js", "React/Vite", "HTML/CSS Labs"];
+const filters: Filter[] = ["All", "Next.js", "React/Vite", "HTML/CSS/SCSS"];
 
 export function Labs() {
   const [activeFilter, setActiveFilter] = useState<Filter>("All");
@@ -33,14 +32,18 @@ export function Labs() {
             <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">Everything else.</h2>
 
             <p className="mt-4 text-sm leading-6 text-muted-foreground">
-              Smaller applications, experiments and projects that helped shape my frontend and full-stack development
+              Smaller applications, experiments, and projects that helped shape my frontend and full-stack development
               journey.
             </p>
           </div>
 
           {/* Filters */}
           <div className="w-full overflow-x-auto lg:w-auto">
-            <div className="flex w-max rounded-lg border border-border bg-card p-1">
+            <div
+              role="tablist"
+              aria-label="Project filters"
+              className="flex w-max rounded-lg border border-border bg-card p-1"
+            >
               {filters.map((filter) => {
                 const active = filter === activeFilter;
 
@@ -48,9 +51,13 @@ export function Labs() {
                   <button
                     key={filter}
                     type="button"
+                    role="tab"
+                    aria-selected={active}
                     onClick={() => setActiveFilter(filter)}
                     className={`whitespace-nowrap rounded-md px-3 py-2 text-xs font-medium transition-colors ${
-                      active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+                      active
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:bg-accent hover:text-foreground"
                     }`}
                   >
                     {filter}
@@ -76,11 +83,12 @@ export function Labs() {
                   </span>
                 </div>
 
+                {/* Information */}
                 <div>
                   <div className="flex flex-wrap items-center gap-3">
                     <h3 className="font-medium text-foreground">{project.title}</h3>
 
-                    <span className="rounded-full border border-border px-2 py-0.5 text-[10px] text-muted-foreground">
+                    <span className="rounded-full border border-border bg-background px-2 py-0.5 text-[10px] text-muted-foreground">
                       {project.category}
                     </span>
                   </div>
@@ -89,7 +97,7 @@ export function Labs() {
                 </div>
               </div>
 
-              <ArrowUpRight className="hidden size-4 shrink-0 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground sm:block" />
+              <ArrowUpRight className="hidden size-4 shrink-0 text-muted-foreground transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground sm:block" />
             </article>
           ))}
 
