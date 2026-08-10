@@ -8,6 +8,7 @@ import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { type SignUpInput, signUpSchema } from "@/lib/validations/auth.schema";
+import { FormFieldWrapperPassword } from "@/ui/shared/form-field-wrapper";
 import { signUpAction } from "../../actions";
 import { bindFormErrors } from "../../utils/form-helpers";
 
@@ -80,38 +81,21 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
           )}
         />
 
-        <Controller
+        <FormFieldWrapperPassword
           name="password"
           control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <Input
-                {...field}
-                type="password"
-                placeholder="Password"
-                className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
-                aria-invalid={fieldState.invalid}
-              />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
+          isLeftIcon={false}
+          label=""
+          placeholder="Password"
+          inputGroupClassName="w-full h-auto border border-gray-300 rounded-full focus:outline-none focus:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-primary has-[[data-slot=input-group-control]:focus-visible]:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
         />
-
-        <Controller
+        <FormFieldWrapperPassword
           name="confirmPassword"
           control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <Input
-                {...field}
-                type="password"
-                placeholder="Confirm Password"
-                className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
-                aria-invalid={fieldState.invalid}
-              />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
+          isLeftIcon={false}
+          label=""
+          placeholder="Confirm Password"
+          inputGroupClassName="w-full h-auto border border-gray-300 rounded-full focus:outline-none focus:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-primary has-[[data-slot=input-group-control]:focus-visible]:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
         />
 
         <FieldError errors={[form.formState.errors?.root?.serverError]} />
