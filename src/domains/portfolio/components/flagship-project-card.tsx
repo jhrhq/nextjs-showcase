@@ -192,7 +192,7 @@ export const TechBadgeList = ({
           <Badge
             key={tech.name}
             variant="secondary"
-            className="gap-1.5 text-[10px] bg-background text-muted-foreground"
+            className="gap-1.5 h-6 text-[10px] bg-background text-muted-foreground"
           >
             {IconComponent && <IconComponent size={iconSize} />}
             {tech.name}
