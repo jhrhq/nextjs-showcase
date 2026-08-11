@@ -1,12 +1,12 @@
 export const PORTFO_CONFIG = {
   ROUTES: {
     HOME: "/",
-    PROJECTS: "/portfolio/projects",
+    PROJECTS: "/projects",
   },
   SOCIAL: {
     GITHUB: "https://github.com/jhrhq",
     LINKEDIN: "https://www.linkedin.com/in/johir-haq/",
-    GMAIL: "mailto:jhr.haq@gmail.com",
+    GMAIL: "jhr.haq@gmail.com",
   },
   PROFESSIONAL_PROJECTS: {
     LINKBOSS: "https://linkboss.io",

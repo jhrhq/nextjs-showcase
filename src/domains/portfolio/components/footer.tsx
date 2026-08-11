@@ -1,5 +1,6 @@
 import { Mail } from "lucide-react";
 import Link from "next/link";
+import { CopyToClipboardWithCustom } from "@/ui/shared/copy-to-clipboard";
 import { GithubIcon, LinkedinIcon } from "@/ui/shared/icons";
 import { PORTFO_CONFIG } from "../constants/constants";
 // TODO: add copy button for mail icon to copy email
@@ -41,13 +42,14 @@ export function Footer() {
             <LinkedinIcon />
           </Link>
 
-          <Link
-            href={PORTFO_CONFIG.SOCIAL.GMAIL}
-            aria-label="Email"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <Mail className="size-8 stroke-2" />
-          </Link>
+          <span className="text-muted-foreground transition-colors hover:text-foreground">
+            <CopyToClipboardWithCustom
+              value={PORTFO_CONFIG.SOCIAL.GMAIL}
+              label="Copy email address"
+              copiedLabel="Email copied!"
+              icon={<Mail className="size-7.5 stroke-2" />}
+            />{" "}
+          </span>
         </div>
 
         {/* Copyright */}

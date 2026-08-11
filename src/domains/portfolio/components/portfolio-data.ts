@@ -173,7 +173,7 @@ export const archiveStats = [
     icon: JavascriptIcon,
   },
   {
-    count: 9,
+    count: 14,
     label: "HTML / CSS / SCSS Builds",
     icon: HtmlIcon,
   },
