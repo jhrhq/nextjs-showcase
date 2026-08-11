@@ -42,7 +42,6 @@ export const featuredProjects: Project[] = [
         icon: Database,
       },
     ],
-    demo: "#",
     github: "#",
     roleLabel: "Commercial SaaS Product (Previous Role)",
   },

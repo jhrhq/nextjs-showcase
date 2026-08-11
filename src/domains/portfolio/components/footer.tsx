@@ -1,7 +1,9 @@
 import { Mail } from "lucide-react";
 import Link from "next/link";
+import { CopyToClipboardWithCustom } from "@/ui/shared/copy-to-clipboard";
 import { GithubIcon, LinkedinIcon } from "@/ui/shared/icons";
-
+import { PORTFO_CONFIG } from "../constants/constants";
+// TODO: add copy button for mail icon to copy email
 export function Footer() {
   return (
     <footer id="contact" className="border-t border-border">
@@ -20,37 +22,38 @@ export function Footer() {
 
         {/* Social */}
         <div className="flex items-center gap-4">
-          <a
-            href="https://github.com"
+          <Link
+            href={PORTFO_CONFIG.SOCIAL.GITHUB}
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
             <GithubIcon />
-          </a>
+          </Link>
 
-          <a
-            href="https://linkedin.com"
+          <Link
+            href={PORTFO_CONFIG.SOCIAL.LINKEDIN}
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
             <LinkedinIcon />
-          </a>
+          </Link>
 
-          <a
-            href="mailto:hello@example.com"
-            aria-label="Email"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <Mail className="size-4" />
-          </a>
+          <span className="text-muted-foreground transition-colors hover:text-foreground">
+            <CopyToClipboardWithCustom
+              value={PORTFO_CONFIG.SOCIAL.GMAIL}
+              label="Copy email address"
+              copiedLabel="Email copied!"
+              icon={<Mail className="size-7 stroke-2" />}
+            />{" "}
+          </span>
         </div>
 
         {/* Copyright */}
-        <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Tafhim. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Jhr. All rights reserved.</p>
       </div>
     </footer>
   );

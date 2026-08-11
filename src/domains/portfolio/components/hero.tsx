@@ -1,6 +1,7 @@
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Mail } from "lucide-react";
 import Link from "next/link";
 import { PORTFO_CONFIG } from "@/domains/portfolio/constants/constants";
+import { CopyToClipboardWithCustom } from "@/ui/shared/copy-to-clipboard";
 import { GithubIcon, LinkedinIcon } from "@/ui/shared/icons";
 
 export function Hero() {
@@ -68,6 +69,14 @@ export function Hero() {
             >
               <LinkedinIcon />
             </Link>
+            <span className="text-muted-foreground transition-colors hover:text-foreground">
+              <CopyToClipboardWithCustom
+                value={PORTFO_CONFIG.SOCIAL.GMAIL}
+                label="Copy email address"
+                copiedLabel="Email copied!"
+                icon={<Mail className="size-7 stroke-2" />}
+              />{" "}
+            </span>
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
+import type { RateLimitEntry } from "@/domains/linker/types/auth.types";
 import { AuthError } from "@/domains/portfolio/errors/auth.error";
-import type { RateLimitEntry } from "@/domains/portfolio/types/auth.types";
 
 /**
  * In-memory rate limiter

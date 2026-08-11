@@ -1,5 +1,4 @@
-import { AUTH_ERROR_CODES, AUTH_ERROR_MESSAGES } from "@/domains/portfolio/auth.constants";
-import type { AuthErrorCode } from "@/domains/portfolio/types/auth.types";
+import { AUTH_ERROR_CODES, AUTH_ERROR_MESSAGES, type AuthErrorCode } from "@/constants/auth.constants";
 
 export class AuthError extends Error {
   public readonly code: AuthErrorCode;

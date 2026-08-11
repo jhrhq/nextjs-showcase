@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Hero from "@/domains/movies/components/landing/Hero";
 import HomeSections from "@/domains/movies/components/landing/HomeSections";
@@ -6,6 +7,12 @@ import TopRatedMovies from "@/domains/movies/components/landingpage/TopRated";
 import Trending from "@/domains/movies/components/landingpage/Trending";
 import Navbar from "@/domains/movies/components/Navbar";
 import HeroSkeleton, { MovieSkeletonCardList } from "@/domains/movies/components/skeletons/HeroMovieSkeleton";
+
+export const metadata: Metadata = {
+  title: "Movies — Discover Trending Films, TV Shows & Reviews",
+  description:
+    "Explore millions of movies, TV shows, and cast details powered by TMDB. Find trending films, ratings, trailers, and discover what to watch next.",
+};
 
 export default async function Home() {
   return (

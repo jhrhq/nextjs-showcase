@@ -63,6 +63,52 @@ export function CopyToClipboardWithToolTipIcon({ value }: { value: unknown }) {
   );
 }
 
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
+
+interface CopyToClipboardWithToolTipIconProps extends Omit<ComponentPropsWithoutRef<typeof Button>, "value"> {
+  /** The value to copy to clipboard */
+  value: unknown;
+  /** Tooltip text before copying (Default: "Copy") */
+  label?: string;
+  /** Tooltip text after copying (Default: "Copied") */
+  copiedLabel?: string;
+  /** Custom icon when not copied (Default: <Copy />) */
+  icon?: ReactNode;
+  /** Custom icon when copied (Default: <Check className="text-green-500" />) */
+  copiedIcon?: ReactNode;
+  /** Tooltip delay duration in ms (Default: 200) */
+  delayDuration?: number;
+}
+
+export function CopyToClipboardWithCustom({
+  value,
+  label = "Copy",
+  copiedLabel = "Copied",
+  icon = <Copy />,
+  copiedIcon = <Check className="text-green-500" />,
+  delayDuration = 200,
+  size = "icon",
+  variant = "ghost",
+  ...buttonProps
+}: CopyToClipboardWithToolTipIconProps) {
+  return (
+    <CopyClipboard value={value} timeout={2000}>
+      {({ copied, copy }) => (
+        <TooltipProvider delayDuration={delayDuration}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size={size} variant={variant} onClick={copy} {...buttonProps}>
+                {copied ? copiedIcon : icon}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{copied ? copiedLabel : label}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
+    </CopyClipboard>
+  );
+}
+
 interface CopyButtonProps {
   value: unknown;
   timeout?: number;

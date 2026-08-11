@@ -1,15 +1,23 @@
-import { Database, Layers } from "lucide-react";
+import { Layers } from "lucide-react";
 import type { ElementType } from "react";
 import {
-  CssIcon,
+  AxiosIcon,
+  BetterAuthIcon,
   HtmlIcon,
   JavascriptIcon,
+  MongodbIcon,
+  MongooseIcon,
   NextjsIcon,
   NodejsIcon,
   ReactIcon,
+  ShadcnIcon,
+  StripeIcon,
   TailwindIcon,
-  ViteIcon,
+  TanstackQueryIcon,
+  TypescriptIcon,
 } from "@/ui/shared/icons";
+import { PORTFO_CONFIG } from "../constants/constants";
+import type { ProjectScreenshots } from "../types/project.types";
 
 export type ProjectCategory = "Next.js" | "React/Vite" | "JavaScript" | "HTML/CSS/SCSS";
 
@@ -29,6 +37,7 @@ export interface Project {
   technologies: ProjectTechnology[];
   demo?: string;
   github?: string;
+  screenshots: ProjectScreenshots;
 }
 
 export const projects: Project[] = [
@@ -41,6 +50,11 @@ export const projects: Project[] = [
     featured: true,
     commercial: true,
     roleLabel: "Commercial SaaS Product · Previous Role",
+    screenshots: {
+      light: "",
+      dark: "",
+      alt: "",
+    },
     technologies: [
       {
         name: "Next.js",
@@ -76,116 +90,93 @@ export const projects: Project[] = [
         icon: NextjsIcon,
       },
       {
-        name: "Node.js",
-        icon: NodejsIcon,
-      },
-      {
-        name: "MongoDB",
-        icon: Database,
-      },
-    ],
-    demo: "#",
-    github: "#",
-  },
-
-  {
-    id: "analytics-dashboard",
-    title: "Analytics Dashboard",
-    description:
-      "A responsive React application focused on reusable UI architecture, data visualization, and dashboard interaction patterns.",
-    category: "React/Vite",
-    featured: true,
-    technologies: [
-      {
         name: "React",
         icon: ReactIcon,
-      },
-      {
-        name: "Vite",
-        icon: ViteIcon,
-      },
-    ],
-    demo: "#",
-    github: "#",
-  },
-
-  {
-    id: "online-courses",
-    title: "Online Courses",
-    description: "A React-based course browsing experience built around reusable components and responsive layouts.",
-    category: "React/Vite",
-    featured: true,
-    technologies: [
-      {
-        name: "React",
-        icon: ReactIcon,
-      },
-      {
-        name: "Vite",
-        icon: ViteIcon,
-      },
-    ],
-    demo: "#",
-    github: "#",
-  },
-
-  {
-    id: "the-venue",
-    title: "The Venue",
-    description:
-      "A responsive event website exploring layout systems, typography, animations, and frontend interactions.",
-    category: "React/Vite",
-    featured: true,
-    technologies: [
-      {
-        name: "React",
-        icon: ReactIcon,
-      },
-      {
-        name: "CSS",
-        icon: CssIcon,
-      },
-    ],
-    demo: "#",
-    github: "#",
-  },
-
-  {
-    id: "developer-blog",
-    title: "Developer Blog",
-    description: "A minimal content-focused blog exploring modern React and Next.js patterns.",
-    category: "Next.js",
-    technologies: [
-      {
-        name: "Next.js",
-        icon: NextjsIcon,
       },
       {
         name: "Tailwind CSS",
         icon: TailwindIcon,
       },
+      {
+        name: "Shadcn",
+        icon: ShadcnIcon,
+      },
+      {
+        name: "Better Auth",
+        icon: BetterAuthIcon,
+      },
+      {
+        name: "Stripe",
+        icon: StripeIcon,
+      },
+      {
+        name: "Node.js",
+        icon: NodejsIcon,
+      },
+      {
+        name: "MongoDB",
+        icon: MongodbIcon,
+      },
+      {
+        name: "Mongoose",
+        icon: MongooseIcon,
+      },
     ],
-    demo: "#",
-    github: "#",
+    demo: PORTFO_CONFIG.PROJECTS.HOTEL_BOOKING,
+    github: PORTFO_CONFIG.PROJECTS_GITHUB.HOTEL_BOOKING,
+    screenshots: {
+      light: "/portfolio/hotel-booking-light.png",
+      dark: "/portfolio/hotel-booking-dark.png",
+      alt: "Hotel Booking Platform",
+    },
+  },
+
+  {
+    id: "Movies",
+    title: "Movies",
+    description:
+      "Explore millions of movies, TV shows, and cast details powered by TMDB. Compare 3 movies side by side. Add movies to watch later list.",
+    category: "Next.js",
+    featured: true,
+    screenshots: {
+      light: "/portfolio/movies-light.png",
+      dark: "/portfolio/movies-dark.png",
+      alt: "Linkboss SaaS application interface preview",
+    },
+    technologies: [
+      {
+        name: "Next.js",
+        icon: NextjsIcon,
+      },
+      { name: "React", icon: ReactIcon },
+      { name: "TypeScript", icon: TypescriptIcon },
+      { name: "Tailwind CSS", icon: TailwindIcon },
+      { name: "Axios", icon: AxiosIcon },
+      { name: "Shadcn", icon: ShadcnIcon },
+      { name: "Tanstack Query", icon: TanstackQueryIcon },
+      { name: "MongoDB", icon: MongodbIcon },
+    ],
+    demo: PORTFO_CONFIG.PROJECTS.MOVIES,
+    github: PORTFO_CONFIG.PROJECTS_GITHUB.MOVIES,
   },
 ];
 
 export const archiveStats = [
   {
-    count: "22",
+    count: 19,
     label: "React / Vite Apps",
     icon: ReactIcon,
   },
   {
-    count: "8",
+    count: 8,
     label: "JavaScript Projects",
     icon: JavascriptIcon,
   },
   {
-    count: "11",
+    count: 14,
     label: "HTML / CSS / SCSS Builds",
     icon: HtmlIcon,
   },
 ];
 
-export const totalArchiveProjects = 41;
+export const totalArchiveProjects = 36;
