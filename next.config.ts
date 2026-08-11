@@ -6,39 +6,42 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react"],
   },
   serverExternalPackages: ["better-auth"],
-  /* config options here */
   images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "www.google.com",
-        port: "",
-        pathname: "/s2/favicons/**",
+        pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "images.unsplash.com",
-        // Optional: pathname: '/**', // Allow all paths
-      },
-      {
-        protocol: "https",
-        hostname: "i.ytimg.com",
-      },
-      {
-        protocol: "https",
-        hostname: "image.tmdb.org",
-      },
-      {
-        protocol: "https",
-        hostname: "lh3.googleusercontent.com",
+        pathname: "/**", // Crucial for handling query parameters like ?auto=format...
       },
       {
         protocol: "https",
         hostname: "plus.unsplash.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "image.tmdb.org",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "placehold.co",
+        pathname: "/**",
       },
     ],
   },
