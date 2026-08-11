@@ -1,4 +1,4 @@
-import { Zap } from "lucide-react";
+import { Activity } from "lucide-react";
 import {
   GitIcon,
   JavascriptIcon,
@@ -9,6 +9,7 @@ import {
   TanstackQueryIcon,
   TypescriptIcon,
   ViteIcon,
+  ZodIcon,
 } from "@/ui/shared/icons";
 
 const technologies = [
@@ -26,7 +27,7 @@ const technologies = [
   },
   {
     name: "Zustand",
-    icon: Zap,
+    icon: Activity,
   },
   {
     name: "Next.js",
@@ -49,6 +50,10 @@ const technologies = [
     icon: ReduxIcon,
   },
   {
+    name: "Zod",
+    icon: ZodIcon,
+  },
+  {
     name: "Git",
     icon: GitIcon,
   },
@@ -58,7 +63,7 @@ export function TechStack() {
   return (
     <section id="stack" className="border-y border-border">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-10">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-11">
           {technologies.map((technology) => {
             const Icon = technology.icon;
 

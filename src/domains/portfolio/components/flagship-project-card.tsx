@@ -1,4 +1,4 @@
-import { Activity, ArrowUpRight, Code2, Globe, Layers, Zap, ZapIcon } from "lucide-react";
+import { Activity, ArrowUpRight, Code2, Globe, Layers, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +23,7 @@ import {
   TipTapEditorIcon,
   TypescriptIcon,
   ViteIcon,
+  ZodIcon,
 } from "@/ui/shared/icons";
 
 const FLAGSHIP_PROJECT_DATA: ProjectData = {
@@ -30,9 +31,9 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
   badgeLabel: "Commercial SaaS Product · Previous Role",
   roleMeta: "Previous Role · 3 Years · Sole Frontend Developer",
   links: {
-    website: PORTFO_CONFIG.PROFESSIONAL_PROJECTS.LINKBOSS,
+    demo: PORTFO_CONFIG.PROFESSIONAL_PROJECTS.LINKBOSS,
     github: PORTFO_CONFIG.PROJECTS_GITHUB.LINKER,
-    demo: PORTFO_CONFIG.PROJECTS.LINKER,
+    website: PORTFO_CONFIG.PROJECTS.LINKER,
   },
   screenshots: {
     light: "/portfolio/linker-light.png",
@@ -90,9 +91,10 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
     { name: "Axios", icon: AxiosIcon },
     { name: "Tanstack Query", icon: TanstackQueryIcon },
     { name: "Zustand", icon: Activity },
-    { name: "Zod", icon: ZapIcon },
+    { name: "Zod", icon: ZodIcon },
     { name: "Shadcn", icon: ShadcnIcon },
     { name: "TipTapEditor", icon: TipTapEditorIcon },
+    { name: "Tanstack Table", icon: TanstackQueryIcon },
     { name: "Vite", icon: ViteIcon },
   ],
 };
