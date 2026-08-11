@@ -1,14 +1,11 @@
-# 📋 Project Plan
+# 🎯 Project Overview
 
-Perfect! Here's the final clarified version - **single Next.js application** with **Biome** for linting and formatting:
+**External Websites** [Visit JHR](https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/)
 
----
-
-## 🎯 Project Overview
-
-**Goal:** Build multiple applications within a **single standard Next.js project**, with centralized deployment and a unified entry point.
+**Overview:** A comprehensive showcase repository demonstrating modern web development patterns using Next.js. This repository serves as a centralized hub hosting multiple applications,including standard Next.js apps and Single Page Application (SPA) implementations—accessible through a single entry point.
 
 **Structure:**
+
 - Single Next.js application (regular setup, not monorepo)
 - One deployment pipeline
 - Central landing page linking to all sub-applications
@@ -17,10 +14,13 @@ Perfect! Here's the final clarified version - **single Next.js application** wit
 ---
 
 .husky/pre-commit
+
 ```bash
 pnpm exec lint-staged
 ```
+
 .husky/commit-msg
+
 ```bash
 pnpm exec commitlint --edit $1
 ```
@@ -34,18 +34,21 @@ pnpm exec commitlint --edit $1
 **Backend:** Next.js API Routes
 
 **Tech Stack:**
+
 - **Data Fetching:** TanStack Query (React Query) + Axios
 - **State Management:** Zustand
 - **Forms:** React Hook Form + Zod validation
 - **Tables:** TanStack Table
 
 **Authentication Flow:**
+
 - Client-side auth implementation
 - Token-based authentication (access + refresh tokens)
 - Token storage: Browser localStorage
 - Custom auth logic via API routes
 
 **Characteristics:**
+
 - Pure SPA behavior
 - All rendering happens client-side
 - Backend logic handled through `/api` routes
@@ -59,6 +62,7 @@ pnpm exec commitlint --edit $1
 **Approach:** Follow Next.js 14+ best practices
 
 **Rendering Methods:**
+
 - Server-Side Rendering (SSR)
 - Static Site Generation (SSG)
 - Incremental Static Regeneration (ISR) - optional
@@ -66,10 +70,12 @@ pnpm exec commitlint --edit $1
 - Client Components (when interactivity needed)
 
 **Authentication:**
+
 - Next.js recommended patterns (e.g., middleware, server sessions)
 - Potentially using NextAuth.js or similar
 
 **Characteristics:**
+
 - Leverage Server Components for better performance
 - Use Client Components selectively
 - Optimized data fetching with server-side capabilities
@@ -113,17 +119,20 @@ my-nextjs-app/
 ## 🔑 Key Features
 
 ### **Single Application Benefits:**
+
 - One `package.json` and dependency tree
 - Shared components and utilities across all apps
 - Unified configuration with **Biome** for linting and formatting
 - Single build and deployment process
 
 ### **Multiple App Patterns:**
+
 - Different routing strategies per app section
 - Separate auth approaches (client-side vs. server-side)
 - Different data fetching patterns by app type
 
 ### **Deployment:**
+
 - Single build command: `npm run build`
 - One deployment target (Vercel, AWS, etc.)
 - All apps under same domain with different routes
@@ -132,21 +141,43 @@ my-nextjs-app/
 
 ## 🚀 Routing Structure Example
 
+→ Landing page
+
 ```
-https://yourdomain.com/              → Landing page
-https://yourdomain.com/spa-app       → SPA-style app (client-rendered)
-https://yourdomain.com/blog          → Next.js native app (SSR/SSG)
-https://yourdomain.com/docs          → Another Next.js app
-https://yourdomain.com/api/*         → API routes
+https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/
+```
+
+→ SPA-style app (client-rendered) LINKER
+
+```
+https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/linker
+```
+
+→ Next.js native app (SSR/SSG)
+
+```
+https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/hotel-booking
+```
+
+→ Another Next.js app
+
+```
+https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/movies
+```
+
+→ Another Next.js app
+
+```
+https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/blog
 ```
 
 ---
 
 ## 🛠️ Development Tools
 
-- **Linting & Formatting:** Biome (replaces ESLint + Prettier)
+- **Linting & Formatting:** Biome
 - **Type Checking:** TypeScript
-- **Package Manager:** npm/yarn/pnpm (your choice)
+- **Package Manager:** npm/yarn/pnpm
 
 ---
 
@@ -183,17 +214,4 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployed on Vercel
