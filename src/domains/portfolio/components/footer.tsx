@@ -47,7 +47,7 @@ export function Footer() {
               value={PORTFO_CONFIG.SOCIAL.GMAIL}
               label="Copy email address"
               copiedLabel="Email copied!"
-              icon={<Mail className="size-7.5 stroke-2" />}
+              icon={<Mail className="size-7 stroke-2" />}
             />{" "}
           </span>
         </div>
