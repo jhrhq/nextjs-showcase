@@ -1,5 +1,5 @@
+import type { AppUser } from "@/domains/linker/types/auth.types";
 import { AuthError } from "@/domains/portfolio/errors/auth.error";
-import type { AppUser } from "@/domains/portfolio/types/auth.types";
 
 /**
  * Authentication Service

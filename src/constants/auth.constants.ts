@@ -71,3 +71,15 @@ export const AUTH_ERROR_CODES = {
   SERVER_ERROR: "SERVER_ERROR",
   VALIDATION_ERROR: "VALIDATION_ERROR",
 } as const;
+
+export const AUTH_ERROR_MESSAGES: Record<keyof typeof AUTH_ERROR_CODES, string> = {
+  INVALID_CREDENTIALS: "Invalid email or password",
+  ACCOUNT_LOCKED: "Account has been locked due to multiple failed attempts",
+  ACCOUNT_DISABLED: "This account has been disabled",
+  EMAIL_NOT_VERIFIED: "Please verify your email address before signing in",
+  RATE_LIMIT: "Too many login attempts. Please try again later",
+  SERVER_ERROR: "An unexpected error occurred. Please try again",
+  VALIDATION_ERROR: "Please check your input and try again",
+};
+
+export type AuthErrorCode = (typeof AUTH_ERROR_CODES)[keyof typeof AUTH_ERROR_CODES];

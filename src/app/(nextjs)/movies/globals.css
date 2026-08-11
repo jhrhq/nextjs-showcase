@@ -58,11 +58,21 @@
   /* Immersive Clean Elevation Shadows */
   --shadow-2xs: 0px 1px 2px 0px oklch(0.1 0.01 250 / 0.05);
   --shadow-xs: 0px 1px 3px 0px oklch(0.1 0.01 250 / 0.08);
-  --shadow-sm: 0px 1px 3px 0px oklch(0.1 0.01 250 / 0.1), 0px 1px 2px -1px oklch(0.1 0.01 250 / 0.08);
-  --shadow: 0px 1px 3px 0px oklch(0.1 0.01 250 / 0.12), 0px 1px 2px -1px oklch(0.1 0.01 250 / 0.08);
-  --shadow-md: 0px 4px 6px -1px oklch(0.1 0.01 250 / 0.1), 0px 2px 4px -2px oklch(0.1 0.01 250 / 0.08);
-  --shadow-lg: 0px 10px 15px -3px oklch(0.1 0.01 250 / 0.1), 0px 4px 6px -4px oklch(0.1 0.01 250 / 0.08);
-  --shadow-xl: 0px 20px 25px -5px oklch(0.1 0.01 250 / 0.1), 0px 8px 10px -6px oklch(0.1 0.01 250 / 0.08);
+  --shadow-sm:
+    0px 1px 3px 0px oklch(0.1 0.01 250 / 0.1),
+    0px 1px 2px -1px oklch(0.1 0.01 250 / 0.08);
+  --shadow:
+    0px 1px 3px 0px oklch(0.1 0.01 250 / 0.12),
+    0px 1px 2px -1px oklch(0.1 0.01 250 / 0.08);
+  --shadow-md:
+    0px 4px 6px -1px oklch(0.1 0.01 250 / 0.1),
+    0px 2px 4px -2px oklch(0.1 0.01 250 / 0.08);
+  --shadow-lg:
+    0px 10px 15px -3px oklch(0.1 0.01 250 / 0.1),
+    0px 4px 6px -4px oklch(0.1 0.01 250 / 0.08);
+  --shadow-xl:
+    0px 20px 25px -5px oklch(0.1 0.01 250 / 0.1),
+    0px 8px 10px -6px oklch(0.1 0.01 250 / 0.08);
   --shadow-2xl: 0px 25px 50px -12px oklch(0.1 0.01 250 / 0.25);
 }
 
@@ -117,7 +127,8 @@
   /* Deep Cinematic Ambient Shadows for Floating Cards & Posters */
   --shadow-2xs: 0px 1px 2px 0px oklch(0 0 0 / 0.4);
   --shadow-xs: 0px 2px 4px 0px oklch(0 0 0 / 0.5);
-  --shadow-sm: 0px 2px 4px 0px oklch(0 0 0 / 0.5), 0px 1px 2px -1px oklch(0 0 0 / 0.5);
+  --shadow-sm:
+    0px 2px 4px 0px oklch(0 0 0 / 0.5), 0px 1px 2px -1px oklch(0 0 0 / 0.5);
   --shadow: 0px 4px 12px 0px oklch(0 0 0 / 0.6);
   --shadow-md: 0px 6px 16px 0px oklch(0 0 0 / 0.65);
   --shadow-lg: 0px 12px 28px 0px oklch(0 0 0 / 0.7);
@@ -182,12 +193,6 @@
   }
   body {
     @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground;
-  }
-
-  :root {
-    --font-heading: var(--font-inter, sans-serif);
-    --font-body: var(--font-inter, sans-serif);
-    --font-mono: var(--font-roboto-mono, monospace);
   }
 
   h1 {

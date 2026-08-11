@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 import { AUTH_CONFIG } from "@/domains/linker/constants/auth.constants";
-import type { Session } from "@/domains/portfolio/types/auth.types";
+import type { Session } from "@/domains/linker/types/auth.types";
 
 /**
  * Session Service
