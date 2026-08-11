@@ -25,9 +25,7 @@ const WatchListCard = ({ movie, userId }: Props) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute inset-0 bg-linear-to-t from-background/90 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-          <h2 className="text-base font-semibold text-foreground mb-1 tracking-tight line-clamp-1">
-            {title}
-          </h2>
+          <h2 className="text-base font-semibold text-foreground mb-1 tracking-tight line-clamp-1">{title}</h2>
           <div className="flex justify-between items-center mt-2">
             <span className="text-xs font-medium text-muted-foreground">
               {release_date ? new Date(release_date).getFullYear() : "Unknown"}

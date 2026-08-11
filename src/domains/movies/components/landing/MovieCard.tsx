@@ -7,8 +7,8 @@ type Props = {
   movie: TMDBMovie;
 };
 
-const MovieCard = async ({movie }: Props) => {
-  const {id, title, poster_path, release_date} = movie
+const MovieCard = async ({ movie }: Props) => {
+  const { id, title, poster_path, release_date } = movie;
   return (
     <div className="shrink-0 w-48 cursor-pointer group transition-transform">
       <Link href={`${AUTH_CONFIG.ROUTES.HOME}/${id}`}>

@@ -135,7 +135,7 @@ export const projects: Project[] = [
     id: "Movies",
     title: "Movies",
     description:
-      "Explore millions of movies, TV shows, and cast details powered by TMDB. Find trending films, ratings, trailers, and discover what to watch next.",
+      "Explore millions of movies, TV shows, and cast details powered by TMDB. Compare 3 movies side by side. Add movies to watch later list.",
     category: "Next.js",
     featured: true,
     screenshots: {
@@ -152,8 +152,9 @@ export const projects: Project[] = [
       { name: "TypeScript", icon: TypescriptIcon },
       { name: "Tailwind CSS", icon: TailwindIcon },
       { name: "Axios", icon: AxiosIcon },
-      { name: "Tanstack Query", icon: TanstackQueryIcon },
       { name: "Shadcn", icon: ShadcnIcon },
+      { name: "Tanstack Query", icon: TanstackQueryIcon },
+      { name: "MongoDB", icon: MongodbIcon },
     ],
     demo: PORTFO_CONFIG.PROJECTS.MOVIES,
     github: PORTFO_CONFIG.PROJECTS_GITHUB.MOVIES,
@@ -162,7 +163,7 @@ export const projects: Project[] = [
 
 export const archiveStats = [
   {
-    count: 22,
+    count: 19,
     label: "React / Vite Apps",
     icon: ReactIcon,
   },
@@ -178,4 +179,4 @@ export const archiveStats = [
   },
 ];
 
-export const totalArchiveProjects = 39;
+export const totalArchiveProjects = 36;

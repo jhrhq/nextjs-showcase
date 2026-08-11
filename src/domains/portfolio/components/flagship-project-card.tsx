@@ -1,4 +1,4 @@
-import { Activity, ArrowUpRight, Code2, Globe, Layers, Zap } from "lucide-react";
+import { Activity, ArrowUpRight, Code2, Globe, Layers, Zap, ZapIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -90,6 +90,7 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
     { name: "Axios", icon: AxiosIcon },
     { name: "Tanstack Query", icon: TanstackQueryIcon },
     { name: "Zustand", icon: Activity },
+    { name: "Zod", icon: ZapIcon },
     { name: "Shadcn", icon: ShadcnIcon },
     { name: "TipTapEditor", icon: TipTapEditorIcon },
     { name: "Vite", icon: ViteIcon },

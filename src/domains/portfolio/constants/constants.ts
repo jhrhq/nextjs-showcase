@@ -1,6 +1,7 @@
 export const PORTFO_CONFIG = {
   ROUTES: {
     HOME: "/",
+    PROJECTS: "/portfolio/projects",
   },
   SOCIAL: {
     GITHUB: "https://github.com/jhrhq",
