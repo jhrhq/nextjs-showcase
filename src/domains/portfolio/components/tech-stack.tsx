@@ -4,6 +4,7 @@ import {
   JavascriptIcon,
   NextjsIcon,
   ReactIcon,
+  ReactRouterIcon,
   ReduxIcon,
   TailwindIcon,
   TanstackQueryIcon,
@@ -42,6 +43,10 @@ const technologies = [
     icon: ViteIcon,
   },
   {
+    name: "React Router",
+    icon: ReactRouterIcon,
+  },
+  {
     name: "Typescript",
     icon: TypescriptIcon,
   },
@@ -63,7 +68,7 @@ export function TechStack() {
   return (
     <section id="stack" className="border-y border-border">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-11">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-12">
           {technologies.map((technology) => {
             const Icon = technology.icon;
 
