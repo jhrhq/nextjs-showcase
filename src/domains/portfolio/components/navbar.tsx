@@ -3,7 +3,7 @@ import { ModeToggle } from "@/ui/shared/theme-toggle";
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
         {/* Brand */}
         <Link
@@ -15,12 +15,19 @@ export function Navbar() {
 
         {/* Navigation */}
         <nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
-          <Link href="#projects" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Projects
-          </Link>
-
           <Link href="#stack" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
             Stack
+          </Link>
+
+          <Link
+            href="#featured-projects"
+            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Featured Projects
+          </Link>
+
+          <Link href="/projects" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+            Projects
           </Link>
 
           <Link href="#contact" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
@@ -42,6 +49,6 @@ export function Navbar() {
           <ModeToggle />
         </div>
       </div>
-    </header>
+    </nav>
   );
 }
