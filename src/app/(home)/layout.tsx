@@ -27,7 +27,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" className={inter.variable} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider attribute="class">{children}</ThemeProvider>
         <Toaster richColors={true} closeButton={true} />

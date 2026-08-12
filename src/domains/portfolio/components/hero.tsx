@@ -34,7 +34,7 @@ export function Hero() {
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link
-              href="#projects"
+              href="#featured-projects"
               className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
             >
               Explore Flagship Work

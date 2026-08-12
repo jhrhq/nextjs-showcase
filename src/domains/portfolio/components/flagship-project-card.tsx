@@ -13,10 +13,12 @@ import type {
   ProjectScreenshots,
   TechItem,
 } from "@/domains/portfolio/types/project.types";
+import { cn } from "@/lib/utils";
 import {
   AxiosIcon,
   GithubIcon,
   ReactIcon,
+  ReactRouterIcon,
   ShadcnIcon,
   TailwindIcon,
   TanstackQueryIcon,
@@ -62,10 +64,22 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
     </p>,
   ],
   callout: (
-    <p>
-      <span className="font-medium text-foreground">Portfolio Recreation:</span> The original product, reimagined as a
-      streamlined client-side <span className="font-medium text-foreground">Next.js</span> experience.
-    </p>
+    <>
+      <div className="mt-5 rounded-lg border border-border bg-muted/30 px-4 py-3">
+        <p className="text-xs leading-6 text-muted-foreground">
+          <span className="font-medium text-foreground">Portfolio Recreation:</span> The original product, reimagined as
+          a streamlined client-side <span className="font-medium text-foreground">Next.js</span> experience.
+        </p>
+      </div>
+
+      <Link
+        href="/linkboss-architecture"
+        className="group mt-3 inline-flex items-center gap-1.5 px-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+      >
+        Explore the engineering decisions
+        <ArrowUpRight className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+      </Link>
+    </>
   ),
   highlights: [
     {
@@ -91,6 +105,7 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
     { name: "Axios", icon: AxiosIcon },
     { name: "Tanstack Query", icon: TanstackQueryIcon },
     { name: "Zustand", icon: Activity },
+    { name: "React Router", icon: ReactRouterIcon },
     { name: "Zod", icon: ZodIcon },
     { name: "Shadcn", icon: ShadcnIcon },
     { name: "TipTapEditor", icon: TipTapEditorIcon },
@@ -102,18 +117,18 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
 export function ProjectActionLinks({ links }: { links: ProjectLinks }) {
   return (
     <div className="flex shrink-0 items-start gap-2">
-      {links.website && (
-        <Button variant="outline" size="icon" className="size-10" asChild>
-          <Link href={links.website} target="_blank" rel="noreferrer" aria-label="Visit project website">
-            <Globe className="size-4" />
-          </Link>
-        </Button>
-      )}
-
       {links.github && (
         <Button variant="outline" size="icon" className="size-10" asChild>
           <Link href={links.github} target="_blank" aria-label="Explore GitHub repository">
             <GithubIcon className="size-4" />
+          </Link>
+        </Button>
+      )}
+
+      {links.website && (
+        <Button variant="outline" size="icon" className="size-10" asChild>
+          <Link href={links.website} target="_blank" rel="noreferrer" aria-label="Visit project website">
+            <Globe className="size-4" />
           </Link>
         </Button>
       )}
@@ -125,6 +140,12 @@ export function ProjectActionLinks({ links }: { links: ProjectLinks }) {
           </Link>
         </Button>
       )}
+
+      {/*<Button size="icon" className="size-10" asChild>
+        <Link href={"/linkboss"} target="_blank" aria-label="Explore project live demo">
+          <ArrowUpRight className="size-4" />
+        </Link>
+      </Button>*/}
     </div>
   );
 }
@@ -179,10 +200,12 @@ export const TechBadgeList = ({
   technologies,
   iconSize = 14,
   className = "mt-6 flex flex-wrap gap-2",
+  badgeClassName = "",
 }: {
   technologies: TechItem[];
   iconSize?: number;
   className?: string;
+  badgeClassName?: string;
 }) => {
   return (
     <div className={className}>
@@ -192,7 +215,7 @@ export const TechBadgeList = ({
           <Badge
             key={tech.name}
             variant="secondary"
-            className="gap-1.5 h-6 text-[10px] bg-background text-muted-foreground"
+            className={cn("gap-1.5 h-6 text-[10px] bg-background text-muted-foreground", badgeClassName)}
           >
             {IconComponent && <IconComponent size={iconSize} />}
             {tech.name}
@@ -246,11 +269,7 @@ export function FlagshipProjectCard() {
               ))}
             </div>
 
-            {FLAGSHIP_PROJECT_DATA.callout && (
-              <div className="mt-5 rounded-lg border border-border bg-muted/30 px-4 py-3">
-                <div className="text-xs leading-5 text-muted-foreground">{FLAGSHIP_PROJECT_DATA.callout}</div>
-              </div>
-            )}
+            {FLAGSHIP_PROJECT_DATA.callout && FLAGSHIP_PROJECT_DATA.callout}
           </div>
         </div>
 

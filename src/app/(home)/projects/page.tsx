@@ -1,6 +1,7 @@
 "use client";
 
-import { Search, X } from "lucide-react";
+import { ArrowLeft, Search, X } from "lucide-react";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,6 +53,10 @@ export default function ProjectsPage() {
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
           <div className="grid gap-10 lg:grid-cols-[1fr_380px] lg:items-end">
             <div>
+              <Link href="/" className="group inline-flex items-center gap-2 text-sm font-medium mb-4">
+                <ArrowLeft className="size-4 text-muted-foreground transition-transform group-hover:-translate-x-1" />
+                Home
+              </Link>
               <p className=" mb-5 font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground ">
                 Project archive / 2020—2026
               </p>

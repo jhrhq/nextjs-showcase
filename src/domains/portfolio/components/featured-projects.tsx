@@ -6,7 +6,7 @@ const standardProjects = projects.filter((project) => project.id !== "flagship-s
 
 export function FeaturedProjects() {
   return (
-    <section id="projects" className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8">
+    <section id="featured-projects" className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8">
       <div className="mb-12 max-w-2xl">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">01 / Featured Work</p>
 
