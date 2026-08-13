@@ -55,7 +55,7 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
       </Link>
       , a production SaaS platform, for <strong className="text-foreground">3</strong> years. I translated product ideas
       into the complete frontend application, owning the architecture, technical decisions, API integrations, and
-      ongoing development from the ground up.
+      evolution from the ground up.
     </p>,
     <p key="2">
       As the sole frontend developer, I designed and maintained the application's core data flows and complex
@@ -76,7 +76,7 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
         href="/linkboss-architecture"
         className="group mt-3 inline-flex items-center gap-1.5 px-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
       >
-        Explore the engineering decisions
+        Explore the engineering case study{" "}
         <ArrowUpRight className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
       </Link>
     </>
@@ -93,8 +93,8 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
       icon: Layers,
     },
     {
-      title: "Production Scale",
-      description: "Optimized rendering and seamless API integrations.",
+      title: "Data-Driven Interfaces",
+      description: "Complex workflows, tables, forms, and API integrations.",
       icon: Zap,
     },
   ],
@@ -107,8 +107,8 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
     { name: "Zustand", icon: Activity },
     { name: "React Router", icon: ReactRouterIcon },
     { name: "Zod", icon: ZodIcon },
-    { name: "Shadcn", icon: ShadcnIcon },
-    { name: "TipTapEditor", icon: TipTapEditorIcon },
+    { name: "Shadcn/ui", icon: ShadcnIcon },
+    { name: "TipTap Editor", icon: TipTapEditorIcon },
     { name: "Tanstack Table", icon: TanstackQueryIcon },
     { name: "Vite", icon: ViteIcon },
   ],

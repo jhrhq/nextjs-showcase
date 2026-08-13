@@ -60,8 +60,8 @@ const technologies = [
   { name: "Zustand", icon: Activity },
   { name: "React Router", icon: ReactRouterIcon },
   { name: "Zod", icon: ZodIcon },
-  { name: "Shadcn", icon: ShadcnIcon },
-  { name: "TipTapEditor", icon: TipTapEditorIcon },
+  { name: "Shadcn/ui", icon: ShadcnIcon },
+  { name: "TipTap Editor", icon: TipTapEditorIcon },
   { name: "Tanstack Table", icon: TanstackQueryIcon },
   { name: "Vite", icon: ViteIcon },
 ];

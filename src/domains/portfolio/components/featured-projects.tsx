@@ -15,8 +15,8 @@ export function FeaturedProjects() {
         </h2>
 
         <p className="mt-4 text-sm leading-6 text-muted-foreground">
-          From production SaaS architecture to full-stack products and frontend experiments, these projects represent
-          the depth and range of my development experience.
+          From production SaaS architecture to full-stack products and frontend experiments, these projects showcase how
+          I approach complex interfaces, data-driven applications, and modern frontend architecture.
         </p>
       </div>
 
