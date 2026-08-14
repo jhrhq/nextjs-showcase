@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ModeToggle } from "@/ui/shared/theme-toggle";
 
+const NAVIGATIONS = ["About me", "Profile", "Experience", "Work", "Technology", "Education", "Learning"];
+
 export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
@@ -15,37 +17,15 @@ export function Navbar() {
 
         {/* Navigation */}
         <nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
-          <Link href="#stack" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Stack
-          </Link>
-
-          <Link
-            href="#featured-projects"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Featured Projects
-          </Link>
-
-          <Link href="#archive" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Archive
-          </Link>
-
-          <Link href="#contact" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Contact
-          </Link>
-
-          <Link
-            href="/projects"
-            className="inline-flex gap-0.5 items-center text-sm text-muted-foreground transition-opacity hover:text-foreground"
-          >
-            Projects
-          </Link>
-          <Link
-            href="/about"
-            className="inline-flex gap-0.5 items-center text-sm text-muted-foreground transition-opacity hover:text-foreground"
-          >
-            About me
-          </Link>
+          {NAVIGATIONS.map((nav) => (
+            <Link
+              key={nav}
+              href={`#${nav}`}
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {nav}
+            </Link>
+          ))}
         </nav>
 
         {/* Actions */}

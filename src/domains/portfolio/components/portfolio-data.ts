@@ -81,7 +81,7 @@ export const projects: Project[] = [
     id: "hotel-booking",
     title: "Hotel Booking Platform",
     description:
-      "A full-stack booking experience covering property discovery, availability, guest management, booking workflows, and responsive interfaces.",
+      "A full-stack booking experience covering property discovery, availability, guest management, booking workflows, authentication, payments, and responsive interfaces.",
     category: "Next.js",
     featured: true,
     technologies: [
@@ -152,7 +152,7 @@ export const projects: Project[] = [
       { name: "TypeScript", icon: TypescriptIcon },
       { name: "Tailwind CSS", icon: TailwindIcon },
       { name: "Axios", icon: AxiosIcon },
-      { name: "Shadcn", icon: ShadcnIcon },
+      { name: "Shadcn/ui", icon: ShadcnIcon },
       { name: "Tanstack Query", icon: TanstackQueryIcon },
       { name: "MongoDB", icon: MongodbIcon },
     ],
@@ -179,4 +179,4 @@ export const archiveStats = [
   },
 ];
 
-export const totalArchiveProjects = 36;
+export const totalArchiveProjects = 40;

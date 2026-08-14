@@ -28,7 +28,6 @@ interface ProjectImageProps {
   className?: string;
 }
 
-import { motion } from "motion/react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
@@ -60,8 +59,8 @@ const technologies = [
   { name: "Zustand", icon: Activity },
   { name: "React Router", icon: ReactRouterIcon },
   { name: "Zod", icon: ZodIcon },
-  { name: "Shadcn", icon: ShadcnIcon },
-  { name: "TipTapEditor", icon: TipTapEditorIcon },
+  { name: "Shadcn/ui", icon: ShadcnIcon },
+  { name: "TipTap Editor", icon: TipTapEditorIcon },
   { name: "Tanstack Table", icon: TanstackQueryIcon },
   { name: "Vite", icon: ViteIcon },
 ];
@@ -183,12 +182,7 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px bg-border/30 lg:block" />
 
       <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-4xl"
-        >
+        <div className="max-w-4xl">
           <div className="mb-6 flex items-center gap-2 text-xs font-medium text-muted-foreground">
             <span className="size-1.5 rounded-full bg-primary" />
             Engineering Case Study
@@ -210,7 +204,7 @@ export function Hero() {
             <Badge variant="outline">20–30 Routes</Badge>
             <Badge variant="outline">React SPA</Badge>
           </div>
-        </motion.div>
+        </div>
 
         <div className="mt-16 grid overflow-hidden rounded-xl border border-border sm:grid-cols-3">
           <Metric value="01" label="Frontend Owner" />
@@ -329,16 +323,7 @@ export function ProductGrowth() {
           const Icon = module.icon;
 
           return (
-            <motion.div
-              key={module.title}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{
-                duration: 0.35,
-                delay: index * 0.04,
-              }}
-            >
+            <div key={index}>
               <Card className="h-full transition-colors hover:bg-muted/40">
                 <CardHeader>
                   <IconBox icon={Icon} />
@@ -350,7 +335,7 @@ export function ProductGrowth() {
                   <p className="text-sm leading-7 text-muted-foreground">{module.description}</p>
                 </CardContent>
               </Card>
-            </motion.div>
+            </div>
           );
         })}
       </div>

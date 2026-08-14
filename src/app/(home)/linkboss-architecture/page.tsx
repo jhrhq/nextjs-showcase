@@ -1,5 +1,4 @@
-"use client";
-
+import type { Metadata } from "next";
 import {
   ArchitectureEvolution,
   ComplexInterfaces,
@@ -15,6 +14,19 @@ import {
   TechnologyEvolution,
   Visualization,
 } from "@/domains/portfolio/components/linkboss";
+
+export const metadata: Metadata = {
+  title: "Linkboss — Engineering Case Study | Johir Haque",
+  description:
+    "A technical case study covering the architecture, tooling evolution, complex data-driven interfaces, state management, API integration, and engineering challenges behind three years of Linkboss SaaS development.",
+  openGraph: {
+    title: "Linkboss — Engineering Case Study | Johir Haq",
+    description:
+      "A technical walkthrough of the engineering decisions and challenges behind three years of Linkboss SaaS development.",
+    type: "article",
+    url: "/linkboss-architecture",
+  },
+};
 
 export default function LinkbossArchitecturePage() {
   return (
