@@ -26,12 +26,25 @@ export function Navbar() {
             Featured Projects
           </Link>
 
-          <Link href="/projects" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Projects
+          <Link href="#archive" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+            Archive
           </Link>
 
           <Link href="#contact" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
             Contact
+          </Link>
+
+          <Link
+            href="/projects"
+            className="inline-flex gap-0.5 items-center text-sm text-muted-foreground transition-opacity hover:text-foreground"
+          >
+            Projects
+          </Link>
+          <Link
+            href="/about"
+            className="inline-flex gap-0.5 items-center text-sm text-muted-foreground transition-opacity hover:text-foreground"
+          >
+            About me
           </Link>
         </nav>
 

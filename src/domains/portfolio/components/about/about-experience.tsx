@@ -2,6 +2,7 @@ import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { SectionLabel } from "./section-label";
 
@@ -18,7 +19,7 @@ const ownership = [
 
 export function AboutExperience() {
   return (
-    <section className="border-b border-border">
+    <section id="Experience" className="border-b border-border">
       <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[180px_1fr]">
           <SectionLabel number="02" label="Experience" />
@@ -70,17 +71,25 @@ export function AboutExperience() {
                 </div>
 
                 <div className="mt-8 border-t border-border pt-6">
-                  <Link
-                    href="/projects/linkboss/architecture"
-                    className="group inline-flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-                  >
-                    Explore the Linkboss engineering case study
-                    <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </Link>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <Button asChild>
+                      <Link href="/linkboss">
+                        View Recreation
+                        <ArrowUpRight className="size-4" />
+                      </Link>
+                    </Button>
 
-                  <p className="mt-2 max-w-2xl text-xs leading-5 text-muted-foreground">
-                    Architecture decisions, tooling evolution, complex interfaces, state management, and lessons from
-                    three years of development.
+                    <Button asChild variant="outline">
+                      <Link href="/linkboss-architecture">
+                        Engineering Case Study
+                        <ArrowUpRight className="size-4" />
+                      </Link>
+                    </Button>
+                  </div>
+
+                  <p className="mt-3 max-w-2xl text-xs leading-5 text-muted-foreground">
+                    A deeper look at the architecture, technical decisions, and challenges behind three years of
+                    development.
                   </p>
                 </div>
               </CardContent>

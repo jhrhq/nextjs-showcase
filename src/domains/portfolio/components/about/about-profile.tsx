@@ -2,7 +2,7 @@ import { SectionLabel } from "./section-label";
 
 export function AboutProfile() {
   return (
-    <section className="border-b border-border">
+    <section id="Profile" className="border-b border-border">
       <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[180px_1fr]">
           <SectionLabel number="01" label="Profile" />

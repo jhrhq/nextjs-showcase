@@ -6,18 +6,13 @@ import { SectionLabel } from "./section-label";
 
 export function AboutEducation() {
   return (
-    <section className="border-b border-border">
+    <section id="Education" className="border-b border-border">
       <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[180px_1fr]">
           <SectionLabel number="05" label="Education" />
 
           <div className="max-w-3xl">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">A foundation beyond code.</h2>
-
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
-              My academic background is in English, which has also shaped how I approach communication, documentation,
-              and understanding product requirements.
-            </p>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl"> Academic background</h2>
 
             <Card className="mt-8">
               <CardContent className="flex items-center gap-4 p-6 sm:p-7">

@@ -33,7 +33,7 @@ const principles = [
 
 export function AboutApproach() {
   return (
-    <section className="border-b border-border">
+    <section id="Work" className="border-b border-border">
       <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[180px_1fr]">
           <SectionLabel number="03" label="How I Work" />
