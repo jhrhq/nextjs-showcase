@@ -19,7 +19,7 @@ const learning = [
 
 export function AboutLearning() {
   return (
-    <section id="Learning" className="border-b border-border">
+    <section id="learning" className="border-b border-border">
       <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[180px_1fr]">
           <SectionLabel number="06" label="Learning" />
@@ -53,13 +53,6 @@ export function AboutLearning() {
                   </Card>
                 );
               })}
-            </div>
-
-            <div className="mt-8 rounded-lg border border-border bg-muted/20 px-5 py-4">
-              <p className="text-sm leading-6 text-muted-foreground">
-                <span className="font-medium text-foreground">Currently learning:</span> Node.js, Express, SQL, and
-                MongoDB to expand my frontend experience toward full-stack application development.
-              </p>
             </div>
           </div>
         </div>
