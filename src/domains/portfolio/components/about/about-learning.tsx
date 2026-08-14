@@ -54,13 +54,6 @@ export function AboutLearning() {
                 );
               })}
             </div>
-
-            <div className="mt-8 rounded-lg border border-border bg-muted/20 px-5 py-4">
-              <p className="text-sm leading-6 text-muted-foreground">
-                <span className="font-medium text-foreground">Currently learning:</span> Node.js, Express, SQL, and
-                MongoDB to expand my frontend experience toward full-stack application development.
-              </p>
-            </div>
           </div>
         </div>
       </div>
