@@ -5,7 +5,7 @@ import { PORTFO_CONFIG } from "../../constants/constants";
 
 export function AboutHero() {
   return (
-    <section id="About me" className="relative overflow-hidden border-b border-border">
+    <section id="About-me" className="relative overflow-hidden border-b border-border">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 flex justify-center">
         <div className="size-96 rounded-full bg-muted/50 blur-3xl dark:bg-muted/20" />
       </div>

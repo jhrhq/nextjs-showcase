@@ -1,5 +1,29 @@
+import { Menu } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ModeToggle } from "@/ui/shared/theme-toggle";
+
+const NAVIGATIONS = [
+  { label: "Stack", href: "#stack" },
+  { label: "Featured Projects", href: "#featured-projects" },
+  { label: "Archive", href: "#archive" },
+  { label: "Contact", href: "#contact" },
+  { label: "Projects", href: "/projects" },
+  { label: "About me", href: "/about" },
+] as const;
+
+function AvailabilityBadge({ className = "" }: { className?: string }) {
+  return (
+    <div className={`flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 ${className}`}>
+      <span className="relative flex size-2">
+        <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-60" />
+        <span className="relative inline-flex size-2 rounded-full bg-primary" />
+      </span>
+      <span className="text-xs font-medium text-muted-foreground">Available for Hire</span>
+    </div>
+  );
+}
 
 export function Navbar() {
   return (
@@ -13,53 +37,73 @@ export function Navbar() {
           &lt;Jhr /&gt;
         </Link>
 
-        {/* Navigation */}
+        {/* Desktop Navigation */}
         <nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
-          <Link href="#stack" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Stack
-          </Link>
-
-          <Link
-            href="#featured-projects"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Featured Projects
-          </Link>
-
-          <Link href="#archive" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Archive
-          </Link>
-
-          <Link href="#contact" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Contact
-          </Link>
-
-          <Link
-            href="/projects"
-            className="inline-flex gap-0.5 items-center text-sm text-muted-foreground transition-opacity hover:text-foreground"
-          >
-            Projects
-          </Link>
-          <Link
-            href="/about"
-            className="inline-flex gap-0.5 items-center text-sm text-muted-foreground transition-opacity hover:text-foreground"
-          >
-            About me
-          </Link>
+          {NAVIGATIONS.map(({ label, href }) => (
+            <Link
+              key={label}
+              href={href}
+              className="inline-flex items-center gap-0.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {label}
+            </Link>
+          ))}
         </nav>
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <div className="hidden items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 sm:flex">
-            <span className="relative flex size-2">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-60" />
-              <span className="relative inline-flex size-2 rounded-full bg-primary" />
-            </span>
-
-            <span className="text-xs font-medium text-muted-foreground">Available for Hire</span>
-          </div>
+          <AvailabilityBadge className="hidden sm:flex" />
 
           <ModeToggle />
+
+          {/* Mobile Navigation Sheet */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" aria-label="Open navigation menu" className="md:hidden">
+                <Menu className="size-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[min(85vw,380px)] border-l border-border bg-background p-0">
+              <SheetHeader className="border-b border-border px-6 py-5 text-left">
+                <SheetTitle className="text-base font-semibold">&lt;Jhr /&gt;</SheetTitle>
+                <SheetDescription className="text-xs text-muted-foreground">Frontend Developer</SheetDescription>
+              </SheetHeader>
+
+              <div className="flex flex-1 flex-col px-4 py-6">
+                {/* Mobile Availability Badge */}
+                <div className="mb-6 flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-3 sm:hidden">
+                  <span className="relative flex size-2">
+                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-500 opacity-75" />
+                    <span className="relative inline-flex size-2 rounded-full bg-green-500" />
+                  </span>
+                  <span className="text-sm font-medium">Available for Hire</span>
+                </div>
+
+                {/* Mobile Navigation Links */}
+                <nav className="flex flex-col gap-1">
+                  {NAVIGATIONS.map(({ label, href }) => (
+                    <Link
+                      key={label}
+                      href={href}
+                      className="rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </nav>
+
+                {/* Contact CTA */}
+                <div className="mt-auto border-t border-border pt-6">
+                  <Link
+                    href="#contact"
+                    className="flex h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                  >
+                    Get in Touch
+                  </Link>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </nav>
