@@ -23,7 +23,7 @@ export function AboutHero() {
 
           <div className="mt-8 max-w-3xl space-y-4">
             <p className="text-base leading-8 text-muted-foreground sm:text-lg">
-              I&apos;m Johir Haque, a frontend developer with professional experience building production SaaS
+              I&apos;m Johir Haq, a frontend developer with professional experience building production SaaS
               applications. My work has primarily centered around React and TypeScript, with a strong focus on
               application architecture, data-driven interfaces, and thoughtful user experiences.
             </p>

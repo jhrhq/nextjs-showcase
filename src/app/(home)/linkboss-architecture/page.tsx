@@ -16,7 +16,7 @@ import {
 } from "@/domains/portfolio/components/linkboss";
 
 export const metadata: Metadata = {
-  title: "Linkboss — Engineering Case Study | Johir Haque",
+  title: "Linkboss — Engineering Case Study | Johir Haq",
   description:
     "A technical case study covering the architecture, tooling evolution, complex data-driven interfaces, state management, API integration, and engineering challenges behind three years of Linkboss SaaS development.",
   openGraph: {
