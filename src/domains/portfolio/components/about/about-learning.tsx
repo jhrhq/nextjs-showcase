@@ -20,7 +20,7 @@ const learning = [
 export function AboutLearning() {
   return (
     <section id="learning" className="border-b border-border">
-      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
+      <div className="py-20 sm:py-24">
         <div className="grid gap-10 lg:grid-cols-[180px_1fr]">
           <SectionLabel number="06" label="Learning" />
 

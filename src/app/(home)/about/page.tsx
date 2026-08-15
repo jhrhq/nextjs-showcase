@@ -28,7 +28,7 @@ export default function AboutPage() {
     <>
       <Navbar />
 
-      <main>
+      <main className="container mx-auto">
         <AboutHero />
         <AboutProfile />
         <AboutExperience />

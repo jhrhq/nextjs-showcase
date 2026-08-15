@@ -34,7 +34,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <article className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ">
       <div className="relative h-48 overflow-hidden border-b border-border bg-muted">
         <ProjectScreenshotPreview screenshots={project.screenshots} />
         <span className="absolute right-4 top-4 rounded-full border border-border bg-background px-2.5 py-1 text-[10px] font-medium text-muted-foreground">
@@ -52,7 +52,31 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
           <ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-foreground" />
         </div>
+        <div className="flex shrink-0 items-center gap-2    ">
+          {project.github && (
+            <Link
+              href={project.github}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${project.title} GitHub`}
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <GithubIcon />{" "}
+            </Link>
+          )}
 
+          {project.demo && (
+            <Link
+              href={project.demo}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${project.title} live demo`}
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <Globe className="size-7 stroke-[1.3]" />
+            </Link>
+          )}
+        </div>
         <div className="mt-auto flex items-end justify-between gap-4 pt-6">
           <div className="flex flex-wrap gap-1.5">
             {project.technologies.map((technology) => {
@@ -68,32 +92,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 </Badge>
               );
             })}
-          </div>
-
-          <div className="flex shrink-0 items-center gap-2">
-            {project.github && (
-              <Link
-                href={project.github}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`${project.title} GitHub`}
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <GithubIcon />{" "}
-              </Link>
-            )}
-
-            {project.demo && (
-              <Link
-                href={project.demo}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`${project.title} live demo`}
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <Globe className="size-7 stroke-[1.3]" />
-              </Link>
-            )}
           </div>
         </div>
       </div>
