@@ -67,7 +67,7 @@ const technologies = [
 export function TechStack() {
   return (
     <section id="stack" className="border-y border-border">
-      <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div>
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-12">
           {technologies.map((technology) => {
             const Icon = technology.icon;
@@ -75,7 +75,7 @@ export function TechStack() {
             return (
               <div
                 key={technology.name}
-                className="group flex h-28 flex-col items-center justify-center gap-3 border-b border-r border-border text-muted-foreground transition-colors hover:bg-card hover:text-foreground lg:border-b-0"
+                className="group flex h-28 flex-col items-center justify-center gap-3 border-b border-r border-border text-muted-foreground transition-colors hover:bg-card hover:text-foreground last:border-r-0 lg:border-b-0"
               >
                 <Icon className="size-5 transition-transform duration-300 group-hover:scale-110" />
 

@@ -4,7 +4,7 @@ import { PORTFO_CONFIG } from "../constants/constants";
 export function ContactCard() {
   return (
     <section className="border-t border-border">
-      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10 lg:py-16">
+      <div className="py-12 lg:py-16">
         <div className=" flex flex-col gap-6 rounded-2xl border border-border bg-muted/30 p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between lg:p-10 ">
           {/* Content */}
           <div className="flex items-start gap-4">

@@ -8,7 +8,7 @@ import { PORTFO_CONFIG } from "../../constants/constants";
 export function AboutContact() {
   return (
     <section>
-      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <div className="py-20 sm:py-28">
         <Card className="overflow-hidden">
           <CardContent className="p-7 sm:p-10 lg:p-12">
             <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">

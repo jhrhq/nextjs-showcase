@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.7/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.8/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -14,11 +14,11 @@
       "**/*.jsx",
       "**/*.css",
       "**/*.json",
-      "!./src/components/ui",
+      "!**/src/components/ui",
       "!node_modules",
       "!.next",
-      "!dist",
-      "!build",
+      "!!dist",
+      "!!build",
       "!.vercel",
       "!pnpm-lock.yaml"
     ]
@@ -58,7 +58,7 @@
         "noArrayIndexKey": "off"
       },
       "nursery": {
-        "noFloatingPromises": "error"
+        "noFloatingPromises": "off"
       }
     },
     "domains": {

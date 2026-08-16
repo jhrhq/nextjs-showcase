@@ -31,7 +31,7 @@ export async function refreshAccessToken(): Promise<string | null> {
     const data = await response.json();
     localStorage.setItem(ACCESS_KEY, data.token);
     return data.token;
-  } catch (error) {
+  } catch (_error) {
     clearTokens();
     return null;
   }

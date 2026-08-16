@@ -10,7 +10,7 @@ export function AboutHero() {
         <div className="size-96 rounded-full bg-muted/50 blur-3xl dark:bg-muted/20" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
+      <div className="py-20 sm:py-28 lg:py-32">
         <div className="max-w-5xl">
           <div className="mb-7 flex items-center gap-2 text-xs font-medium text-muted-foreground">
             <span className="size-1.5 rounded-full bg-primary" />
@@ -23,7 +23,7 @@ export function AboutHero() {
 
           <div className="mt-8 max-w-3xl space-y-4">
             <p className="text-base leading-8 text-muted-foreground sm:text-lg">
-              I&apos;m Johir Haque, a frontend developer with professional experience building production SaaS
+              I&apos;m Johir Haq, a frontend developer with professional experience building production SaaS
               applications. My work has primarily centered around React and TypeScript, with a strong focus on
               application architecture, data-driven interfaces, and thoughtful user experiences.
             </p>

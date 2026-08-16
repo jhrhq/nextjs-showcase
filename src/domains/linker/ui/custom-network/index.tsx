@@ -166,7 +166,7 @@ export default function NetworkItemPage() {
 
   const query = useCustomNetworks(projectId);
 
-  const [viewMode, setViewMode] = useState<ViewMode>("filled");
+  const [viewMode, _setViewMode] = useState<ViewMode>("filled");
 
   const createNetworkItemPath = `${AUTH_CONFIG.ROUTES.DASHBOARD}/${projectId}${AUTH_CONFIG.ROUTES.CUSTOM_NETWORK}${AUTH_CONFIG.ROUTES.CREATE_CUSTOM_NETWORK}`;
 

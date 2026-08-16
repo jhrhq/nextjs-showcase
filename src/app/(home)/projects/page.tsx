@@ -48,9 +48,9 @@ export default function ProjectsPage() {
   // const hasFilters = search.length > 0 || selectedTechnologies.length > 0;
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background container mx-auto px-4 sm:px-0">
       <section className="border-b border-border">
-        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
+        <div className=" py-16 lg:py-24">
           <div className="grid gap-10 lg:grid-cols-[1fr_380px] lg:items-end">
             <div>
               <Link href="/" className="group inline-flex items-center gap-2 text-sm font-medium mb-4">
@@ -74,7 +74,7 @@ export default function ProjectsPage() {
         </div>
       </section>
       <section className=" sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-xl ">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div>
           <div className=" flex min-h-16 flex-col justify-center gap-3 py-3 sm:flex-row sm:items-center sm:justify-between ">
             {/* Search */}
             <div className="relative w-full sm:max-w-sm">
@@ -120,7 +120,7 @@ export default function ProjectsPage() {
           )}
         </div>
       </section>
-      <section className="mx-auto max-w-7xl px-5 py-10 sm:px-8 lg:px-10 lg:py-14">
+      <section className=" py-10 lg:py-14">
         {filteredProjects.length > 0 ? (
           <ProjectGrid projects={filteredProjects} />
         ) : (

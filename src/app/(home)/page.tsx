@@ -18,7 +18,7 @@ export default function Home() {
     <>
       <Navbar />
 
-      <main>
+      <main className="container mx-auto">
         <Hero />
         <TechStack />
         <FeaturedProjects />

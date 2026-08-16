@@ -11,7 +11,7 @@ export function Hero() {
         <div className="size-96 rounded-full bg-muted/50 blur-3xl dark:bg-muted/20" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-5 pb-24 pt-24 sm:px-6 sm:pt-32 lg:px-8 lg:pb-36 lg:pt-40">
+      <div className="pb-24 pt-24 sm:pt-32 lg:pb-36 lg:pt-40">
         <div className="max-w-5xl">
           {/* Eyebrow */}
 
