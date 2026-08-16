@@ -1,3 +1,5 @@
+/** biome-ignore-all  lint/a11y/noSvgWithoutTitle: false flag */
+
 import type React from "react";
 import type { SVGProps } from "react";
 
