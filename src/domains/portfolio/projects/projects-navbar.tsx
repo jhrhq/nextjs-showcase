@@ -6,17 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/ui/shared/theme-toggle";
-import type { NavbarItem } from "../../types/project.types";
+import type { NavbarItem } from "../types/project.types";
 
 const NAV_ITEMS: NavbarItem[] = [
   { label: "Home", href: "/", type: "page" },
   { label: "About me", href: "/about", type: "page" },
-  { label: "Profile", href: "#profile", type: "section" },
-  { label: "Experience", href: "#experience", type: "section" },
-  { label: "Work", href: "#work", type: "section" },
-  { label: "Technology", href: "#technology", type: "section" },
-  { label: "Education", href: "#education", type: "section" },
-  { label: "Learning", href: "#learning", type: "section" },
   { label: "Projects", href: "/projects", type: "page" },
 ] as const;
 
@@ -32,7 +26,7 @@ function AvailabilityBadge({ className = "" }: { className?: string }) {
   );
 }
 
-export function Navbar() {
+export function ProjectsNavbar() {
   const pathname = usePathname();
 
   return (

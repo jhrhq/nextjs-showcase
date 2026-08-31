@@ -1,21 +1,26 @@
+"use client";
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/ui/shared/theme-toggle";
+import type { NavbarItem } from "../types/project.types";
 
-const NAVIGATIONS = [
-  { label: "Stack", href: "#stack" },
-  { label: "Featured Projects", href: "#featured-projects" },
-  { label: "Archive", href: "#archive" },
-  { label: "Contact", href: "#contact" },
-  { label: "Projects", href: "/projects" },
-  { label: "About me", href: "/about" },
+const NAV_ITEMS: NavbarItem[] = [
+  { label: "Home", href: "/", type: "section" },
+  { label: "Stack", href: "#stack", type: "section" },
+  { label: "Featured Projects", href: "#featured-projects", type: "section" },
+  { label: "Archive", href: "#archive", type: "section" },
+  { label: "Contact", href: "#contact", type: "section" },
+  { label: "Projects", href: "/projects", type: "page" },
+  { label: "About me", href: "/about", type: "page" },
 ] as const;
 
 function AvailabilityBadge({ className = "" }: { className?: string }) {
   return (
-    <div className={`flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 ${className}`}>
+    <div className={cn("flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5", className)}>
       <span className="relative flex size-2">
         <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-60" />
         <span className="relative inline-flex size-2 rounded-full bg-primary" />
@@ -26,6 +31,8 @@ function AvailabilityBadge({ className = "" }: { className?: string }) {
 }
 
 export function Navbar() {
+  const pathname = usePathname();
+
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
@@ -39,11 +46,14 @@ export function Navbar() {
 
         {/* Desktop Navigation */}
         <nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
-          {NAVIGATIONS.map(({ label, href }) => (
+          {NAV_ITEMS.map(({ label, href }) => (
             <Link
               key={label}
               href={href}
-              className="inline-flex items-center gap-0.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className={cn(
+                "inline-flex items-center gap-0.5 text-sm text-muted-foreground transition-colors hover:text-foreground",
+                pathname === href ? "text-primary font-semibold" : "text-muted-foreground"
+              )}
             >
               {label}
             </Link>
@@ -81,7 +91,7 @@ export function Navbar() {
 
                 {/* Mobile Navigation Links */}
                 <nav className="flex flex-col gap-1">
-                  {NAVIGATIONS.map(({ label, href }) => (
+                  {NAV_ITEMS.map(({ label, href }) => (
                     <Link
                       key={label}
                       href={href}
