@@ -30,8 +30,8 @@ import {
 
 const FLAGSHIP_PROJECT_DATA: ProjectData = {
   title: "Linkboss SaaS Frontend",
-  badgeLabel: "Commercial SaaS Product · Previous Role",
-  roleMeta: "Previous Role · 3 Years · Sole Frontend Developer",
+  badgeLabel: "Commercial SaaS Product ⋅ Previous Role",
+  roleMeta: "Previous Role ⋅ 3 Years ⋅ Sole Frontend Developer",
   links: {
     demo: PORTFO_CONFIG.PROFESSIONAL_PROJECTS.LINKBOSS,
     github: PORTFO_CONFIG.PROJECTS_GITHUB.LINKER,
@@ -116,27 +116,27 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
 
 export function ProjectActionLinks({ links }: { links: ProjectLinks }) {
   return (
-    <div className="flex shrink-0 items-start gap-2">
+    <div className="flex items-start gap-2">
       {links.github && (
-        <Button variant="outline" size="icon" className="size-10" asChild>
+        <Button variant="outline" size="icon" className="size-4 sm:size-10" asChild>
           <Link href={links.github} target="_blank" aria-label="Explore GitHub repository">
-            <GithubIcon className="size-4" />
+            <GithubIcon className="size-2 sm:size-4" />
           </Link>
         </Button>
       )}
 
       {links.website && (
-        <Button variant="outline" size="icon" className="size-10" asChild>
+        <Button variant="outline" size="icon" className="size-4 sm:size-10" asChild>
           <Link href={links.website} target="_blank" rel="noreferrer" aria-label="Visit project website">
-            <Globe className="size-4" />
+            <Globe className="size-2 sm:size-4" />
           </Link>
         </Button>
       )}
 
       {links.demo && (
-        <Button size="icon" className="size-10" asChild>
+        <Button size="icon" className="size-4 sm:size-10" asChild>
           <Link href={links.demo} target="_blank" aria-label="Explore project live demo">
-            <ArrowUpRight className="size-4" />
+            <ArrowUpRight className="size-2 sm:size-4" />
           </Link>
         </Button>
       )}
@@ -230,7 +230,7 @@ export function FlagshipProjectCard() {
   return (
     <Card className="group relative overflow-hidden rounded-2xl border-border transition-all duration-500 hover:-translate-y-1 hover:shadow-xl sm:col-span-full lg:col-span-2">
       {/* Visual Preview Banner */}
-      <div className="relative min-h-80 overflow-hidden border-b border-border bg-muted p-5 sm:p-8">
+      <div className="relative min-h-80 overflow-hidden border-b border-border bg-muted">
         {FLAGSHIP_PROJECT_DATA.screenshots ? (
           <ProjectScreenshotPreview screenshots={FLAGSHIP_PROJECT_DATA.screenshots} />
         ) : (
@@ -250,9 +250,9 @@ export function FlagshipProjectCard() {
       <CardContent className="p-6 sm:p-8">
         <div className="flex flex-col justify-between gap-6 lg:flex-row">
           <div className="max-w-2xl">
-            <div className="flex items-center justify-between">
+            <div className="flex sm:items-center justify-between">
               <div className="mb-3 flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <span className="size-1.5 rounded-full bg-primary" />
+                <span className="size-1 sm:size-1.5 shrink-0 rounded-full bg-primary" />
                 {FLAGSHIP_PROJECT_DATA.roleMeta}
               </div>
 

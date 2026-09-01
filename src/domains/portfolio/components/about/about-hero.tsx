@@ -39,22 +39,22 @@ export function AboutHero() {
               href={PORTFO_CONFIG.SOCIAL.GITHUB}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-card px-4 text-sm font-medium text-card-foreground transition-colors hover:bg-accent"
+              className="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-card px-2 sm:px-4 text-sm font-medium text-card-foreground transition-colors hover:bg-accent"
             >
-              <GithubIcon />
+              <GithubIcon className="size-4 sm:size-6" />
               GitHub
-              <ArrowUpRight className="size-3.5" />
+              <ArrowUpRight className="size-2 sm:size-3.5" />
             </Link>
 
             <Link
               href={PORTFO_CONFIG.SOCIAL.LINKEDIN}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-card px-4 text-sm font-medium text-card-foreground transition-colors hover:bg-accent"
+              className="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-card px-2 sm:px-4 text-sm font-medium text-card-foreground transition-colors hover:bg-accent"
             >
-              <LinkedinIcon />
+              <LinkedinIcon className="size-4 sm:size-6" />
               LinkedIn
-              <ArrowUpRight className="size-3.5" />
+              <ArrowUpRight className="size-2 sm:size-3.5" />
             </Link>
 
             {/*<Link
