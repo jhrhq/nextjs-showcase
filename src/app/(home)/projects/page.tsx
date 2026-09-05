@@ -5,10 +5,11 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ContactCard } from "@/domains/portfolio/components/contact-card";
+import { Navbar } from "@/domains/portfolio/components/navbar/navbar";
+import { PROJECTS_NAV_ITEMS } from "@/domains/portfolio/components/navbar/navbar.config";
 import { projects } from "@/domains/portfolio/projects/data";
 import { ProjectFilter } from "@/domains/portfolio/projects/project-filter";
 import { ProjectGrid } from "@/domains/portfolio/projects/project-grid";
-import { ProjectsNavbar } from "@/domains/portfolio/projects/projects-navbar";
 import type { ProjectTechnology } from "@/domains/portfolio/projects/types";
 
 export default function ProjectsPage() {
@@ -49,7 +50,7 @@ export default function ProjectsPage() {
 
   return (
     <>
-      <ProjectsNavbar />
+      <Navbar items={PROJECTS_NAV_ITEMS} />
 
       <main className="min-h-screen bg-background container mx-auto px-4 sm:px-0">
         <section className="border-b border-border">

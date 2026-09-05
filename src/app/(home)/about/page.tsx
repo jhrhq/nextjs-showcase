@@ -5,10 +5,11 @@ import { AboutEducation } from "@/domains/portfolio/components/about/about-educa
 import { AboutExperience } from "@/domains/portfolio/components/about/about-experience";
 import { AboutHero } from "@/domains/portfolio/components/about/about-hero";
 import { AboutLearning } from "@/domains/portfolio/components/about/about-learning";
-import { Navbar } from "@/domains/portfolio/components/about/about-navbar";
 import { AboutProfile } from "@/domains/portfolio/components/about/about-profile";
 import { AboutTechnology } from "@/domains/portfolio/components/about/about-technology";
 import { Footer } from "@/domains/portfolio/components/footer";
+import { Navbar } from "@/domains/portfolio/components/navbar/navbar";
+import { ABOUT_NAV_ITEMS } from "@/domains/portfolio/components/navbar/navbar.config";
 
 export const metadata: Metadata = {
   title: "About | Johir Haq",
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <Navbar />
+      <Navbar items={ABOUT_NAV_ITEMS} />
 
       <main className="container mx-auto px-4 sm:px-2">
         <AboutHero />

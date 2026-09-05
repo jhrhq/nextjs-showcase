@@ -4,7 +4,8 @@ import { ContactCard } from "@/domains/portfolio/components/contact-card";
 import { FeaturedProjects } from "@/domains/portfolio/components/featured-projects";
 import { Footer } from "@/domains/portfolio/components/footer";
 import { Hero } from "@/domains/portfolio/components/hero";
-import { Navbar } from "@/domains/portfolio/components/home-navbar";
+import { Navbar } from "@/domains/portfolio/components/navbar/navbar";
+import { HOME_NAV_ITEMS } from "@/domains/portfolio/components/navbar/navbar.config";
 import { TechStack } from "@/domains/portfolio/components/tech-stack";
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Navbar />
+      <Navbar items={HOME_NAV_ITEMS} />
 
       <main className="container mx-auto px-4 sm:px-2">
         <Hero />
