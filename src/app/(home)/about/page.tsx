@@ -14,7 +14,7 @@ import { ABOUT_NAV_ITEMS } from "@/domains/portfolio/components/navbar/navbar.co
 export const metadata: Metadata = {
   title: "About | Johir Haq",
   description:
-    "Johir Haq is a frontend developer with 3 years of production SaaS experience, specializing in React and TypeScript and expanding into full-stack development with Node.js, Express, SQL, and MongoDB.",
+    "Johir Haq is a frontend developer with 4 years of production SaaS experience, specializing in React and TypeScript and expanding into full-stack development with Node.js, Express, SQL, and MongoDB.",
 
   openGraph: {
     title: "About | Johir Haq",
