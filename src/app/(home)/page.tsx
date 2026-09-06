@@ -11,7 +11,14 @@ import { TechStack } from "@/domains/portfolio/components/tech-stack";
 export const metadata: Metadata = {
   title: "Johir Haq — Frontend Developer",
   description:
-    "Johir Haq is a frontend developer specializing in React, Next.js, and TypeScript, with 3 years of experience building production SaaS applications and high-performance web experiences.",
+    "Johir Haq is a frontend developer specializing in React, Next.js, and TypeScript, with 4 years of experience building production Web applications and high-performance web experiences.",
+  openGraph: {
+    title: "Johir Haq — Frontend Developer",
+    description:
+      "Johir Haq is a frontend developer specializing in React, Next.js, and TypeScript, with 4 years of experience building production Web applications and high-performance web experiences.",
+    type: "website",
+    url: "/",
+  },
 };
 
 export default function Home() {

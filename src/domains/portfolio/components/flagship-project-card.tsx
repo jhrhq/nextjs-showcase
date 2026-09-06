@@ -31,7 +31,7 @@ import {
 const FLAGSHIP_PROJECT_DATA: ProjectData = {
   title: "Linkboss SaaS Frontend",
   badgeLabel: "Commercial SaaS Product ⋅ Previous Role",
-  roleMeta: "Previous Role ⋅ 3 Years ⋅ Sole Frontend Developer",
+  roleMeta: "Previous Role ⋅ 4 Years ⋅ Sole Frontend Developer",
   links: {
     demo: PORTFO_CONFIG.PROFESSIONAL_PROJECTS.LINKBOSS,
     github: PORTFO_CONFIG.PROJECTS_GITHUB.LINKER,
@@ -83,7 +83,7 @@ const FLAGSHIP_PROJECT_DATA: ProjectData = {
   ),
   highlights: [
     {
-      title: "3 Years Ownership",
+      title: "4 Years Ownership",
       description: "Built and scaled the entire frontend from scratch.",
       icon: Code2,
     },

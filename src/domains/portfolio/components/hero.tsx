@@ -35,7 +35,7 @@ export function Hero() {
           {/* Experience statement */}
 
           <p className="mt-8 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-            I spent 3 years as the sole frontend developer for a production SaaS platform, owning its architecture, UI,
+            I spent 4 years as the sole frontend developer for a production SaaS platform, owning its architecture, UI,
             data flows, and API-driven workflows from the ground up.
           </p>
 

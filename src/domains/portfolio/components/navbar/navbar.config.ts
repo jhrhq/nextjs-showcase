@@ -2,8 +2,8 @@ import type { NavbarItem } from "../../types/project.types";
 
 const PROJECTS_NAV_ITEMS: NavbarItem[] = [
   { label: "Home", href: "/", type: "page" },
-  { label: "About me", href: "/about", type: "page" },
   { label: "Projects", href: "/projects", type: "page" },
+  { label: "About me", href: "/about", type: "page" },
 ] as const;
 
 const ABOUT_NAV_ITEMS: NavbarItem[] = [
