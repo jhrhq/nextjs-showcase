@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { ArrowUpRight, Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -47,11 +47,11 @@ function NavbarLink({ item, pathname, mobile = false }: { item: NavbarItem; path
       className={cn(
         mobile
           ? "rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-          : "inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground",
+          : "inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground gap-0.5",
         isActive && !mobile && "font-semibold text-primary"
       )}
     >
-      {item.label}
+      {item.label} {!isActive && item?.type === "page" && <ArrowUpRight className="size-3" />}
     </Link>
   );
 }
