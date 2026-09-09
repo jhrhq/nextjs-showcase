@@ -5,7 +5,7 @@ import { PORTFO_CONFIG } from "../../constants/constants";
 
 export function AboutHero() {
   return (
-    <section id="About-me" className="relative overflow-hidden border-b border-border">
+    <section id="about" className="relative overflow-hidden border-b border-border">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 flex justify-center">
         <div className="size-96 rounded-full bg-muted/50 blur-3xl dark:bg-muted/20" />
       </div>
@@ -39,22 +39,22 @@ export function AboutHero() {
               href={PORTFO_CONFIG.SOCIAL.GITHUB}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-card px-4 text-sm font-medium text-card-foreground transition-colors hover:bg-accent"
+              className="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-card px-2 sm:px-4 text-sm font-medium text-card-foreground transition-colors hover:bg-accent"
             >
-              <GithubIcon />
+              <GithubIcon className="size-4 sm:size-6" />
               GitHub
-              <ArrowUpRight className="size-3.5" />
+              <ArrowUpRight className="size-2 sm:size-3.5" />
             </Link>
 
             <Link
               href={PORTFO_CONFIG.SOCIAL.LINKEDIN}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-card px-4 text-sm font-medium text-card-foreground transition-colors hover:bg-accent"
+              className="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-card px-2 sm:px-4 text-sm font-medium text-card-foreground transition-colors hover:bg-accent"
             >
-              <LinkedinIcon />
+              <LinkedinIcon className="size-4 sm:size-6" />
               LinkedIn
-              <ArrowUpRight className="size-3.5" />
+              <ArrowUpRight className="size-2 sm:size-3.5" />
             </Link>
 
             {/*<Link

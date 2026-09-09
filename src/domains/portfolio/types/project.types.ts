@@ -35,3 +35,9 @@ export interface ProjectData {
   technologies: TechItem[];
   previewContent?: React.ReactNode;
 }
+
+export interface NavbarItem {
+  label: string;
+  href: string;
+  type?: "section" | "page";
+}

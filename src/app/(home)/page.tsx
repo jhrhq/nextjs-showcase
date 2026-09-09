@@ -4,21 +4,29 @@ import { ContactCard } from "@/domains/portfolio/components/contact-card";
 import { FeaturedProjects } from "@/domains/portfolio/components/featured-projects";
 import { Footer } from "@/domains/portfolio/components/footer";
 import { Hero } from "@/domains/portfolio/components/hero";
-import { Navbar } from "@/domains/portfolio/components/navbar";
+import { Navbar } from "@/domains/portfolio/components/navbar/navbar";
+import { HOME_NAV_ITEMS } from "@/domains/portfolio/components/navbar/navbar.config";
 import { TechStack } from "@/domains/portfolio/components/tech-stack";
 
 export const metadata: Metadata = {
   title: "Johir Haq — Frontend Developer",
   description:
-    "Johir Haq is a frontend developer specializing in React, Next.js, and TypeScript, with 3 years of experience building production SaaS applications and high-performance web experiences.",
+    "Johir Haq is a frontend developer specializing in React, Next.js, and TypeScript, with 4 years of experience building production Web applications and high-performance web experiences.",
+  openGraph: {
+    title: "Johir Haq — Frontend Developer",
+    description:
+      "Johir Haq is a frontend developer specializing in React, Next.js, and TypeScript, with 4 years of experience building production Web applications and high-performance web experiences.",
+    type: "website",
+    url: "/",
+  },
 };
 
 export default function Home() {
   return (
     <>
-      <Navbar />
+      <Navbar items={HOME_NAV_ITEMS} />
 
-      <main className="container mx-auto">
+      <main className="container mx-auto px-4 sm:px-2">
         <Hero />
         <TechStack />
         <FeaturedProjects />

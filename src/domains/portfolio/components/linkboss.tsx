@@ -199,16 +199,14 @@ export function Hero() {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-2">
-            <Badge variant="outline">3 Years</Badge>
+            <Badge variant="outline">4 Years</Badge>
             <Badge variant="outline">Sole Frontend Developer</Badge>
-            <Badge variant="outline">20–30 Routes</Badge>
             <Badge variant="outline">React SPA</Badge>
           </div>
         </div>
 
         <div className="mt-16 grid overflow-hidden rounded-xl border border-border sm:grid-cols-3">
           <Metric value="01" label="Frontend Owner" />
-          <Metric value="20–30" label="Routes at Peak" />
           <Metric value="03" label="Major UI Iterations" />
         </div>
       </div>
