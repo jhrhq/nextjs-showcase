@@ -1,7 +1,11 @@
 import { ArrowUpRight, Mail } from "lucide-react";
+import { CopyToClipboardWithCustom } from "@/ui/shared/copy-to-clipboard";
 import { PORTFO_CONFIG } from "../constants/constants";
 
-export function ContactCard() {
+export function ContactCard({
+  title = "Have a project in mind?",
+  description = "Feel free to reach out if you'd like to discuss a project, collaboration, or just want to say hello.",
+}) {
   return (
     <section className="border-t border-border">
       <div className="py-12 lg:py-16">
@@ -13,20 +17,23 @@ export function ContactCard() {
             </div>
             <div>
               <p className=" font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground "> Get in touch </p>
-              <h2 className=" mt-1.5 text-xl font-medium tracking-tight sm:text-2xl "> Have a project in mind? </h2>
-              <p className=" mt-2 max-w-lg text-sm leading-6 text-muted-foreground ">
-                Feel free to reach out if you'd like to discuss a project, collaboration, or just want to say hello.
-              </p>
+              <h2 className="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl"> {title} </h2>
+              <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">{description}</p>
             </div>
           </div>
           {/* Email */}
-          <a
-            href="mailto:your-email@example.com"
+          <CopyToClipboardWithCustom
+            value={PORTFO_CONFIG.SOCIAL.GMAIL}
+            label="Copy email address"
+            copiedLabel="Email copied!"
+            icon={
+              <>
+                {PORTFO_CONFIG.SOCIAL.GMAIL}
+                <ArrowUpRight className=" size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 " />
+              </>
+            }
             className=" group inline-flex w-fit items-center gap-2 rounded-full border border-foreground bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-all duration-200 hover:bg-background hover:text-foreground "
-          >
-            {PORTFO_CONFIG.SOCIAL.GMAIL}
-            <ArrowUpRight className=" size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 " />
-          </a>
+          />{" "}
         </div>
       </div>
     </section>
