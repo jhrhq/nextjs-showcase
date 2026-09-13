@@ -80,7 +80,7 @@ export default function PaymentForm({ maxGuests, pricing, propertyId }: PaymentF
         <Button
           type="submit"
           disabled={isDisabled}
-          className="w-full text-base h-12 bg-primary text-white rounded-xl py-3 hover:bg-primary/90 active:scale-[0.99] transition-all font-medium shadow-sm"
+          className="w-full text-base h-12 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 active:scale-[0.99] disabled:active:scale-100 disabled:opacity-50 disabled:pointer-events-none transition-all font-medium shadow-sm text-center flex items-center justify-center"
         >
           {isAuthPending ? (
             "Verifying session..."

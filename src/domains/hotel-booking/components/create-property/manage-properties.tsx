@@ -31,13 +31,13 @@ export default function ManageProperties({ properties, onDelete }: ManagePropert
 
 function PropertyEmptyState() {
   return (
-    <Card className="p-12 text-center border-dashed">
+    <Card className="p-12 text-center border-dashed border-border bg-card text-card-foreground">
       <div className="max-w-md mx-auto space-y-3">
-        <div className="w-12 h-12 rounded-full bg-zinc-100 flex items-center justify-center mx-auto text-zinc-500">
+        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mx-auto text-muted-foreground">
           <Plus className="w-6 h-6" />
         </div>
-        <h3 className="text-lg font-semibold text-zinc-900">No properties found</h3>
-        <p className="text-sm text-zinc-500">
+        <h3 className="text-lg font-semibold text-foreground">No properties found</h3>
+        <p className="text-sm text-muted-foreground">
           You haven't listed any properties yet. Click below to add your first property.
         </p>
         <Button asChild size="sm" className="mt-2">
@@ -66,7 +66,7 @@ function PropertyCard({ property }: PropertyCardProps) {
   }).format(property.pricing.perNight);
 
   return (
-    <Card className="overflow-hidden group hover:shadow-md transition-all duration-200 border-zinc-200/80 flex flex-col justify-between rounded-md">
+    <Card className="overflow-hidden group hover:shadow-md transition-all duration-200 border-border bg-card text-card-foreground flex flex-col justify-between rounded-md">
       <div>
         {/* Card Top: Image & Overlay Badges */}
         <PropertyCardImage
@@ -81,20 +81,20 @@ function PropertyCard({ property }: PropertyCardProps) {
         {/* Card Header: Type, Price & Title */}
         <CardHeader className="p-4 pb-2 space-y-1">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-zinc-500 uppercase tracking-wider">{property.type}</span>
-            <span className="text-lg font-bold text-zinc-900">
-              {formattedPrice} <span className="text-xs font-normal text-zinc-500">/night</span>
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{property.type}</span>
+            <span className="text-lg font-bold text-foreground">
+              {formattedPrice} <span className="text-xs font-normal text-muted-foreground">/night</span>
             </span>
           </div>
-          <h2 className="text-lg font-semibold text-zinc-900 truncate group-hover:text-primary transition-colors">
+          <h2 className="text-lg font-semibold text-foreground truncate group-hover:text-primary transition-colors">
             {property.title}
           </h2>
         </CardHeader>
 
         {/* Card Body: Location & Capacity */}
         <CardContent className="px-4 py-2 space-y-3">
-          <div className="flex items-center text-zinc-500 gap-1.5">
-            <MapPin className="size-3.5 text-zinc-400 shrink-0" />
+          <div className="flex items-center text-muted-foreground text-sm gap-1.5">
+            <MapPin className="size-3.5 text-muted-foreground shrink-0" />
             <span className="truncate">
               {property.location.city}, {property.location.country}
             </span>
@@ -163,7 +163,7 @@ interface PropertyCardCapacityProps {
 
 function PropertyCardCapacity({ capacity }: PropertyCardCapacityProps) {
   return (
-    <div className="flex items-center gap-4 text-xs text-zinc-600 py-2 border-y border-zinc-100">
+    <div className="flex items-center gap-4 text-xs text-muted-foreground py-2 border-y border-border">
       <div className="flex items-center gap-1" title="Guests">
         <Users className="size-3.5 text-primary" />
         <span>{capacity.guests} guests</span>
@@ -187,14 +187,19 @@ interface PropertyCardActionsProps {
 
 function PropertyCardActions({ propertyId }: PropertyCardActionsProps) {
   return (
-    <CardFooter className="p-4 pt-2 border-t border-zinc-100 flex items-center justify-between bg-zinc-50/50">
+    <CardFooter className="p-4 pt-2 border-t border-border flex items-center justify-between bg-muted/50">
       <Button asChild variant="ghost" size="sm" className="h-8 gap-1.5 text-xs">
         <Link href={AUTH_CONFIG.ROUTES.PROPERTY(propertyId)}>
           <Eye className="size-3.5" />
         </Link>
       </Button>
       <div className="flex items-center gap-1">
-        <Button asChild variant="ghost" size="sm" className="h-8 text-xs gap-1.5 text-zinc-600 hover:text-zinc-900">
+        <Button
+          asChild
+          variant="ghost"
+          size="sm"
+          className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-foreground"
+        >
           <Link href={AUTH_CONFIG.ROUTES.HOSTING_LISTING_EDIT(propertyId)}>
             <Edit2 className="size-3.5" />
           </Link>
@@ -203,7 +208,7 @@ function PropertyCardActions({ propertyId }: PropertyCardActionsProps) {
           disabled
           variant="destructive-lighter"
           // onClick={() => onDelete?.(propertyId)}
-          className="text-red-600 focus:text-red-600 focus:bg-red-50"
+          className="text-destructive focus:text-destructive focus:bg-destructive/10"
         >
           <Trash2 className="w-4 h-4 mr-2" />
         </Button>*/}

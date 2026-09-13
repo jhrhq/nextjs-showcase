@@ -26,42 +26,42 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button size="sm" className="bg-primary text-white hover:brightness-90">
+        <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
           View Trip Details
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="w-full sm:max-w-md overflow-y-auto p-6">
+      <SheetContent className="w-full sm:max-w-md overflow-y-auto p-6 bg-background text-foreground border-border">
         <SheetHeader className="text-left space-y-3">
           <div className="flex items-center justify-between">
             <Badge
               variant={booking.status === "confirmed" ? "default" : "secondary"}
               className={cn(
-                "capitalize rounded-full",
+                "capitalize rounded-full border",
                 isPending
-                  ? "bg-amber-50 text-amber-700 border-amber-200"
-                  : "bg-emerald-50 text-emerald-700 border-emerald-200"
+                  ? "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20"
+                  : "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20"
               )}
             >
               {isPending ? (
-                <Clock className="w-3 h-3 text-amber-600 animate-pulse" />
+                <Clock className="w-3 h-3 text-amber-600 dark:text-amber-400 animate-pulse" />
               ) : (
-                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
               )}
               {booking.status}
             </Badge>
-            <span className="font-mono text-xs text-zinc-500">{bookingCode}</span>
+            <span className="font-mono text-xs text-muted-foreground">{bookingCode}</span>
           </div>
 
           {/* Sheet Hero Image */}
-          <div className="relative h-44 w-full overflow-hidden rounded-lg">
+          <div className="relative h-44 w-full overflow-hidden rounded-lg bg-muted">
             <Image src={thumbnail} alt={property.title} fill className="object-cover" />
           </div>
 
           <div>
-            <SheetTitle className="text-xl font-bold text-zinc-800">{property.title}</SheetTitle>
+            <SheetTitle className="text-xl font-bold text-foreground">{property.title}</SheetTitle>
             {property.location?.city && (
-              <p className="text-sm text-zinc-500 flex items-center gap-1 mt-1">
+              <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
                 <MapPin className="h-3.5 w-3.5" />
                 {property.location.city}, {property.location.country}
               </p>
@@ -73,14 +73,14 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
 
         {/* Reservation Timeline */}
         <div className="space-y-4">
-          <h4 className="text-sm font-semibold flex items-center gap-2 text-zinc-800">
+          <h4 className="text-sm font-semibold flex items-center gap-2 text-foreground">
             <Calendar className="size-4" /> Stay Schedule
           </h4>
 
-          <div className="grid grid-cols-2 gap-3 rounded-lg bg-zinc-50 p-3 text-zinc-700">
+          <div className="grid grid-cols-2 gap-3 rounded-lg bg-muted p-3">
             <div>
-              <p className="text-xs text-zinc-500 font-medium">Check-in</p>
-              <p className="text-sm font-semibold mt-0.5">
+              <p className="text-xs text-muted-foreground font-medium">Check-in</p>
+              <p className="text-sm font-semibold text-foreground mt-0.5">
                 {new Date(booking.checkin).toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -89,8 +89,8 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
               </p>
             </div>
             <div>
-              <p className="text-xs text-zinc-500 font-medium">Check-out</p>
-              <p className="text-sm font-semibold mt-0.5">
+              <p className="text-xs text-muted-foreground font-medium">Check-out</p>
+              <p className="text-sm font-semibold text-foreground mt-0.5">
                 {new Date(booking.checkout).toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -101,10 +101,10 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
           </div>
 
           <div className="flex items-center justify-between text-sm py-1">
-            <span className="flex items-center gap-2 text-zinc-500">
+            <span className="flex items-center gap-2 text-muted-foreground">
               <Users className="size-4" /> Total Guests
             </span>
-            <span className="font-medium text-zinc-800">{booking.guests} Guest(s)</span>
+            <span className="font-medium text-foreground">{booking.guests} Guest(s)</span>
           </div>
         </div>
 
@@ -112,13 +112,13 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
 
         {/* Pricing Summary */}
         <div className="space-y-3">
-          <h4 className="text-sm font-semibold flex items-center gap-2 text-zinc-800">
+          <h4 className="text-sm font-semibold flex items-center gap-2 text-foreground">
             <Receipt className="size-4" /> Payment Details
           </h4>
 
-          <div className="flex justify-between text-sm text-zinc-600">
+          <div className="flex justify-between text-sm text-muted-foreground">
             <span>Total Amount Paid</span>
-            <span className="font-bold text-zinc-900">${priceSummary.totalCost}</span>
+            <span className="font-bold text-foreground">${priceSummary.totalCost}</span>
           </div>
         </div>
 
