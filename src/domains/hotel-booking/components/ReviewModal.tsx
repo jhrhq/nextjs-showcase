@@ -63,16 +63,16 @@ const ReviewModal = ({ propertyId, bookingId, isCurrentUserReview }: Props) => {
       <DialogTrigger asChild>
         <Button
           disabled={!bookingId || isCurrentUserReview}
-          className="px-4 py-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+          className="px-4 py-2 rounded-lg border-border bg-background text-foreground hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 transition-colors"
           variant="outline"
         >
           Write a Review
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-white pt-6 px-0">
-        <div className="border-b pb-4 px-6">
+      <DialogContent className="bg-background text-foreground border-border pt-6 px-0">
+        <div className="border-b border-border pb-4 px-6">
           <div className="flex justify-between items-center">
-            <DialogTitle className="text-xl font-bold text-gray-800">Write a review</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-foreground">Write a review</DialogTitle>
           </div>
         </div>
 
@@ -86,14 +86,14 @@ const ReviewModal = ({ propertyId, bookingId, isCurrentUserReview }: Props) => {
                 name="overallRating"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel className="text-gray-700 font-medium mb-2 text-base">Overall Rating</FieldLabel>
+                    <FieldLabel className="text-foreground font-medium mb-2 text-base">Overall Rating</FieldLabel>
                     <div className="flex items-center gap-1 cursor-pointer">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <Star
                           key={star}
                           className={cn(
                             "size-6",
-                            star <= field.value ? "text-yellow-500 fill-yellow-500" : "text-gray-300 fill-gray-300"
+                            star <= field.value ? "text-yellow-500 fill-yellow-500" : "text-muted fill-muted"
                           )}
                           onClick={() => field.onChange(star)}
                         />
@@ -109,7 +109,7 @@ const ReviewModal = ({ propertyId, bookingId, isCurrentUserReview }: Props) => {
                 name="comment"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={`${FORM_ID}-comment`} className="text-gray-700 font-medium mb-2 text-base">
+                    <FieldLabel htmlFor={`${FORM_ID}-comment`} className="text-foreground font-medium mb-2 text-base">
                       Your Review
                     </FieldLabel>
                     <Textarea
@@ -117,7 +117,7 @@ const ReviewModal = ({ propertyId, bookingId, isCurrentUserReview }: Props) => {
                       id={`${FORM_ID}-comment`}
                       rows={4}
                       placeholder="Share your experience with other travelers..."
-                      className="h-auto w-full px-4 text-base py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary resize-none"
+                      className="h-auto w-full px-4 text-base py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus-visible:ring-2 focus-visible:ring-ring resize-none"
                       aria-invalid={fieldState.invalid}
                     />
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -130,19 +130,19 @@ const ReviewModal = ({ propertyId, bookingId, isCurrentUserReview }: Props) => {
           </form>
         </div>
 
-        <DialogFooter className="border-t pt-4 -mx-px px-6">
+        <DialogFooter className="border-t border-border pt-4 -mx-px px-6">
           <Button
             onClick={() => setOpen(false)}
             type="button"
             variant="ghost"
-            className="px-4 py-2 rounded-lg hover:brightness-100 text-gray-600 hover:cursor-pointer"
+            className="px-4 py-2 rounded-lg hover:bg-accent hover:text-accent-foreground text-muted-foreground hover:cursor-pointer"
           >
             Cancel
           </Button>
           <Button
             type="submit"
             form={FORM_ID}
-            className="px-4 py-2 bg-primary text-white rounded-lg hover:brightness-90 hover:cursor-pointer"
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:brightness-90 hover:cursor-pointer"
           >
             Submit Review
           </Button>
