@@ -19,9 +19,9 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             height={500}
             className="w-full h-64 object-cover rounded-xl group-hover:scale-105 transition-transform"
           />
-          <div className="absolute top-3 right-3 bg-white/80 px-3 py-1 rounded-full text-xs font-semibold">
-            <Bed className="fa-bed inline-block mr-1" />
-            {property.capacity?.bedrooms}
+          <div className="absolute top-3 right-3 flex items-center bg-background/80 dark:bg-card/80 backdrop-blur-md text-foreground border border-border/40 px-3 py-1 rounded-full text-xs font-semibold shadow-sm transition-colors">
+            <Bed className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
+            <span>{property.capacity?.bedrooms}</span>
           </div>
         </div>
         <div className="mt-3">
