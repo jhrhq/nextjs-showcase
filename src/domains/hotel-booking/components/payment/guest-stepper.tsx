@@ -15,32 +15,32 @@ export function GuestStepper({ value, maxGuests, minGuests = 1, onChange, disabl
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="flex flex-col">
-        <span className="text-sm font-semibold text-zinc-800">Guests</span>
-        <span className="text-xs text-zinc-400 font-medium mt-0.5">Max {maxGuests} allowed</span>
+        <span className="text-sm font-semibold text-foreground ">Guests</span>
+        <span className="text-xs text-muted-foreground font-medium mt-0.5">Max {maxGuests} allowed</span>
       </div>
       <div className="flex items-center gap-3">
         <Button
           type="button"
           variant="outline"
           size="icon"
-          className="h-8 w-8 rounded-full border-zinc-200 bg-background hover:bg-zinc-50 active:scale-95 transition-all shrink-0"
+          className="h-8 w-8 rounded-full border-border bg-background hover:bg-accent hover:text-accent-foreground active:scale-95 transition-all shrink-0"
           disabled={disabled || value <= minGuests}
           onClick={() => onChange(value - 1)}
         >
-          <Minus className="size-4 text-zinc-600" />
+          <Minus className="size-4 text-muted-foreground" />
         </Button>
 
-        <span className="w-6 text-center font-semibold text-zinc-800 tabular-nums select-none">{value}</span>
+        <span className="w-6 text-center font-semibold text-foreground tabular-nums select-none">{value}</span>
 
         <Button
           type="button"
           variant="outline"
           size="icon"
-          className="h-8 w-8 rounded-full border-zinc-200 bg-background hover:bg-zinc-50 active:scale-95 transition-all shrink-0"
+          className="h-8 w-8 rounded-full border-border bg-background hover:bg-accent hover:text-accent-foreground active:scale-95 transition-all shrink-0"
           disabled={disabled || value >= maxGuests}
           onClick={() => onChange(value + 1)}
         >
-          <Plus className="size-4 text-zinc-600" />
+          <Plus className="size-4 text-muted-foreground" />
         </Button>
       </div>
     </div>

@@ -22,7 +22,7 @@ const ReviewContainer = async ({ userId, bookingId, propertyId, isHost }: Props)
       <div className="col-span-1 flex justify-end mb-4">
         {!userId ? (
           <Button
-            className="px-4 py-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+            className="px-4 py-2 rounded-lg border-border bg-background text-foreground hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 transition-colors"
             variant="outline"
             asChild
           >
