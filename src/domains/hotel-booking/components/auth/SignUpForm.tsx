@@ -54,7 +54,7 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
                 {...field}
                 type="text"
                 placeholder="User name"
-                className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+                className="w-full h-auto border border-input bg-background text-foreground placeholder:text-muted-foreground rounded-full px-4 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0"
                 aria-invalid={fieldState.invalid}
                 autoComplete="username"
               />
@@ -72,7 +72,7 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
                 {...field}
                 type="email"
                 placeholder="Email"
-                className="w-full h-auto border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+                className="w-full h-auto border border-input bg-background text-foreground placeholder:text-muted-foreground rounded-full px-4 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0"
                 aria-invalid={fieldState.invalid}
                 autoComplete="email"
               />
@@ -87,7 +87,7 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
           isLeftIcon={false}
           label=""
           placeholder="Password"
-          inputGroupClassName="w-full h-auto border border-gray-300 rounded-full focus:outline-none focus:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-primary has-[[data-slot=input-group-control]:focus-visible]:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+          inputGroupClassName="w-full h-auto border border-input bg-background text-foreground rounded-full focus-visible:outline-none focus-visible:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-ring focus-visible:ring-ring focus-visible:ring-offset-0"
         />
         <FormFieldWrapperPassword
           name="confirmPassword"
@@ -95,7 +95,7 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
           isLeftIcon={false}
           label=""
           placeholder="Confirm Password"
-          inputGroupClassName="w-full h-auto border border-gray-300 rounded-full focus:outline-none focus:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-primary has-[[data-slot=input-group-control]:focus-visible]:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+          inputGroupClassName="w-full h-auto border border-input bg-background text-foreground rounded-full focus-visible:outline-none focus-visible:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-ring focus-visible:ring-ring focus-visible:ring-offset-0"
         />
 
         <FieldError errors={[form.formState.errors?.root?.serverError]} />
@@ -105,7 +105,9 @@ export default function SignUpForm({ callbackUrl }: SignUPFormProps) {
         type="submit"
         form="sign-up-form"
         disabled={pending}
-        className={cn("w-full text-base h-12 bg-primary text-white rounded-full py-3 hover:bg-primary transition")}
+        className={cn(
+          "w-full text-base h-12 bg-primary text-primary-foreground rounded-full py-3 hover:bg-primary/90 disabled:opacity-50 disabled:pointer-events-none transition-colors"
+        )}
       >
         {pending ? <span className="submitLoader" /> : "Continue"}
       </Button>

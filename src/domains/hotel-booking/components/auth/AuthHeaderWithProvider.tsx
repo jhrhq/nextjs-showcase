@@ -18,8 +18,8 @@ const AuthHeaderWithProvider = ({ children, isSignIn, callbackUrl, modal }: Sign
   return (
     <>
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">{isSignIn ? "Sign in" : "Sign up"} to Hotel Booking</h2>
-        <p className="text-gray-600 text-sm mt-2">
+        <h2 className="text-2xl font-bold text-foreground">{isSignIn ? "Sign in" : "Sign up"} to Hotel Booking</h2>
+        <p className="text-muted-foreground text-sm mt-2">
           {isSignIn ? "Welcome back! Let's get you signed in." : "Let's get you signed up."}
         </p>
       </div>
@@ -29,10 +29,14 @@ const AuthHeaderWithProvider = ({ children, isSignIn, callbackUrl, modal }: Sign
         <div className="grow border-t border-gray-300" />
       </div>*/}
       {children}
-      <div className="text-center text-sm text-gray-600 mt-2">
+      <div className="text-center text-sm text-muted-foreground mt-2">
         <p>
           {isSignIn ? "Don't" : "Already"} have an account?{" "}
-          <Link href={href} replace={modal} className="text-primary hover:underline hover:cursor-pointer">
+          <Link
+            href={href}
+            replace={modal}
+            className="text-primary font-medium underline-offset-4 hover:underline cursor-pointer"
+          >
             {isSignIn ? "Sign up" : "Sign in"}
           </Link>
         </p>

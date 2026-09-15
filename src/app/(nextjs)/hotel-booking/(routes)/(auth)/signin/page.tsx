@@ -25,8 +25,8 @@ const SignInPage = async ({ searchParams }: SignInPageProps) => {
     redirect(callbackUrl);
   }
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-xl shadow w-96 p-6 relative ">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+      <div className="bg-card text-card-foreground border border-border rounded-xl shadow-lg w-96 p-6 relative">
         <AuthHeaderWithProvider isSignIn={true} callbackUrl={callbackUrl}>
           <SignInForm callbackUrl={callbackUrl} />
         </AuthHeaderWithProvider>
