@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function HotelDetailSkeleton() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       <div className="container max-w-6xl px-6 py-8 mx-auto space-y-8">
         {/* 1. Header Section */}
         <div className="space-y-3">
@@ -12,9 +12,9 @@ export default function HotelDetailSkeleton() {
           {/* Meta Info Line (Rating, Reviews, Address) */}
           <div className="flex items-center gap-3">
             <Skeleton className="h-4 w-12 rounded" />
-            <span className="text-gray-300 dark:text-gray-700">•</span>
+            <span className="text-muted-foreground/40">•</span>
             <Skeleton className="h-4 w-16 rounded" />
-            <span className="text-gray-300 dark:text-gray-700">•</span>
+            <span className="text-muted-foreground/40">•</span>
             <Skeleton className="h-4 w-48 rounded" />
           </div>
         </div>
@@ -49,7 +49,7 @@ export default function HotelDetailSkeleton() {
               </div>
             </div>
 
-            <div className="h-px bg-gray-200 dark:bg-gray-800" />
+            <div className="h-px bg-border" />
 
             {/* About Section */}
             <div className="space-y-3">
@@ -58,7 +58,7 @@ export default function HotelDetailSkeleton() {
               <Skeleton className="h-4 w-4/5 rounded" />
             </div>
 
-            <div className="h-px bg-gray-200 dark:bg-gray-800" />
+            <div className="h-px bg-border" />
 
             {/* Amenities Section */}
             <div className="space-y-4">
@@ -75,7 +75,7 @@ export default function HotelDetailSkeleton() {
 
           {/* Right Column: Sticky Booking Card */}
           <div className="lg:col-span-1">
-            <div className="p-6 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm space-y-6 bg-white dark:bg-gray-900">
+            <div className="p-6 border border-border rounded-2xl shadow-sm space-y-6 bg-card text-card-foreground">
               {/* Price & Rating Row */}
               <div className="flex items-center justify-between">
                 <Skeleton className="h-7 w-28 rounded-md" />

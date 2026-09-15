@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function MyBookingsSkeleton() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 py-8 px-6">
+    <div className="min-h-screen bg-background py-8 px-6">
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Page Title: "My Bookings" */}
         <div className="pb-2">
@@ -14,7 +14,7 @@ export default function MyBookingsSkeleton() {
           {Array.from({ length: 5 }).map((_, index) => (
             <div
               key={index}
-              className="p-4 sm:p-5 border border-gray-200/80 dark:border-gray-800 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gray-900"
+              className="p-4 sm:p-5 border border-border rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 bg-card text-card-foreground"
             >
               {/* Left Section: Image + Details */}
               <div className="flex items-start gap-4 flex-1 min-w-0">
@@ -35,14 +35,14 @@ export default function MyBookingsSkeleton() {
                   {/* Dates & Guests Line */}
                   <div className="flex items-center gap-3 pt-1">
                     <Skeleton className="h-4 w-32 rounded" />
-                    <span className="text-gray-300 dark:text-gray-700">•</span>
+                    <span className="text-muted-foreground/40">•</span>
                     <Skeleton className="h-4 w-20 rounded" />
                   </div>
                 </div>
               </div>
 
               {/* Right Section: Price & Action Buttons */}
-              <div className="flex items-center justify-between md:justify-end gap-4 sm:gap-6 pt-2 md:pt-0 border-t md:border-t-0 border-gray-100 dark:border-gray-800 shrink-0">
+              <div className="flex items-center justify-between md:justify-end gap-4 sm:gap-6 pt-2 md:pt-0 border-t md:border-t-0 border-border shrink-0">
                 {/* Total Cost Column */}
                 <div className="flex flex-col md:items-end space-y-1">
                   <Skeleton className="h-3 w-14 rounded" />

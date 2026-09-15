@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CheckoutSkeleton() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       <div className="container max-w-5xl px-6 py-8 mx-auto space-y-8">
         {/* Back Link / Page Header */}
         <div className="flex items-center gap-2">
@@ -15,7 +15,7 @@ export default function CheckoutSkeleton() {
           {/* Left Column: Trip Details & Request Action (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
             {/* "Your trip" Card */}
-            <div className="p-6 border border-gray-200/80 dark:border-gray-800 rounded-2xl space-y-6">
+            <div className="p-6 border border-border rounded-2xl space-y-6">
               {/* Card Title */}
               <Skeleton className="h-7 w-28 rounded-md" />
 
@@ -28,7 +28,7 @@ export default function CheckoutSkeleton() {
                 <Skeleton className="h-9 w-16 rounded-lg" />
               </div>
 
-              <div className="h-px bg-gray-100 dark:bg-gray-800" />
+              <div className="h-px bg-border" />
 
               {/* Guests Row */}
               <div className="flex items-center justify-between">
@@ -46,7 +46,7 @@ export default function CheckoutSkeleton() {
 
           {/* Right Column: Order Summary Card (5 cols) */}
           <div className="lg:col-span-5">
-            <div className="p-6 border border-gray-200/80 dark:border-gray-800 rounded-2xl space-y-6">
+            <div className="p-6 border border-border rounded-2xl space-y-6">
               {/* Property Info Header */}
               <div className="flex items-center gap-4">
                 <Skeleton className="w-16 h-16 rounded-xl shrink-0" />
@@ -56,7 +56,7 @@ export default function CheckoutSkeleton() {
                 </div>
               </div>
 
-              <div className="h-px bg-gray-200 dark:bg-gray-800" />
+              <div className="h-px bg-border" />
 
               {/* Price Details Heading */}
               <Skeleton className="h-5 w-28 rounded-md" />
@@ -77,7 +77,7 @@ export default function CheckoutSkeleton() {
                 </div>
               </div>
 
-              <div className="h-px bg-gray-200 dark:bg-gray-800" />
+              <div className="h-px bg-border" />
 
               {/* Total Line */}
               <div className="flex items-center justify-between pt-1">

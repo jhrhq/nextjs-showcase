@@ -2,10 +2,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function EditListingSkeleton() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 py-8 px-6">
+    <div className="min-h-screen bg-background py-8 px-6">
       <div className="max-w-4xl mx-auto space-y-10">
         {/* 1. Page Header */}
-        <div className="space-y-2 border-b border-gray-100 dark:border-gray-800 pb-6">
+        <div className="space-y-2 border-b border-border pb-6">
           <Skeleton className="h-8 w-64 rounded-lg" />
           <Skeleton className="h-4 w-80 rounded-md" />
         </div>
@@ -26,7 +26,7 @@ export default function EditListingSkeleton() {
         {/* 3. Property Basics & Specs Counters (Guests, Bedrooms, Beds, Baths) */}
         <div className="space-y-4">
           <Skeleton className="h-5 w-36 rounded-md" />
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 border border-gray-200/80 dark:border-gray-800 rounded-2xl">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 border border-border rounded-2xl">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="space-y-2">
                 <Skeleton className="h-4 w-16 rounded" />
@@ -69,12 +69,9 @@ export default function EditListingSkeleton() {
           </div>
 
           {/* 3-Column Amenities Checkbox Skeleton */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-5 border border-gray-200/80 dark:border-gray-800 rounded-2xl">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-5 border border-border rounded-2xl">
             {Array.from({ length: 21 }).map((_, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-3 p-2.5 rounded-xl border border-gray-100 dark:border-gray-800/60"
-              >
+              <div key={i} className="flex items-center gap-3 p-2.5 rounded-xl border border-border/60">
                 <Skeleton className="h-5 w-5 rounded-md shrink-0" />
                 <Skeleton className="h-4 w-28 rounded" />
               </div>
@@ -90,7 +87,7 @@ export default function EditListingSkeleton() {
           </div>
 
           {/* Sticky/Bottom Save CTA */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-800">
+          <div className="flex justify-end gap-3 pt-4 border-t border-border">
             <Skeleton className="h-11 w-28 rounded-xl" />
             <Skeleton className="h-11 w-36 rounded-xl" />
           </div>

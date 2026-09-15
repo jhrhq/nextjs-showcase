@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function LoadingSkeleton() {
   return (
-    <div className="bg-white dark:bg-gray-900 min-h-screen">
+    <div className="bg-background min-h-screen">
       <div className="container px-6 py-8 mx-auto space-y-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {Array.from({ length: 8 }).map((_, index) => (
@@ -34,6 +34,7 @@ export default function LoadingSkeleton() {
           ))}
         </div>
 
+        {/* Pagination Skeleton */}
         <div className="flex items-center justify-center gap-2 pt-4">
           <Skeleton className="h-9 w-9 rounded-lg" />
           <Skeleton className="h-9 w-9 rounded-lg" />
@@ -43,13 +44,14 @@ export default function LoadingSkeleton() {
           <Skeleton className="h-9 w-9 rounded-lg" />
         </div>
 
+        {/* Footer Links Skeleton */}
         <div className="flex items-center gap-2 pt-6">
           <Skeleton className="h-3.5 w-28 rounded" />
-          <span className="text-gray-300 dark:text-gray-700">•</span>
+          <span className="text-muted-foreground/40">•</span>
           <Skeleton className="h-3.5 w-12 rounded" />
-          <span className="text-gray-300 dark:text-gray-700">•</span>
+          <span className="text-muted-foreground/40">•</span>
           <Skeleton className="h-3.5 w-12 rounded" />
-          <span className="text-gray-300 dark:text-gray-700">•</span>
+          <span className="text-muted-foreground/40">•</span>
           <Skeleton className="h-3.5 w-32 rounded" />
         </div>
       </div>

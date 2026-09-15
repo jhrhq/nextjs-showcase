@@ -2,8 +2,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function SignInSkeleton() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md p-8 sm:p-10 border border-gray-200/80 dark:border-gray-800 rounded-3xl space-y-6 bg-white dark:bg-gray-900 shadow-xs">
+    <div className="min-h-screen bg-background flex items-center justify-center px-6 py-12">
+      <div className="w-full max-w-md p-8 sm:p-10 border border-border rounded-3xl space-y-6 bg-card text-card-foreground shadow-xs">
         {/* 1. Card Header (Title & Subtitle) */}
         <div className="flex flex-col items-center text-center space-y-2">
           {/* Title: "Sign in to Hotel Booking" */}
@@ -15,9 +15,9 @@ export default function SignInSkeleton() {
 
         {/* 2. Divider with "or" text */}
         <div className="flex items-center w-full my-6">
-          <div className="w-full h-px bg-gray-100 dark:bg-gray-800" />
+          <div className="w-full h-px bg-border" />
           <Skeleton className="h-3 w-6 mx-3 rounded shrink-0" />
-          <div className="w-full h-px bg-gray-100 dark:bg-gray-800" />
+          <div className="w-full h-px bg-border" />
         </div>
 
         {/* 3. Form Input Fields & Button */}

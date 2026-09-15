@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ManagePropertiesSkeleton() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 py-8 px-6">
+    <div className="min-h-screen bg-background py-8 px-6">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* 1. Header Section (Title, Subtitle & Action Button) */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -22,7 +22,7 @@ export default function ManagePropertiesSkeleton() {
           {Array.from({ length: 6 }).map((_, index) => (
             <div
               key={index}
-              className="border border-gray-200/80 dark:border-gray-800 rounded-2xl overflow-hidden bg-white dark:bg-gray-900 flex flex-col justify-between"
+              className="border border-border rounded-2xl overflow-hidden bg-card text-card-foreground flex flex-col justify-between"
             >
               <div>
                 {/* Image Banner with Badges */}
@@ -51,7 +51,7 @@ export default function ManagePropertiesSkeleton() {
                     <Skeleton className="h-4 w-40 rounded" />
                   </div>
 
-                  <div className="h-px bg-gray-100 dark:bg-gray-800" />
+                  <div className="h-px bg-border" />
 
                   {/* Property Specs (Guests, Beds, Baths) */}
                   <div className="flex items-center gap-4 pt-1">
@@ -63,7 +63,7 @@ export default function ManagePropertiesSkeleton() {
               </div>
 
               {/* Card Footer Actions (View, Edit, Delete) */}
-              <div className="px-5 py-3 border-t border-gray-100 dark:border-gray-800/80 bg-gray-50/50 dark:bg-gray-800/30 flex items-center justify-between">
+              <div className="px-5 py-3 border-t border-border bg-muted/50 flex items-center justify-between">
                 <Skeleton className="h-5 w-5 rounded-md" />
                 <div className="flex items-center gap-3">
                   <Skeleton className="h-5 w-5 rounded-md" />
