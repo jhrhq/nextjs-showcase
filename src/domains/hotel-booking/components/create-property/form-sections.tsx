@@ -23,6 +23,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import {
   ControlledInput,
   ControlledNumberInput,
@@ -124,8 +125,8 @@ const CAPACITY_CONFIG = [
 
 export function PropertyCapacityInputs({ control }: FormControl) {
   return (
-    <div className="border-b pb-6 border-zinc-200">
-      <h3 className="text-lg font-semibold text-zinc-800 mb-4">Property Capacity</h3>
+    <div className="border-b pb-6 border-border">
+      <h3 className="text-lg font-semibold text-foreground mb-4">Property Capacity</h3>
       <FieldGroup className="grid grid-cols-2 sm:grid-cols-5 gap-4">
         <ControlledSelect
           control={control}
@@ -141,16 +142,21 @@ export function PropertyCapacityInputs({ control }: FormControl) {
             control={control}
             render={({ field: { onChange, ...field }, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-zinc-200">
-                  <Icon className="w-5 h-5 text-primary shrink-0" />
+                <div
+                  className={cn(
+                    "flex items-center gap-3 p-3 bg-card rounded-lg border transition-colors focus-within:ring-1 focus-within:ring-ring",
+                    fieldState.invalid ? "border-destructive" : "border-border"
+                  )}
+                >
+                  <Icon className="size-5 text-primary shrink-0" />
                   <div className="flex-1">
-                    <FieldLabel className="text-xs text-gray-500 block">{label}</FieldLabel>
+                    <FieldLabel className="text-xs text-muted-foreground block">{label}</FieldLabel>
                     <Input
                       type="number"
                       {...field}
-                      onChange={(e) => onChange(e.target.valueAsNumber || "")}
+                      onChange={(e) => onChange(Number.isNaN(e.target.valueAsNumber) ? "" : e.target.valueAsNumber)}
                       aria-invalid={fieldState.invalid}
-                      className="border-0 p-0 h-auto font-semibold text-zinc-800 focus-visible:ring-0 shadow-none"
+                      className="border-0 py-1 px-2 h-auto font-semibold text-foreground bg-transparent focus-visible:ring-1 shadow-none"
                     />
                   </div>
                 </div>
@@ -174,7 +180,7 @@ const PRICING_CONFIG = [
 export function PropertyPricingInputs({ control }: FormControl) {
   return (
     <div className="border-b pb-6 border-zinc-200">
-      <h3 className="text-lg font-semibold text-zinc-800 mb-4">Pricing</h3>
+      <h3 className="text-lg font-semibold text-foreground mb-4">Pricing</h3>
       <FieldGroup className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <ControlledSelect
           control={control}
@@ -190,16 +196,16 @@ export function PropertyPricingInputs({ control }: FormControl) {
             control={control}
             render={({ field: { onChange, ...field }, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-zinc-200">
+                <div className="flex items-center gap-3 p-3 bg-card rounded-lg border ransition-colors focus-within:ring-1 focus-within:ring-ring">
                   <Icon className="w-5 h-5 text-primary shrink-0" />
                   <div className="flex-1">
-                    <FieldLabel className="text-xs text-gray-500 block">{label}</FieldLabel>
+                    <FieldLabel className="text-xs text-muted-foreground block">{label}</FieldLabel>
                     <Input
                       type="number"
                       {...field}
                       onChange={(e) => onChange(e.target.valueAsNumber || "")}
                       aria-invalid={fieldState.invalid}
-                      className="border-0 p-0 h-auto font-semibold text-zinc-800 focus-visible:ring-0 shadow-none"
+                      className="border-0 py-1 px-2 h-auto font-semibold text-foreground bg-transparent focus-visible:ring-1 shadow-none"
                     />
                   </div>
                 </div>
@@ -232,7 +238,7 @@ export function TagsInput({ tags, onTagAdd, onTagRemove }: TagsInputProps) {
   return (
     <FieldGroup className="border-b pb-6 border-zinc-200">
       <Field>
-        <FieldLabel className="font-semibold text-xl">Tags</FieldLabel>
+        <FieldLabel className="font-semibold text-foreground text-xl">Tags</FieldLabel>
         <div className="flex gap-2">
           <Input
             id="tag-input"
@@ -295,7 +301,7 @@ export default function PropertyAmenitiesSelector({
       control={control}
       render={({ fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
-          <FieldLabel className="text-xl font-semibold mb-4 text-zinc-800 block">What this place offers</FieldLabel>
+          <FieldLabel className="text-xl font-semibold mb-4 text-foreground block">What this place offers</FieldLabel>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {AMENITY_OPTIONS.map((amenity) => {
               const IconComponent = AMENITY_MAP[amenity];
@@ -309,11 +315,12 @@ export default function PropertyAmenitiesSelector({
                   key={amenity}
                   type="button"
                   onClick={() => toggleAmenity(amenity)}
-                  className={`flex items-center gap-3 p-3 rounded-lg border text-left transition-all cursor-pointer ${
+                  className={cn(
+                    "flex items-center gap-3 p-3 rounded-lg border text-left transition-all cursor-pointer",
                     isSelected
                       ? "border-primary bg-primary/5 text-primary font-medium"
-                      : "border-zinc-200 bg-white text-gray-600 hover:border-zinc-300"
-                  }`}
+                      : " bg-background text-foreground hover:border-zinc-300"
+                  )}
                 >
                   <IconComponent className="size-5 shrink-0" />
                   <span className="text-sm flex-1">{label}</span>

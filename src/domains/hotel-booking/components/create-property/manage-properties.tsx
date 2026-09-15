@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
 import type { IProperty } from "../../type/property.type";
 
@@ -33,8 +33,8 @@ function PropertyEmptyState() {
   return (
     <Card className="p-12 text-center border-dashed border-border bg-card text-card-foreground">
       <div className="max-w-md mx-auto space-y-3">
-        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mx-auto text-muted-foreground">
-          <Plus className="w-6 h-6" />
+        <div className="size-12 rounded-full bg-muted flex items-center justify-center mx-auto text-muted-foreground">
+          <Plus className="size-6" />
         </div>
         <h3 className="text-lg font-semibold text-foreground">No properties found</h3>
         <p className="text-sm text-muted-foreground">
@@ -42,7 +42,7 @@ function PropertyEmptyState() {
         </p>
         <Button asChild size="sm" className="mt-2">
           <Link href="/dashboard/properties/new">
-            <Plus className="w-4 h-4 mr-1.5" /> Add Property
+            <Plus className="size-4 mr-1.5" /> Add Property
           </Link>
         </Button>
       </div>
@@ -86,9 +86,12 @@ function PropertyCard({ property }: PropertyCardProps) {
               {formattedPrice} <span className="text-xs font-normal text-muted-foreground">/night</span>
             </span>
           </div>
-          <h2 className="text-lg font-semibold text-foreground truncate group-hover:text-primary transition-colors">
-            {property.title}
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-foreground truncate group-hover:text-primary transition-colors">
+              {property.title}
+            </h2>
+            <PropertyCardActions propertyId={propertyId} />
+          </div>
         </CardHeader>
 
         {/* Card Body: Location & Capacity */}
@@ -105,7 +108,6 @@ function PropertyCard({ property }: PropertyCardProps) {
       </div>
 
       {/* Card Footer: Actions */}
-      <PropertyCardActions propertyId={propertyId} />
     </Card>
   );
 }
@@ -187,7 +189,7 @@ interface PropertyCardActionsProps {
 
 function PropertyCardActions({ propertyId }: PropertyCardActionsProps) {
   return (
-    <CardFooter className="p-4 pt-2 border-t border-border flex items-center justify-between bg-muted/50">
+    <div className="flex items-center ">
       <Button asChild variant="ghost" size="sm" className="h-8 gap-1.5 text-xs">
         <Link href={AUTH_CONFIG.ROUTES.PROPERTY(propertyId)}>
           <Eye className="size-3.5" />
@@ -213,6 +215,6 @@ function PropertyCardActions({ propertyId }: PropertyCardActionsProps) {
           <Trash2 className="w-4 h-4 mr-2" />
         </Button>*/}
       </div>
-    </CardFooter>
+    </div>
   );
 }
