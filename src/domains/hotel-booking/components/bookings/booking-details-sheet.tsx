@@ -32,8 +32,8 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
       </SheetTrigger>
 
       <SheetContent className="w-full sm:max-w-md overflow-y-auto p-6 bg-background text-foreground border-border">
-        <SheetHeader className="text-left space-y-3">
-          <div className="flex items-center justify-between">
+        <SheetHeader className="text-left space-y-3 p-0">
+          <div className="flex items-center justify-between pr-4">
             <Badge
               variant={booking.status === "confirmed" ? "default" : "secondary"}
               className={cn(
@@ -77,7 +77,7 @@ export function BookingDetailsSheet({ booking }: BookingDetailsSheetProps) {
             <Calendar className="size-4" /> Stay Schedule
           </h4>
 
-          <div className="grid grid-cols-2 gap-3 rounded-lg bg-muted p-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 rounded-lg bg-muted p-3">
             <div>
               <p className="text-xs text-muted-foreground font-medium">Check-in</p>
               <p className="text-sm font-semibold text-foreground mt-0.5">

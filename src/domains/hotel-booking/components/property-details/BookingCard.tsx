@@ -1,12 +1,12 @@
 import { Star } from "lucide-react";
-import type { FC, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
   pricePerNight?: number;
   rating?: number;
 }
-const BookingCard: FC<Props> = ({ pricePerNight, rating, children }) => {
+const BookingCard = ({ pricePerNight, rating, children }: Props) => {
   return (
     <div className="bg-card text-card-foreground shadow-lg rounded-xl p-6 border border-border">
       <div className="flex justify-between items-center mb-4">
