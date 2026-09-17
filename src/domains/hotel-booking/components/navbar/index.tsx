@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Search from "@/domains/hotel-booking/components/navbar/Search";
 import UserDropdownMenu from "@/domains/hotel-booking/components/navbar/UserDropdownMenu";
+import { ModeToggle } from "@/ui/shared/theme-toggle";
 import { AUTH_CONFIG } from "../../constants/auth.constants";
 
 const Navbar = async ({ showSearch }: { showSearch: boolean }) => {
@@ -21,8 +22,8 @@ const Navbar = async ({ showSearch }: { showSearch: boolean }) => {
       </div>
 
       {showSearch && <Search />}
-
       <div className="flex items-center space-x-4 relative justify-end">
+        <ModeToggle />
         <UserDropdownMenu />
       </div>
     </nav>
