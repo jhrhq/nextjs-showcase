@@ -91,7 +91,7 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
                     <Button
                       variant="outline"
                       className={cn(
-                        "pl-3 text-left font-normal border-border rounded-lg h-11",
+                        "pl-3 text-left font-normal text-sm border-border rounded-lg h-11",
                         !field.value && "text-muted-foreground"
                       )}
                       disabled={isBooked}

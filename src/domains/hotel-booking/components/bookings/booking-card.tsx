@@ -1,6 +1,7 @@
 import { Calendar, CheckCircle2, Clock, Users } from "lucide-react";
 import Image from "next/image";
 import { calculateNights, formatStayDuration } from "@/domains/hotel-booking/utils/date-time-utils";
+import { cn } from "@/lib/utils";
 import { toIdString, type UserBookingDTO } from "../../mappers/booking.mappers";
 import { DownloadReceiptButton } from "../download-receipt-button";
 import { BookingDetailsSheet } from "./booking-details-sheet";
@@ -26,9 +27,9 @@ export function BookingCard({ booking }: { booking: UserBookingDTO }) {
   return (
     <div className="group bg-card text-card-foreground border border-border rounded-lg p-4 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 hover:border-border/80 hover:shadow-lg transition-all">
       {/* Left Section: Image + Meta Info */}
-      <div className="flex items-center space-x-4 w-full md:w-auto">
+      <div className="flex flex-col items-center space-x-4 w-full md:w-auto">
         {/* Thumbnail Image */}
-        <div className="relative w-24 size-24 sm:w-28 sm:h-28 rounded-md overflow-hidden bg-muted shrink-0">
+        <div className="relative size-24 sm:size-28 rounded-md overflow-hidden bg-muted shrink-0">
           <Image
             src={thumbnail}
             alt={property?.title || "Property image"}
@@ -40,29 +41,30 @@ export function BookingCard({ booking }: { booking: UserBookingDTO }) {
         </div>
 
         {/* Content Breakdown */}
-        <div className="space-y-1.5 flex-1 min-w-0">
+        <div className="space-y-1.5 flex flex-col gap-3 flex-1 min-w-0">
           {/* Header Row: Title & Status */}
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-3 flex-wrap">
             <h2 className="text-base sm:text-lg text-foreground font-semibold truncate leading-tight">
               {property?.title || "Untitled Property"}
             </h2>
 
             {/* Dynamic Status Pill */}
             <span
-              className={`inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-0.5 rounded-full border ${
+              className={cn(
+                "inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-0.5 rounded-full border",
                 isPending
                   ? "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20"
                   : "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20"
-              }`}
+              )}
             >
               {isPending ? (
                 <>
-                  <Clock className="w-3 h-3 text-amber-600 dark:text-amber-400 animate-pulse" />
+                  <Clock className="size-3 text-amber-600 dark:text-amber-400 animate-pulse" />
                   Payment Pending
                 </>
               ) : (
                 <>
-                  <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> Confirmed
+                  <CheckCircle2 className="size-3 text-emerald-600 dark:text-emerald-400" /> Confirmed
                 </>
               )}
             </span>
@@ -75,14 +77,14 @@ export function BookingCard({ booking }: { booking: UserBookingDTO }) {
           </p>
 
           {/* Date & Guest Specs */}
-          <div className="flex items-center gap-3 text-xs text-muted-foreground pt-0.5">
+          <div className="flex flex-col md:items-center gap-3 text-xs text-muted-foreground pt-0.5">
             <span className="flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
+              <Calendar className="size-3.5 text-muted-foreground" />
               {stayDuration} ({calculatedNights} nights)
             </span>
-            <span className="text-border">•</span>
+            <span className="text-muted-foreground hidden">•</span>
             <span className="flex items-center gap-1">
-              <Users className="w-3.5 h-3.5 text-muted-foreground" />
+              <Users className="size-3.5 text-muted-foreground" />
               {guests} guests
             </span>
           </div>
@@ -107,7 +109,7 @@ export function BookingCard({ booking }: { booking: UserBookingDTO }) {
             bookingId={booking.id}
             label="Receipt"
             size="sm"
-            iconClassName="w-3.5 h-3.5 text-muted-foreground"
+            iconClassName="size-3.5 text-muted-foreground"
           />
         </div>
       </div>
