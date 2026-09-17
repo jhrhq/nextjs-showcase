@@ -75,7 +75,7 @@ export function ImageInputCard({
   }, [imageUrl]);
 
   return (
-    <div className={`relative group rounded-lg overflow-hidden border border-zinc-200 ${className}`}>
+    <div className={cn("relative group rounded-lg overflow-hidden border border-zinc-200", className)}>
       <Image
         src={imgSrc}
         onError={() => setImgSrc(DEFAULT_PLACEHOLDER)}
@@ -84,7 +84,7 @@ export function ImageInputCard({
         height={500}
         width={500}
       />
-      <div className="absolute inset-x-0 bottom-0 p-2.5 bg-linear-to-t from-black/60 to-transparent">
+      <div className="absolute inset-x-0 -bottom-2 p-2.5 bg-linear-to-t from-black/60 to-transparent">
         <Controller
           name={`images.${index}.url` as const}
           control={control}
@@ -107,7 +107,7 @@ export function ImageInputCard({
 
 export function PropertyImageGallery({ control }: FormControl) {
   return (
-    <FieldGroup className="grid grid-cols-4 grid-rows-2 gap-4 h-125">
+    <FieldGroup className="grid grid-cols-2 md:grid-cols-4 grid-rows-2 gap-4 h-125">
       <ImageInputCard index={0} label="Main Image URL" control={control} className="col-span-2 row-span-2" />
       {[1, 2, 3, 4].map((i) => (
         <ImageInputCard key={i} index={i} label={`Room ${i} URL`} control={control} />
