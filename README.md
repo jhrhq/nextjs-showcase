@@ -1,6 +1,6 @@
 # 🎯 Project Overview
 
-**External Websites** [Visit JHR](https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/)
+**Visit Website** [Click Here](https://nextjs-showcase-two.vercel.app/)
 
 **Overview:** A comprehensive showcase repository demonstrating modern web development patterns using Next.js. This repository serves as a centralized hub hosting multiple applications,including standard Next.js apps and Single Page Application (SPA) implementations—accessible through a single entry point.
 
@@ -10,20 +10,6 @@
 - One deployment pipeline
 - Central landing page linking to all sub-applications
 - Multiple independent apps with different architectural approaches
-
----
-
-.husky/pre-commit
-
-```bash
-pnpm exec lint-staged
-```
-
-.husky/commit-msg
-
-```bash
-pnpm exec commitlint --edit $1
-```
 
 ## 🏗️ Application Architecture
 
@@ -144,31 +130,31 @@ my-nextjs-app/
 → Landing page
 
 ```
-https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/
+https://nextjs-showcase-two.vercel.app/
 ```
 
 → SPA-style app (client-rendered) LINKER
 
 ```
-https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/linker
+https://nextjs-showcase-two.vercel.app/linker
 ```
 
 → Next.js native app (SSR/SSG)
 
 ```
-https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/hotel-booking
+https://nextjs-showcase-two.vercel.app/hotel-booking
 ```
 
 → Another Next.js app
 
 ```
-https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/movies
+https://nextjs-showcase-two.vercel.app/movies
 ```
 
 → Another Next.js app
 
 ```
-https://nextjs-showcase-git-portfolio-jhrhq.vercel.app/blog
+https://nextjs-showcase-two.vercel.app/blog
 ```
 
 ---
@@ -206,6 +192,20 @@ yarn dev
 pnpm dev
 # or
 bun dev
+```
+
+---
+
+.husky/pre-commit
+
+```bash
+pnpm exec lint-staged
+```
+
+.husky/commit-msg
+
+```bash
+pnpm exec commitlint --edit $1
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
