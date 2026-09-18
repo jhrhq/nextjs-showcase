@@ -11,7 +11,7 @@ export default function BackToPreviousPage() {
       <Button
         onClick={() => router.back()}
         variant="link"
-        className="inline-flex items-center gap-1 text-zinc-800 hover:underline text-sm font-medium leading-0"
+        className="inline-flex items-center gap-1 text-foreground hover:underline text-sm font-medium leading-0"
       >
         <ChevronLeft className="size-4" />
         Request to book

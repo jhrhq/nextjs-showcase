@@ -112,7 +112,7 @@ export function ControlledTextarea<TFieldValues extends FieldValues, TName exten
       name={name}
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid} className="border-b pb-6 border-zinc-200">
-          {label && <FieldLabel className="text-xl font-semibold mb-3 text-zinc-800 block">{label}</FieldLabel>}
+          {label && <FieldLabel className="text-xl font-semibold mb-3 text-foreground block">{label}</FieldLabel>}
 
           <Textarea
             {...field}
@@ -120,7 +120,7 @@ export function ControlledTextarea<TFieldValues extends FieldValues, TName exten
             id={name}
             placeholder={placeholder}
             aria-invalid={fieldState.invalid}
-            className="bg-white resize-none"
+            className="bg-background resize-none"
           />
           {description && <FieldDescription>{description}</FieldDescription>}
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -153,11 +153,11 @@ export function ControlledSelect<TFieldValues extends FieldValues, TName extends
       control={control}
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
-          <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-zinc-200">
-            {Icon && <Icon className="w-5 h-5 text-primary shrink-0" />}
+          <div className="flex items-center gap-3 p-3 bg-background text-foreground rounded-lg border">
+            {Icon && <Icon className="size-5 text-primary shrink-0" />}
             <div className="flex-1">
               {label && (
-                <FieldLabel htmlFor={name} className="text-xs text-gray-500 block">
+                <FieldLabel htmlFor={name} className="text-xs text-muted-foreground block">
                   {label}
                 </FieldLabel>
               )}
@@ -165,7 +165,7 @@ export function ControlledSelect<TFieldValues extends FieldValues, TName extends
                 <SelectTrigger
                   id={name}
                   aria-invalid={fieldState.invalid}
-                  className="border-0 p-0 h-auto font-semibold text-zinc-800 focus-visible:ring-0 shadow-none bg-transparent w-full max-w-28"
+                  className="border-0 p-0 h-auto font-semibold text-muted-foreground focus-visible:ring-0 shadow-none bg-transparent w-full max-w-28"
                 >
                   <SelectValue placeholder={placeholder} />
                 </SelectTrigger>

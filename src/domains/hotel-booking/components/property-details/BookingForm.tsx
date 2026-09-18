@@ -91,7 +91,7 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
                     <Button
                       variant="outline"
                       className={cn(
-                        "pl-3 text-left font-normal border-zinc-200 rounded-lg h-11",
+                        "pl-3 text-left font-normal text-sm border-border rounded-lg h-11",
                         !field.value && "text-muted-foreground"
                       )}
                       disabled={isBooked}
@@ -100,7 +100,10 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
                       <CalendarIcon className="ml-auto size-4 opacity-50" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 rounded-2xl" align="start">
+                  <PopoverContent
+                    className="w-auto p-0 rounded-2xl border-border bg-popover text-popover-foreground"
+                    align="start"
+                  >
                     <Calendar
                       mode="single"
                       selected={field.value}
@@ -125,7 +128,7 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
                     <Button
                       variant="outline"
                       className={cn(
-                        "pl-3 text-left font-normal border-zinc-200 rounded-lg h-11",
+                        "pl-3 text-left font-normal border-border rounded-lg h-11",
                         !field.value && "text-muted-foreground"
                       )}
                       disabled={isBooked}
@@ -134,7 +137,10 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
                       <CalendarIcon className="ml-auto size-4 opacity-50" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 rounded-2xl" align="start">
+                  <PopoverContent
+                    className="w-auto p-0 rounded-2xl border-border bg-popover text-popover-foreground"
+                    align="start"
+                  >
                     <Calendar
                       mode="single"
                       selected={field.value}
@@ -156,7 +162,7 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid} className="flex flex-col md:col-span-2">
-                <div className="p-3.5 border border-zinc-200 rounded-lg bg-background">
+                <div className="p-3.5 border border-border rounded-lg bg-background text-foreground">
                   <GuestStepper
                     value={field.value ?? 1}
                     maxGuests={maxGuests}
@@ -173,7 +179,7 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
         <Button
           type="submit"
           className={cn(
-            "w-full block text-base text-center bg-primary text-white rounded-lg transition-all hover:brightness-90 font-medium shadow-sm",
+            "w-full block text-base text-center bg-primary text-primary-foreground rounded-lg transition-all hover:brightness-90 font-medium shadow-sm",
             isBooked && "disabled"
           )}
           disabled={isBooked}
@@ -182,7 +188,7 @@ export function BookingForm({ isBooked, checkin, checkout, guests, maxGuests }: 
         </Button>
       </form>
 
-      <div className="text-center mt-4 text-zinc-500 text-sm">
+      <div className="text-center mt-4 text-muted-foreground text-sm">
         <p>You won&apos;t be charged yet</p>
       </div>
     </>

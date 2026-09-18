@@ -35,7 +35,7 @@ const Search = () => {
   }
 
   return (
-    <div className="row-start-2 col-span-2 border-0 md:w-full md:border flex shadow-sm hover:shadow-md transition-all md:rounded-full items-center pl-2 pr-1 justify-between">
+    <div className="row-start-2 mt-2 md:mt-0 col-span-2 border-0 md:w-full md:border flex shadow-sm hover:shadow-md transition-all md:rounded-full items-center pl-2 pr-1 justify-between">
       <form id="navbar-search-form" onSubmit={handleSubmit} className="w-full">
         <Input
           type="text"

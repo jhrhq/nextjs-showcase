@@ -90,12 +90,12 @@ const PropertyDetails = async ({ params }: Props) => {
         />
 
         <PropertyImages images={data?.images} title={data.title} />
-        <div className="grid grid-cols-3 gap-8">
-          <div className="col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-3 gap-4 lg:gap-8">
+          <div className="md:col-span-2">
             <PropertyFeatures sellerName={data.host.name} rooms={data.capacity.bedrooms} beds={data.capacity.beds} />
             <PropertyAmenities description={data?.description} amenities={data?.amenities} />
           </div>
-          <div>
+          <div className="md:col-span-2 lg:col-span-1">
             <BookingCard pricePerNight={data?.pricing.perNight} rating={data?.ratingAvg}>
               <BookingForm
                 isBooked={isBooked}
@@ -111,7 +111,7 @@ const PropertyDetails = async ({ params }: Props) => {
 
       <div className="max-w-7xl mx-auto px-6 py-12 border-t">
         <Suspense fallback={<ReviewsSkeleton />}>
-          <div className="grid items-center justify-between mb-8 grid-cols-2">
+          <div className="grid gap-2 mb-8 grid-cols-1">
             <ReviewHeader rating={data?.ratingAvg} reviews={data?.reviewCount} />
             <ReviewContainer
               propertyId={data?._id.toString()}

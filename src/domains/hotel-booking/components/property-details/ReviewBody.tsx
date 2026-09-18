@@ -11,7 +11,7 @@ const ReviewBody = async ({ reviews }: Props) => {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-8 col-span-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 col-span-full">
       {reviews.map((review) => (
         <ReviewCard key={review._id.toString()} review={review} />
       ))}

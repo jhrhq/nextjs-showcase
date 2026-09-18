@@ -11,7 +11,7 @@ interface Props {
 const PropertyImages: FC<Props> = ({ images, title }: Props) => {
   if (images.length === 0) return null;
   return (
-    <div className="grid grid-cols-4 grid-rows-2 gap-4 mb-8 h-125">
+    <div className="grid grid-cols-2 md:grid-cols-4 grid-rows-2 gap-4 mb-8 ">
       {images.map((img, index) => (
         <div key={index} className={cn(index === 0 && "col-span-2 row-span-2")}>
           <Image

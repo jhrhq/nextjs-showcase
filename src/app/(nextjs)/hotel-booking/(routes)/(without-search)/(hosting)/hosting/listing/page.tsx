@@ -19,12 +19,14 @@ const ManageList = async () => {
     <div className="max-w-7xl mx-auto px-4 pb-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-zinc-900">Manage Properties</h1>
-          <p className="text-sm text-zinc-500 mt-1">View, edit, and create listings for your hotel portfolio.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Manage Properties</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            View, edit, and create listings for your hotel portfolio.
+          </p>
         </div>
         <Button
           type="button"
-          className="bg-primary text-white px-4 py-5 text-md rounded-lg hover:brightness-90 transition-colors"
+          className="bg-primary text-primary-foreground px-4 py-5 text-base rounded-lg hover:bg-primary/90 transition-colors"
           asChild
         >
           <Link href={AUTH_CONFIG.ROUTES.HOSTING_CREATE}>

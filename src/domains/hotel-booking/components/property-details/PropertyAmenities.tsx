@@ -12,19 +12,19 @@ const PropertyAmenities = ({ description, amenities = [] }: Props) => {
   return (
     <>
       <div className="mb-6">
-        <h3 className="text-xl font-semibold mb-4">About this place</h3>
-        <p className="text-gray-700 leading-relaxed">{description}</p>
+        <h3 className="text-xl font-semibold mb-4 text-foreground">About this place</h3>
+        <p className="text-muted-foreground leading-relaxed">{description}</p>
       </div>
       <div>
-        <h3 className="text-xl font-semibold mb-4">What this place offers</h3>
+        <h3 className="text-xl font-semibold mb-4 text-foreground">What this place offers</h3>
         <div className="grid grid-cols-2 gap-4">
           {amenities.map((amenity, index) => {
             const IconComponent = AMENITY_MAP[amenity] || SquareChevronDown;
 
             return (
-              <div key={index} className="flex items-center gap-2">
+              <div key={index} className="flex items-center gap-2 text-foreground">
                 <span className="icon">
-                  <IconComponent className="w-5 h-5 text-zinc-600 shrink-0" strokeWidth={1.75} />
+                  <IconComponent className="w-5 h-5 text-muted-foreground shrink-0" strokeWidth={1.75} />
                 </span>
                 <span className="name">{amenity}</span>
               </div>

@@ -28,7 +28,7 @@ const SignUpPage = async ({ searchParams }: SignUpPageProps) => {
   return (
     <div>
       <div className=" flex items-center justify-center h-screen">
-        <div className="bg-white rounded-xl shadow w-96 p-6 relative">
+        <div className="bg-background border rounded-xl shadow w-96 p-6 relative">
           <AuthHeaderWithProvider callbackUrl={callbackUrl}>
             <SignUpForm callbackUrl={callbackUrl} />
           </AuthHeaderWithProvider>
