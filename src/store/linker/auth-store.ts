@@ -13,15 +13,6 @@ export interface AuthState {
   logout: () => void;
 }
 
-/* const user: User = {
-  email: "mail@mail.com",
-  createdAt: "time",
-  id: "1",
-  name: "jo",
-  plan: "enterprise",
-  avatar: "jo",
-}; */
-
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({

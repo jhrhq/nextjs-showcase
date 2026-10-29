@@ -1,6 +1,3 @@
-// lib/auth-service.ts
-
-// Use feature-specific prefixes to prevent cross-app data corruption
 const ACCESS_KEY = "hb_access_token";
 const REFRESH_KEY = "hb_refresh_token";
 
